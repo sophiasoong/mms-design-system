@@ -1,0 +1,216 @@
+.ds-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--brand-neutral-0);
+  border-right: var(--border-sm) solid var(--global-divider-neutral-light);
+  padding: var(--space-layout-section-padding-sm);
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width var(--duration-normal) ease;
+}
+
+.ds-sidebar--collapsed {
+  width: calc(var(--space-layout-section-padding-sm) * 2 + var(--component-height-lg));
+}
+
+.ds-sidebar__toggle-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-component-gap-xs);
+}
+
+.ds-sidebar--collapsed .ds-sidebar__toggle-row {
+  justify-content: center;
+}
+
+.ds-sidebar__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-height-sm);
+  height: var(--component-height-sm);
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-caption-primary-light);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.ds-sidebar__toggle:hover {
+  background: var(--interactive-list-background-hover);
+  color: var(--text-body-primary-neutral);
+}
+
+.ds-sidebar__search {
+  position: relative;
+  margin-bottom: var(--space-layout-section-gap-sm);
+}
+
+/* Divider sits at the midpoint between the search icon's center and the first
+   nav item icon's center: half of (gap-after-search + title line box + title
+   gap + item top padding + half icon), minus half the search box height. */
+.ds-sidebar__search::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(
+    100% +
+      (
+        (
+            var(--space-layout-section-gap-sm) + var(--typography-xxs-line-height) +
+              var(--space-component-gap-xs) + var(--space-component-gap-sm) +
+              (var(--component-icon-md) / 2)
+          ) - (var(--component-height-md) / 2)
+      ) / 2
+  );
+  height: var(--border-sm);
+  background: var(--global-divider-neutral-light);
+  opacity: 0;
+  transition: opacity var(--duration-normal) ease;
+}
+
+.ds-sidebar--collapsed .ds-sidebar__search::after {
+  opacity: 1;
+}
+
+.ds-sidebar__search-icon {
+  position: absolute;
+  left: var(--space-component-padding-sm);
+  top: calc(var(--component-height-md) / 2);
+  transform: translateY(-50%);
+  color: var(--interactive-searchbar-icon-default);
+  pointer-events: none;
+  transition: left var(--duration-normal) ease, transform var(--duration-normal) ease;
+}
+
+.ds-sidebar--collapsed .ds-sidebar__search-icon {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ds-sidebar__search-input {
+  width: 100%;
+  height: var(--component-height-md);
+  padding-inline-start: var(--space-component-padding-2xl);
+  padding-inline-end: var(--space-component-padding-sm);
+  border: var(--border-sm) solid var(--interactive-searchbar-border-default);
+  border-radius: var(--radius-md);
+  background: var(--interactive-searchbar-surface-default);
+  font-size: var(--typography-sm-font-size);
+  font-family: var(--typography-font-family-body);
+  color: var(--interactive-searchbar-label-default);
+  opacity: 1;
+  transition: opacity var(--duration-normal) ease, border-color var(--duration-fast) ease;
+}
+
+.ds-sidebar--collapsed .ds-sidebar__search-input {
+  opacity: 0;
+  pointer-events: none;
+  border-color: transparent;
+}
+
+.ds-sidebar__search-input::placeholder {
+  color: var(--interactive-searchbar-placeholder-default);
+}
+
+.ds-sidebar__search-input:focus {
+  outline: none;
+  border-color: var(--interactive-searchbar-border-focus);
+}
+
+.ds-sidebar__section-title {
+  padding-inline: var(--space-component-padding-sm);
+  margin-bottom: var(--space-component-gap-xs);
+  font-size: var(--typography-xxs-font-size);
+  line-height: var(--typography-xxs-line-height);
+  font-weight: var(--typography-font-weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-caption-primary-light);
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity var(--duration-normal) ease, font-size var(--duration-normal) ease;
+}
+
+.ds-sidebar--collapsed .ds-sidebar__section-title {
+  opacity: 0;
+  font-size: 0;
+}
+
+.ds-sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding-inline: 0;
+  padding-top: var(--space-component-gap-xs);
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-sidebar__item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-component-gap-sm);
+  padding-block: var(--space-component-gap-sm);
+  padding-inline: var(--space-component-padding-sm);
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-body-primary-neutral);
+  font-size: var(--typography-sm-font-size);
+  font-weight: var(--typography-font-weight-medium);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease,
+    padding var(--duration-normal) ease, gap var(--duration-normal) ease;
+}
+
+.ds-sidebar--collapsed .ds-sidebar__item {
+  justify-content: center;
+  padding-inline: var(--space-component-padding-xs);
+  gap: var(--space-component-gap-none);
+}
+
+.ds-sidebar__item:hover {
+  background: var(--interactive-list-background-hover);
+}
+
+.ds-sidebar__item--active {
+  background: var(--brand-primary-75);
+  color: var(--brand-primary-600);
+}
+
+.ds-sidebar__item-icon {
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.ds-sidebar__item-label {
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+  opacity: 1;
+  transition: opacity var(--duration-normal) ease, max-width var(--duration-normal) ease;
+}
+
+.ds-sidebar--collapsed .ds-sidebar__item-label {
+  opacity: 0;
+  max-width: 0;
+}
+
+.ds-sidebar__empty {
+  padding: var(--space-component-padding-sm);
+  color: var(--text-caption-primary-light);
+  font-size: var(--typography-xs-font-size);
+}
+
+.ds-sidebar--collapsed .ds-sidebar__empty {
+  display: none;
+}

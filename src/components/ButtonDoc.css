@@ -1,0 +1,776 @@
+.ds-doc {
+  max-width: var(--component-width-modal-xl);
+  margin: 0 auto;
+  padding: var(--space-layout-section-padding-lg) var(--space-layout-section-padding-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-padding-6xl);
+}
+
+.ds-doc__header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm);
+  padding-bottom: var(--space-layout-section-gap-md);
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-doc__eyebrow {
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+  font-weight: var(--typography-font-weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brand-primary-400);
+}
+
+.ds-doc__title {
+  font-size: var(--typography-3xl-font-size);
+  line-height: var(--typography-3xl-line-height);
+  font-weight: var(--typography-font-weight-bold);
+  color: var(--text-heading-primary-neutral);
+}
+
+.ds-doc__lede {
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+  color: var(--text-body-secondary-neutral);
+}
+
+.ds-doc__figma-link {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.ds-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-sm);
+  scroll-margin-top: var(--space-layout-section-padding-md);
+}
+
+.ds-section__title {
+  font-size: var(--typography-xl-font-size);
+  line-height: var(--typography-xl-line-height);
+  font-weight: var(--typography-font-weight-bold);
+  color: var(--text-heading-primary-neutral);
+}
+
+.ds-section__desc {
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+  color: var(--text-body-secondary-neutral);
+}
+
+.ds-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-component-gap-md);
+  flex-wrap: wrap;
+  padding: var(--space-layout-section-padding-lg);
+  background: var(--brand-neutral-0);
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-lg);
+}
+
+/* ---- Section content spacing: 24px between title/description and section content ---- */
+#overview > .ds-preview,
+#anatomy > .ds-anatomy,
+#layout-spacing > .ds-table,
+#related-component > .ds-related-grid {
+  margin-top: calc(var(--space-layout-section-gap-lg) - var(--space-layout-section-gap-sm));
+}
+
+/* ---- Anatomy ---- */
+.ds-anatomy__figure {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-component-padding-2xl);
+  padding: var(--space-component-padding-5xl) var(--space-layout-section-padding-lg);
+  background: var(--brand-neutral-0);
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-lg);
+}
+
+.ds-anatomy__demo {
+  position: relative;
+  /* reserves space for badges 2-4, which hang 36px (16px connector + 20px badge) below the button */
+  margin-bottom: 36px;
+}
+
+.ds-anatomy__part {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  align-self: stretch;
+}
+
+.ds-anatomy__badge {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--brand-primary-75);
+  color: var(--brand-primary-600);
+  font-size: var(--typography-xxs-font-size);
+  font-weight: var(--typography-font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ds-anatomy__badge::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 0;
+  height: 16px;
+  border-left: var(--border-sm) dashed var(--text-caption-primary-light);
+}
+
+.ds-anatomy__badge--container {
+  top: auto;
+  bottom: calc(100% + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ds-anatomy__badge--container::before {
+  top: 100%;
+  bottom: auto;
+  height: 8px;
+}
+
+.ds-anatomy__dot {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--brand-neutral-0);
+  border: var(--border-sm) solid var(--text-caption-primary-light);
+}
+
+.ds-anatomy__dot--left {
+  top: 0;
+  left: 0;
+}
+
+.ds-anatomy__dot--right {
+  top: 0;
+  left: auto;
+  right: 0;
+  transform: translate(50%, -50%);
+}
+
+.ds-anatomy__bracket {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  border-left: var(--border-sm) dashed var(--text-caption-primary-light);
+  border-right: var(--border-sm) dashed var(--text-caption-primary-light);
+  border-top: var(--border-sm) dashed var(--text-caption-primary-light);
+  pointer-events: none;
+}
+
+.ds-anatomy__legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-anatomy__legend li {
+  display: flex;
+  gap: var(--space-component-gap-sm);
+  font-size: var(--typography-sm-font-size);
+  color: var(--text-body-primary-neutral);
+}
+
+.ds-anatomy__legend-num {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--brand-primary-75);
+  color: var(--brand-primary-600);
+  font-size: var(--typography-xxs-font-size);
+  font-weight: var(--typography-font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ds-anatomy__legend strong {
+  color: var(--text-heading-primary-neutral);
+}
+.ds-anatomy__legend span {
+  color: var(--text-body-secondary-neutral);
+}
+
+/* ---- Variants ---- */
+.ds-variant-tabs-label {
+  display: block;
+  margin-top: calc(var(--space-layout-section-gap-lg) - var(--space-layout-section-gap-sm));
+  margin-bottom: var(--space-component-gap-md);
+}
+
+.ds-line-tabs {
+  display: flex;
+  gap: var(--space-component-gap-lg);
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-line-tabs--no-label {
+  margin-top: calc(var(--space-layout-section-gap-lg) - var(--space-layout-section-gap-sm));
+}
+
+.ds-line-tab {
+  appearance: none;
+  background: none;
+  border: none;
+  border-bottom: var(--border-md) solid transparent;
+  margin-bottom: calc(var(--border-sm) * -1);
+  padding: var(--space-component-padding-sm) var(--space-component-padding-md);
+  font-family: inherit;
+  font-size: var(--typography-md-font-size);
+  font-weight: var(--typography-font-weight-regular);
+  color: var(--interactive-tab-label-line-default);
+  cursor: pointer;
+}
+
+.ds-line-tab:hover {
+  color: var(--interactive-tab-label-line-hover);
+}
+
+.ds-line-tab--active {
+  color: var(--interactive-tab-label-line-active);
+  font-weight: var(--typography-font-weight-medium);
+  border-bottom-color: var(--interactive-tab-indicator-line-active);
+}
+
+.ds-variant-groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-lg);
+  margin-top: var(--space-component-gap-sm);
+}
+
+.ds-variant-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-lg);
+}
+
+.ds-variant-group__label {
+  font-size: var(--typography-lg-font-size);
+  line-height: var(--typography-lg-line-height);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--text-body-primary-neutral);
+}
+
+.ds-variant-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--space-component-padding-4xl);
+  flex-wrap: wrap;
+  padding: var(--space-layout-section-padding-sm);
+  background: var(--brand-neutral-0);
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-lg);
+}
+
+.ds-variant-row__cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-variant-row__cell-label {
+  font-size: var(--typography-sm-font-size);
+  color: var(--text-caption-primary-light);
+}
+
+.ds-variant-note {
+  font-size: var(--typography-xs-font-size);
+  color: var(--text-caption-primary-light);
+}
+
+.ds-example-figure {
+  padding: var(--space-layout-section-padding-sm);
+  background: var(--brand-neutral-0);
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-lg);
+}
+
+.ds-example-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+}
+
+/* ---- Example: interactive mockups (Solid tab) ---- */
+.ds-example-mocks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-md);
+}
+
+.ds-example-mock-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-example-mock__name {
+  font-size: var(--typography-sm-font-size);
+  color: var(--text-caption-primary-light);
+}
+
+.ds-example-mock {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-md);
+  padding: var(--space-component-padding-md);
+  background: var(--brand-neutral-100);
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-md);
+}
+
+.ds-example-mock__group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-md);
+}
+
+.ds-example-mock--topbar {
+  justify-content: space-between;
+}
+
+.ds-example-mock--page-header {
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.ds-example-mock--message {
+  align-items: flex-start;
+}
+
+/* dim = everything that is not the Button/Icon Button being showcased */
+.ds-example-mock__dim {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-example-mock:hover .ds-example-mock__dim {
+  opacity: var(--opacity-40);
+}
+
+/* focus = the actual Button / Icon Button instances */
+.ds-example-mock__focus {
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-example-mock:hover .ds-example-mock__focus {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+
+.ds-example-mock__logo {
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+  font-weight: var(--typography-font-weight-bold);
+  color: var(--text-heading-primary-neutral);
+}
+
+.ds-example-mock__search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  width: 200px;
+  height: var(--component-height-lg);
+  padding: 0 var(--space-component-padding-sm);
+  background: var(--interactive-searchbar-surface-default);
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-md);
+  color: var(--text-body-tertiary-neutral);
+  font-size: var(--typography-sm-font-size);
+}
+
+.ds-example-mock__search .icon {
+  font-size: var(--component-icon-sm);
+}
+
+.ds-example-mock__menu-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  color: var(--text-body-primary-neutral);
+  font-size: var(--typography-sm-font-size);
+  white-space: nowrap;
+}
+
+.ds-example-mock__menu-trigger .icon {
+  font-size: var(--component-icon-sm);
+}
+
+.ds-example-mock__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-example-mock__breadcrumb {
+  color: var(--text-body-tertiary-neutral);
+  font-size: var(--typography-sm-font-size);
+}
+
+.ds-example-mock__page-title {
+  color: var(--text-heading-primary-neutral);
+  font-size: var(--typography-xl-font-size);
+  line-height: var(--typography-xl-line-height);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.ds-example-mock__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-example-mock__thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--component-height-xl);
+  height: var(--component-height-xl);
+  background: var(--brand-secondary-200);
+  border-radius: var(--radius-md);
+  color: var(--brand-secondary-800);
+}
+
+.ds-example-mock__text-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-example-mock__title {
+  color: var(--text-heading-primary-neutral);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.ds-example-mock__desc {
+  color: var(--text-body-primary-neutral);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+}
+
+.ds-example-mock__tags {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-example-mock__date {
+  color: var(--text-body-secondary-neutral);
+  font-size: var(--typography-xs-font-size);
+}
+
+/* ---- Example: Outline tab (Upload) ---- */
+.ds-example-mock--upload {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ds-example-mock__file-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs);
+  width: 100%;
+}
+
+.ds-example-mock__file-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  height: var(--component-height-xs);
+  padding: 0 var(--space-component-padding-sm);
+}
+
+.ds-example-mock__file-icon {
+  font-size: var(--component-icon-sm);
+  color: var(--text-body-tertiary-neutral);
+}
+
+.ds-example-mock__file-name {
+  flex: 1 0 0;
+  color: var(--text-body-primary-neutral);
+  font-size: var(--typography-sm-font-size);
+}
+
+/* ---- Example: Ghost tab (Dropdown footer, Modal footer, Banner, Table) ---- */
+.ds-example-mock--dropdown-footer {
+  flex-direction: column;
+  align-items: stretch;
+  width: var(--component-width-dropdown-sm);
+  margin: 0 auto;
+}
+
+.ds-example-mock__select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--component-height-md);
+  padding: 0 var(--space-component-padding-md);
+  background: var(--interactive-searchbar-surface-default);
+  border: var(--border-sm) solid var(--interactive-searchbar-border-default);
+  border-radius: var(--radius-md);
+  color: var(--interactive-searchbar-placeholder-default);
+  font-size: var(--typography-sm-font-size);
+}
+
+.ds-example-mock__select .icon {
+  font-size: var(--component-icon-sm);
+  color: var(--interactive-searchbar-icon-default);
+}
+
+.ds-example-mock__dropdown-panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--brand-neutral-0);
+  border-radius: var(--radius-md);
+  box-shadow: 0 var(--space-component-overlap-sm) var(--space-component-padding-sm) var(--surface-card-shadow-default);
+  overflow: hidden;
+  width: 100%;
+}
+
+.ds-example-mock__dropdown-options {
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-example-mock__dropdown-option {
+  display: flex;
+  align-items: center;
+  height: var(--component-height-md);
+  padding: 0 var(--space-component-padding-md);
+  color: var(--text-body-primary-neutral);
+  font-size: var(--typography-sm-font-size);
+}
+
+.ds-example-mock__dropdown-footer {
+  display: flex;
+  padding: var(--space-component-padding-sm);
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-example-mock--modal-footer {
+  justify-content: space-between;
+  background: var(--brand-neutral-0);
+  padding: var(--space-component-padding-lg);
+}
+
+.ds-example-mock--banner {
+  align-items: center;
+  /* Figma's feedback/banner/surface/info and feedback/banner/border/info tokens
+     do not exist in tokens.css (no "info" blue is defined anywhere in the palette) —
+     flagging rather than guessing; using the literal Figma values until a real token lands. */
+  background: #e6f7ff;
+  border: var(--border-sm) solid #91d5ff;
+}
+
+.ds-example-mock__banner-icon {
+  font-size: var(--component-icon-md);
+  color: #1890ff;
+}
+
+.ds-example-mock__banner-text {
+  flex: 1 0 0;
+  color: var(--text-body-primary-neutral);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+}
+
+.ds-example-mock--table {
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  background: var(--brand-neutral-0);
+  box-shadow: 0 var(--space-component-overlap-sm) var(--space-component-padding-sm) var(--surface-card-shadow-default);
+  overflow: hidden;
+}
+
+.ds-example-mock__table-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--component-height-xl);
+  /* Figma's interactive/table/header/background/default (#f7f6ff) matches
+     --brand-primary-50 exactly, so reusing that token here. */
+  background: var(--brand-primary-50);
+  color: var(--brand-neutral-800);
+  font-size: var(--typography-sm-font-size);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.ds-example-mock__table-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--component-height-xl);
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-example-mock__table-row:last-child {
+  border-bottom: none;
+}
+
+/* ---- States table ---- */
+.ds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--typography-sm-font-size);
+  background: var(--brand-neutral-0);
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.ds-table th,
+.ds-table td {
+  padding: var(--space-component-padding-sm) var(--space-component-padding-md);
+  text-align: left;
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-table th {
+  background: var(--brand-neutral-100);
+  font-weight: var(--typography-font-weight-bold);
+  color: var(--text-heading-secondary-neutral);
+  font-size: var(--typography-xs-font-size);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.ds-table tr:last-child td {
+  border-bottom: none;
+}
+
+.ds-table code {
+  font-size: var(--typography-sm-font-size);
+  color: var(--text-body-secondary-neutral);
+}
+
+.ds-table-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--component-height-xs);
+  padding: var(--space-component-padding-xs) var(--space-component-padding-sm);
+  border-radius: var(--radius-sm);
+  background: var(--surface-tag-background-neutral-default);
+  border: var(--border-sm) solid var(--surface-tag-border-neutral-default);
+  color: var(--surface-tag-label-neutral-default);
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-font-weight-regular);
+  white-space: nowrap;
+}
+
+.ds-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-swatch__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-xs);
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  flex-shrink: 0;
+}
+
+/* ---- Related ---- */
+.ds-related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-component-gap-md);
+}
+
+.ds-related-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  height: var(--component-height-3xl);
+  padding: var(--space-component-padding-md);
+  background: var(--brand-neutral-0);
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-lg);
+  color: var(--text-body-secondary-neutral);
+  width: 100%;
+  appearance: none;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+}
+
+.ds-related-card--link {
+  cursor: pointer;
+}
+
+.ds-related-card--link:hover {
+  border-color: var(--brand-primary-400);
+}
+
+.ds-related-card__icon {
+  color: var(--brand-primary-400);
+}
+
+.ds-related-card--soon {
+  opacity: var(--opacity-60);
+}
+
+.ds-related-card__name {
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--text-body-primary-neutral);
+}
+
+.ds-related-card__tag {
+  margin-left: auto;
+  font-size: var(--typography-xxs-font-size);
+  color: var(--text-caption-primary-light);
+}

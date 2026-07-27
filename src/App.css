@@ -1,0 +1,26 @@
+.ds-app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.ds-app__body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.ds-main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+.ds-main__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-caption-primary-light);
+  font-size: var(--typography-sm-font-size);
+}

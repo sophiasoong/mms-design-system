@@ -1,0 +1,213 @@
+.ds-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  border: var(--border-sm) solid transparent;
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-font-weight-medium);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+  white-space: nowrap;
+}
+
+.ds-button:disabled {
+  cursor: not-allowed;
+}
+
+.ds-button:focus-visible {
+  outline: none;
+}
+
+.ds-button__label {
+  display: inline-block;
+}
+
+.ds-button__icon {
+  display: inline-flex;
+}
+
+/* ---- size ---- */
+.ds-button--sm {
+  height: var(--component-height-sm);
+  padding-inline: var(--space-component-padding-sm);
+  gap: var(--space-component-gap-xs);
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+}
+
+.ds-button--md {
+  height: var(--component-height-md);
+  padding-inline: var(--space-component-padding-md);
+  gap: var(--space-component-gap-xs);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+}
+
+.ds-button--lg {
+  height: var(--component-height-lg);
+  padding-inline: var(--space-component-padding-lg);
+  gap: var(--space-component-gap-sm);
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+}
+
+.ds-button--sm .ds-button__icon {
+  font-size: var(--component-icon-sm);
+}
+
+.ds-button--md .ds-button__icon {
+  font-size: var(--component-icon-sm);
+}
+
+.ds-button--lg .ds-button__icon {
+  font-size: var(--component-icon-md);
+}
+
+/* ===== Primary — Solid ===== */
+.ds-button--primary.ds-button--solid {
+  background: var(--interactive-button-surface-primary-solid-default);
+  color: var(--interactive-button-label-primary-solid-default);
+}
+.ds-button--primary.ds-button--solid .ds-button__icon {
+  color: var(--interactive-button-icon-primary-solid-default);
+}
+.ds-button--primary.ds-button--solid:hover:not(:disabled),
+.ds-button--primary.ds-button--solid.ds-button--force-hover {
+  background: var(--interactive-button-surface-primary-solid-hover);
+  color: var(--interactive-button-label-primary-solid-hover);
+}
+.ds-button--primary.ds-button--solid:focus-visible,
+.ds-button--primary.ds-button--solid.ds-button--force-focus {
+  background: var(--interactive-button-surface-primary-solid-focus);
+  color: var(--interactive-button-label-primary-solid-focus);
+}
+.ds-button--primary.ds-button--solid:disabled {
+  background: var(--interactive-button-surface-primary-solid-disabled);
+  color: var(--interactive-button-label-primary-solid-disabled);
+}
+
+/* ===== Primary — Outline ===== */
+.ds-button--primary.ds-button--outline {
+  background: var(--interactive-button-surface-primary-outline-default);
+  border-color: var(--interactive-button-border-primary-outline-default);
+  color: var(--interactive-button-label-primary-outline-default);
+}
+.ds-button--primary.ds-button--outline .ds-button__icon {
+  color: var(--interactive-button-icon-primary-outline-default);
+}
+.ds-button--primary.ds-button--outline:hover:not(:disabled),
+.ds-button--primary.ds-button--outline.ds-button--force-hover {
+  border-color: var(--interactive-button-border-primary-outline-hover);
+  color: var(--interactive-button-label-primary-outline-hover);
+}
+.ds-button--primary.ds-button--outline:focus-visible,
+.ds-button--primary.ds-button--outline.ds-button--force-focus {
+  border-color: var(--interactive-button-border-primary-outline-focus);
+  color: var(--interactive-button-label-primary-outline-focus);
+}
+.ds-button--primary.ds-button--outline:disabled {
+  border-color: var(--interactive-button-border-primary-outline-disabled);
+  color: var(--interactive-button-label-primary-outline-disabled);
+}
+
+/* ===== Primary — Ghost ===== */
+.ds-button--primary.ds-button--ghost {
+  background: var(--interactive-button-surface-primary-ghost-default);
+  color: var(--interactive-button-label-primary-ghost-default);
+}
+.ds-button--primary.ds-button--ghost .ds-button__icon {
+  color: var(--interactive-button-icon-primary-ghost-default);
+}
+.ds-button--primary.ds-button--ghost:hover:not(:disabled),
+.ds-button--primary.ds-button--ghost.ds-button--force-hover {
+  background: var(--interactive-button-surface-primary-ghost-hover);
+  color: var(--interactive-button-label-primary-ghost-hover);
+}
+.ds-button--primary.ds-button--ghost:focus-visible,
+.ds-button--primary.ds-button--ghost.ds-button--force-focus {
+  background: var(--interactive-button-surface-primary-ghost-focus);
+  color: var(--interactive-button-label-primary-ghost-focus);
+}
+.ds-button--primary.ds-button--ghost:disabled {
+  color: var(--interactive-button-label-primary-ghost-disabled);
+}
+
+/* ===== Secondary — Solid ===== */
+.ds-button--secondary.ds-button--solid {
+  background: var(--interactive-button-surface-secondary-solid-default);
+  color: var(--interactive-button-label-secondary-solid-default);
+}
+.ds-button--secondary.ds-button--solid:hover:not(:disabled),
+.ds-button--secondary.ds-button--solid.ds-button--force-hover {
+  background: var(--interactive-button-surface-secondary-solid-hover);
+}
+.ds-button--secondary.ds-button--solid:focus-visible,
+.ds-button--secondary.ds-button--solid.ds-button--force-focus {
+  background: var(--interactive-button-surface-secondary-solid-focus);
+}
+.ds-button--secondary.ds-button--solid:disabled {
+  background: var(--interactive-button-surface-secondary-solid-disabled);
+  color: var(--interactive-button-label-secondary-solid-disabled);
+}
+
+/* ===== Danger — Solid ===== */
+.ds-button--danger.ds-button--solid {
+  background: var(--interactive-button-surface-danger-solid-default);
+  color: var(--interactive-button-label-danger-solid-default);
+}
+.ds-button--danger.ds-button--solid:hover:not(:disabled),
+.ds-button--danger.ds-button--solid.ds-button--force-hover {
+  background: var(--interactive-button-surface-danger-solid-hover);
+}
+.ds-button--danger.ds-button--solid:focus-visible,
+.ds-button--danger.ds-button--solid.ds-button--force-focus {
+  background: var(--interactive-button-surface-danger-solid-focus);
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+.ds-button--danger.ds-button--solid:disabled {
+  background: var(--interactive-button-surface-danger-solid-disabled);
+  color: var(--interactive-button-label-danger-solid-disabled);
+}
+
+/* ===== Danger — Outline ===== */
+.ds-button--danger.ds-button--outline {
+  background: var(--interactive-button-surface-danger-outline-default);
+  border-color: var(--interactive-button-border-danger-outline-default);
+  color: var(--interactive-button-label-danger-outline-default);
+}
+.ds-button--danger.ds-button--outline:hover:not(:disabled),
+.ds-button--danger.ds-button--outline.ds-button--force-hover {
+  border-color: var(--interactive-button-border-danger-outline-hover);
+  color: var(--interactive-button-label-danger-outline-hover);
+}
+.ds-button--danger.ds-button--outline:focus-visible,
+.ds-button--danger.ds-button--outline.ds-button--force-focus {
+  border-color: var(--interactive-button-border-danger-outline-focus);
+  color: var(--interactive-button-label-danger-outline-focus);
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+.ds-button--danger.ds-button--outline:disabled {
+  border-color: var(--interactive-button-border-danger-outline-disabled);
+  color: var(--interactive-button-label-danger-outline-disabled);
+}
+
+/* ===== Danger — Ghost ===== */
+.ds-button--danger.ds-button--ghost {
+  background: var(--interactive-button-surface-danger-ghost-default);
+  color: var(--interactive-button-label-danger-ghost-default);
+}
+.ds-button--danger.ds-button--ghost:hover:not(:disabled),
+.ds-button--danger.ds-button--ghost.ds-button--force-hover {
+  background: var(--interactive-button-surface-danger-ghost-hover);
+}
+.ds-button--danger.ds-button--ghost:focus-visible,
+.ds-button--danger.ds-button--ghost.ds-button--force-focus {
+  background: var(--interactive-button-surface-danger-ghost-focus);
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+.ds-button--danger.ds-button--ghost:disabled {
+  color: var(--interactive-button-label-danger-solid-disabled);
+}

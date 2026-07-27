@@ -1,0 +1,54 @@
+.ds-anchor-nav {
+  width: 200px;
+  flex-shrink: 0;
+  padding: var(--space-layout-section-padding-md) var(--space-layout-section-padding-sm);
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.ds-anchor-nav__title {
+  font-size: var(--typography-xxs-font-size);
+  line-height: var(--typography-xxs-line-height);
+  font-weight: var(--typography-font-weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-caption-primary-light);
+  margin-bottom: var(--space-component-gap-sm);
+}
+
+.ds-anchor-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-anchor-nav__link {
+  display: flex;
+  align-items: center;
+  height: var(--component-height-lg);
+  padding-inline: var(--space-component-padding-md);
+  border-left: var(--border-md) solid var(--interactive-anchor-indicator-default);
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-font-weight-regular);
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+  color: var(--interactive-anchor-label-default);
+  text-decoration: none;
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.ds-anchor-nav__link:hover {
+  color: var(--interactive-anchor-label-hover);
+}
+
+.ds-anchor-nav__link--active {
+  color: var(--interactive-anchor-label-active);
+  border-left-color: var(--interactive-tab-indicator-line-active);
+  font-family: var(--typography-font-family-heading);
+  font-weight: var(--typography-font-weight-medium);
+}
