@@ -53,6 +53,7 @@
   gap: var(--space-component-gap-xs);
   width: 100%;
   height: var(--component-height-md);
+  flex-shrink: 0;
   padding-block: var(--space-component-padding-xs);
   padding-inline: var(--space-component-padding-md);
   background: var(--interactive-dropdown-option-surface-default);
@@ -207,6 +208,16 @@
   align-items: stretch;
 }
 
+.ds-dropdown__options--scroll {
+  max-height: calc(10 * var(--component-height-md));
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.ds-dropdown__options--scroll::-webkit-scrollbar {
+  display: none;
+}
+
 .ds-dropdown__footer {
   display: flex;
   align-items: center;
@@ -221,23 +232,34 @@
   position: absolute;
   top: 4px;
   right: 0;
+  bottom: 0;
   display: flex;
-  align-items: flex-start;
-  width: 8px;
+  align-items: center;
   padding-block: var(--space-component-padding-sm);
   padding-inline: var(--space-component-padding-xs);
   background: var(--global-scrollbar-track-default);
 }
 
+.ds-dropdown__scrollbar-track {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 8px;
+  height: 100%;
+}
+
 .ds-dropdown__scrollbar-thumb {
   flex: 1 0 0;
-  width: 100%;
   height: 80px;
   border-radius: var(--radius-full);
   background: var(--global-scrollbar-thumb-default);
 }
 
 .ds-dropdown--relative {
+  position: relative;
+}
+
+.ds-dropdown__panel {
   position: relative;
 }
 

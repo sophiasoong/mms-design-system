@@ -1,0 +1,173 @@
+/* ---- Chip: shared base ---- */
+.ds-chip {
+  display: inline-flex;
+  align-items: center;
+  border: var(--border-sm) solid transparent;
+  border-radius: var(--radius-xl);
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-font-weight-regular);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.ds-chip__label {
+  white-space: nowrap;
+}
+
+.ds-chip .icon {
+  display: inline-flex;
+  font-size: var(--component-icon-sm);
+  flex-shrink: 0;
+}
+
+.ds-chip__chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-icon-sm);
+  height: var(--component-icon-sm);
+  flex-shrink: 0;
+}
+
+.ds-chip.ds-chip--disabled {
+  cursor: not-allowed;
+}
+
+/* Note: no --interactive-filter-chip-* / --interactive-input-chip-* /
+   --interactive-action-chip-* tokens exist in tokens.json for any Chip state —
+   only the raw MMS brand-primitive values that back them. Colors below resolve
+   to the closest brand-primitive token (as Dropdown.css already does for the
+   same gap), so they still shift correctly in MMA. */
+
+/* ---- Filter chip ---- */
+.ds-chip--filter {
+  height: var(--component-height-md);
+  gap: var(--space-component-gap-sm);
+  padding-inline-start: var(--space-component-padding-md);
+  padding-inline-end: var(--space-component-padding-lg);
+  background: var(--brand-neutral-100);
+  border-color: var(--brand-neutral-500);
+  color: var(--brand-neutral-800);
+}
+
+.ds-chip--filter .ds-chip__chevron {
+  color: var(--brand-neutral-800);
+}
+
+.ds-chip--filter:hover:not(.ds-chip--disabled),
+.ds-chip--filter.ds-chip--force-hover {
+  border-color: var(--brand-neutral-800);
+}
+
+.ds-chip--filter.ds-chip--force-focus {
+  border-color: var(--brand-neutral-800);
+  /* No --interactive-shadow-neutral token exists in tokens.json (only
+     --interactive-shadow-primary); flagged, not guessed — raw Figma value used. */
+  box-shadow: 0 0 0 2px rgba(92, 92, 92, 0.24);
+}
+
+.ds-chip--filter.ds-chip--disabled {
+  border-color: var(--brand-neutral-500);
+  color: var(--brand-neutral-700);
+}
+
+.ds-chip--filter.ds-chip--disabled .ds-chip__chevron {
+  color: var(--brand-neutral-700);
+}
+
+.ds-chip--filter.ds-chip--selected {
+  background: var(--brand-primary-75);
+  border-color: var(--brand-primary-300);
+  color: var(--brand-primary-400);
+}
+
+.ds-chip--filter.ds-chip--selected .ds-chip__chevron {
+  color: var(--brand-primary-400);
+}
+
+.ds-chip--filter.ds-chip--selected:hover:not(.ds-chip--disabled),
+.ds-chip--filter.ds-chip--selected.ds-chip--force-hover {
+  border-color: var(--brand-primary-400);
+}
+
+.ds-chip--filter.ds-chip--selected.ds-chip--force-focus {
+  border-color: var(--brand-primary-400);
+  box-shadow: 0 0 0 2px var(--interactive-shadow-primary);
+}
+
+.ds-chip--filter.ds-chip--selected.ds-chip--disabled {
+  border-color: var(--brand-primary-100);
+  color: var(--brand-primary-300);
+}
+
+.ds-chip--filter.ds-chip--selected.ds-chip--disabled .ds-chip__chevron {
+  color: var(--brand-primary-300);
+}
+
+/* ---- Input chip ---- */
+.ds-chip--input {
+  height: var(--component-height-sm);
+  gap: var(--space-component-gap-sm);
+  padding-inline-start: var(--space-component-padding-md);
+  padding-inline-end: var(--space-component-padding-sm);
+  background: var(--brand-neutral-100);
+  border-color: var(--brand-neutral-500);
+  color: var(--brand-neutral-800);
+}
+
+.ds-chip--input.ds-chip--sm {
+  height: var(--component-height-xs);
+}
+
+.ds-chip--input .icon {
+  color: var(--brand-neutral-800);
+}
+
+.ds-chip--input:hover:not(.ds-chip--disabled),
+.ds-chip--input.ds-chip--force-hover {
+  border-color: var(--brand-neutral-800);
+}
+
+.ds-chip--input.ds-chip--disabled {
+  color: var(--brand-neutral-700);
+}
+
+/* ---- Action chip ---- */
+.ds-chip--action {
+  height: var(--component-height-md);
+  gap: var(--space-component-gap-sm);
+  padding-inline: var(--space-component-padding-md);
+  background: var(--brand-neutral-100);
+  border-color: var(--brand-neutral-500);
+  color: var(--brand-neutral-800);
+}
+
+.ds-chip--action.ds-chip--md {
+  height: var(--component-height-sm);
+}
+
+.ds-chip--action.ds-chip--sm {
+  height: var(--component-height-xs);
+}
+
+.ds-chip--action:hover:not(.ds-chip--disabled),
+.ds-chip--action.ds-chip--force-hover {
+  border-color: var(--brand-neutral-800);
+}
+
+.ds-chip--action.ds-chip--disabled {
+  color: var(--brand-neutral-700);
+}
+
+.ds-chip--action.ds-chip--selected {
+  background: var(--brand-primary-75);
+  border-color: var(--brand-primary-300);
+  color: var(--brand-primary-400);
+}
+
+.ds-chip--action.ds-chip--selected:hover:not(.ds-chip--disabled),
+.ds-chip--action.ds-chip--selected.ds-chip--force-hover {
+  border-color: var(--brand-primary-400);
+}

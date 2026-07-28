@@ -99,13 +99,16 @@ export function DropdownOption({
 
 export interface ExpanderOptionProps {
   label: string;
-  level?: 0 | 1 | 2;
+  level?: 0 | 1 | 2 | 3;
   expandState?: ExpanderState;
   state?: DropdownOptionState;
   forceHover?: boolean;
   caption?: string;
   className?: string;
+  /** Selects (leaf rows) or selects all descendants (branch rows). Fires for clicks anywhere except the chevron. */
   onClick?: () => void;
+  /** Toggles expand/collapse. Fires for chevron clicks only, so it never fights with onClick's selection. */
+  onExpandClick?: () => void;
 }
 
 export function ExpanderOption({
@@ -117,6 +120,7 @@ export function ExpanderOption({
   caption,
   className,
   onClick,
+  onExpandClick,
 }: ExpanderOptionProps) {
   const disabled = state === 'disabled';
   const selected = state === 'selected';
@@ -143,7 +147,14 @@ export function ExpanderOption({
       }}
     >
       {expandState !== 'none' && (
-        <span className="ds-dropdown-option__expander-icon" aria-hidden="true">
+        <span
+          className="ds-dropdown-option__expander-icon"
+          aria-hidden="true"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (!disabled) onExpandClick?.();
+          }}
+        >
           <span className="icon" aria-hidden="true">
             {expandState === 'expanded' ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
           </span>
@@ -231,7 +242,9 @@ export default function Dropdown({
       )}
       {showScrollbar && (
         <div className="ds-dropdown__scrollbar" aria-hidden="true">
-          <div className="ds-dropdown__scrollbar-thumb" />
+          <div className="ds-dropdown__scrollbar-track">
+            <div className="ds-dropdown__scrollbar-thumb" />
+          </div>
         </div>
       )}
     </div>

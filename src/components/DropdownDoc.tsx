@@ -1,7 +1,18 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import type { UIEvent } from 'react';
 import Dropdown, { DropdownOption, ExpanderOption } from './Dropdown';
 import Button from './Button';
 import './ButtonDoc.css';
+
+function syncScrollbarThumb(scrollEl: HTMLDivElement, thumb: HTMLDivElement | null) {
+  if (!thumb) return;
+  const track = thumb.parentElement;
+  if (!track) return;
+  const maxScroll = scrollEl.scrollHeight - scrollEl.clientHeight;
+  const maxThumbOffset = track.clientHeight - thumb.clientHeight;
+  const ratio = maxScroll > 0 ? scrollEl.scrollTop / maxScroll : 0;
+  thumb.style.transform = `translateY(${ratio * maxThumbOffset}px)`;
+}
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=577-17134';
@@ -26,6 +37,14 @@ const CASCADER_CHILDREN: Record<string, string[]> = {
 };
 
 const SAMPLE_OPTIONS = ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5'];
+const FIFTEEN_OPTIONS = Array.from({ length: 15 }, (_, i) => `Option ${i + 1}`);
+
+const EXPANDER_BRANCH_LEAVES: Record<string, string[]> = {
+  'Category A': ['Item A1a', 'Item A1b', 'Item A2a', 'Item A2b', 'Subcategory A3'],
+  'Subcategory A1': ['Item A1a', 'Item A1b'],
+  'Subcategory A2': ['Item A2a', 'Item A2b'],
+  'Category B': ['Item B1a', 'Item B1b'],
+};
 
 interface DropdownDocProps {
   onNavigate?: (componentId: string) => void;
@@ -36,13 +55,16 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
   const [activeStateTab, setActiveStateTab] = useState<StateTab>('Single-select');
   const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Option row');
 
+  // ---- Example > Dropdown set: scrollbar thumb tracks real scroll position ----
+  const filterChipThumbRef = useRef<HTMLDivElement>(null);
+  const selectThumbRef = useRef<HTMLDivElement>(null);
+
   // ---- Variants > Style: interactive demo state ----
   const [singleSelected, setSingleSelected] = useState(2);
 
-  const [multiApplied, setMultiApplied] = useState<number[]>([0, 2]);
-  const [multiPending, setMultiPending] = useState<number[]>([0, 2]);
-  const toggleMultiPending = (i: number) =>
-    setMultiPending((prev) => (prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]));
+  const [multiSelected, setMultiSelected] = useState<number[]>([0, 2]);
+  const toggleMultiSelected = (i: number) =>
+    setMultiSelected((prev) => (prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]));
 
   const [expanderExpanded, setExpanderExpanded] = useState<Record<string, boolean>>({
     'Category A': true,
@@ -60,9 +82,28 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
       else next.add(label);
       return next;
     });
+  const toggleExpanderBranchSelected = (branchLabel: string) => {
+    const leaves = EXPANDER_BRANCH_LEAVES[branchLabel];
+    setExpanderSelected((prev) => {
+      const allSelected = leaves.every((l) => prev.has(l));
+      const next = new Set(prev);
+      leaves.forEach((l) => (allSelected ? next.delete(l) : next.add(l)));
+      return next;
+    });
+  };
+  const isExpanderBranchSelected = (branchLabel: string) =>
+    EXPANDER_BRANCH_LEAVES[branchLabel].every((l) => expanderSelected.has(l));
 
   const [cascaderOpenL1, setCascaderOpenL1] = useState<string | null>('Option 2');
+  const [cascaderSelectedL1, setCascaderSelectedL1] = useState<Set<string>>(new Set(['Option 2']));
   const [cascaderSelectedL2, setCascaderSelectedL2] = useState<Set<string>>(new Set());
+  const toggleCascaderL1 = (label: string) =>
+    setCascaderSelectedL1((prev) => {
+      const next = new Set(prev);
+      if (next.has(label)) next.delete(label);
+      else next.add(label);
+      return next;
+    });
   const toggleCascaderL2 = (label: string) =>
     setCascaderSelectedL2((prev) => {
       const next = new Set(prev);
@@ -238,14 +279,14 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
                 <Dropdown
                   style="multi"
                   options={SAMPLE_OPTIONS}
-                  selectedIndices={multiPending}
-                  onOptionClick={toggleMultiPending}
-                  onReset={() => setMultiPending(multiApplied)}
-                  onApply={() => setMultiApplied(multiPending)}
+                  selectedIndices={multiSelected}
+                  onOptionClick={toggleMultiSelected}
+                  showFooter={false}
                 />
               </div>
               <span className="ds-variant-note">
-                Selections stay pending until Apply is pressed; Reset clears the pending selection.
+                Selecting an option toggles its checkbox immediately — no footer or confirmation
+                step.
               </span>
             </div>
           )}
@@ -259,7 +300,9 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
                       label="Category A"
                       level={0}
                       expandState={expanderExpanded['Category A'] ? 'expanded' : 'collapsed'}
-                      onClick={() => toggleExpander('Category A')}
+                      state={isExpanderBranchSelected('Category A') ? 'selected' : 'default'}
+                      onClick={() => toggleExpanderBranchSelected('Category A')}
+                      onExpandClick={() => toggleExpander('Category A')}
                     />
                     {expanderExpanded['Category A'] && (
                       <>
@@ -267,19 +310,21 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
                           label="Subcategory A1"
                           level={1}
                           expandState={expanderExpanded['Subcategory A1'] ? 'expanded' : 'collapsed'}
-                          onClick={() => toggleExpander('Subcategory A1')}
+                          state={isExpanderBranchSelected('Subcategory A1') ? 'selected' : 'default'}
+                          onClick={() => toggleExpanderBranchSelected('Subcategory A1')}
+                          onExpandClick={() => toggleExpander('Subcategory A1')}
                         />
                         {expanderExpanded['Subcategory A1'] && (
                           <>
                             <ExpanderOption
                               label="Item A1a"
-                              level={2}
+                              level={3}
                               state={expanderSelected.has('Item A1a') ? 'selected' : 'default'}
                               onClick={() => toggleExpanderSelected('Item A1a')}
                             />
                             <ExpanderOption
                               label="Item A1b"
-                              level={2}
+                              level={3}
                               state={expanderSelected.has('Item A1b') ? 'selected' : 'default'}
                               onClick={() => toggleExpanderSelected('Item A1b')}
                             />
@@ -289,43 +334,53 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
                           label="Subcategory A2"
                           level={1}
                           expandState={expanderExpanded['Subcategory A2'] ? 'expanded' : 'collapsed'}
-                          onClick={() => toggleExpander('Subcategory A2')}
+                          state={isExpanderBranchSelected('Subcategory A2') ? 'selected' : 'default'}
+                          onClick={() => toggleExpanderBranchSelected('Subcategory A2')}
+                          onExpandClick={() => toggleExpander('Subcategory A2')}
                         />
                         {expanderExpanded['Subcategory A2'] && (
                           <>
                             <ExpanderOption
                               label="Item A2a"
-                              level={2}
+                              level={3}
                               state={expanderSelected.has('Item A2a') ? 'selected' : 'default'}
                               onClick={() => toggleExpanderSelected('Item A2a')}
                             />
                             <ExpanderOption
                               label="Item A2b"
-                              level={2}
+                              level={3}
                               state={expanderSelected.has('Item A2b') ? 'selected' : 'default'}
                               onClick={() => toggleExpanderSelected('Item A2b')}
                             />
                           </>
                         )}
+                        <ExpanderOption
+                          label="Subcategory A3"
+                          level={2}
+                          state={expanderSelected.has('Subcategory A3') ? 'selected' : 'default'}
+                          onClick={() => toggleExpanderSelected('Subcategory A3')}
+                        />
                       </>
                     )}
                     <ExpanderOption
                       label="Category B"
                       level={0}
                       expandState={expanderExpanded['Category B'] ? 'expanded' : 'collapsed'}
-                      onClick={() => toggleExpander('Category B')}
+                      state={isExpanderBranchSelected('Category B') ? 'selected' : 'default'}
+                      onClick={() => toggleExpanderBranchSelected('Category B')}
+                      onExpandClick={() => toggleExpander('Category B')}
                     />
                     {expanderExpanded['Category B'] && (
                       <>
                         <ExpanderOption
                           label="Item B1a"
-                          level={1}
+                          level={2}
                           state={expanderSelected.has('Item B1a') ? 'selected' : 'default'}
                           onClick={() => toggleExpanderSelected('Item B1a')}
                         />
                         <ExpanderOption
                           label="Item B1b"
-                          level={1}
+                          level={2}
                           state={expanderSelected.has('Item B1b') ? 'selected' : 'default'}
                           onClick={() => toggleExpanderSelected('Item B1b')}
                         />
@@ -352,8 +407,11 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
                         label={label}
                         style="cascader"
                         trailingIcon="chevron_right"
-                        state={cascaderOpenL1 === label ? 'selected' : 'default'}
-                        onClick={() => setCascaderOpenL1(label)}
+                        state={cascaderSelectedL1.has(label) ? 'selected' : 'default'}
+                        onClick={() => {
+                          toggleCascaderL1(label);
+                          setCascaderOpenL1(label);
+                        }}
                       />
                     ))}
                   </div>
@@ -373,9 +431,9 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
                 </div>
               </div>
               <span className="ds-variant-note">
-                Each option drills into a second column of choices to the right; multiple leaf
-                items can stay checked as you move between branches — see States for a static
-                reference of both columns open.
+                Each option drills into a second column of choices to the right; both columns are
+                multi-select, so options in either column can stay checked as you browse between
+                branches — see States for a static reference of both columns open.
               </span>
             </div>
           )}
@@ -461,10 +519,22 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
                           <span className="ds-dropdown__searchbar-placeholder">Search in filters</span>
                         </div>
                       </div>
-                      <div className="ds-dropdown__options">
-                        {SAMPLE_OPTIONS.slice(0, 4).map((label) => (
-                          <DropdownOption key={label} label={label} style="single" />
-                        ))}
+                      <div className="ds-dropdown__panel">
+                        <div
+                          className="ds-dropdown__options ds-dropdown__options--scroll"
+                          onScroll={(e: UIEvent<HTMLDivElement>) =>
+                            syncScrollbarThumb(e.currentTarget, filterChipThumbRef.current)
+                          }
+                        >
+                          {FIFTEEN_OPTIONS.map((label) => (
+                            <DropdownOption key={label} label={label} style="single" />
+                          ))}
+                        </div>
+                        <div className="ds-dropdown__scrollbar" aria-hidden="true">
+                          <div className="ds-dropdown__scrollbar-track">
+                            <div className="ds-dropdown__scrollbar-thumb" ref={filterChipThumbRef} />
+                          </div>
+                        </div>
                       </div>
                       <div className="ds-dropdown__footer">
                         <Button variant="primary" appearance="ghost" size="sm">
@@ -487,10 +557,22 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
                       </span>
                     </div>
                     <div className="ds-dropdown ds-dropdown--sm">
-                      <div className="ds-dropdown__options">
-                        {SAMPLE_OPTIONS.slice(0, 4).map((label) => (
-                          <DropdownOption key={label} label={label} style="single" />
-                        ))}
+                      <div className="ds-dropdown__panel">
+                        <div
+                          className="ds-dropdown__options ds-dropdown__options--scroll"
+                          onScroll={(e: UIEvent<HTMLDivElement>) =>
+                            syncScrollbarThumb(e.currentTarget, selectThumbRef.current)
+                          }
+                        >
+                          {FIFTEEN_OPTIONS.map((label) => (
+                            <DropdownOption key={label} label={label} style="single" />
+                          ))}
+                        </div>
+                        <div className="ds-dropdown__scrollbar" aria-hidden="true">
+                          <div className="ds-dropdown__scrollbar-track">
+                            <div className="ds-dropdown__scrollbar-thumb" ref={selectThumbRef} />
+                          </div>
+                        </div>
                       </div>
                       <div className="ds-dropdown__footer">
                         <Button variant="primary" appearance="ghost" size="sm" leadingIcon="add">
@@ -700,8 +782,8 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
                     <div className="ds-dropdown__options">
                       <ExpanderOption label="Category A" level={0} expandState="expanded" />
                       <ExpanderOption label="Subcategory A1" level={1} expandState="expanded" />
-                      <ExpanderOption label="Item A1a" level={2} state="selected" />
-                      <ExpanderOption label="Item A1b" level={2} />
+                      <ExpanderOption label="Item A1a" level={3} state="selected" />
+                      <ExpanderOption label="Item A1b" level={3} />
                       <ExpanderOption label="Subcategory A2" level={1} expandState="collapsed" />
                       <ExpanderOption label="Category B" level={0} expandState="collapsed" />
                     </div>
