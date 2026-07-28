@@ -52,7 +52,8 @@ USED = [
     # Focus ring
     'interactive-shadow-primary',
     # App chrome — surface / text / sidebar / divider / brand
-    'brand-primary-400','brand-primary-600','brand-primary-50','brand-primary-75','brand-primary-100',
+    'brand-primary-300','brand-primary-400','brand-primary-600','brand-primary-50','brand-primary-75','brand-primary-100',
+    'brand-secondary-200',
     'brand-neutral-0','brand-neutral-100','brand-neutral-200','brand-neutral-300','brand-neutral-400',
     'brand-neutral-500','brand-neutral-600','brand-neutral-700','brand-neutral-800','brand-neutral-900','brand-neutral-950',
     'brand-danger-500',
@@ -68,6 +69,70 @@ USED = [
     'global-background-page','global-divider-neutral-light','global-overlay-dark',
     'surface-tag-background-neutral-default','surface-tag-border-neutral-default','surface-tag-label-neutral-default',
     'interactive-list-background-hover',
+    # Dropdown
+    'interactive-dropdown-panel-surface-default','interactive-dropdown-panel-shadow-default',
+    'interactive-dropdown-option-surface-default','interactive-dropdown-option-surface-hover',
+    'interactive-dropdown-option-surface-selected','interactive-dropdown-option-surface-selected-hover',
+    'interactive-dropdown-option-surface-disabled','interactive-dropdown-option-label-default',
+    'interactive-dropdown-option-label-disabled',
+    # Checkbox (used inside Dropdown multi-select options)
+    'interactive-checkbox-surface-default','interactive-checkbox-surface-hover',
+    'interactive-checkbox-surface-checked','interactive-checkbox-surface-checked-hover',
+    'interactive-checkbox-surface-disabled','interactive-checkbox-border-default',
+    'interactive-checkbox-border-hover','interactive-checkbox-border-checked',
+    'interactive-checkbox-border-disabled','interactive-checkbox-mark-checked',
+    'interactive-checkbox-mark-disabled','interactive-checkbox-shadow-focus',
+    'global-scrollbar-thumb-default','global-scrollbar-track-default',
+    'global-background-surface',
+    # Dropdown — Combo examples (filter-chip / select triggers)
+    'interactive-select-surface-focus','interactive-select-placeholder-default',
+    # Anchor nav
+    'interactive-anchor-indicator-default','interactive-anchor-label-active',
+    'interactive-anchor-label-default','interactive-anchor-label-hover',
+    # Tabs (line variant)
+    'interactive-tab-indicator-line-active','interactive-tab-label-line-active',
+    'interactive-tab-label-line-default','interactive-tab-label-line-hover',
+    # Icon button — primary solid/outline/ghost
+    'interactive-icon-button-surface-primary-solid-default','interactive-icon-button-surface-primary-solid-hover',
+    'interactive-icon-button-surface-primary-solid-focus','interactive-icon-button-surface-primary-solid-disabled',
+    'interactive-icon-button-icon-primary-solid-default','interactive-icon-button-icon-primary-solid-hover',
+    'interactive-icon-button-icon-primary-solid-focus','interactive-icon-button-icon-primary-solid-disabled',
+    'interactive-icon-button-surface-primary-outline-default','interactive-icon-button-surface-primary-outline-hover',
+    'interactive-icon-button-surface-primary-outline-focus','interactive-icon-button-surface-primary-outline-disabled',
+    'interactive-icon-button-border-primary-outline-default','interactive-icon-button-border-primary-outline-hover',
+    'interactive-icon-button-border-primary-outline-focus','interactive-icon-button-border-primary-outline-disabled',
+    'interactive-icon-button-icon-primary-outline-default','interactive-icon-button-icon-primary-outline-hover',
+    'interactive-icon-button-icon-primary-outline-focus','interactive-icon-button-icon-primary-outline-disabled',
+    'interactive-icon-button-surface-primary-ghost-default','interactive-icon-button-surface-primary-ghost-hover',
+    'interactive-icon-button-surface-primary-ghost-focus','interactive-icon-button-surface-primary-ghost-disabled',
+    'interactive-icon-button-icon-primary-ghost-default','interactive-icon-button-icon-primary-ghost-hover',
+    'interactive-icon-button-icon-primary-ghost-focus','interactive-icon-button-icon-primary-ghost-disabled',
+    # Icon button — secondary solid/ghost
+    'interactive-icon-button-surface-secondary-solid-default','interactive-icon-button-surface-secondary-solid-hover',
+    'interactive-icon-button-surface-secondary-solid-focus','interactive-icon-button-surface-secondary-solid-disabled',
+    'interactive-icon-button-icon-secondary-solid-default','interactive-icon-button-icon-secondary-solid-hover',
+    'interactive-icon-button-icon-secondary-solid-focus','interactive-icon-button-icon-secondary-solid-disabled',
+    'interactive-icon-button-surface-secondary-ghost-default','interactive-icon-button-surface-secondary-ghost-hover',
+    'interactive-icon-button-surface-secondary-ghost-focus','interactive-icon-button-surface-secondary-ghost-disabled',
+    'interactive-icon-button-icon-secondary-ghost-default','interactive-icon-button-icon-secondary-ghost-hover',
+    'interactive-icon-button-icon-secondary-ghost-focus','interactive-icon-button-icon-secondary-ghost-disabled',
+    # Icon button — danger solid/ghost (icon color is a single shared set, no solid/ghost split)
+    'interactive-icon-button-surface-danger-solid-default','interactive-icon-button-surface-danger-solid-hover',
+    'interactive-icon-button-surface-danger-solid-focus','interactive-icon-button-surface-danger-solid-disabled',
+    'interactive-icon-button-surface-danger-ghost-default','interactive-icon-button-surface-danger-ghost-hover',
+    'interactive-icon-button-surface-danger-ghost-focus','interactive-icon-button-surface-danger-ghost-disabled',
+    'interactive-icon-button-icon-danger-default','interactive-icon-button-icon-danger-hover',
+    'interactive-icon-button-icon-danger-focus','interactive-icon-button-icon-danger-disabled',
+    # Icon button — neutral ghost
+    'interactive-icon-button-icon-neutral-ghost-default','interactive-icon-button-icon-neutral-ghost-hover',
+    'interactive-icon-button-icon-neutral-ghost-pressed','interactive-icon-button-icon-neutral-ghost-disabled',
+    # Icon button — success ghost
+    'interactive-icon-button-surface-success-default','interactive-icon-button-surface-success-hover',
+    'interactive-icon-button-surface-success-focus','interactive-icon-button-surface-success-disabled',
+    'interactive-icon-button-icon-success-default','interactive-icon-button-icon-success-hover',
+    'interactive-icon-button-icon-success-focus','interactive-icon-button-icon-success-disabled',
+    # Icon button — pending (no dedicated token exists; borrows the Toast/Banner warning color)
+    'feedback-toast-icon-warning','feedback-toast-surface-warning',
 ]
 
 def kebab(k):

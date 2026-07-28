@@ -1,0 +1,336 @@
+.ds-checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--component-icon-md);
+  height: var(--component-icon-md);
+}
+
+.ds-checkbox__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-icon-sm);
+  height: var(--component-icon-sm);
+  border-radius: var(--radius-xs);
+  border: var(--border-sm) solid var(--interactive-checkbox-border-default);
+  background: var(--interactive-checkbox-surface-default);
+  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.ds-checkbox__box .icon {
+  font-size: 12px;
+  color: var(--interactive-checkbox-mark-checked);
+}
+
+.ds-checkbox--checked .ds-checkbox__box {
+  /* interactive-checkbox-border/surface-checked are unaliased to raw MMS indigo in
+     the source tokens — brand-primary-400 carries the same MMS value but shifts
+     correctly in MMA. */
+  border-color: var(--brand-primary-400);
+  background: var(--brand-primary-400);
+}
+
+.ds-checkbox--hover .ds-checkbox__box,
+.ds-checkbox:hover .ds-checkbox__box {
+  border-color: var(--interactive-checkbox-border-hover);
+}
+
+.ds-checkbox--disabled .ds-checkbox__box {
+  border-color: var(--interactive-checkbox-border-disabled);
+  background: var(--interactive-checkbox-surface-disabled);
+}
+
+.ds-checkbox--disabled.ds-checkbox--checked .ds-checkbox__box .icon {
+  color: var(--interactive-checkbox-mark-disabled);
+}
+
+/* ---- Dropdown option row ---- */
+.ds-dropdown-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  width: 100%;
+  height: var(--component-height-md);
+  padding-block: var(--space-component-padding-xs);
+  padding-inline: var(--space-component-padding-md);
+  background: var(--interactive-dropdown-option-surface-default);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease;
+}
+
+.ds-dropdown-option--multi {
+  padding-inline: var(--space-component-padding-sm);
+}
+
+.ds-dropdown-option__label {
+  flex: 1 0 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-font-weight-regular);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--interactive-dropdown-option-label-default);
+}
+
+.ds-dropdown-option:hover:not(.ds-dropdown-option--disabled),
+.ds-dropdown-option--force-hover {
+  /* interactive-dropdown-option-surface-hover is unaliased to raw MMS lavender in
+     the source tokens — brand-primary-50 carries the same MMS value but shifts
+     correctly in MMA. */
+  background: var(--brand-primary-50);
+}
+
+.ds-dropdown-option--selected {
+  /* Same unaliasing gap — interactive-dropdown-option-surface-selected(-hover)
+     match brand-primary-75 in MMS but don't shift to the MMA tint. */
+  background: var(--brand-primary-75);
+}
+
+.ds-dropdown-option--selected.ds-dropdown-option--single .ds-dropdown-option__label {
+  font-family: var(--typography-font-family-heading);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.ds-dropdown-option--selected:hover:not(.ds-dropdown-option--disabled),
+.ds-dropdown-option--selected.ds-dropdown-option--force-hover {
+  background: var(--brand-primary-75);
+}
+
+.ds-dropdown-option--disabled {
+  background: var(--interactive-dropdown-option-surface-disabled);
+  cursor: not-allowed;
+}
+
+.ds-dropdown-option--disabled .ds-dropdown-option__label {
+  color: var(--interactive-dropdown-option-label-disabled);
+}
+
+.ds-dropdown-option__expander-icon,
+.ds-dropdown-option__trailing-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--component-icon-md);
+  height: var(--component-icon-md);
+}
+
+.ds-dropdown-option__expander-icon .icon,
+.ds-dropdown-option__trailing-icon .icon {
+  font-size: var(--component-icon-sm);
+  color: var(--text-body-tertiary-neutral);
+  /* Material Symbols' opsz axis defaults to 24 (in the shared .icon rule), which is
+     tuned for much larger renders — at this 16px size it draws thin and undersized.
+     20 is the font's minimum supported opsz and renders the glyph to fill its box. */
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+}
+
+.ds-dropdown-option__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--component-icon-md);
+  height: var(--component-icon-md);
+}
+
+.ds-dropdown-option__badge-dot {
+  width: var(--component-icon-xs);
+  height: var(--component-icon-xs);
+  border-radius: var(--radius-full);
+  background: var(--brand-danger-500);
+}
+
+.ds-dropdown-option__caption {
+  flex-shrink: 0;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-caption-primary-light);
+}
+
+/* ---- Cascader (multi-column open state) ---- */
+.ds-cascader {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: var(--radius-md);
+  background: var(--interactive-dropdown-panel-surface-default);
+  box-shadow: 0 2px 8px 0 var(--interactive-dropdown-panel-shadow-default);
+  overflow: hidden;
+}
+
+.ds-cascader__column {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 200px;
+  padding-block-start: var(--space-component-padding-xs);
+  border-inline-start: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-cascader__column:first-child {
+  border-inline-start: none;
+}
+
+/* ---- Dropdown panel ---- */
+.ds-dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: var(--component-width-dropdown-sm);
+  border-radius: var(--radius-md);
+  background: var(--interactive-dropdown-panel-surface-default);
+  box-shadow: 0 2px 8px 0 var(--interactive-dropdown-panel-shadow-default);
+  padding-block-start: var(--space-component-padding-xs);
+  overflow: hidden;
+}
+
+.ds-dropdown--lg {
+  width: var(--component-width-dropdown-lg);
+}
+
+.ds-dropdown--compact {
+  /* Figma uses a raw 200px width for Expander/Cascader panels — no matching
+     --component-width-dropdown-* token exists (only sm=280 / lg=320, sized for
+     Single/Multi list panels). Flagged, not guessed. */
+  width: 200px;
+}
+
+.ds-dropdown__options {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.ds-dropdown__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--component-height-lg);
+  padding-inline: var(--space-component-padding-sm);
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light);
+  background: var(--global-background-surface);
+}
+
+.ds-dropdown__scrollbar {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  width: 8px;
+  padding-block: var(--space-component-padding-sm);
+  padding-inline: var(--space-component-padding-xs);
+  background: var(--global-scrollbar-track-default);
+}
+
+.ds-dropdown__scrollbar-thumb {
+  flex: 1 0 0;
+  width: 100%;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background: var(--global-scrollbar-thumb-default);
+}
+
+.ds-dropdown--relative {
+  position: relative;
+}
+
+/* ---- Combo: a trigger control that opens a Dropdown panel ---- */
+.ds-combo-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  height: var(--component-height-md);
+  padding-inline-start: var(--space-component-padding-md);
+  padding-inline-end: var(--space-component-padding-lg);
+  /* interactive-filter-chip-surface-selected is unaliased to raw MMS lavender in the
+     source tokens — brand-primary-75 carries the same MMS value and shifts
+     correctly in MMA. */
+  background: var(--brand-primary-75);
+  /* interactive-filter-chip-border-selected-hover / -label-selected / -icon-selected
+     are all unaliased to raw MMS indigo — brand-primary-400 shifts correctly in MMA. */
+  border: var(--border-sm) solid var(--brand-primary-400);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 0 0 2px var(--interactive-shadow-primary);
+  color: var(--brand-primary-400);
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  cursor: pointer;
+}
+
+.ds-filter-chip .icon {
+  font-size: var(--component-icon-sm);
+  color: var(--brand-primary-400);
+}
+
+.ds-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-component-gap-xs);
+  width: 100%;
+  height: var(--component-height-md);
+  padding-inline: var(--space-component-padding-md);
+  background: var(--interactive-select-surface-focus);
+  /* interactive-select-border-focus / -icon-focus are unaliased to raw MMS indigo —
+     brand-primary-400 carries the same MMS value and shifts correctly in MMA. */
+  border: var(--border-sm) solid var(--brand-primary-400);
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 2px var(--interactive-shadow-primary);
+}
+
+.ds-select-trigger__placeholder {
+  flex: 1 0 0;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--interactive-select-placeholder-default);
+}
+
+.ds-select-trigger .icon {
+  font-size: var(--component-icon-sm);
+  color: var(--brand-primary-400);
+}
+
+.ds-dropdown__searchbar-row {
+  display: flex;
+  padding: var(--space-component-padding-sm);
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-dropdown__searchbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  flex: 1 0 0;
+  height: var(--component-height-md);
+  padding-inline: var(--space-component-padding-sm);
+  background: var(--interactive-searchbar-surface-default);
+  border: var(--border-sm) solid var(--interactive-searchbar-border-default);
+  border-radius: var(--radius-md);
+}
+
+.ds-dropdown__searchbar .icon {
+  font-size: var(--component-icon-sm);
+  color: var(--interactive-searchbar-icon-default);
+}
+
+.ds-dropdown__searchbar-placeholder {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  color: var(--interactive-searchbar-placeholder-default);
+}

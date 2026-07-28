@@ -114,22 +114,27 @@
 }
 
 /* ===== Primary — Ghost ===== */
+/* Label/icon color and hover/focus surface+label are unaliased to raw MMS indigo in
+   the source tokens (interactive-button-label/icon-surface-primary-ghost-*) — they
+   don't shift in MMA. The brand-primary scale is correctly brand-scoped, so reference
+   it directly here instead. The default (transparent) surface token IS brand-aware
+   already and is left as-is. */
 .ds-button--primary.ds-button--ghost {
   background: var(--interactive-button-surface-primary-ghost-default);
-  color: var(--interactive-button-label-primary-ghost-default);
+  color: var(--brand-primary-400);
 }
 .ds-button--primary.ds-button--ghost .ds-button__icon {
-  color: var(--interactive-button-icon-primary-ghost-default);
+  color: var(--brand-primary-400);
 }
 .ds-button--primary.ds-button--ghost:hover:not(:disabled),
 .ds-button--primary.ds-button--ghost.ds-button--force-hover {
-  background: var(--interactive-button-surface-primary-ghost-hover);
-  color: var(--interactive-button-label-primary-ghost-hover);
+  background: var(--brand-primary-50);
+  color: var(--brand-primary-300);
 }
 .ds-button--primary.ds-button--ghost:focus-visible,
 .ds-button--primary.ds-button--ghost.ds-button--force-focus {
-  background: var(--interactive-button-surface-primary-ghost-focus);
-  color: var(--interactive-button-label-primary-ghost-focus);
+  background: var(--brand-primary-100);
+  color: var(--brand-primary-600);
 }
 .ds-button--primary.ds-button--ghost:disabled {
   color: var(--interactive-button-label-primary-ghost-disabled);

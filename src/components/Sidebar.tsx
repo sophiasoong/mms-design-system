@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { COMPONENTS } from '../data/components';
 import './Sidebar.css';
 
@@ -7,9 +7,32 @@ interface SidebarProps {
   onSelectComponent: (id: string) => void;
 }
 
+const COLLAPSE_QUERY = '(max-width: 1024px)';
+
 export default function Sidebar({ activeComponentId, onSelectComponent }: SidebarProps) {
   const [query, setQuery] = useState('');
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => window.matchMedia(COLLAPSE_QUERY).matches);
+  const [focusPending, setFocusPending] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const mql = window.matchMedia(COLLAPSE_QUERY);
+    const handleChange = (e: MediaQueryListEvent) => setCollapsed(e.matches);
+    mql.addEventListener('change', handleChange);
+    return () => mql.removeEventListener('change', handleChange);
+  }, []);
+
+  useEffect(() => {
+    if (!collapsed && focusPending) {
+      searchInputRef.current?.focus();
+      setFocusPending(false);
+    }
+  }, [collapsed, focusPending]);
+
+  const handleSearchIconClick = () => {
+    setCollapsed(false);
+    setFocusPending(true);
+  };
 
   const filtered = COMPONENTS.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()));
 
@@ -30,9 +53,16 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
       </div>
 
       <div className="ds-sidebar__search">
-        <span className="icon ds-sidebar__search-icon" aria-hidden="true">
-          search
-        </span>
+        <button
+          type="button"
+          className="ds-sidebar__search-icon-btn"
+          aria-label="Search components"
+          onClick={handleSearchIconClick}
+        >
+          <span className="icon ds-sidebar__search-icon" aria-hidden="true">
+            search
+          </span>
+        </button>
         <input
           type="text"
           className="ds-sidebar__search-input"
@@ -41,6 +71,7 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
           onChange={(e) => setQuery(e.target.value)}
           aria-label="Search component name"
           tabIndex={collapsed ? -1 : undefined}
+          ref={searchInputRef}
         />
       </div>
 

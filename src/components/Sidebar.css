@@ -39,7 +39,9 @@
 }
 
 .ds-sidebar__toggle:hover {
-  background: var(--interactive-list-background-hover);
+  /* Same unaliasing gap as the nav item hover below — brand-primary-75 carries the
+     same MMS value but shifts correctly in MMA. */
+  background: var(--brand-primary-75);
   color: var(--text-body-primary-neutral);
 }
 
@@ -76,17 +78,34 @@
   opacity: 1;
 }
 
-.ds-sidebar__search-icon {
+.ds-sidebar__search-icon-btn {
   position: absolute;
   left: var(--space-component-padding-sm);
   top: calc(var(--component-height-md) / 2);
   transform: translateY(-50%);
-  color: var(--interactive-searchbar-icon-default);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  /* Transparent to clicks by default so they pass through to the input beneath —
+     only the collapsed rail (where the input itself is non-interactive) needs this
+     to be clickable, to expand the sidebar and focus the search input. */
   pointer-events: none;
   transition: left var(--duration-normal) ease, transform var(--duration-normal) ease;
 }
 
-.ds-sidebar--collapsed .ds-sidebar__search-icon {
+.ds-sidebar--collapsed .ds-sidebar__search-icon-btn {
+  pointer-events: auto;
+}
+
+.ds-sidebar__search-icon {
+  color: var(--interactive-searchbar-icon-default);
+}
+
+.ds-sidebar--collapsed .ds-sidebar__search-icon-btn {
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -118,7 +137,9 @@
 
 .ds-sidebar__search-input:focus {
   outline: none;
-  border-color: var(--interactive-searchbar-border-focus);
+  /* interactive-searchbar-border-focus is unaliased to raw MMS indigo in the source
+     tokens — brand-primary-400 carries the same MMS value but shifts correctly in MMA. */
+  border-color: var(--brand-primary-400);
 }
 
 .ds-sidebar__section-title {
@@ -179,7 +200,10 @@
 }
 
 .ds-sidebar__item:hover {
-  background: var(--interactive-list-background-hover);
+  /* interactive-list-background-hover is unaliased to raw MMS lavender in the source
+     tokens (#f1ecff in both brands) — brand-primary-75 is the same value in MMS but
+     correctly shifts to the MMA tint, so reference it directly. */
+  background: var(--brand-primary-75);
 }
 
 .ds-sidebar__item--active {

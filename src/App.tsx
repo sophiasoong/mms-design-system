@@ -4,15 +4,18 @@ import Sidebar from './components/Sidebar';
 import AnchorNav from './components/AnchorNav';
 import ButtonDoc from './components/ButtonDoc';
 import IconButtonDoc from './components/IconButtonDoc';
+import DropdownDoc from './components/DropdownDoc';
 import { getStoredBrandMode, applyBrandMode, type BrandMode } from './brandMode';
 import { BUTTON_SECTIONS } from './data/buttonSections';
 import { ICON_BUTTON_SECTIONS } from './data/iconButtonSections';
+import { DROPDOWN_SECTIONS } from './data/dropdownSections';
 import type { AnchorSection } from './components/AnchorNav';
 import './App.css';
 
 const SECTIONS_BY_COMPONENT: Record<string, AnchorSection[]> = {
   button: BUTTON_SECTIONS,
   'icon-button': ICON_BUTTON_SECTIONS,
+  dropdown: DROPDOWN_SECTIONS,
 };
 
 function App() {
@@ -35,6 +38,8 @@ function App() {
             <ButtonDoc onNavigate={setActiveComponentId} />
           ) : activeComponentId === 'icon-button' ? (
             <IconButtonDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'dropdown' ? (
+            <DropdownDoc onNavigate={setActiveComponentId} />
           ) : (
             <div className="ds-main__empty">Select a component to view its documentation.</div>
           )}

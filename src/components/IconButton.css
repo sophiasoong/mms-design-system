@@ -93,19 +93,24 @@
 }
 
 /* ===== Primary — Ghost ===== */
+/* Icon color and hover/focus surface tints are unaliased to raw MMS indigo in the
+   source tokens (interactive-icon-button-icon/surface-primary-ghost-*) — they don't
+   shift in MMA. The brand-primary scale is correctly brand-scoped, so reference it
+   directly here instead. The default (transparent) surface token IS brand-aware
+   already and is left as-is. */
 .ds-icon-button--primary.ds-icon-button--ghost {
   background: var(--interactive-icon-button-surface-primary-ghost-default);
-  color: var(--interactive-icon-button-icon-primary-ghost-default);
+  color: var(--brand-primary-400);
 }
 .ds-icon-button--primary.ds-icon-button--ghost:hover:not(:disabled),
 .ds-icon-button--primary.ds-icon-button--ghost.ds-icon-button--force-hover {
-  background: var(--interactive-icon-button-surface-primary-ghost-hover);
-  color: var(--interactive-icon-button-icon-primary-ghost-hover);
+  background: var(--brand-primary-50);
+  color: var(--brand-primary-300);
 }
 .ds-icon-button--primary.ds-icon-button--ghost:focus-visible,
 .ds-icon-button--primary.ds-icon-button--ghost.ds-icon-button--force-focus {
-  background: var(--interactive-icon-button-surface-primary-ghost-focus);
-  color: var(--interactive-icon-button-icon-primary-ghost-focus);
+  background: var(--brand-primary-100);
+  color: var(--brand-primary-600);
 }
 .ds-icon-button--primary.ds-icon-button--ghost:disabled {
   background: var(--interactive-icon-button-surface-primary-ghost-disabled);
@@ -153,45 +158,47 @@
 }
 
 /* ===== Danger — Solid ===== */
+/* Icon is white on the solid red surface, same as Button's danger-solid label; the shared
+   icon-danger token (red) is reserved for Ghost, where it sits on a transparent background. */
 .ds-icon-button--danger.ds-icon-button--solid {
   background: var(--interactive-icon-button-surface-danger-solid-default);
-  color: var(--interactive-icon-button-icon-danger-solid-default);
+  color: var(--brand-neutral-0);
 }
 .ds-icon-button--danger.ds-icon-button--solid:hover:not(:disabled),
 .ds-icon-button--danger.ds-icon-button--solid.ds-icon-button--force-hover {
   background: var(--interactive-icon-button-surface-danger-solid-hover);
-  color: var(--interactive-icon-button-icon-danger-solid-hover);
+  color: var(--brand-neutral-0);
 }
 .ds-icon-button--danger.ds-icon-button--solid:focus-visible,
 .ds-icon-button--danger.ds-icon-button--solid.ds-icon-button--force-focus {
   background: var(--interactive-icon-button-surface-danger-solid-focus);
-  color: var(--interactive-icon-button-icon-danger-solid-focus);
+  color: var(--brand-neutral-0);
   box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
 }
 .ds-icon-button--danger.ds-icon-button--solid:disabled {
   background: var(--interactive-icon-button-surface-danger-solid-disabled);
-  color: var(--interactive-icon-button-icon-danger-solid-disabled);
+  color: var(--interactive-icon-button-icon-danger-disabled);
 }
 
 /* ===== Danger — Ghost ===== */
 .ds-icon-button--danger.ds-icon-button--ghost {
   background: var(--interactive-icon-button-surface-danger-ghost-default);
-  color: var(--interactive-icon-button-icon-danger-ghost-default);
+  color: var(--interactive-icon-button-icon-danger-default);
 }
 .ds-icon-button--danger.ds-icon-button--ghost:hover:not(:disabled),
 .ds-icon-button--danger.ds-icon-button--ghost.ds-icon-button--force-hover {
   background: var(--interactive-icon-button-surface-danger-ghost-hover);
-  color: var(--interactive-icon-button-icon-danger-ghost-hover);
+  color: var(--interactive-icon-button-icon-danger-hover);
 }
 .ds-icon-button--danger.ds-icon-button--ghost:focus-visible,
 .ds-icon-button--danger.ds-icon-button--ghost.ds-icon-button--force-focus {
   background: var(--interactive-icon-button-surface-danger-ghost-focus);
-  color: var(--interactive-icon-button-icon-danger-ghost-focus);
+  color: var(--interactive-icon-button-icon-danger-focus);
   box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
 }
 .ds-icon-button--danger.ds-icon-button--ghost:disabled {
   background: var(--interactive-icon-button-surface-danger-ghost-disabled);
-  color: var(--interactive-icon-button-icon-danger-ghost-disabled);
+  color: var(--interactive-icon-button-icon-danger-disabled);
 }
 
 /* ===== Neutral — Ghost ===== */
@@ -233,21 +240,21 @@
 }
 
 /* ===== Pending — Ghost ===== */
+/* No icon-button-scoped token exists for Pending — borrows the Toast/Banner warning color.
+   That color has no separate hover/focus shade, so both states reuse it; disabled falls back
+   to the standard neutral disabled gray used by every other ghost variant. Flagged, not guessed. */
 .ds-icon-button--pending.ds-icon-button--ghost {
-  background: var(--interactive-icon-button-surface-pending-default);
-  color: var(--interactive-icon-button-icon-pending-default);
+  background: transparent;
+  color: var(--feedback-toast-icon-warning);
 }
 .ds-icon-button--pending.ds-icon-button--ghost:hover:not(:disabled),
-.ds-icon-button--pending.ds-icon-button--ghost.ds-icon-button--force-hover {
-  background: var(--interactive-icon-button-surface-pending-hover);
-  color: var(--interactive-icon-button-icon-pending-hover);
-}
+.ds-icon-button--pending.ds-icon-button--ghost.ds-icon-button--force-hover,
 .ds-icon-button--pending.ds-icon-button--ghost:focus-visible,
 .ds-icon-button--pending.ds-icon-button--ghost.ds-icon-button--force-focus {
-  background: var(--interactive-icon-button-surface-pending-focus);
-  color: var(--interactive-icon-button-icon-pending-focus);
+  background: var(--feedback-toast-surface-warning);
+  color: var(--feedback-toast-icon-warning);
 }
 .ds-icon-button--pending.ds-icon-button--ghost:disabled {
-  background: var(--interactive-icon-button-surface-pending-disabled);
-  color: var(--interactive-icon-button-icon-pending-disabled);
+  background: transparent;
+  color: var(--brand-neutral-700);
 }

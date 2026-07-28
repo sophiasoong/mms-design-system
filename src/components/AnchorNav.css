@@ -43,12 +43,17 @@
 }
 
 .ds-anchor-nav__link:hover {
-  color: var(--interactive-anchor-label-hover);
+  /* interactive-anchor-label-hover is unaliased to brand-primary-300 in the source
+     tokens — it stays #5244ee in MMA. Reference the brand scale directly so this
+     follows the active brand instead of always rendering MMS indigo. */
+  color: var(--brand-primary-300);
 }
 
 .ds-anchor-nav__link--active {
-  color: var(--interactive-anchor-label-active);
-  border-left-color: var(--interactive-tab-indicator-line-active);
+  /* Same unaliasing gap as above — interactive-anchor-label-active and
+     interactive-tab-indicator-line-active are frozen to MMS indigo in tokens.json. */
+  color: var(--brand-primary-400);
+  border-left-color: var(--brand-primary-400);
   font-family: var(--typography-font-family-heading);
   font-weight: var(--typography-font-weight-medium);
 }

@@ -5,11 +5,8 @@ import './ButtonDoc.css';
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=511-2837';
 
-const VARIANT_TABS = ['Primary', 'Secondary', 'Danger', 'Feedback'] as const;
+const VARIANT_TABS = ['Primary', 'Danger', 'Feedback'] as const;
 type VariantTab = (typeof VARIANT_TABS)[number];
-
-const STATE_TABS = ['Primary', 'Secondary'] as const;
-type StateTab = (typeof STATE_TABS)[number];
 
 interface IconButtonDocProps {
   onNavigate?: (componentId: string) => void;
@@ -17,7 +14,6 @@ interface IconButtonDocProps {
 
 export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
   const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Primary');
-  const [activeStateTab, setActiveStateTab] = useState<StateTab>('Primary');
 
   return (
     <div className="ds-doc">
@@ -26,8 +22,8 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
         <h1 className="ds-doc__title">Icon Button</h1>
         <p className="ds-doc__lede">
           Icon Buttons trigger an action using only an icon, for contexts where the icon alone
-          communicates the action clearly. Use the variant to signal intent (primary, secondary,
-          danger, success) and the appearance to signal visual weight (solid, outline, ghost).
+          communicates the action clearly. Use the variant to signal intent (primary, danger,
+          success) and the appearance to signal visual weight (solid, outline, ghost).
         </p>
         <a
           className="ds-doc__figma-link ds-button ds-button--secondary ds-button--solid ds-button--md"
@@ -105,8 +101,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
         <h2 className="ds-section__title">Variants</h2>
         <p className="ds-section__desc">
           Variant sets intent; appearance sets emphasis. Not every variant supports every
-          appearance — Secondary and Danger have no Outline tokens defined in the current token
-          set.
+          appearance — Danger has no Outline tokens defined in the current token set.
         </p>
 
         <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
@@ -145,24 +140,6 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
             </div>
           )}
 
-          {activeVariantTab === 'Secondary' && (
-            <div className="ds-variant-group">
-              <div className="ds-variant-row">
-                <div className="ds-variant-row__cell">
-                  <IconButton variant="secondary" appearance="solid" icon="close" label="Close" />
-                  <span className="ds-variant-row__cell-label">solid</span>
-                </div>
-                <div className="ds-variant-row__cell">
-                  <IconButton variant="secondary" appearance="ghost" icon="close" label="Close" />
-                  <span className="ds-variant-row__cell-label">ghost</span>
-                </div>
-              </div>
-              <span className="ds-variant-note">
-                Outline tokens are not defined for Secondary — ask design before adding them.
-              </span>
-            </div>
-          )}
-
           {activeVariantTab === 'Danger' && (
             <div className="ds-variant-group">
               <div className="ds-variant-row">
@@ -194,7 +171,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
                   <span className="ds-variant-row__cell-label">success</span>
                 </div>
                 <div className="ds-variant-row__cell">
-                  <IconButton variant="pending" appearance="ghost" icon="pending" label="Pending" />
+                  <IconButton variant="pending" appearance="ghost" icon="info" label="Pending" />
                   <span className="ds-variant-row__cell-label">pending</span>
                 </div>
                 <div className="ds-variant-row__cell">
@@ -254,24 +231,8 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
           Every variant/appearance pair defines default, hover, focus, and disabled states. Hover
           and focus are statically forced below for documentation purposes.
         </p>
-        <div className="ds-line-tabs ds-line-tabs--no-label" role="tablist" aria-label="Icon Button state groups">
-          {STATE_TABS.map((tab) => (
-            <button
-              key={tab}
-              type="button"
-              role="tab"
-              aria-selected={activeStateTab === tab}
-              className={`ds-line-tab${activeStateTab === tab ? ' ds-line-tab--active' : ''}`}
-              onClick={() => setActiveStateTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-
         <div className="ds-variant-groups">
-          {activeStateTab === 'Primary' && (
-            <div className="ds-variant-group">
+          <div className="ds-variant-group">
               <table className="ds-table">
                 <thead>
                   <tr>
@@ -355,106 +316,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
                   </tr>
                 </tbody>
               </table>
-            </div>
-          )}
-
-          {activeStateTab === 'Secondary' && (
-            <div className="ds-variant-group">
-              <table className="ds-table">
-                <thead>
-                  <tr>
-                    <th>State</th>
-                    <th>Preview</th>
-                    <th>Surface token</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Default</td>
-                    <td>
-                      <IconButton variant="secondary" icon="close" label="Close" />
-                    </td>
-                    <td>
-                      <span className="ds-swatch">
-                        <span
-                          className="ds-swatch__dot"
-                          style={{
-                            background:
-                              'var(--interactive-icon-button-surface-secondary-solid-default)',
-                          }}
-                        />
-                        <code>interactive-icon-button-surface-secondary-solid-default</code>
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Hover</td>
-                    <td>
-                      <IconButton
-                        variant="secondary"
-                        icon="close"
-                        label="Close"
-                        forceState="hover"
-                      />
-                    </td>
-                    <td>
-                      <span className="ds-swatch">
-                        <span
-                          className="ds-swatch__dot"
-                          style={{
-                            background:
-                              'var(--interactive-icon-button-surface-secondary-solid-hover)',
-                          }}
-                        />
-                        <code>interactive-icon-button-surface-secondary-solid-hover</code>
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Focus</td>
-                    <td>
-                      <IconButton
-                        variant="secondary"
-                        icon="close"
-                        label="Close"
-                        forceState="focus"
-                      />
-                    </td>
-                    <td>
-                      <span className="ds-swatch">
-                        <span
-                          className="ds-swatch__dot"
-                          style={{
-                            background:
-                              'var(--interactive-icon-button-surface-secondary-solid-focus)',
-                          }}
-                        />
-                        <code>interactive-icon-button-surface-secondary-solid-focus</code>
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Disabled</td>
-                    <td>
-                      <IconButton variant="secondary" icon="close" label="Close" disabled />
-                    </td>
-                    <td>
-                      <span className="ds-swatch">
-                        <span
-                          className="ds-swatch__dot"
-                          style={{
-                            background:
-                              'var(--interactive-icon-button-surface-secondary-solid-disabled)',
-                          }}
-                        />
-                        <code>interactive-icon-button-surface-secondary-solid-disabled</code>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          )}
+          </div>
         </div>
       </section>
 

@@ -262,21 +262,28 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
                     <span className="ds-example-mock__name">Topbar</span>
                     <div className="ds-example-mock ds-example-mock--topbar">
                       <div className="ds-example-mock__group">
-                        <span className="ds-example-mock__logo ds-example-mock__dim">MMS</span>
                         <IconButton
                           icon="menu"
                           label="Menu"
                           variant="primary"
                           appearance="outline"
                           size="md"
-                          className="ds-example-mock__focus"
+                          className="ds-example-mock__dim"
                         />
-                        <div className="ds-example-mock__search ds-example-mock__dim">
+                        <div className="ds-example-mock__search ds-example-mock__search--full ds-example-mock__dim">
                           <span className="icon" aria-hidden="true">
                             search
                           </span>
                           <span>Placeholder</span>
                         </div>
+                        <IconButton
+                          icon="search"
+                          label="Search"
+                          variant="neutral"
+                          appearance="ghost"
+                          size="md"
+                          className="ds-example-mock__search--compact ds-example-mock__dim"
+                        />
                       </div>
                       <div className="ds-example-mock__group">
                         <Button
@@ -331,7 +338,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
                         <Button
                           variant="primary"
                           appearance="outline"
-                          className="ds-example-mock__focus"
+                          className="ds-example-mock__dim"
                         >
                           Batch Create/Edit
                         </Button>
@@ -408,7 +415,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
                               variant="neutral"
                               appearance="ghost"
                               size="sm"
-                              className="ds-example-mock__focus"
+                              className="ds-example-mock__dim"
                             />
                           </div>
                         ))}
@@ -461,10 +468,10 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
                         Back
                       </Button>
                       <div className="ds-example-mock__group">
-                        <Button variant="primary" appearance="outline" size="md" className="ds-example-mock__focus">
+                        <Button variant="primary" appearance="outline" size="md" className="ds-example-mock__dim">
                           Confirm
                         </Button>
-                        <Button variant="primary" appearance="solid" size="md" className="ds-example-mock__focus">
+                        <Button variant="primary" appearance="solid" size="md" className="ds-example-mock__dim">
                           Confirm
                         </Button>
                       </div>

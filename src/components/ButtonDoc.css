@@ -187,6 +187,61 @@
   pointer-events: none;
 }
 
+/* Plain position anchor for anatomy parts that already define their own display/layout
+   (e.g. dropdown option rows) — unlike .ds-anatomy__part, it doesn't impose inline-flex. */
+.ds-anatomy__part-relative {
+  position: relative;
+}
+
+/* Real components (e.g. .ds-dropdown) clip overflow for their normal rendering — override
+   it when used as an anatomy demo root so hanging/side badges aren't clipped. */
+.ds-anatomy__demo.ds-anatomy__part-relative {
+  overflow: visible;
+}
+
+/* Side-pointing badge variants for vertically-stacked anatomy figures (e.g. Dropdown),
+   where hanging a badge below the part would collide with the part underneath it. */
+.ds-anatomy__badge--side {
+  top: 50%;
+  left: 100%;
+  transform: translate(16px, -50%);
+}
+
+.ds-anatomy__badge--side::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: auto;
+  bottom: auto;
+  right: 100%;
+  width: 16px;
+  height: 0;
+  border-left: none;
+  border-top: var(--border-sm) dashed var(--text-caption-primary-light);
+  transform: translateY(-50%);
+}
+
+.ds-anatomy__badge--side-left {
+  top: 50%;
+  left: auto;
+  right: 100%;
+  transform: translate(-16px, -50%);
+}
+
+.ds-anatomy__badge--side-left::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  bottom: auto;
+  left: 100%;
+  right: auto;
+  width: 16px;
+  height: 0;
+  border-left: none;
+  border-top: var(--border-sm) dashed var(--text-caption-primary-light);
+  transform: translateY(-50%);
+}
+
 .ds-anatomy__legend {
   list-style: none;
   margin: 0;
@@ -256,13 +311,18 @@
 }
 
 .ds-line-tab:hover {
-  color: var(--interactive-tab-label-line-hover);
+  /* interactive-tab-label-line-hover is unaliased to brand-primary-300 in the source
+     tokens — it stays #5244ee in MMA. Reference the brand scale directly so this
+     follows the active brand instead of always rendering MMS indigo. */
+  color: var(--brand-primary-300);
 }
 
 .ds-line-tab--active {
-  color: var(--interactive-tab-label-line-active);
+  /* Same unaliasing gap as above — interactive-tab-label-line-active and
+     interactive-tab-indicator-line-active are frozen to MMS indigo in tokens.json. */
+  color: var(--brand-primary-400);
   font-weight: var(--typography-font-weight-medium);
-  border-bottom-color: var(--interactive-tab-indicator-line-active);
+  border-bottom-color: var(--brand-primary-400);
 }
 
 .ds-variant-groups {
@@ -273,6 +333,7 @@
 }
 
 .ds-variant-group {
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: var(--space-component-gap-lg);
@@ -295,6 +356,17 @@
   background: var(--brand-neutral-0);
   border: var(--border-sm) solid var(--global-divider-neutral-light);
   border-radius: var(--radius-lg);
+}
+
+.ds-variant-row--grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@container (max-width: 640px) {
+  .ds-variant-row--grid-2 {
+    grid-template-columns: 1fr;
+  }
 }
 
 .ds-variant-row__cell {
@@ -326,6 +398,10 @@
   width: 100%;
   height: auto;
   border-radius: var(--radius-md);
+}
+
+.ds-example-figure--row {
+  width: var(--component-width-dropdown-lg);
 }
 
 /* ---- Example: interactive mockups (Solid tab) ---- */
@@ -394,13 +470,6 @@
   box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
 }
 
-.ds-example-mock__logo {
-  font-size: var(--typography-md-font-size);
-  line-height: var(--typography-md-line-height);
-  font-weight: var(--typography-font-weight-bold);
-  color: var(--text-heading-primary-neutral);
-}
-
 .ds-example-mock__search {
   display: flex;
   align-items: center;
@@ -417,6 +486,20 @@
 
 .ds-example-mock__search .icon {
   font-size: var(--component-icon-sm);
+}
+
+.ds-example-mock__search--compact {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .ds-example-mock__search--full {
+    display: none;
+  }
+
+  .ds-example-mock__search--compact {
+    display: inline-flex;
+  }
 }
 
 .ds-example-mock__menu-trigger {
@@ -465,7 +548,9 @@
   height: var(--component-height-xl);
   background: var(--brand-secondary-200);
   border-radius: var(--radius-md);
-  color: var(--brand-secondary-800);
+  /* Figma (node 794:47863) shows the icon in the brand primary color, not
+     brand-secondary-800 — the peach background stays as-is. */
+  color: var(--brand-primary-400);
 }
 
 .ds-example-mock__text-col {
@@ -536,7 +621,6 @@
   flex-direction: column;
   align-items: stretch;
   width: var(--component-width-dropdown-sm);
-  margin: 0 auto;
 }
 
 .ds-example-mock__select {
@@ -617,6 +701,7 @@
 .ds-example-mock--table {
   flex-direction: column;
   align-items: stretch;
+  width: fit-content;
   padding: 0;
   background: var(--brand-neutral-0);
   box-shadow: 0 var(--space-component-overlap-sm) var(--space-component-padding-sm) var(--surface-card-shadow-default);
@@ -628,12 +713,14 @@
   align-items: center;
   justify-content: center;
   height: var(--component-height-xl);
+  padding: 0 var(--space-component-padding-md);
   /* Figma's interactive/table/header/background/default (#f7f6ff) matches
      --brand-primary-50 exactly, so reusing that token here. */
   background: var(--brand-primary-50);
   color: var(--brand-neutral-800);
   font-size: var(--typography-sm-font-size);
   font-weight: var(--typography-font-weight-medium);
+  white-space: nowrap;
 }
 
 .ds-example-mock__table-row {
@@ -641,6 +728,7 @@
   align-items: center;
   justify-content: center;
   height: var(--component-height-xl);
+  padding: 0 var(--space-component-padding-md);
   border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
 }
 
