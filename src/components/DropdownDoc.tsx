@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import type { UIEvent } from 'react';
 import Dropdown, { DropdownOption, ExpanderOption } from './Dropdown';
 import Button from './Button';
+import { ButtonIcon } from './icons';
 import './ButtonDoc.css';
 
 function syncScrollbarThumb(scrollEl: HTMLDivElement, thumb: HTMLDivElement | null) {
@@ -22,9 +23,6 @@ type VariantTab = (typeof VARIANT_TABS)[number];
 
 const STATE_TABS = ['Single-select', 'Multi-select', 'Expander', 'Cascader'] as const;
 type StateTab = (typeof STATE_TABS)[number];
-
-const EXAMPLE_TABS = ['Option row', 'Dropdown set'] as const;
-type ExampleTab = (typeof EXAMPLE_TABS)[number];
 
 const CASCADER_OPTIONS = ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5'];
 
@@ -53,7 +51,6 @@ interface DropdownDocProps {
 export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
   const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Single-select');
   const [activeStateTab, setActiveStateTab] = useState<StateTab>('Single-select');
-  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Option row');
 
   // ---- Example > Dropdown set: scrollbar thumb tracks real scroll position ----
   const filterChipThumbRef = useRef<HTMLDivElement>(null);
@@ -65,6 +62,22 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
   const [multiSelected, setMultiSelected] = useState<number[]>([0, 2]);
   const toggleMultiSelected = (i: number) =>
     setMultiSelected((prev) => (prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]));
+
+  const [badgePanelSelected, setBadgePanelSelected] = useState<Set<number>>(new Set([1]));
+  const toggleBadgePanelSelected = (i: number) =>
+    setBadgePanelSelected((prev) => {
+      const next = new Set(prev);
+      next.has(i) ? next.delete(i) : next.add(i);
+      return next;
+    });
+
+  const [captionPanelSelected, setCaptionPanelSelected] = useState<Set<number>>(new Set());
+  const toggleCaptionPanelSelected = (i: number) =>
+    setCaptionPanelSelected((prev) => {
+      const next = new Set(prev);
+      next.has(i) ? next.delete(i) : next.add(i);
+      return next;
+    });
 
   const [expanderExpanded, setExpanderExpanded] = useState<Record<string, boolean>>({
     'Category A': true,
@@ -275,18 +288,78 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
 
           {activeVariantTab === 'Multi-select' && (
             <div className="ds-variant-group">
-              <div className="ds-preview">
-                <Dropdown
-                  style="multi"
-                  options={SAMPLE_OPTIONS}
-                  selectedIndices={multiSelected}
-                  onOptionClick={toggleMultiSelected}
-                  showFooter={false}
-                />
+              <div className="ds-preview ds-preview--stack">
+                <div className="ds-variant-row__cell">
+                  <Dropdown
+                    style="multi"
+                    options={SAMPLE_OPTIONS}
+                    selectedIndices={multiSelected}
+                    onOptionClick={toggleMultiSelected}
+                    showFooter={false}
+                  />
+                  <span className="ds-variant-row__cell-label">Default</span>
+                </div>
+                <div className="ds-variant-row__cell">
+                  <div className="ds-dropdown ds-dropdown--sm">
+                    <div className="ds-dropdown__options">
+                      <DropdownOption
+                        label="Red"
+                        style="multi"
+                        showBadge
+                        badgeColor="red"
+                        state={badgePanelSelected.has(0) ? 'selected' : 'default'}
+                        onClick={() => toggleBadgePanelSelected(0)}
+                      />
+                      <DropdownOption
+                        label="Yellow"
+                        style="multi"
+                        showBadge
+                        badgeColor="yellow"
+                        state={badgePanelSelected.has(1) ? 'selected' : 'default'}
+                        onClick={() => toggleBadgePanelSelected(1)}
+                      />
+                      <DropdownOption
+                        label="Blue"
+                        style="multi"
+                        showBadge
+                        badgeColor="blue"
+                        state={badgePanelSelected.has(2) ? 'selected' : 'default'}
+                        onClick={() => toggleBadgePanelSelected(2)}
+                      />
+                    </div>
+                  </div>
+                  <span className="ds-variant-row__cell-label">Badge</span>
+                </div>
+                <div className="ds-variant-row__cell">
+                  <div className="ds-dropdown ds-dropdown--sm">
+                    <div className="ds-dropdown__options">
+                      <ExpanderOption
+                        label="Option 1"
+                        caption={`${captionPanelSelected.size}/3`}
+                        state={captionPanelSelected.has(0) ? 'selected' : 'default'}
+                        onClick={() => toggleCaptionPanelSelected(0)}
+                      />
+                      <ExpanderOption
+                        label="Option 2"
+                        caption={`${captionPanelSelected.size}/3`}
+                        state={captionPanelSelected.has(1) ? 'selected' : 'default'}
+                        onClick={() => toggleCaptionPanelSelected(1)}
+                      />
+                      <ExpanderOption
+                        label="Option 3"
+                        caption={`${captionPanelSelected.size}/3`}
+                        state={captionPanelSelected.has(2) ? 'selected' : 'default'}
+                        onClick={() => toggleCaptionPanelSelected(2)}
+                      />
+                    </div>
+                  </div>
+                  <span className="ds-variant-row__cell-label">Caption</span>
+                </div>
               </div>
               <span className="ds-variant-note">
                 Selecting an option toggles its checkbox immediately — no footer or confirmation
-                step.
+                step. Badge flags an item (e.g. unread); Caption adds trailing metadata (e.g. a
+                count).
               </span>
             </div>
           )}
@@ -456,135 +529,90 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
 
           <div className="ds-variant-group">
             <span className="ds-variant-group__label">Example</span>
-            <div className="ds-line-tabs" role="tablist" aria-label="Dropdown example groups">
-              {EXAMPLE_TABS.map((tab) => (
-                <button
-                  key={tab}
-                  type="button"
-                  role="tab"
-                  aria-selected={activeExampleTab === tab}
-                  className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
-                  onClick={() => setActiveExampleTab(tab)}
-                >
-                  {tab}
-                </button>
-              ))}
+
+            <div className="ds-variant-row">
+              <div className="ds-variant-row__cell">
+                <div className="ds-combo-figure">
+                  <button type="button" className="ds-filter-chip">
+                    <span>Label</span>
+                    <span className="icon" aria-hidden="true">
+                      keyboard_arrow_down
+                    </span>
+                  </button>
+                  <div className="ds-dropdown ds-dropdown--sm">
+                    <div className="ds-dropdown__searchbar-row">
+                      <div className="ds-dropdown__searchbar">
+                        <span className="icon" aria-hidden="true">
+                          search
+                        </span>
+                        <span className="ds-dropdown__searchbar-placeholder">Search in filters</span>
+                      </div>
+                    </div>
+                    <div className="ds-dropdown__panel">
+                      <div
+                        className="ds-dropdown__options ds-dropdown__options--scroll"
+                        onScroll={(e: UIEvent<HTMLDivElement>) =>
+                          syncScrollbarThumb(e.currentTarget, filterChipThumbRef.current)
+                        }
+                      >
+                        {FIFTEEN_OPTIONS.map((label) => (
+                          <DropdownOption key={label} label={label} style="single" />
+                        ))}
+                      </div>
+                      <div className="ds-dropdown__scrollbar" aria-hidden="true">
+                        <div className="ds-dropdown__scrollbar-track">
+                          <div className="ds-dropdown__scrollbar-thumb" ref={filterChipThumbRef} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="ds-dropdown__footer">
+                      <Button variant="primary" appearance="ghost" size="sm">
+                        Reset
+                      </Button>
+                      <Button variant="primary" appearance="solid" size="sm">
+                        Apply
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                <span className="ds-variant-row__cell-label">Filter-chip</span>
+              </div>
+              <div className="ds-variant-row__cell">
+                <div className="ds-combo-figure">
+                  <div className="ds-select-trigger">
+                    <span className="ds-select-trigger__placeholder">Please select</span>
+                    <span className="icon" aria-hidden="true">
+                      search
+                    </span>
+                  </div>
+                  <div className="ds-dropdown ds-dropdown--sm">
+                    <div className="ds-dropdown__panel">
+                      <div
+                        className="ds-dropdown__options ds-dropdown__options--scroll"
+                        onScroll={(e: UIEvent<HTMLDivElement>) =>
+                          syncScrollbarThumb(e.currentTarget, selectThumbRef.current)
+                        }
+                      >
+                        {FIFTEEN_OPTIONS.map((label) => (
+                          <DropdownOption key={label} label={label} style="single" />
+                        ))}
+                      </div>
+                      <div className="ds-dropdown__scrollbar" aria-hidden="true">
+                        <div className="ds-dropdown__scrollbar-track">
+                          <div className="ds-dropdown__scrollbar-thumb" ref={selectThumbRef} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="ds-dropdown__footer">
+                      <Button variant="primary" appearance="ghost" size="sm" leadingIcon="add">
+                        Add
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                <span className="ds-variant-row__cell-label">Select</span>
+              </div>
             </div>
-
-            {activeExampleTab === 'Option row' && (
-              <div className="ds-variant-row ds-variant-row--grid-2">
-                <div className="ds-variant-row__cell">
-                  <div className="ds-example-figure ds-example-figure--row">
-                    <DropdownOption label="Option" style="single" />
-                  </div>
-                  <span className="ds-variant-row__cell-label">Single-select</span>
-                </div>
-                <div className="ds-variant-row__cell">
-                  <div className="ds-example-figure ds-example-figure--row">
-                    <DropdownOption label="Option" style="multi" />
-                  </div>
-                  <span className="ds-variant-row__cell-label">Multi-select</span>
-                </div>
-                <div className="ds-variant-row__cell">
-                  <div className="ds-example-figure ds-example-figure--row">
-                    <ExpanderOption label="Option" expandState="collapsed" />
-                  </div>
-                  <span className="ds-variant-row__cell-label">Expander</span>
-                </div>
-                <div className="ds-variant-row__cell">
-                  <div className="ds-example-figure ds-example-figure--row">
-                    <DropdownOption label="Option" style="cascader" trailingIcon="chevron_right" />
-                  </div>
-                  <span className="ds-variant-row__cell-label">Cascader</span>
-                </div>
-              </div>
-            )}
-
-            {activeExampleTab === 'Dropdown set' && (
-              <div className="ds-variant-row">
-                <div className="ds-variant-row__cell">
-                  <div className="ds-combo-figure">
-                    <button type="button" className="ds-filter-chip">
-                      <span>Label</span>
-                      <span className="icon" aria-hidden="true">
-                        keyboard_arrow_down
-                      </span>
-                    </button>
-                    <div className="ds-dropdown ds-dropdown--sm">
-                      <div className="ds-dropdown__searchbar-row">
-                        <div className="ds-dropdown__searchbar">
-                          <span className="icon" aria-hidden="true">
-                            search
-                          </span>
-                          <span className="ds-dropdown__searchbar-placeholder">Search in filters</span>
-                        </div>
-                      </div>
-                      <div className="ds-dropdown__panel">
-                        <div
-                          className="ds-dropdown__options ds-dropdown__options--scroll"
-                          onScroll={(e: UIEvent<HTMLDivElement>) =>
-                            syncScrollbarThumb(e.currentTarget, filterChipThumbRef.current)
-                          }
-                        >
-                          {FIFTEEN_OPTIONS.map((label) => (
-                            <DropdownOption key={label} label={label} style="single" />
-                          ))}
-                        </div>
-                        <div className="ds-dropdown__scrollbar" aria-hidden="true">
-                          <div className="ds-dropdown__scrollbar-track">
-                            <div className="ds-dropdown__scrollbar-thumb" ref={filterChipThumbRef} />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="ds-dropdown__footer">
-                        <Button variant="primary" appearance="ghost" size="sm">
-                          Reset
-                        </Button>
-                        <Button variant="primary" appearance="solid" size="sm">
-                          Apply
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="ds-variant-row__cell-label">Filter-chip</span>
-                </div>
-                <div className="ds-variant-row__cell">
-                  <div className="ds-combo-figure">
-                    <div className="ds-select-trigger">
-                      <span className="ds-select-trigger__placeholder">Please select</span>
-                      <span className="icon" aria-hidden="true">
-                        search
-                      </span>
-                    </div>
-                    <div className="ds-dropdown ds-dropdown--sm">
-                      <div className="ds-dropdown__panel">
-                        <div
-                          className="ds-dropdown__options ds-dropdown__options--scroll"
-                          onScroll={(e: UIEvent<HTMLDivElement>) =>
-                            syncScrollbarThumb(e.currentTarget, selectThumbRef.current)
-                          }
-                        >
-                          {FIFTEEN_OPTIONS.map((label) => (
-                            <DropdownOption key={label} label={label} style="single" />
-                          ))}
-                        </div>
-                        <div className="ds-dropdown__scrollbar" aria-hidden="true">
-                          <div className="ds-dropdown__scrollbar-track">
-                            <div className="ds-dropdown__scrollbar-thumb" ref={selectThumbRef} />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="ds-dropdown__footer">
-                        <Button variant="primary" appearance="ghost" size="sm" leadingIcon="add">
-                          Add
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="ds-variant-row__cell-label">Select</span>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </section>
@@ -915,9 +943,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
             className="ds-related-card ds-related-card--link"
             onClick={() => onNavigate?.('button')}
           >
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              smart_button
-            </span>
+            <ButtonIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Button</span>
           </button>
           <button
@@ -926,7 +952,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
             onClick={() => onNavigate?.('icon-button')}
           >
             <span className="icon ds-related-card__icon" aria-hidden="true">
-              radio_button_unchecked
+              add_circle
             </span>
             <span className="ds-related-card__name">Icon Button</span>
           </button>

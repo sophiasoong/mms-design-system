@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { FilterChip, InputChip, ActionChip } from './Chip';
+import { FilterChip, InputChip, ActionChip, ChevronDownIcon } from './Chip';
+import { ButtonIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL = 'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=0-1';
@@ -87,8 +88,8 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
                 Label
                 <span className="ds-anatomy__badge ds-anatomy__badge--side-left">2</span>
               </span>
-              <span className="icon ds-anatomy__part-relative" aria-hidden="true">
-                keyboard_arrow_down
+              <span className="ds-chip__chevron ds-anatomy__part-relative" aria-hidden="true">
+                <ChevronDownIcon />
                 <span className="ds-anatomy__badge ds-anatomy__badge--side">3</span>
               </span>
             </div>
@@ -623,7 +624,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
             onClick={() => onNavigate?.('dropdown')}
           >
             <span className="icon ds-related-card__icon" aria-hidden="true">
-              arrow_drop_down_circle
+              list_alt
             </span>
             <span className="ds-related-card__name">Dropdown</span>
           </button>
@@ -632,9 +633,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
             className="ds-related-card ds-related-card--link"
             onClick={() => onNavigate?.('button')}
           >
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              smart_button
-            </span>
+            <ButtonIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Button</span>
           </button>
           <div className="ds-related-card ds-related-card--soon">

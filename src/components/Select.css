@@ -1,0 +1,114 @@
+/* ---- Select: form-field trigger ---- */
+.ds-select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-component-gap-xs);
+  width: 100%;
+  height: var(--component-height-lg);
+  padding-inline: var(--space-component-padding-md);
+  background: var(--interactive-select-surface-default);
+  border: var(--border-sm) solid var(--interactive-select-border-default);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) ease, background-color var(--duration-fast) ease;
+}
+
+.ds-select--md {
+  height: var(--component-height-md);
+}
+
+.ds-select--sm {
+  height: var(--component-height-xs);
+}
+
+.ds-select__content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+.ds-select__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--interactive-select-label-default);
+}
+
+.ds-select__placeholder {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--interactive-select-placeholder-default);
+}
+
+.ds-select__chips {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.ds-select__chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-icon-sm);
+  height: var(--component-icon-sm);
+  flex-shrink: 0;
+  color: var(--interactive-select-icon-default);
+}
+
+.ds-select:hover:not(.ds-select--disabled),
+.ds-select.ds-select--force-hover {
+  border-color: var(--interactive-select-border-hover);
+}
+
+.ds-select:hover:not(.ds-select--disabled) .ds-select__chevron,
+.ds-select.ds-select--force-hover .ds-select__chevron {
+  color: var(--interactive-select-icon-hover);
+}
+
+.ds-select.ds-select--force-focus {
+  border-color: var(--interactive-select-border-focus);
+  box-shadow: 0 0 0 2px var(--interactive-shadow-primary);
+}
+
+.ds-select.ds-select--force-focus .ds-select__chevron {
+  color: var(--interactive-select-icon-focus);
+}
+
+.ds-select.ds-select--force-focus .ds-select__placeholder {
+  color: var(--interactive-select-placeholder-focus);
+}
+
+.ds-select.ds-select--error {
+  border-color: var(--interactive-select-border-error);
+}
+
+.ds-select.ds-select--error .ds-select__label {
+  color: var(--interactive-select-label-error);
+}
+
+.ds-select.ds-select--disabled {
+  background: var(--interactive-select-surface-disabled);
+  border-color: var(--interactive-select-border-disabled);
+  cursor: not-allowed;
+}
+
+.ds-select.ds-select--disabled .ds-select__label {
+  color: var(--interactive-select-label-disabled);
+}
+
+.ds-select.ds-select--disabled .ds-select__chevron {
+  color: var(--interactive-select-icon-disabled);
+}

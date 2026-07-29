@@ -842,7 +842,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
             onClick={() => onNavigate?.('icon-button')}
           >
             <span className="icon ds-related-card__icon" aria-hidden="true">
-              radio_button_unchecked
+              add_circle
             </span>
             <span className="ds-related-card__name">Icon Button</span>
           </button>

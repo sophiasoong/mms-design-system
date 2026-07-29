@@ -1,6 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { COMPONENTS } from '../data/components';
+import { ButtonIcon, ChipIcon } from './icons';
 import './Sidebar.css';
+
+function renderItemIcon(component: (typeof COMPONENTS)[number]) {
+  if (component.id === 'button') return <ButtonIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'chip') return <ChipIcon className="ds-sidebar__item-icon" />;
+  return (
+    <span className="icon ds-sidebar__item-icon" aria-hidden="true">
+      {component.icon}
+    </span>
+  );
+}
 
 interface SidebarProps {
   activeComponentId: string;
@@ -87,9 +98,7 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
                 onClick={() => onSelectComponent(component.id)}
                 title={component.name}
               >
-                <span className="icon ds-sidebar__item-icon" aria-hidden="true">
-                  {component.icon}
-                </span>
+                {renderItemIcon(component)}
                 <span className="ds-sidebar__item-label">{component.name}</span>
               </button>
             </li>

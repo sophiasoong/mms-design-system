@@ -6,11 +6,13 @@ import ButtonDoc from './components/ButtonDoc';
 import IconButtonDoc from './components/IconButtonDoc';
 import DropdownDoc from './components/DropdownDoc';
 import ChipDoc from './components/ChipDoc';
+import SelectDoc from './components/SelectDoc';
 import { getStoredBrandMode, applyBrandMode, type BrandMode } from './brandMode';
 import { BUTTON_SECTIONS } from './data/buttonSections';
 import { ICON_BUTTON_SECTIONS } from './data/iconButtonSections';
 import { DROPDOWN_SECTIONS } from './data/dropdownSections';
 import { CHIP_SECTIONS } from './data/chipSections';
+import { SELECT_SECTIONS } from './data/selectSections';
 import type { AnchorSection } from './components/AnchorNav';
 import './App.css';
 
@@ -19,6 +21,7 @@ const SECTIONS_BY_COMPONENT: Record<string, AnchorSection[]> = {
   'icon-button': ICON_BUTTON_SECTIONS,
   dropdown: DROPDOWN_SECTIONS,
   chip: CHIP_SECTIONS,
+  select: SELECT_SECTIONS,
 };
 
 function App() {
@@ -45,6 +48,8 @@ function App() {
             <DropdownDoc onNavigate={setActiveComponentId} />
           ) : activeComponentId === 'chip' ? (
             <ChipDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'select' ? (
+            <SelectDoc onNavigate={setActiveComponentId} />
           ) : (
             <div className="ds-main__empty">Select a component to view its documentation.</div>
           )}

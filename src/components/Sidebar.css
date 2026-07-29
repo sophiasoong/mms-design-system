@@ -102,7 +102,7 @@
 }
 
 .ds-sidebar__search-icon {
-  color: var(--interactive-searchbar-icon-default);
+  color: var(--text-caption-primary-light);
 }
 
 .ds-sidebar--collapsed .ds-sidebar__search-icon-btn {

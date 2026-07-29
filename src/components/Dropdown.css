@@ -147,6 +147,14 @@
   background: var(--brand-danger-500);
 }
 
+.ds-dropdown-option__badge-dot--yellow {
+  background: var(--status-yellow-500);
+}
+
+.ds-dropdown-option__badge-dot--blue {
+  background: var(--status-blue-500);
+}
+
 .ds-dropdown-option__caption {
   flex-shrink: 0;
   font-family: var(--typography-font-family-body);
@@ -169,7 +177,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  width: 200px;
+  width: var(--component-width-dropdown-sm);
   padding-block-start: var(--space-component-padding-xs);
   border-inline-start: var(--border-sm) solid var(--global-divider-neutral-light);
 }
@@ -196,10 +204,7 @@
 }
 
 .ds-dropdown--compact {
-  /* Figma uses a raw 200px width for Expander/Cascader panels — no matching
-     --component-width-dropdown-* token exists (only sm=280 / lg=320, sized for
-     Single/Multi list panels). Flagged, not guessed. */
-  width: 200px;
+  width: var(--component-width-dropdown-sm);
 }
 
 .ds-dropdown__options {
@@ -323,6 +328,28 @@
   color: var(--interactive-select-placeholder-default);
 }
 
+/* Real <input> counterpart to .ds-select-trigger__placeholder, used where the open-state
+   trigger itself acts as the search field (see SelectDoc Example) rather than a static figure. */
+.ds-select-trigger__input {
+  flex: 1 0 0;
+  min-width: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--interactive-select-label-default);
+}
+
+.ds-select-trigger__input:focus {
+  outline: none;
+}
+
+.ds-select-trigger__input::placeholder {
+  color: var(--interactive-select-placeholder-focus);
+}
+
 .ds-select-trigger .icon {
   font-size: var(--component-icon-sm);
   color: var(--brand-primary-400);
@@ -352,6 +379,33 @@
 }
 
 .ds-dropdown__searchbar-placeholder {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  color: var(--interactive-searchbar-placeholder-default);
+}
+
+/* Real <input> counterpart to .ds-dropdown__searchbar-placeholder, used where the
+   searchbar is wired to actually filter options rather than acting as a static figure. */
+.ds-dropdown__searchbar-input {
+  flex: 1 0 0;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  color: var(--interactive-searchbar-label-default);
+}
+
+.ds-dropdown__searchbar-input:focus {
+  outline: none;
+}
+
+.ds-dropdown__searchbar-input::placeholder {
+  color: var(--interactive-searchbar-placeholder-default);
+}
+
+.ds-dropdown__empty {
+  padding: var(--space-component-padding-md);
   font-family: var(--typography-font-family-body);
   font-size: var(--typography-sm-font-size);
   color: var(--interactive-searchbar-placeholder-default);

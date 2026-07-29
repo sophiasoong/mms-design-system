@@ -7,12 +7,12 @@ import './Chip.css';
    wide (scaled up from the native 13.5px asset, aspect preserved) to match
    the ink size of the "close" Material Symbol glyph next to it — measured,
    not guessed, since no token governs a custom SVG's render size. */
-function ChevronDownIcon({ className }: { className?: string }) {
+export function ChevronDownIcon({ className }: { className?: string }) {
   return (
     <svg
       className={className}
-      width="16"
-      height="8.766"
+      width="12.8"
+      height="7.013"
       viewBox="0 0 13.5 7.39645"
       fill="none"
       aria-hidden="true"

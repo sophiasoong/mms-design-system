@@ -79,7 +79,7 @@
 
 .ds-chip--filter.ds-chip--selected {
   background: var(--brand-primary-75);
-  border-color: var(--brand-primary-300);
+  border-color: var(--brand-primary-200);
   color: var(--brand-primary-400);
 }
 
@@ -131,6 +131,10 @@
 }
 
 .ds-chip--input.ds-chip--disabled {
+  /* No trailing close icon renders when disabled, so the icon-tuned end padding
+     (--space-component-padding-sm) leaves the label crowding the edge — match
+     the start padding instead for a symmetric label-only chip. */
+  padding-inline-end: var(--space-component-padding-md);
   color: var(--brand-neutral-700);
 }
 

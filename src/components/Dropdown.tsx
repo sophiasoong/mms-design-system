@@ -43,6 +43,7 @@ export interface DropdownOptionProps {
   forceHover?: boolean;
   trailingIcon?: string;
   showBadge?: boolean;
+  badgeColor?: 'red' | 'yellow' | 'blue';
   className?: string;
   onClick?: () => void;
 }
@@ -54,6 +55,7 @@ export function DropdownOption({
   forceHover = false,
   trailingIcon,
   showBadge = false,
+  badgeColor = 'red',
   className,
   onClick,
 }: DropdownOptionProps) {
@@ -82,7 +84,11 @@ export function DropdownOption({
       {hasCheckbox && <Checkbox checked={selected} disabled={disabled} forceHover={forceHover && !disabled} />}
       {showBadge && (
         <span className="ds-dropdown-option__badge" aria-hidden="true">
-          <span className="ds-dropdown-option__badge-dot" />
+          <span
+            className={`ds-dropdown-option__badge-dot${
+              badgeColor !== 'red' ? ` ds-dropdown-option__badge-dot--${badgeColor}` : ''
+            }`}
+          />
         </span>
       )}
       <span className="ds-dropdown-option__label">{label}</span>

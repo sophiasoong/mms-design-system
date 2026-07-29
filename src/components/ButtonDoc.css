@@ -76,6 +76,10 @@
   border-radius: var(--radius-lg);
 }
 
+.ds-preview--stack {
+  flex-direction: column;
+}
+
 /* ---- Section content spacing: 24px between title/description and section content ---- */
 #overview > .ds-preview,
 #anatomy > .ds-anatomy,

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import IconButton from './IconButton';
+import { ButtonIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -410,9 +411,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
             className="ds-related-card ds-related-card--link"
             onClick={() => onNavigate?.('button')}
           >
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              smart_button
-            </span>
+            <ButtonIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Button</span>
           </button>
           <div className="ds-related-card ds-related-card--soon">
