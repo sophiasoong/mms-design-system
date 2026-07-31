@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import type { UIEvent } from 'react';
 import Dropdown, { DropdownOption, ExpanderOption } from './Dropdown';
 import Button from './Button';
-import { ButtonIcon } from './icons';
+import { ButtonIcon, IconButtonIcon } from './icons';
 import './ButtonDoc.css';
 
 function syncScrollbarThumb(scrollEl: HTMLDivElement, thumb: HTMLDivElement | null) {
@@ -951,9 +951,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
             className="ds-related-card ds-related-card--link"
             onClick={() => onNavigate?.('icon-button')}
           >
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              add_circle
-            </span>
+            <IconButtonIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Icon Button</span>
           </button>
           <div className="ds-related-card ds-related-card--soon">

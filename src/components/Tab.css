@@ -1,0 +1,242 @@
+/* ---- Tab: shared base ----
+   Figma node 194:2845. Only interactive/tab/label/line/* and .../indicator/line/active
+   resolve to real tokens.css entries — every other card/segment/chip-tab surface, border,
+   and badge value below is the closest brand-primitive/text-* match (commented per
+   group), same reuse-with-comment approach as Chip.css and DatePicker.css. */
+.ds-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-font-weight-regular);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.ds-tab__label {
+  white-space: nowrap;
+}
+
+.ds-tab.ds-tab--disabled {
+  cursor: not-allowed;
+}
+
+/* ---- Card tab ---- */
+.ds-tab--card {
+  gap: var(--space-component-gap-sm);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  background: var(--brand-neutral-100);
+  color: var(--text-body-primary-neutral);
+}
+
+.ds-tab--card.ds-tab--lg {
+  height: var(--component-height-lg);
+  padding: var(--space-component-padding-md) var(--space-component-padding-lg);
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+}
+
+.ds-tab--card.ds-tab--md {
+  height: var(--component-height-md);
+  padding: var(--space-component-padding-md);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+}
+
+.ds-tab--card:hover:not(.ds-tab--disabled):not(.ds-tab--active),
+.ds-tab--card.ds-tab--force-hover {
+  color: var(--brand-primary-400);
+}
+
+.ds-tab--card.ds-tab--active {
+  background: var(--global-background-surface);
+  color: var(--brand-primary-400);
+  font-family: var(--typography-font-family-heading);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.ds-tab--card.ds-tab--disabled {
+  color: var(--brand-neutral-700);
+}
+
+.ds-tab__close {
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* ---- Line tab ---- */
+.ds-tab--line {
+  gap: var(--space-component-gap-md);
+  height: var(--component-height-lg);
+  padding-inline: var(--space-component-padding-md);
+  border-bottom: var(--border-md) solid transparent;
+  color: var(--interactive-tab-label-line-default);
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+}
+
+.ds-tab--line:hover:not(.ds-tab--disabled):not(.ds-tab--active),
+.ds-tab--line.ds-tab--force-hover {
+  color: var(--interactive-tab-label-line-hover);
+}
+
+.ds-tab--line.ds-tab--active {
+  border-bottom-color: var(--interactive-tab-indicator-line-active);
+  color: var(--interactive-tab-label-line-active);
+  font-family: var(--typography-font-family-heading);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.ds-tab--line.ds-tab--disabled {
+  color: var(--brand-neutral-700);
+}
+
+.ds-tab__chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.ds-tab__dot-badge {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--brand-danger-500);
+  flex-shrink: 0;
+}
+
+.ds-tab__count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  padding-inline: 6px;
+  border-radius: var(--radius-full);
+  background: var(--brand-neutral-400);
+  color: var(--brand-neutral-800);
+  font-size: var(--typography-xxs-font-size);
+  line-height: var(--typography-xxs-line-height);
+  flex-shrink: 0;
+}
+
+.ds-tab--line.ds-tab--active .ds-tab__count-badge {
+  background: var(--brand-primary-100);
+  color: var(--brand-primary-400);
+}
+
+.ds-tab-line-group {
+  display: inline-flex;
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-tab-line-group--card {
+  gap: 4px;
+}
+
+.ds-preview__group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-preview--grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-component-gap-lg);
+  container-type: inline-size;
+}
+
+@container (max-width: 480px) {
+  .ds-preview--grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Segment tab ----
+   Adjacent segments collapse their shared 1px border with a -1px overlap; the active/
+   hover segment is raised via z-index so its full-width fill paints over the neighboring
+   border instead of being cut by it. */
+.ds-tab--segment {
+  gap: var(--space-component-gap-xs);
+  border: var(--border-sm) solid var(--brand-neutral-500);
+  background: var(--global-background-surface);
+  color: var(--text-body-primary-neutral);
+  position: relative;
+}
+
+.ds-tab--segment:not(:first-child) {
+  margin-left: -1px;
+}
+
+.ds-tab--segment.ds-tab--start {
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.ds-tab--segment.ds-tab--end {
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.ds-tab--segment.ds-tab--lg {
+  height: var(--component-height-lg);
+  padding-inline: var(--space-component-padding-lg);
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+}
+
+.ds-tab--segment.ds-tab--md {
+  height: var(--component-height-md);
+  padding-inline: var(--space-component-padding-lg);
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+}
+
+.ds-tab--segment.ds-tab--sm {
+  height: var(--component-height-xs);
+  padding-inline: var(--space-component-padding-sm);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+}
+
+.ds-tab--segment:hover:not(.ds-tab--disabled):not(.ds-tab--active),
+.ds-tab--segment.ds-tab--force-hover {
+  background: var(--brand-primary-200);
+  border-color: var(--brand-primary-200);
+  color: var(--global-background-surface);
+  z-index: 1;
+}
+
+.ds-tab--segment.ds-tab--active {
+  background: var(--brand-primary-400);
+  border-color: var(--brand-primary-400);
+  color: var(--global-background-surface);
+  font-family: var(--typography-font-family-heading);
+  font-weight: var(--typography-font-weight-medium);
+  z-index: 1;
+}
+
+.ds-tab--segment.ds-tab--disabled {
+  background: var(--brand-neutral-200);
+  border-color: var(--brand-neutral-500);
+  color: var(--brand-neutral-700);
+}
+
+/* ---- Chip tab ---- */
+.ds-tab-chip-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-md);
+  flex-wrap: wrap;
+}
+
+.ds-tab-chip-group__title {
+  color: var(--text-body-secondary-neutral);
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+}

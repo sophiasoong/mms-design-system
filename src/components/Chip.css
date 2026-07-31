@@ -138,6 +138,17 @@
   color: var(--brand-neutral-700);
 }
 
+/* Caps a chip to a fixed width with an ellipsis — used where several chips must
+   share one non-wrapping line (see SelectDoc's Chip (in-line) demos). */
+.ds-chip--truncate {
+  max-width: 120px;
+}
+
+.ds-chip--truncate .ds-chip__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ---- Action chip ---- */
 .ds-chip--action {
   height: var(--component-height-md);

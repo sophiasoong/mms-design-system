@@ -1,50 +1,5 @@
-.ds-checkbox {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: var(--component-icon-md);
-  height: var(--component-icon-md);
-}
-
-.ds-checkbox__box {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--component-icon-sm);
-  height: var(--component-icon-sm);
-  border-radius: var(--radius-xs);
-  border: var(--border-sm) solid var(--interactive-checkbox-border-default);
-  background: var(--interactive-checkbox-surface-default);
-  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease;
-}
-
-.ds-checkbox__box .icon {
-  font-size: 12px;
-  color: var(--interactive-checkbox-mark-checked);
-}
-
-.ds-checkbox--checked .ds-checkbox__box {
-  /* interactive-checkbox-border/surface-checked are unaliased to raw MMS indigo in
-     the source tokens — brand-primary-400 carries the same MMS value but shifts
-     correctly in MMA. */
-  border-color: var(--brand-primary-400);
-  background: var(--brand-primary-400);
-}
-
-.ds-checkbox--hover .ds-checkbox__box,
-.ds-checkbox:hover .ds-checkbox__box {
-  border-color: var(--interactive-checkbox-border-hover);
-}
-
-.ds-checkbox--disabled .ds-checkbox__box {
-  border-color: var(--interactive-checkbox-border-disabled);
-  background: var(--interactive-checkbox-surface-disabled);
-}
-
-.ds-checkbox--disabled.ds-checkbox--checked .ds-checkbox__box .icon {
-  color: var(--interactive-checkbox-mark-disabled);
-}
+/* Dropdown's option-row checkbox is the shared Checkbox component (./Checkbox.tsx,
+   ./Checkbox.css) in decorative mode — no dropdown-local styles needed here. */
 
 /* ---- Dropdown option row ---- */
 .ds-dropdown-option {

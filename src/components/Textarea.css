@@ -1,0 +1,141 @@
+/* ---- Textarea: multi-line text field ---- */
+/* Figma's Textarea component resolves to interactive/textarea/* tokens, but tokens.css
+   only defines interactive-select-* — same hex values, so reused here rather than
+   hand-adding a parallel token set to the auto-generated file (same precedent as
+   Input.css). */
+.ds-textarea {
+  display: flex;
+  width: 100%;
+  /* Bottom/right padding insets the field (and its native resize handle, which the
+     browser always renders flush to the field's own corner) 4px from the container's
+     edges, matching Figma's handle placement. */
+  padding-bottom: var(--space-component-padding-xs);
+  padding-right: var(--space-component-padding-xs);
+  background: var(--interactive-select-surface-default);
+  border: var(--border-sm) solid var(--interactive-select-border-default);
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-fast) ease, background-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.ds-textarea__field {
+  flex: 1 0 0;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--component-height-6xl);
+  border: none;
+  border-radius: inherit;
+  background: none;
+  padding: var(--space-component-padding-sm) var(--space-component-padding-lg);
+  resize: vertical;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--interactive-select-label-default);
+}
+
+.ds-textarea--md .ds-textarea__field {
+  min-height: var(--component-height-3xl);
+}
+
+.ds-textarea--sm .ds-textarea__field {
+  min-height: var(--component-height-lg);
+}
+
+.ds-textarea__field:focus {
+  outline: none;
+}
+
+.ds-textarea__field::placeholder {
+  color: var(--interactive-select-placeholder-default);
+}
+
+/* ---- Input-chip style: a wrapped row of removable chips + a trailing draft
+   field, in place of the free-form multi-line field. min-height/resize live on
+   this element itself (not an ancestor) for the same reason as .ds-textarea__field
+   above — the native resize handle must attach to the exact box it constrains. */
+.ds-textarea__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  width: 100%;
+  min-height: var(--component-height-6xl);
+  border-radius: inherit;
+  padding: var(--space-component-padding-sm) var(--space-component-padding-lg);
+  resize: vertical;
+  overflow: auto;
+}
+
+.ds-textarea--md .ds-textarea__chips {
+  min-height: var(--component-height-3xl);
+}
+
+.ds-textarea--sm .ds-textarea__chips {
+  min-height: var(--component-height-lg);
+}
+
+.ds-textarea__chip-field {
+  flex: 1 0 0;
+  min-width: 80px;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--interactive-select-label-default);
+}
+
+.ds-textarea__chip-field:focus {
+  outline: none;
+}
+
+.ds-textarea__chip-field::placeholder {
+  color: var(--interactive-select-placeholder-default);
+}
+
+.ds-textarea:hover:not(.ds-textarea--disabled),
+.ds-textarea.ds-textarea--force-hover {
+  border-color: var(--interactive-select-border-hover);
+}
+
+.ds-textarea.ds-textarea--force-focus,
+.ds-textarea:focus-within:not(.ds-textarea--disabled) {
+  border-color: var(--interactive-select-border-focus);
+  box-shadow: 0 0 0 2px var(--interactive-shadow-primary);
+}
+
+.ds-textarea.ds-textarea--error {
+  border-color: var(--interactive-select-border-error);
+}
+
+.ds-textarea.ds-textarea--disabled {
+  background: var(--interactive-select-surface-disabled);
+  border-color: var(--interactive-select-border-disabled);
+}
+
+.ds-textarea.ds-textarea--disabled .ds-textarea__field {
+  color: var(--interactive-select-label-disabled);
+  resize: none;
+  cursor: not-allowed;
+}
+
+.ds-textarea.ds-textarea--disabled .ds-textarea__field::placeholder {
+  color: var(--interactive-select-label-disabled);
+}
+
+.ds-textarea.ds-textarea--disabled .ds-textarea__chips {
+  resize: none;
+  cursor: not-allowed;
+}
+
+.ds-textarea.ds-textarea--disabled .ds-textarea__chip-field {
+  color: var(--interactive-select-label-disabled);
+  cursor: not-allowed;
+}
+
+.ds-textarea.ds-textarea--disabled .ds-textarea__chip-field::placeholder {
+  color: var(--interactive-select-label-disabled);
+}

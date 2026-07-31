@@ -1,0 +1,152 @@
+/* ---- Checkbox: binary/tri-state selection control ---- */
+/* Figma's Checkbox component (node 321:9756) resolves to interactive/checkbox/* tokens.
+   Most are defined directly in tokens.css, but interactive-checkbox-surface-checked,
+   -border-checked, -surface-checked-hover, and -shadow-focus are only ever emitted with
+   their MMS value — tokens.css's [data-color-mode="mma"] override block never redefines
+   them, so using them directly would leave checked/focus checkboxes stuck in MMS purple
+   under MMA. brand-primary-400/-300/-100 carry the identical MMS hex values AND do get
+   proper MMA overrides, so those are used instead everywhere below (same fix already
+   applied to Dropdown's decorative checkbox before this file existed). */
+.ds-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  cursor: pointer;
+}
+
+.ds-checkbox--disabled {
+  cursor: not-allowed;
+}
+
+.ds-checkbox__hit {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--component-height-xs);
+  height: var(--component-height-xs);
+}
+
+.ds-checkbox__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ds-checkbox--disabled .ds-checkbox__input {
+  cursor: not-allowed;
+}
+
+/* Figma's 16px box has no dedicated size token of its own — component-icon-sm carries
+   the same 16px value, so reused here (same precedent already used for this box in
+   Dropdown.css's decorative checkbox). */
+.ds-checkbox__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-icon-sm);
+  height: var(--component-icon-sm);
+  border-radius: var(--radius-xs);
+  border: var(--border-sm) solid var(--interactive-checkbox-border-default);
+  background: var(--interactive-checkbox-surface-default);
+  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.ds-checkbox__check {
+  display: none;
+  font-size: var(--component-icon-xs);
+  color: var(--interactive-checkbox-mark-checked);
+}
+
+/* Figma's indeterminate mark is a plain 8x8 square (node 321:9776) with no size or
+   radius token of its own — left as a literal 8px square, half the 16px box, to match. */
+.ds-checkbox__dash {
+  display: none;
+  width: 8px;
+  height: 8px;
+  /* Figma resolves this to interactive/checkbox/mark/inderterminate, which tokens.css
+     doesn't define — brand-primary-400 carries the same hex (#5244ee) and reskins
+     correctly for MMA (see file-header comment). */
+  background: var(--brand-primary-400);
+}
+
+.ds-checkbox--checked:not(.ds-checkbox--indeterminate) .ds-checkbox__check {
+  display: inline-flex;
+}
+
+.ds-checkbox--indeterminate .ds-checkbox__dash {
+  display: block;
+}
+
+.ds-checkbox--checked:not(.ds-checkbox--indeterminate) .ds-checkbox__box {
+  border-color: transparent;
+  background: var(--brand-primary-400);
+}
+
+/* ---- Hover ---- */
+.ds-checkbox:not(.ds-checkbox--disabled):hover .ds-checkbox__box,
+.ds-checkbox.ds-checkbox--force-hover .ds-checkbox__box {
+  border-color: var(--interactive-checkbox-border-hover);
+}
+
+.ds-checkbox--checked:not(.ds-checkbox--indeterminate):not(.ds-checkbox--disabled):hover .ds-checkbox__box,
+.ds-checkbox--checked:not(.ds-checkbox--indeterminate).ds-checkbox--force-hover .ds-checkbox__box {
+  border-color: transparent;
+  background: var(--brand-primary-300);
+}
+
+/* Figma resolves this to interactive/checkbox/mark/inderterminate-hover, which
+   tokens.css doesn't define — brand-primary-300 carries the same hex (#7d73f2) and
+   reskins correctly for MMA. */
+.ds-checkbox--indeterminate:not(.ds-checkbox--disabled):hover .ds-checkbox__dash,
+.ds-checkbox--indeterminate.ds-checkbox--force-hover .ds-checkbox__dash {
+  background: var(--brand-primary-300);
+}
+
+/* ---- Focus ---- */
+/* No interactive-checkbox-border-focus token exists — Figma's focus box border
+   resolves to the same value used for the checked state, so brand-primary-400 is used
+   here too (see file-header comment for why, not interactive-checkbox-border-checked). */
+.ds-checkbox__input:focus-visible ~ .ds-checkbox__box,
+.ds-checkbox.ds-checkbox--force-focus .ds-checkbox__box {
+  border-color: var(--brand-primary-400);
+  box-shadow: 0 0 0 4px var(--brand-primary-100);
+}
+
+.ds-checkbox--checked:not(.ds-checkbox--indeterminate) .ds-checkbox__input:focus-visible ~ .ds-checkbox__box,
+.ds-checkbox--checked:not(.ds-checkbox--indeterminate).ds-checkbox--force-focus .ds-checkbox__box {
+  border-color: transparent;
+}
+
+/* ---- Disabled ---- */
+.ds-checkbox--disabled .ds-checkbox__box {
+  border-color: var(--interactive-checkbox-border-disabled);
+  background: var(--interactive-checkbox-surface-disabled);
+}
+
+.ds-checkbox--checked.ds-checkbox--disabled .ds-checkbox__check {
+  color: var(--interactive-checkbox-mark-disabled);
+}
+
+.ds-checkbox--indeterminate.ds-checkbox--disabled .ds-checkbox__dash {
+  background: var(--interactive-checkbox-mark-disabled);
+}
+
+.ds-checkbox__label {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-primary-neutral);
+}
+
+/* No interactive-checkbox-label-disabled token exists — text-body-tertiary-neutral
+   carries the same hex (#a6a6a6) used for disabled label text on Select/Dropdown. */
+.ds-checkbox--disabled .ds-checkbox__label {
+  color: var(--text-body-tertiary-neutral);
+}

@@ -1,0 +1,212 @@
+/* ---- Input: text field ---- */
+/* Figma's Input component resolves to interactive/input/* tokens, but tokens.css only
+   defines interactive-select-* — same hex values, so reused here rather than hand-adding
+   a parallel token set to the auto-generated file. */
+.ds-input {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--component-height-lg);
+  padding-left: var(--space-component-padding-md);
+  padding-right: var(--space-component-padding-md);
+  background: var(--interactive-select-surface-default);
+  border: var(--border-sm) solid var(--interactive-select-border-default);
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-fast) ease, background-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+/* The stepper sits flush against the container's right edge (its own border/background
+   reach the rounded corner), so the container's own right padding is dropped in favor of
+   the stepper's internal button padding. Width is fixed at Figma's Number-input spec
+   (417:7550) — no --component-width-* token covers this value, so it's set directly here
+   rather than inheriting the full-width default other Input styles use. */
+.ds-input--has-stepper {
+  width: 90px;
+  padding-right: 0;
+}
+
+.ds-input--md {
+  height: var(--component-height-md);
+}
+
+.ds-input__content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+.ds-input__chips {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.ds-input__field,
+.ds-input__chip-field {
+  flex: 1 0 0;
+  min-width: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--interactive-select-label-default);
+}
+
+.ds-input__field:focus,
+.ds-input__chip-field:focus {
+  outline: none;
+}
+
+.ds-input__field::placeholder,
+.ds-input__chip-field::placeholder {
+  color: var(--interactive-select-placeholder-default);
+}
+
+/* Native number spinner arrows aren't part of the Figma number-input mark, so they're
+   hidden here to match — the field otherwise behaves like any other Input. */
+.ds-input__field[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.ds-input__field[type='number']::-webkit-inner-spin-button,
+.ds-input__field[type='number']::-webkit-outer-spin-button {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Figma's number-input stepper resolves to interactive/number-input/stepper/* tokens,
+   which tokens.css doesn't define — brand-primary-50 and interactive-select-border-*
+   carry the same hex values, so reused here rather than hand-adding a parallel token set. */
+.ds-input__stepper {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  flex-shrink: 0;
+  width: 22px;
+  border-left: var(--border-sm) solid var(--interactive-select-border-default);
+  background: var(--brand-primary-50);
+  border-top-right-radius: calc(var(--radius-md) - var(--border-sm));
+  border-bottom-right-radius: calc(var(--radius-md) - var(--border-sm));
+  overflow: hidden;
+}
+
+.ds-input__stepper-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 0 0;
+  min-height: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--interactive-select-icon-default);
+}
+
+.ds-input__stepper-btn:first-child {
+  border-bottom: var(--border-sm) solid var(--interactive-select-border-default);
+}
+
+.ds-input__stepper-btn:focus {
+  outline: none;
+}
+
+.ds-input__stepper-btn:hover:not(:disabled) {
+  color: var(--interactive-select-icon-hover);
+}
+
+.ds-input__stepper-btn:disabled {
+  cursor: not-allowed;
+}
+
+.ds-input.ds-input--disabled .ds-input__stepper {
+  background: var(--interactive-select-surface-disabled);
+}
+
+.ds-input.ds-input--disabled .ds-input__stepper-btn {
+  color: var(--interactive-select-icon-disabled);
+}
+
+.ds-input__stepper-icon {
+  width: var(--component-icon-xs);
+  height: var(--component-icon-xs);
+}
+
+.ds-input__stepper-icon--up {
+  transform: rotate(180deg);
+}
+
+.ds-input__visibility-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--interactive-select-icon-default);
+}
+
+.ds-input__visibility-toggle:focus {
+  outline: none;
+}
+
+.ds-input:hover:not(.ds-input--disabled) .ds-input__visibility-toggle,
+.ds-input.ds-input--force-hover .ds-input__visibility-toggle {
+  color: var(--interactive-select-icon-hover);
+}
+
+.ds-input.ds-input--force-focus .ds-input__visibility-toggle,
+.ds-input:focus-within:not(.ds-input--disabled) .ds-input__visibility-toggle {
+  color: var(--interactive-select-icon-focus);
+}
+
+.ds-input.ds-input--disabled .ds-input__visibility-toggle {
+  color: var(--interactive-select-icon-disabled);
+  cursor: not-allowed;
+}
+
+.ds-input__placeholder {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--interactive-select-placeholder-default);
+}
+
+.ds-input:hover:not(.ds-input--disabled),
+.ds-input.ds-input--force-hover {
+  border-color: var(--interactive-select-border-hover);
+}
+
+.ds-input.ds-input--force-focus,
+.ds-input:focus-within:not(.ds-input--disabled) {
+  border-color: var(--interactive-select-border-focus);
+  box-shadow: 0 0 0 2px var(--interactive-shadow-primary);
+}
+
+.ds-input.ds-input--error {
+  border-color: var(--interactive-select-border-error);
+}
+
+.ds-input.ds-input--disabled {
+  background: var(--interactive-select-surface-disabled);
+  border-color: var(--interactive-select-border-disabled);
+}
+
+.ds-input.ds-input--disabled .ds-input__field,
+.ds-input.ds-input--disabled .ds-input__chip-field {
+  cursor: not-allowed;
+}

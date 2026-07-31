@@ -1,40 +1,10 @@
 import Button from './Button';
+import { Checkbox } from './Checkbox';
 import './Dropdown.css';
 
 export type DropdownStyle = 'single' | 'multi' | 'expander' | 'cascader';
 export type DropdownOptionState = 'default' | 'selected' | 'disabled';
 export type ExpanderState = 'expanded' | 'collapsed' | 'none';
-
-export interface CheckboxProps {
-  checked?: boolean;
-  disabled?: boolean;
-  forceHover?: boolean;
-  className?: string;
-}
-
-export function Checkbox({ checked = false, disabled = false, forceHover = false, className }: CheckboxProps) {
-  const classes = [
-    'ds-checkbox',
-    checked ? 'ds-checkbox--checked' : '',
-    disabled ? 'ds-checkbox--disabled' : '',
-    forceHover ? 'ds-checkbox--hover' : '',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  return (
-    <span className={classes} aria-hidden="true">
-      <span className="ds-checkbox__box">
-        {checked && (
-          <span className="icon" aria-hidden="true">
-            check
-          </span>
-        )}
-      </span>
-    </span>
-  );
-}
 
 export interface DropdownOptionProps {
   label: string;
@@ -81,7 +51,7 @@ export function DropdownOption({
       aria-disabled={disabled || undefined}
       onClick={disabled ? undefined : onClick}
     >
-      {hasCheckbox && <Checkbox checked={selected} disabled={disabled} forceHover={forceHover && !disabled} />}
+      {hasCheckbox && <Checkbox checked={selected} state={disabled ? 'disabled' : forceHover ? 'hover' : 'default'} decorative />}
       {showBadge && (
         <span className="ds-dropdown-option__badge" aria-hidden="true">
           <span
@@ -166,7 +136,7 @@ export function ExpanderOption({
           </span>
         </span>
       )}
-      <Checkbox checked={selected} disabled={disabled} forceHover={forceHover && !disabled} />
+      <Checkbox checked={selected} state={disabled ? 'disabled' : forceHover ? 'hover' : 'default'} decorative />
       <span className="ds-dropdown-option__label">{label}</span>
       {caption && <span className="ds-dropdown-option__caption">{caption}</span>}
     </div>

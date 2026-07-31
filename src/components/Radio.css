@@ -1,0 +1,139 @@
+/* ---- Radio: binary selection control ---- */
+/* Figma's Radio component (node 681:13324) resolves to interactive/radio/* tokens, but
+   tokens.css defines NONE of them — grepping for "interactive-radio" or "radio" (any
+   case) returns nothing. Every value below is therefore reused from the closest
+   equivalent-hex token elsewhere in the system rather than a native Radio token:
+   - Neutral surfaces/borders (default, hover, disabled) match interactive-checkbox's
+     equivalents exactly, so those are reused directly.
+   - Hover's border/surface (unchecked) is reused for Focus's unchecked border/surface
+     too, matching Figma's own reference markup, which renders Focus-unchecked as the
+     Hover-unchecked circle with a focus ring added behind it.
+   - Checked-state borders and the inner dot resolve to raw purple hexes
+     (#7d73f2/#5244ee) that only ever appear in interactive-checkbox's *-checked tokens,
+     which tokens.css's [data-color-mode="mma"] override block never redefines — using
+     them directly would strand checked/focus radios in MMS purple under MMA.
+     brand-primary-300/-400/-100 carry the identical MMS hex values AND do get proper
+     MMA overrides, so those are used instead (same fix already applied in Checkbox.css). */
+.ds-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  cursor: pointer;
+}
+
+.ds-radio--disabled {
+  cursor: not-allowed;
+}
+
+.ds-radio__hit {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--component-height-xs);
+  height: var(--component-height-xs);
+}
+
+.ds-radio__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ds-radio--disabled .ds-radio__input {
+  cursor: not-allowed;
+}
+
+/* Figma's 16px circle has no dedicated size token of its own — component-icon-sm
+   carries the same 16px value, so reused here (same precedent used in Checkbox.css). */
+.ds-radio__circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-icon-sm);
+  height: var(--component-icon-sm);
+  border-radius: var(--radius-full);
+  border: var(--border-sm) solid var(--interactive-checkbox-border-default);
+  background: var(--interactive-checkbox-surface-default);
+  transition: background-color var(--duration-fast) ease, border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+/* Figma's inner mark is a plain 8x8 circle (half the 16px outer circle) with no size
+   token of its own — left as a literal 8px, matching Checkbox's equivalent dash. */
+.ds-radio__dot {
+  display: none;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--brand-primary-400);
+}
+
+.ds-radio--checked .ds-radio__dot {
+  display: block;
+}
+
+.ds-radio--checked .ds-radio__circle {
+  border-color: var(--brand-primary-300);
+}
+
+/* ---- Hover ---- */
+.ds-radio:not(.ds-radio--disabled):hover .ds-radio__circle,
+.ds-radio.ds-radio--force-hover .ds-radio__circle {
+  border-color: var(--interactive-checkbox-border-hover);
+  background: var(--interactive-checkbox-surface-hover);
+}
+
+.ds-radio--checked:not(.ds-radio--disabled):hover .ds-radio__circle,
+.ds-radio--checked.ds-radio--force-hover .ds-radio__circle {
+  border-color: var(--brand-primary-400);
+}
+
+/* ---- Focus ---- */
+.ds-radio__input:focus-visible ~ .ds-radio__circle,
+.ds-radio.ds-radio--force-focus .ds-radio__circle {
+  border-color: var(--interactive-checkbox-border-hover);
+  background: var(--interactive-checkbox-surface-hover);
+  box-shadow: 0 0 0 4px var(--brand-primary-100);
+}
+
+.ds-radio--checked .ds-radio__input:focus-visible ~ .ds-radio__circle,
+.ds-radio--checked.ds-radio--force-focus .ds-radio__circle {
+  border-color: var(--brand-primary-400);
+}
+
+/* ---- Disabled ---- */
+/* No interactive-radio-border-disabled/mark-checked-disabled tokens exist. Both need
+   #a6a6a6, which brand-neutral-700 carries — neutral grays are brand-agnostic (no
+   [data-color-mode="mma"] override redefines brand-neutral-700), so this is a safe
+   direct reuse, unlike the brand-purple substitutions above. */
+.ds-radio--disabled .ds-radio__circle {
+  border-color: var(--brand-neutral-700);
+  background: var(--interactive-checkbox-surface-disabled);
+}
+
+.ds-radio--checked.ds-radio--disabled .ds-radio__circle {
+  border-color: var(--brand-neutral-700);
+}
+
+.ds-radio--checked.ds-radio--disabled .ds-radio__dot {
+  background: var(--brand-neutral-700);
+}
+
+.ds-radio__label {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-primary-neutral);
+}
+
+/* No interactive-radio-label-disabled token exists — text-body-tertiary-neutral
+   carries the same hex (#a6a6a6) used for disabled label text on Checkbox/Select. */
+.ds-radio--disabled .ds-radio__label {
+  color: var(--text-body-tertiary-neutral);
+}

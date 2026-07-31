@@ -6,13 +6,25 @@ import ButtonDoc from './components/ButtonDoc';
 import IconButtonDoc from './components/IconButtonDoc';
 import DropdownDoc from './components/DropdownDoc';
 import ChipDoc from './components/ChipDoc';
+import InputDoc from './components/InputDoc';
+import TextareaDoc from './components/TextareaDoc';
 import SelectDoc from './components/SelectDoc';
+import CheckboxDoc from './components/CheckboxDoc';
+import RadioDoc from './components/RadioDoc';
+import DatePickerDoc from './components/DatePickerDoc';
+import TabDoc from './components/TabDoc';
 import { getStoredBrandMode, applyBrandMode, type BrandMode } from './brandMode';
 import { BUTTON_SECTIONS } from './data/buttonSections';
 import { ICON_BUTTON_SECTIONS } from './data/iconButtonSections';
 import { DROPDOWN_SECTIONS } from './data/dropdownSections';
 import { CHIP_SECTIONS } from './data/chipSections';
+import { INPUT_SECTIONS } from './data/inputSections';
+import { TEXTAREA_SECTIONS } from './data/textareaSections';
 import { SELECT_SECTIONS } from './data/selectSections';
+import { CHECKBOX_SECTIONS } from './data/checkboxSections';
+import { RADIO_SECTIONS } from './data/radioSections';
+import { DATE_PICKER_SECTIONS } from './data/datePickerSections';
+import { TAB_SECTIONS } from './data/tabSections';
 import type { AnchorSection } from './components/AnchorNav';
 import './App.css';
 
@@ -21,7 +33,13 @@ const SECTIONS_BY_COMPONENT: Record<string, AnchorSection[]> = {
   'icon-button': ICON_BUTTON_SECTIONS,
   dropdown: DROPDOWN_SECTIONS,
   chip: CHIP_SECTIONS,
+  input: INPUT_SECTIONS,
+  textarea: TEXTAREA_SECTIONS,
   select: SELECT_SECTIONS,
+  checkbox: CHECKBOX_SECTIONS,
+  radio: RADIO_SECTIONS,
+  datepicker: DATE_PICKER_SECTIONS,
+  tab: TAB_SECTIONS,
 };
 
 function App() {
@@ -48,8 +66,20 @@ function App() {
             <DropdownDoc onNavigate={setActiveComponentId} />
           ) : activeComponentId === 'chip' ? (
             <ChipDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'input' ? (
+            <InputDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'textarea' ? (
+            <TextareaDoc onNavigate={setActiveComponentId} />
           ) : activeComponentId === 'select' ? (
             <SelectDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'checkbox' ? (
+            <CheckboxDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'radio' ? (
+            <RadioDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'datepicker' ? (
+            <DatePickerDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'tab' ? (
+            <TabDoc onNavigate={setActiveComponentId} />
           ) : (
             <div className="ds-main__empty">Select a component to view its documentation.</div>
           )}

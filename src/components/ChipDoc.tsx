@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FilterChip, InputChip, ActionChip, ChevronDownIcon } from './Chip';
-import { ButtonIcon } from './icons';
+import { ButtonIcon, DropdownIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL = 'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=0-1';
@@ -623,9 +623,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
             className="ds-related-card ds-related-card--link"
             onClick={() => onNavigate?.('dropdown')}
           >
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              list_alt
-            </span>
+            <DropdownIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Dropdown</span>
           </button>
           <button

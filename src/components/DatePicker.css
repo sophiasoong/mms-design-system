@@ -1,0 +1,311 @@
+/* ---- DatePicker: trigger + calendar popover ---- */
+/* Figma's Date-picker (node 156:9085) resolves to interactive/date-picker/* tokens, but
+   tokens.css defines NONE of them — grepping for "date-picker" (any case) returns
+   nothing. Every value below is reused from the closest semantic/hex match elsewhere:
+   - Select is the closest existing analog to a dropdown-style trigger, so its
+     interactive-select-* tokens cover the trigger's surface/border/label/placeholder.
+   - interactive-select-border-hover (#5244ee) doubles as the trigger's "open" border —
+     it already carries a [data-color-mode="mma"] override (→ #a47c4e), so open/focus
+     stay on-brand under MMA instead of stranding in MMS purple.
+   - interactive-shadow-primary (#5244ee3d, also MMA-overridden) matches Figma's open
+     focus ring exactly.
+   - The calendar panel reuses interactive-dropdown-panel-shadow-default for elevation
+     (Dropdown being the closest existing popover analog) and global-divider-neutral-light
+     for the header/footer dividers (exact hex match, already used by Radio's siblings).
+   - Day cells reuse brand-primary-400 (MMA-safe) for Selected/Today, brand-neutral-200
+     for Hover (brand-agnostic gray, no MMA override needed), and
+     interactive-button-label-primary-solid-default for the Selected cell's white label
+     (semantic fit: white text on a solid brand-colored surface, same as a solid button).
+   - Date Range's range-fill and Date-and-time's scrollbar sit in the same missing
+     interactive/date-picker/* namespace, but brand-primary-50 (#f7f6ff) and
+     global-scrollbar-thumb/track-default (#a6a6a6 / transparent) are exact hex matches
+     for Figma's tokens, not substitutions — see the Date Range / Date and Time sections
+     below. */
+
+.ds-date-picker {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  font-family: var(--typography-font-family-body);
+}
+
+/* ---- Trigger ---- */
+.ds-date-picker__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-component-gap-sm);
+  width: 100%;
+  min-width: 200px;
+  padding: 0 var(--space-component-padding-md);
+  border-radius: var(--radius-md);
+  border: var(--border-sm) solid var(--interactive-select-border-default);
+  background: var(--interactive-select-surface-default);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) ease, box-shadow var(--duration-fast) ease;
+}
+
+.ds-date-picker--md .ds-date-picker__trigger {
+  height: var(--component-height-md);
+}
+
+.ds-date-picker--lg .ds-date-picker__trigger {
+  height: var(--component-height-lg);
+}
+
+.ds-date-picker:not(.ds-date-picker--disabled):not(.ds-date-picker--open) .ds-date-picker__trigger:hover {
+  border-color: var(--interactive-select-border-hover);
+}
+
+.ds-date-picker--open .ds-date-picker__trigger {
+  border-color: var(--interactive-select-border-hover);
+  box-shadow: 0 0 0 2px var(--interactive-shadow-primary);
+}
+
+.ds-date-picker--error .ds-date-picker__trigger {
+  border-color: var(--interactive-select-border-error);
+}
+
+.ds-date-picker--disabled .ds-date-picker__trigger {
+  border-color: var(--interactive-select-border-disabled);
+  background: var(--interactive-select-surface-disabled);
+  cursor: not-allowed;
+}
+
+.ds-date-picker__value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--interactive-select-label-default);
+}
+
+.ds-date-picker__value--placeholder {
+  color: var(--interactive-select-placeholder-default);
+}
+
+.ds-date-picker--disabled .ds-date-picker__value {
+  color: var(--interactive-select-label-disabled);
+}
+
+.ds-date-picker__icon {
+  flex-shrink: 0;
+  width: var(--component-icon-sm);
+  height: var(--component-icon-sm);
+  color: var(--interactive-select-placeholder-default);
+}
+
+.ds-date-picker--disabled .ds-date-picker__icon {
+  color: var(--interactive-select-label-disabled);
+}
+
+/* ---- Panel ---- */
+.ds-date-picker__panel {
+  position: absolute;
+  top: calc(100% + var(--space-component-gap-xs));
+  left: 0;
+  z-index: 10;
+  width: 280px;
+  border-radius: var(--radius-md);
+  background: var(--interactive-select-surface-default);
+  box-shadow: 0 2px 8px 0 var(--interactive-dropdown-panel-shadow-default);
+  overflow: hidden;
+}
+
+.ds-date-picker__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--component-height-md);
+  padding: 0 var(--space-component-padding-sm);
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-date-picker__nav {
+  display: flex;
+  align-items: center;
+}
+
+.ds-date-picker__label {
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--interactive-select-label-default);
+}
+
+.ds-date-picker__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: var(--space-component-padding-xs) var(--space-component-padding-sm) 0;
+}
+
+.ds-date-picker__weekday {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+  color: var(--text-body-tertiary-neutral);
+}
+
+.ds-date-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--space-component-gap-xs);
+  padding: var(--space-component-padding-xs) var(--space-component-padding-sm) var(--space-component-padding-sm);
+}
+
+.ds-date-picker__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-icon-md);
+  height: var(--component-icon-md);
+  margin: 0 auto;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+  color: var(--text-body-primary-neutral);
+  cursor: pointer;
+}
+
+.ds-date-picker__cell:not(:disabled):not(.ds-date-picker__cell--selected):hover {
+  background: var(--brand-neutral-200);
+}
+
+.ds-date-picker__cell--selected {
+  background: var(--brand-primary-400);
+  color: var(--interactive-button-label-primary-solid-default);
+}
+
+.ds-date-picker__cell--today {
+  border: var(--border-sm) solid var(--brand-primary-400);
+}
+
+/* Overflow days from adjacent months share the Disabled cell style, matching Figma's
+   own reference grid (e.g. Dec 29-31 rendered grayed-out at the start of a January grid). */
+.ds-date-picker__cell--disabled {
+  color: var(--text-body-tertiary-neutral);
+  cursor: not-allowed;
+}
+
+/* Footer sized/laid out to match Select's ds-dropdown__footer: component-height-lg (not
+   -md), and space-between (Reset pinned left, Apply pinned right) rather than flex-end +
+   gap, since Datepicker's footer is the same Reset/Apply pattern as Select's. */
+.ds-date-picker__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--component-height-lg);
+  padding-inline: var(--space-component-padding-sm);
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light);
+  background: var(--global-background-surface);
+}
+
+/* ---- Date Range variant (node 562-6424) ----
+   Figma's range-fill rectangle (#f7f6ff) is an exact hex match for brand-primary-50, so
+   unlike the reuse-with-comment cases above this is a real semantic hit, not a
+   substitution — applied per-cell rather than as Figma's absolute-positioned per-row
+   rect, which is visually equivalent for a fixed 24px row height and far simpler. */
+.ds-date-picker__panel--range {
+  width: auto;
+}
+
+.ds-date-picker__range-panels {
+  display: flex;
+}
+
+.ds-date-picker__range-panel {
+  width: 280px;
+}
+
+.ds-date-picker__range-panel + .ds-date-picker__range-panel {
+  border-left: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+/* 14 half-columns (2 per day) instead of the base grid's 7, so a range-band's start/end
+   edge can land on a date's column-center line rather than its full column width — see
+   getRowBands in DateRangePicker.tsx. Day-cell buttons span 2 half-columns each, so they
+   still render at full width; only ds-date-picker__range-band items intentionally start
+   or end mid-column. */
+.ds-date-picker__grid--range {
+  grid-template-columns: repeat(14, 1fr);
+}
+
+/* Spans the row behind the day-cell buttons (rendered first in DOM so cells paint on
+   top), so the fill reads as one continuous rectangle — including the grid gap between
+   cells — instead of disconnected per-cell backgrounds. */
+.ds-date-picker__range-band {
+  background: var(--brand-primary-50);
+}
+
+/* ---- Date and Time variant (node 554-12152) ----
+   The right header cell swaps the month label for a live HH:MM:SS readout; the body adds
+   a 3-column scrollable time list beside the standard day grid. global-scrollbar-thumb/
+   track-default are exact hex matches (#a6a6a6 / transparent) for Figma's scrollbar
+   tokens, so — same as the range fill above — this is a direct hit, not a substitution. */
+.ds-date-picker__panel--datetime {
+  width: 448px;
+}
+
+.ds-date-picker__header--datetime {
+  padding: 0;
+  height: var(--component-height-md);
+}
+
+.ds-date-picker__header-cal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 280px;
+  height: 100%;
+  padding: 0 var(--space-component-padding-sm);
+  border-right: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-date-picker__header-time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  font-size: var(--typography-sm-font-size);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--interactive-select-label-default);
+}
+
+.ds-date-picker__body--datetime {
+  display: flex;
+}
+
+.ds-date-picker__date-panel {
+  width: 280px;
+  border-right: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-date-picker__time-panel {
+  display: flex;
+  flex: 1;
+  gap: var(--space-component-gap-sm);
+  padding: var(--space-component-padding-xs) var(--space-component-padding-sm);
+}
+
+.ds-date-picker__time-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  flex: 1;
+  max-height: 192px;
+  overflow-y: auto;
+  scrollbar-color: var(--global-scrollbar-thumb-default) var(--global-scrollbar-track-default);
+}
+
+.ds-date-picker__time-col + .ds-date-picker__time-col {
+  border-left: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-date-picker__time-cell {
+  flex-shrink: 0;
+}

@@ -58,6 +58,26 @@
   color: var(--text-heading-primary-neutral);
 }
 
+/* A subsection nests a smaller heading + its own content inside a parent ds-section
+   (e.g. Select's Example living inside Variants) instead of starting a new top-level
+   section — the top border stands in for the vertical gap a fresh ds-section would
+   otherwise get from the page's section stack. */
+.ds-section__subsection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-sm);
+  padding-top: var(--space-layout-section-padding-md);
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light);
+  scroll-margin-top: var(--space-layout-section-padding-md);
+}
+
+.ds-section__subtitle {
+  font-size: var(--typography-lg-font-size);
+  line-height: var(--typography-lg-line-height);
+  font-weight: var(--typography-font-weight-bold);
+  color: var(--text-heading-primary-neutral);
+}
+
 .ds-section__desc {
   font-size: var(--typography-md-font-size);
   line-height: var(--typography-md-line-height);

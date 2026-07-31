@@ -44,7 +44,7 @@ export function Select({
     <div className={classes} onClick={disabled ? undefined : onClick}>
       <div className="ds-select__content">
         {label && <span className="ds-select__label">{label}</span>}
-        {hasChips ? (
+        {hasChips && (
           <div className="ds-select__chips">
             {chips!.map((chipLabel) => (
               <InputChip
@@ -56,9 +56,8 @@ export function Select({
               />
             ))}
           </div>
-        ) : (
-          !label && <span className="ds-select__placeholder">{placeholder}</span>
         )}
+        {!label && !hasChips && <span className="ds-select__placeholder">{placeholder}</span>}
       </div>
       <span className="ds-select__chevron" aria-hidden="true">
         <ChevronDownIcon />

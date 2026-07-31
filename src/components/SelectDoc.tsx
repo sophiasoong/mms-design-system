@@ -1,26 +1,75 @@
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { Select } from './Select';
-import { ChevronDownIcon } from './Chip';
+import { ChevronDownIcon, InputChip } from './Chip';
 import { DropdownOption } from './Dropdown';
-import { ChipIcon } from './icons';
+import Button from './Button';
+import { ChipIcon, DropdownIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=166-22704';
 
-const VARIANT_TABS = ['Label', 'Input-chips'] as const;
-type VariantTab = (typeof VARIANT_TABS)[number];
-
 const EXAMPLE_OPTIONS = ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5', 'Option 6'];
+
+const STYLE_TABS = ['Label', 'Chip (in-line)', 'Chip (wrap)'] as const;
+type StyleTab = (typeof STYLE_TABS)[number];
+
+const MULTI_CHIP_LABELS = ['Design', 'Engineering', 'Product', 'Marketing', 'Sales'];
+const CHIP_ROW_GAP_PX = 4; // resolved value of --space-component-gap-xs
+
+const EXAMPLE_TABS = ['Single-select', 'Multi-select'] as const;
+type ExampleTab = (typeof EXAMPLE_TABS)[number];
 
 interface SelectDocProps {
   onNavigate?: (componentId: string) => void;
 }
 
 export default function SelectDoc({ onNavigate }: SelectDocProps) {
-  const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Label');
-  const [chips, setChips] = useState(['Tag one', 'Tag two']);
-  const removeChip = (label: string) => setChips((prev) => prev.filter((l) => l !== label));
+  const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Label');
+
+  // ---- Variants: Chip (in-line) / Chip (wrap) demo state ----
+  const [inlineChips, setInlineChips] = useState(MULTI_CHIP_LABELS);
+  const removeInlineChip = (label: string) =>
+    setInlineChips((prev) => prev.filter((l) => l !== label));
+  const [wrapChips, setWrapChips] = useState(MULTI_CHIP_LABELS);
+  const removeWrapChip = (label: string) =>
+    setWrapChips((prev) => prev.filter((l) => l !== label));
+
+  // Same measured-overflow approach as the Example section's Chip (in-line) trigger:
+  // an off-screen row renders every chip at its truncated width so genuine container
+  // overflow (not a fixed count) drives the trailing "+N" badge.
+  const styleInlineRowRef = useRef<HTMLDivElement>(null);
+  const styleInlineMeasureRef = useRef<HTMLDivElement>(null);
+  const [styleInlineVisibleCount, setStyleInlineVisibleCount] = useState(inlineChips.length);
+
+  useLayoutEffect(() => {
+    const visibleRow = styleInlineRowRef.current;
+    const measureRow = styleInlineMeasureRef.current;
+    if (!visibleRow || !measureRow) return;
+
+    const containerWidth = visibleRow.clientWidth;
+    const children = Array.from(measureRow.children) as HTMLElement[];
+    const badgeEl = children[children.length - 1];
+    const chipEls = children.slice(0, -1);
+    const badgeWidth = badgeEl?.offsetWidth ?? 0;
+
+    let usedWidth = 0;
+    let visible = chipEls.length;
+    for (let i = 0; i < chipEls.length; i++) {
+      const chipWidth = chipEls[i].offsetWidth + (i > 0 ? CHIP_ROW_GAP_PX : 0);
+      const isLast = i === chipEls.length - 1;
+      const reserve = isLast ? 0 : CHIP_ROW_GAP_PX + badgeWidth;
+      if (usedWidth + chipWidth + reserve > containerWidth) {
+        visible = i;
+        break;
+      }
+      usedWidth += chipWidth;
+    }
+    setStyleInlineVisibleCount(visible);
+  }, [inlineChips, activeStyleTab]);
+
+  const visibleStyleInlineChips = inlineChips.slice(0, styleInlineVisibleCount);
+  const hiddenStyleInlineCount = inlineChips.length - visibleStyleInlineChips.length;
 
   // ---- Example: real open/close + search-filter behavior ----
   const [exampleOpen, setExampleOpen] = useState(false);
@@ -39,6 +88,74 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
     setExampleOpen(false);
     setExampleQuery('');
   };
+
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Single-select');
+
+  // ---- Example: Multi-select — Chip (in-line) trigger + Multi-select dropdown ----
+  const [inlineExampleOpen, setInlineExampleOpen] = useState(false);
+  const [inlineExampleSelected, setInlineExampleSelected] = useState(['Design', 'Engineering']);
+  const toggleInlineExampleOption = (label: string) =>
+    setInlineExampleSelected((prev) =>
+      prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label]
+    );
+  const toggleAllInlineExampleOptions = () =>
+    setInlineExampleSelected((prev) =>
+      prev.length === MULTI_CHIP_LABELS.length ? [] : [...MULTI_CHIP_LABELS]
+    );
+
+  // Real overflow detection: an off-screen row renders every selected chip at its
+  // truncated width so we can measure actual pixel widths, then the visible row only
+  // shows however many fit before the container's edge, collapsing the rest into a
+  // trailing "+N" count chip.
+  const inlineRowRef = useRef<HTMLDivElement>(null);
+  const inlineMeasureRef = useRef<HTMLDivElement>(null);
+  const [inlineVisibleCount, setInlineVisibleCount] = useState(inlineExampleSelected.length);
+
+  useLayoutEffect(() => {
+    const visibleRow = inlineRowRef.current;
+    const measureRow = inlineMeasureRef.current;
+    if (!visibleRow || !measureRow) return;
+
+    const containerWidth = visibleRow.clientWidth;
+    const children = Array.from(measureRow.children) as HTMLElement[];
+    const badgeEl = children[children.length - 1];
+    const chipEls = children.slice(0, -1);
+    const badgeWidth = badgeEl?.offsetWidth ?? 0;
+
+    let usedWidth = 0;
+    let visible = chipEls.length;
+    for (let i = 0; i < chipEls.length; i++) {
+      const chipWidth = chipEls[i].offsetWidth + (i > 0 ? CHIP_ROW_GAP_PX : 0);
+      const isLast = i === chipEls.length - 1;
+      const reserve = isLast ? 0 : CHIP_ROW_GAP_PX + badgeWidth;
+      if (usedWidth + chipWidth + reserve > containerWidth) {
+        visible = i;
+        break;
+      }
+      usedWidth += chipWidth;
+    }
+    setInlineVisibleCount(visible);
+  }, [inlineExampleSelected, activeExampleTab]);
+
+  const visibleInlineExampleChips = inlineExampleSelected.slice(0, inlineVisibleCount);
+  const hiddenInlineExampleCount = inlineExampleSelected.length - visibleInlineExampleChips.length;
+
+  // ---- Example: Multi-select — Chip (wrap) trigger + Multi-select dropdown ----
+  const [wrapExampleOpen, setWrapExampleOpen] = useState(false);
+  const [wrapExampleSelected, setWrapExampleSelected] = useState([
+    'Design',
+    'Engineering',
+    'Product',
+    'Marketing',
+  ]);
+  const toggleWrapExampleOption = (label: string) =>
+    setWrapExampleSelected((prev) =>
+      prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label]
+    );
+  const toggleAllWrapExampleOptions = () =>
+    setWrapExampleSelected((prev) =>
+      prev.length === MULTI_CHIP_LABELS.length ? [] : [...MULTI_CHIP_LABELS]
+    );
 
   return (
     <div className="ds-doc">
@@ -133,20 +250,20 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
       <section id="variants" className="ds-section">
         <h2 className="ds-section__title">Variants</h2>
         <p className="ds-section__desc">
-          A Select shows placeholder text when empty; once values are chosen it can instead
-          display them as Input chips (see Chip) that can be removed individually.
+          A Select shows placeholder text when empty; once a value is chosen it displays as a
+          solid label. For a field that holds several removable values, see Input.
         </p>
 
         <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
         <div className="ds-line-tabs" role="tablist" aria-label="Select variant groups">
-          {VARIANT_TABS.map((tab) => (
+          {STYLE_TABS.map((tab) => (
             <button
               key={tab}
               type="button"
               role="tab"
-              aria-selected={activeVariantTab === tab}
-              className={`ds-line-tab${activeVariantTab === tab ? ' ds-line-tab--active' : ''}`}
-              onClick={() => setActiveVariantTab(tab)}
+              aria-selected={activeStyleTab === tab}
+              className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
+              onClick={() => setActiveStyleTab(tab)}
             >
               {tab}
             </button>
@@ -154,7 +271,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
         </div>
 
         <div className="ds-variant-groups">
-          {activeVariantTab === 'Label' && (
+          {activeStyleTab === 'Label' && (
             <div className="ds-variant-group">
               <div className="ds-preview">
                 <div style={{ width: 320 }}>
@@ -168,19 +285,99 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
             </div>
           )}
 
-          {activeVariantTab === 'Input-chips' && (
+          {activeStyleTab === 'Chip (in-line)' && (
             <div className="ds-variant-group">
               <div className="ds-preview">
-                <div style={{ width: 320 }}>
-                  <Select chips={chips} onRemoveChip={removeChip} />
-                  {chips.length === 0 && (
-                    <span className="ds-variant-note">All chips removed — reload the page to reset.</span>
-                  )}
+                <div className="ds-select" style={{ width: 320 }}>
+                  <div className="ds-select__content">
+                    {visibleStyleInlineChips.length > 0 ? (
+                      <div
+                        ref={styleInlineRowRef}
+                        className="ds-select__chips"
+                        style={{ flex: '1 1 0%', minWidth: 0, flexWrap: 'nowrap', overflow: 'hidden' }}
+                      >
+                        {visibleStyleInlineChips.map((label) => (
+                          <InputChip
+                            key={label}
+                            label={label}
+                            title={label}
+                            size="sm"
+                            className="ds-chip--truncate"
+                            onRemove={() => removeInlineChip(label)}
+                          />
+                        ))}
+                        {hiddenStyleInlineCount > 0 && (
+                          <span
+                            className="ds-chip ds-chip--input ds-chip--sm"
+                            style={{ flexShrink: 0, cursor: 'default' }}
+                          >
+                            <span className="ds-chip__label">+{hiddenStyleInlineCount}</span>
+                          </span>
+                        )}
+                      </div>
+                    ) : (
+                      <span className="ds-select__placeholder">Please select</span>
+                    )}
+                  </div>
+                  <span className="ds-select__chevron" aria-hidden="true">
+                    <ChevronDownIcon />
+                  </span>
+                </div>
+                {/* Off-screen measuring row: full chip list + one badge, rendered at real
+                    widths so useLayoutEffect can compute genuine overflow before paint. */}
+                <div
+                  ref={styleInlineMeasureRef}
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    top: -9999,
+                    left: -9999,
+                    display: 'flex',
+                    flexWrap: 'nowrap',
+                    gap: 'var(--space-component-gap-xs)',
+                    visibility: 'hidden',
+                  }}
+                >
+                  {inlineChips.map((label) => (
+                    <InputChip key={label} label={label} size="sm" className="ds-chip--truncate" />
+                  ))}
+                  <span className="ds-chip ds-chip--input ds-chip--sm" style={{ flexShrink: 0 }}>
+                    <span className="ds-chip__label">+{inlineChips.length}</span>
+                  </span>
                 </div>
               </div>
               <span className="ds-variant-note">
-                Each chosen value renders as an Input chip; clicking a chip's close icon removes
-                just that value without opening the panel.
+                Chips stay on a single, non-wrapping line: long labels truncate, and once the
+                row is full, remaining values collapse into a count.
+              </span>
+            </div>
+          )}
+
+          {activeStyleTab === 'Chip (wrap)' && (
+            <div className="ds-variant-group">
+              <div className="ds-preview">
+                <div
+                  className="ds-select"
+                  style={{ width: 320, height: 'auto', paddingBlock: 'var(--space-component-padding-sm)' }}
+                >
+                  <div className="ds-select__content">
+                    <div
+                      className="ds-select__chips"
+                      style={{ flex: '1 1 0%', minWidth: 0, flexWrap: 'wrap' }}
+                    >
+                      {wrapChips.map((label) => (
+                        <InputChip key={label} label={label} size="sm" onRemove={() => removeWrapChip(label)} />
+                      ))}
+                    </div>
+                  </div>
+                  <span className="ds-select__chevron" aria-hidden="true">
+                    <ChevronDownIcon />
+                  </span>
+                </div>
+              </div>
+              <span className="ds-variant-note">
+                Chips wrap onto additional lines as needed, growing the field's height instead
+                of truncating or collapsing overflow.
               </span>
             </div>
           )}
@@ -211,67 +408,286 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
             </div>
           </div>
         </div>
-      </section>
 
-      {/* ---------------------------------------------------------------- */}
-      <section id="example" className="ds-section">
-        <h2 className="ds-section__title">Example</h2>
-        <p className="ds-section__desc">
-          Select opens a searchable Dropdown panel: click the trigger to open it, which swaps the
-          trigger itself into a search field — type to filter the option list. Picking an option
-          fills the trigger and closes the panel.
-        </p>
-        <div className="ds-preview">
-          <div className="ds-combo-figure" style={{ width: 320 }}>
-            {exampleOpen ? (
-              <div className="ds-select-trigger">
-                <input
-                  className="ds-select-trigger__input"
-                  type="text"
-                  placeholder="Please select"
-                  value={exampleQuery}
-                  onChange={(e) => setExampleQuery(e.target.value)}
-                  autoFocus
-                />
-                <span
-                  className="icon"
-                  aria-hidden="true"
-                  onClick={toggleExampleOpen}
-                  style={{ cursor: 'pointer' }}
-                >
-                  search
-                </span>
-              </div>
-            ) : (
-              <Select
-                label={exampleSelected ?? undefined}
-                placeholder="Please select"
-                size="md"
-                onClick={toggleExampleOpen}
-              />
-            )}
-            {exampleOpen && (
-              <div className="ds-dropdown ds-dropdown--lg" style={{ width: '100%' }}>
-                <div className="ds-dropdown__panel">
-                  <div className="ds-dropdown__options">
-                    {filteredExampleOptions.length > 0 ? (
-                      filteredExampleOptions.map((label) => (
-                        <DropdownOption
-                          key={label}
-                          label={label}
-                          style="single"
-                          state={exampleSelected === label ? 'selected' : 'default'}
-                          onClick={() => selectExampleOption(label)}
-                        />
-                      ))
-                    ) : (
-                      <div className="ds-dropdown__empty">No results</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
+        <div id="example" className="ds-section__subsection">
+          <h3 className="ds-section__subtitle">Example</h3>
+          <p className="ds-section__desc">
+            A Single-select trigger opens a searchable Dropdown panel and closes as soon as a value
+            is picked. A Multi-select trigger opens a checkbox panel that stays open across picks,
+            so several values can be chosen before Apply commits them.
+          </p>
+
+          <div className="ds-line-tabs" role="tablist" aria-label="Select example groups">
+            {EXAMPLE_TABS.map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activeExampleTab === tab}
+                className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
+                onClick={() => setActiveExampleTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
           </div>
+
+          {activeExampleTab === 'Single-select' && (
+            <div className="ds-preview" style={{ marginTop: 'var(--space-component-gap-md)' }}>
+              <div className="ds-combo-figure" style={{ width: 320 }}>
+                {exampleOpen ? (
+                  <div className="ds-select-trigger">
+                    <input
+                      className="ds-select-trigger__input"
+                      type="text"
+                      placeholder="Please select"
+                      value={exampleQuery}
+                      onChange={(e) => setExampleQuery(e.target.value)}
+                      autoFocus
+                    />
+                    <span
+                      className="icon"
+                      aria-hidden="true"
+                      onClick={toggleExampleOpen}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      search
+                    </span>
+                  </div>
+                ) : (
+                  <Select
+                    label={exampleSelected ?? undefined}
+                    placeholder="Please select"
+                    size="md"
+                    onClick={toggleExampleOpen}
+                  />
+                )}
+                {exampleOpen && (
+                  <div className="ds-dropdown ds-dropdown--lg" style={{ width: '100%' }}>
+                    <div className="ds-dropdown__panel">
+                      <div className="ds-dropdown__options">
+                        {filteredExampleOptions.length > 0 ? (
+                          filteredExampleOptions.map((label) => (
+                            <DropdownOption
+                              key={label}
+                              label={label}
+                              style="single"
+                              state={exampleSelected === label ? 'selected' : 'default'}
+                              onClick={() => selectExampleOption(label)}
+                            />
+                          ))
+                        ) : (
+                          <div className="ds-dropdown__empty">No results</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {activeExampleTab === 'Multi-select' && (
+            <div
+              className="ds-variant-row"
+              style={{ marginTop: 'var(--space-component-gap-md)', alignItems: 'flex-start' }}
+            >
+              <div className="ds-variant-row__cell">
+                <div className="ds-combo-figure" style={{ width: 320 }}>
+                  <div
+                    className="ds-select"
+                    style={{ width: 320 }}
+                    onClick={() => setInlineExampleOpen((open) => !open)}
+                  >
+                    <div className="ds-select__content">
+                      {visibleInlineExampleChips.length > 0 ? (
+                        <div
+                          ref={inlineRowRef}
+                          className="ds-select__chips"
+                          style={{ flex: '1 1 0%', minWidth: 0, flexWrap: 'nowrap', overflow: 'hidden' }}
+                        >
+                          {visibleInlineExampleChips.map((label) => (
+                            <InputChip
+                              key={label}
+                              label={label}
+                              title={label}
+                              size="sm"
+                              className="ds-chip--truncate"
+                              onRemove={() => toggleInlineExampleOption(label)}
+                            />
+                          ))}
+                          {hiddenInlineExampleCount > 0 && (
+                            <span
+                              className="ds-chip ds-chip--input ds-chip--sm"
+                              style={{ flexShrink: 0, cursor: 'default' }}
+                            >
+                              <span className="ds-chip__label">+{hiddenInlineExampleCount}</span>
+                            </span>
+                          )}
+                        </div>
+                      ) : (
+                        <span className="ds-select__placeholder">Please select</span>
+                      )}
+                    </div>
+                    <span className="ds-select__chevron" aria-hidden="true">
+                      <ChevronDownIcon />
+                    </span>
+                  </div>
+                  {/* Off-screen measuring row: full chip list + one badge, rendered at real
+                      widths so useLayoutEffect can compute genuine overflow before paint. */}
+                  <div
+                    ref={inlineMeasureRef}
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      top: -9999,
+                      left: -9999,
+                      display: 'flex',
+                      flexWrap: 'nowrap',
+                      gap: 'var(--space-component-gap-xs)',
+                      visibility: 'hidden',
+                    }}
+                  >
+                    {inlineExampleSelected.map((label) => (
+                      <InputChip key={label} label={label} size="sm" className="ds-chip--truncate" />
+                    ))}
+                    <span className="ds-chip ds-chip--input ds-chip--sm" style={{ flexShrink: 0 }}>
+                      <span className="ds-chip__label">+{inlineExampleSelected.length}</span>
+                    </span>
+                  </div>
+                  {inlineExampleOpen && (
+                    <div className="ds-dropdown ds-dropdown--lg" style={{ width: '100%' }}>
+                      <div className="ds-dropdown__panel">
+                        <div className="ds-dropdown__options">
+                          <DropdownOption
+                            label="Select All"
+                            style="multi"
+                            state={
+                              inlineExampleSelected.length === MULTI_CHIP_LABELS.length
+                                ? 'selected'
+                                : 'default'
+                            }
+                            onClick={toggleAllInlineExampleOptions}
+                          />
+                          {MULTI_CHIP_LABELS.map((label) => (
+                            <DropdownOption
+                              key={label}
+                              label={label}
+                              style="multi"
+                              state={inlineExampleSelected.includes(label) ? 'selected' : 'default'}
+                              onClick={() => toggleInlineExampleOption(label)}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <div className="ds-dropdown__footer">
+                        <Button
+                          variant="primary"
+                          appearance="ghost"
+                          size="sm"
+                          onClick={() => setInlineExampleSelected([])}
+                        >
+                          Reset
+                        </Button>
+                        <Button
+                          variant="primary"
+                          appearance="solid"
+                          size="sm"
+                          onClick={() => setInlineExampleOpen(false)}
+                        >
+                          Apply
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <span className="ds-variant-row__cell-label">Chip (in-line) trigger</span>
+              </div>
+
+              <div className="ds-variant-row__cell">
+                <div className="ds-combo-figure" style={{ width: 320 }}>
+                  <div
+                    className="ds-select"
+                    style={{
+                      width: 320,
+                      height: 'auto',
+                      paddingBlock: 'var(--space-component-padding-sm)',
+                    }}
+                    onClick={() => setWrapExampleOpen((open) => !open)}
+                  >
+                    <div className="ds-select__content">
+                      {wrapExampleSelected.length > 0 ? (
+                        <div
+                          className="ds-select__chips"
+                          style={{ flex: '1 1 0%', minWidth: 0, flexWrap: 'wrap' }}
+                        >
+                          {wrapExampleSelected.map((label) => (
+                            <InputChip
+                              key={label}
+                              label={label}
+                              size="sm"
+                              onRemove={() => toggleWrapExampleOption(label)}
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="ds-select__placeholder">Please select</span>
+                      )}
+                    </div>
+                    <span className="ds-select__chevron" aria-hidden="true">
+                      <ChevronDownIcon />
+                    </span>
+                  </div>
+                  {wrapExampleOpen && (
+                    <div className="ds-dropdown ds-dropdown--lg" style={{ width: '100%' }}>
+                      <div className="ds-dropdown__panel">
+                        <div className="ds-dropdown__options">
+                          <DropdownOption
+                            label="Select All"
+                            style="multi"
+                            state={
+                              wrapExampleSelected.length === MULTI_CHIP_LABELS.length
+                                ? 'selected'
+                                : 'default'
+                            }
+                            onClick={toggleAllWrapExampleOptions}
+                          />
+                          {MULTI_CHIP_LABELS.map((label) => (
+                            <DropdownOption
+                              key={label}
+                              label={label}
+                              style="multi"
+                              state={wrapExampleSelected.includes(label) ? 'selected' : 'default'}
+                              onClick={() => toggleWrapExampleOption(label)}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <div className="ds-dropdown__footer">
+                        <Button
+                          variant="primary"
+                          appearance="ghost"
+                          size="sm"
+                          onClick={() => setWrapExampleSelected([])}
+                        >
+                          Reset
+                        </Button>
+                        <Button
+                          variant="primary"
+                          appearance="solid"
+                          size="sm"
+                          onClick={() => setWrapExampleOpen(false)}
+                        >
+                          Apply
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <span className="ds-variant-row__cell-label">Chip (wrap) trigger</span>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -439,9 +855,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
             className="ds-related-card ds-related-card--link"
             onClick={() => onNavigate?.('dropdown')}
           >
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              list_alt
-            </span>
+            <DropdownIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Dropdown</span>
           </button>
           <button

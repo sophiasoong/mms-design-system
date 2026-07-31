@@ -1,11 +1,32 @@
 import { useEffect, useRef, useState } from 'react';
 import { COMPONENTS } from '../data/components';
-import { ButtonIcon, ChipIcon } from './icons';
+import {
+  ButtonIcon,
+  CheckboxIcon,
+  ChipIcon,
+  DatepickerIcon,
+  DropdownIcon,
+  IconButtonIcon,
+  InputIcon,
+  RadioIcon,
+  SelectIcon,
+  TabIcon,
+  TextareaIcon,
+} from './icons';
 import './Sidebar.css';
 
 function renderItemIcon(component: (typeof COMPONENTS)[number]) {
   if (component.id === 'button') return <ButtonIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'icon-button') return <IconButtonIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'dropdown') return <DropdownIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'chip') return <ChipIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'input') return <InputIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'textarea') return <TextareaIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'select') return <SelectIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'checkbox') return <CheckboxIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'radio') return <RadioIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'datepicker') return <DatepickerIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'tab') return <TabIcon className="ds-sidebar__item-icon" />;
   return (
     <span className="icon ds-sidebar__item-icon" aria-hidden="true">
       {component.icon}

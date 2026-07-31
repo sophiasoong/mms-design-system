@@ -73,6 +73,8 @@ export function FilterChip({
 
 export interface InputChipProps {
   label?: string;
+  /** Native tooltip shown on hover — use when the label may be visually truncated (e.g. `.ds-chip--truncate`). */
+  title?: string;
   size?: 'sm' | 'md';
   state?: 'default' | 'hover' | 'disabled';
   showTrailingIcon?: boolean;
@@ -83,6 +85,7 @@ export interface InputChipProps {
 
 export function InputChip({
   label = 'Label',
+  title,
   size = 'md',
   state = 'default',
   showTrailingIcon = true,
@@ -104,7 +107,7 @@ export function InputChip({
 
   return (
     <span className={classes} onClick={disabled ? undefined : onClick}>
-      <span className="ds-chip__label">{label}</span>
+      <span className="ds-chip__label" title={title}>{label}</span>
       {!disabled && showTrailingIcon && (
         <span
           className="icon"
