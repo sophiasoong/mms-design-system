@@ -1,0 +1,51 @@
+/* ---- Tag: color / style modifiers ----
+   Figma node 681:16866. The unmodified `.ds-tag` base (height, padding, radius, type,
+   plus the Gray/Outline background-border-color trio) already lives in ButtonDoc.css,
+   shared with the inline spec-value pills used across every Doc page's Layout & Spacing
+   tables — Gray/Outline is this component's default, so no separate gray modifier is
+   needed here.
+
+   Gray/Solid, Primary/Outline, Green (all three), Blue (all three), Red border, Orange
+   background, and Red label are exact matches to general-purpose tokens in tokens.css —
+   Green and Blue resolve to the brand/green/* and brand/blue/* primitive scale added
+   from Figma's "Supporting Palettes" reference (node 923:40156); Red border now resolves
+   to brand-danger-300, replacing the earlier flagged raw hex. Orange border/label and Red
+   background only coincidentally match component-scoped interactive-button/icon-button
+   tokens — no dedicated Tag token exists for them, so the reuse is commented per rule
+   below. */
+
+.ds-tag--solid {
+  border-color: transparent;
+}
+
+.ds-tag--primary {
+  background: var(--brand-primary-50);
+  border-color: var(--brand-primary-100);
+  color: var(--brand-primary-300);
+}
+
+.ds-tag--green {
+  background: var(--brand-green-100);
+  border-color: var(--brand-green-300);
+  color: var(--brand-green-600);
+}
+
+.ds-tag--orange {
+  background: var(--brand-secondary-200);
+  /* border/label reused from button/icon-button secondary tokens — no dedicated tag token exists */
+  border-color: var(--interactive-button-surface-secondary-solid-focus);
+  color: var(--interactive-icon-button-icon-secondary-ghost-default);
+}
+
+.ds-tag--red {
+  /* background reused from button danger-ghost-hover token — no dedicated tag token exists */
+  background: var(--interactive-button-surface-danger-ghost-hover);
+  color: var(--brand-danger-500);
+  border-color: var(--brand-danger-300);
+}
+
+.ds-tag--blue {
+  background: var(--brand-blue-100);
+  border-color: var(--brand-blue-300);
+  color: var(--brand-blue-600);
+}

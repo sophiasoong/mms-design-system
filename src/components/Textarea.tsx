@@ -13,6 +13,7 @@ export interface TextareaProps {
   chips?: string[];
   onRemoveChip?: (label: string) => void;
   onAddChip?: (value: string) => void;
+  onChange?: (value: string) => void;
   className?: string;
 }
 
@@ -24,6 +25,7 @@ export function Textarea({
   chips,
   onRemoveChip,
   onAddChip,
+  onChange,
   className,
 }: TextareaProps) {
   const [chipDraft, setChipDraft] = useState('');
@@ -86,6 +88,7 @@ export function Textarea({
         defaultValue={defaultValue}
         placeholder={placeholder}
         disabled={disabled}
+        onChange={onChange ? (event) => onChange(event.target.value) : undefined}
       />
     </div>
   );

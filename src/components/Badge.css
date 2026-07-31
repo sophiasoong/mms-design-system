@@ -1,0 +1,79 @@
+/* ---- Badge ----
+   Figma node 278:8255. Two shapes share one "_Dot" primitive: a labeled status
+   pill (dot + text, node 278:8341's Green/Orange/Red/Gray/Blue styles) and a
+   standalone dot indicator (node 410:3697's Size=Sm/Lg, shown at brand/danger/500
+   in the source file, sized inside a fixed icon-slot box). Green, Red, Gray, and
+   Blue dot colors are exact matches to tokens.css (brand-green-600, brand-danger-500,
+   brand-neutral-600, brand-blue-600 respectively). Orange (#ffa000, Figma's
+   brand/feedback/warning) has no dedicated brand token — it coincidentally matches
+   the icon-button secondary-ghost icon color, so that token is reused per the
+   project's established "reuse over guess" precedent (see Tag.css). */
+
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-padding-sm);
+}
+
+.ds-badge__label {
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-primary-neutral);
+}
+
+.ds-badge__dot {
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.ds-badge--label .ds-badge__dot,
+.ds-badge--dot-sm .ds-badge__dot {
+  width: 6px;
+  height: 6px;
+}
+
+.ds-badge--dot-lg .ds-badge__dot {
+  width: 12px;
+  height: 12px;
+}
+
+.ds-badge--dot-sm {
+  justify-content: center;
+  width: var(--component-icon-sm);
+  height: var(--component-icon-sm);
+}
+
+.ds-badge--dot-lg {
+  justify-content: center;
+  width: var(--component-icon-md);
+  height: var(--component-icon-md);
+}
+
+.ds-badge__dot--green {
+  background: var(--brand-green-600);
+}
+
+.ds-badge__dot--orange {
+  /* reused from icon-button secondary-ghost icon token — no dedicated badge/brand token exists */
+  background: var(--interactive-icon-button-icon-secondary-ghost-default);
+}
+
+.ds-badge__dot--red {
+  background: var(--brand-danger-500);
+}
+
+.ds-badge__dot--blue {
+  background: var(--brand-blue-600);
+}
+
+.ds-badge__dot--gray {
+  background: var(--brand-neutral-600);
+}
+
+.ds-badge-example-grid {
+  display: grid;
+  grid-template-columns: repeat(5, max-content);
+  gap: var(--space-component-padding-xl);
+  justify-content: center;
+}
+

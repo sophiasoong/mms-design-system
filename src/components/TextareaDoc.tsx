@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Textarea } from './Textarea';
+import Button from './Button';
 import { InputIcon, SelectIcon } from './icons';
 import './ButtonDoc.css';
 
@@ -8,6 +9,46 @@ const FIGMA_URL =
 
 const STYLE_TABS = ['Label', 'Input-chip'] as const;
 type StyleTab = (typeof STYLE_TABS)[number];
+
+const EXAMPLE_TABS = ['Textarea-field', 'Text editor toolbar'] as const;
+type ExampleTab = (typeof EXAMPLE_TABS)[number];
+
+const TOOLBAR_FORMAT_BUTTONS = [
+  { key: 'bold', icon: 'format_bold', label: 'Bold' },
+  { key: 'italic', icon: 'format_italic', label: 'Italic' },
+  { key: 'underline', icon: 'format_underlined', label: 'Underline' },
+  { key: 'strikethrough', icon: 'strikethrough_s', label: 'Strikethrough' },
+] as const;
+type ToolbarFormatKey = (typeof TOOLBAR_FORMAT_BUTTONS)[number]['key'];
+
+const TOOLBAR_FORMAT_COMMANDS: Record<ToolbarFormatKey, string> = {
+  bold: 'bold',
+  italic: 'italic',
+  underline: 'underline',
+  strikethrough: 'strikeThrough',
+};
+
+const TOOLBAR_PARAGRAPH_BUTTONS = [
+  { icon: 'format_list_numbered', label: 'Numbered list' },
+  { icon: 'format_list_bulleted', label: 'Bulleted list' },
+  { icon: 'format_align_left', label: 'Align left' },
+  { icon: 'format_align_center', label: 'Align center' },
+  { icon: 'format_align_right', label: 'Align right' },
+  { icon: 'format_align_justify', label: 'Justify' },
+  { icon: 'format_indent_decrease', label: 'Decrease indent' },
+  { icon: 'format_indent_increase', label: 'Increase indent' },
+] as const;
+
+const TOOLBAR_OTHER_BUTTONS = [
+  { icon: 'link', label: 'Insert link' },
+  { icon: 'image', label: 'Insert image' },
+  { icon: 'format_quote', label: 'Insert quote' },
+  { icon: 'table', label: 'Insert table' },
+] as const;
+
+const CHAR_LIMIT = 200;
+const TOOLBAR_INITIAL_TEXT = 'Autosize height based on content lines';
+const countCharacters = (text: string) => text.length;
 
 interface TextareaDocProps {
   onNavigate?: (componentId: string) => void;
@@ -19,6 +60,28 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
   const removeChip = (label: string) => setChips((prev) => prev.filter((l) => l !== label));
   const addChip = (label: string) =>
     setChips((prev) => (prev.includes(label) ? prev : [...prev, label]));
+
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Textarea-field');
+  const [activeFormats, setActiveFormats] = useState<ToolbarFormatKey[]>([]);
+  const editorRef = useRef<HTMLDivElement>(null);
+  const [fieldCharCount, setFieldCharCount] = useState(0);
+  const [toolbarCharCount, setToolbarCharCount] = useState(() =>
+    countCharacters(TOOLBAR_INITIAL_TEXT)
+  );
+
+  const syncActiveFormats = () => {
+    setActiveFormats(
+      TOOLBAR_FORMAT_BUTTONS.filter(({ key }) =>
+        document.queryCommandState(TOOLBAR_FORMAT_COMMANDS[key])
+      ).map(({ key }) => key)
+    );
+  };
+
+  const applyFormat = (key: ToolbarFormatKey) => {
+    editorRef.current?.focus();
+    document.execCommand(TOOLBAR_FORMAT_COMMANDS[key]);
+    syncActiveFormats();
+  };
 
   return (
     <div className="ds-doc">
@@ -183,6 +246,176 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
               </div>
             </div>
           </div>
+        </div>
+
+        <div id="example" className="ds-section__subsection">
+          <h3 className="ds-section__subtitle">Example</h3>
+          <p className="ds-section__desc">
+            Textarea-field pairs a Title label with the field and a hint row for validation
+            and character count. Text editor toolbar adds a formatting bar above the field for
+            rich-text entry.
+          </p>
+
+          <div className="ds-line-tabs" role="tablist" aria-label="Textarea example groups">
+            {EXAMPLE_TABS.map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activeExampleTab === tab}
+                className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
+                onClick={() => setActiveExampleTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {activeExampleTab === 'Textarea-field' && (
+            <div className="ds-preview" style={{ marginTop: 'var(--space-component-gap-md)' }}>
+              <div className="ds-textarea-example" style={{ width: 400 }}>
+                <div className="ds-textarea-example__title-row">
+                  <span className="ds-textarea-example__label">Title</span>
+                  <span className="ds-textarea-example__required" aria-hidden="true">
+                    *
+                  </span>
+                  <span className="icon icon--sm ds-textarea-example__info-icon" aria-hidden="true">
+                    info
+                  </span>
+                </div>
+                <Textarea
+                  placeholder="Autosize height based on content lines"
+                  onChange={(value) => setFieldCharCount(countCharacters(value))}
+                />
+                <div className="ds-textarea-example__hint">
+                  <span
+                    className="ds-textarea-example__hint-error"
+                    style={{ visibility: fieldCharCount >= CHAR_LIMIT ? 'visible' : 'hidden' }}
+                  >
+                    Error Message
+                  </span>
+                  <span className="ds-textarea-example__hint-count">
+                    {fieldCharCount}/{CHAR_LIMIT}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeExampleTab === 'Text editor toolbar' && (
+            <div className="ds-preview" style={{ marginTop: 'var(--space-component-gap-md)' }}>
+              <div className="ds-textarea-example" style={{ width: 'fit-content' }}>
+                <div className="ds-textarea-example__title-row">
+                  <span className="ds-textarea-example__label">Title</span>
+                  <span className="ds-textarea-example__required" aria-hidden="true">
+                    *
+                  </span>
+                  <span className="icon icon--sm ds-textarea-example__info-icon" aria-hidden="true">
+                    info
+                  </span>
+                </div>
+                <div className="ds-textarea-example__toolbar">
+                  <div className="ds-textarea-example__toolbar-tools">
+                    <div className="ds-textarea-example__toolbar-font">
+                      Normal
+                      <span className="icon" aria-hidden="true">
+                        arrow_drop_down
+                      </span>
+                    </div>
+                    <div className="ds-textarea-example__toolbar-group ds-textarea-example__toolbar-group--first">
+                      {TOOLBAR_FORMAT_BUTTONS.map(({ key, icon, label }) => (
+                        <button
+                          key={key}
+                          type="button"
+                          aria-label={label}
+                          aria-pressed={activeFormats.includes(key)}
+                          className={`ds-textarea-example__toolbar-btn${
+                            activeFormats.includes(key) ? ' ds-textarea-example__toolbar-btn--active' : ''
+                          }`}
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => applyFormat(key)}
+                        >
+                          <span className="icon" aria-hidden="true">
+                            {icon}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                    <div className="ds-textarea-example__toolbar-group">
+                      {TOOLBAR_PARAGRAPH_BUTTONS.map(({ icon, label }) => (
+                        <button
+                          key={icon}
+                          type="button"
+                          aria-label={label}
+                          className="ds-textarea-example__toolbar-btn"
+                        >
+                          <span className="icon" aria-hidden="true">
+                            {icon}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                    <div className="ds-textarea-example__toolbar-group">
+                      {TOOLBAR_OTHER_BUTTONS.map(({ icon, label }) => (
+                        <button
+                          key={icon}
+                          type="button"
+                          aria-label={label}
+                          className="ds-textarea-example__toolbar-btn"
+                        >
+                          <span className="icon" aria-hidden="true">
+                            {icon}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="ds-textarea-example__toolbar-actions">
+                    <Button variant="primary" appearance="ghost" size="md">
+                      Preview
+                    </Button>
+                    <button type="button" aria-label="Undo" className="ds-textarea-example__toolbar-btn">
+                      <span className="icon" aria-hidden="true">
+                        undo
+                      </span>
+                    </button>
+                    <button type="button" aria-label="Redo" className="ds-textarea-example__toolbar-btn">
+                      <span className="icon" aria-hidden="true">
+                        redo
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <div className="ds-textarea ds-textarea--force-focus">
+                  <div
+                    ref={editorRef}
+                    className="ds-textarea__field"
+                    contentEditable
+                    suppressContentEditableWarning
+                    onMouseUp={syncActiveFormats}
+                    onKeyUp={syncActiveFormats}
+                    onFocus={syncActiveFormats}
+                    onInput={(event) =>
+                      setToolbarCharCount(countCharacters(event.currentTarget.innerText))
+                    }
+                  >
+                    {TOOLBAR_INITIAL_TEXT}
+                  </div>
+                </div>
+                <div className="ds-textarea-example__hint">
+                  <span
+                    className="ds-textarea-example__hint-error"
+                    style={{ visibility: toolbarCharCount >= CHAR_LIMIT ? 'visible' : 'hidden' }}
+                  >
+                    Error Message
+                  </span>
+                  <span className="ds-textarea-example__hint-count">
+                    {toolbarCharCount}/{CHAR_LIMIT}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

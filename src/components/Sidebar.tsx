@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { COMPONENTS } from '../data/components';
 import {
+  BadgeIcon,
   ButtonIcon,
   CheckboxIcon,
   ChipIcon,
@@ -11,6 +12,7 @@ import {
   RadioIcon,
   SelectIcon,
   TabIcon,
+  TagIcon,
   TextareaIcon,
 } from './icons';
 import './Sidebar.css';
@@ -27,6 +29,8 @@ function renderItemIcon(component: (typeof COMPONENTS)[number]) {
   if (component.id === 'radio') return <RadioIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'datepicker') return <DatepickerIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'tab') return <TabIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'tag') return <TagIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'badge') return <BadgeIcon className="ds-sidebar__item-icon" />;
   return (
     <span className="icon ds-sidebar__item-icon" aria-hidden="true">
       {component.icon}

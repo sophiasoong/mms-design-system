@@ -834,6 +834,16 @@
   flex-shrink: 0;
 }
 
+/* Inline marker for a raw hex value in a States/token table that has no tokens.css
+   match — flags it per the "flag instead of guess" rule instead of hiding it. Used by
+   TagDoc's States table. */
+.ds-doc-flag {
+  margin-left: var(--space-component-gap-xs);
+  color: var(--brand-danger-500);
+  font-size: var(--typography-xxs-font-size);
+  font-style: italic;
+}
+
 /* ---- Related ---- */
 .ds-related-grid {
   display: grid;
@@ -879,6 +889,128 @@
   line-height: var(--typography-md-line-height);
   font-weight: var(--typography-font-weight-medium);
   color: var(--text-body-primary-neutral);
+}
+
+/* ---- Textarea Example: field w/ title + hint row, and text-editor toolbar ---- */
+.ds-textarea-example {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs);
+  width: 100%;
+}
+
+.ds-textarea-example__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-textarea-example__label {
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-secondary-neutral);
+}
+
+.ds-textarea-example__required {
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--brand-danger-500);
+}
+
+.ds-textarea-example__info-icon {
+  color: var(--brand-neutral-600);
+}
+
+.ds-textarea-example__hint {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-component-gap-sm);
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-sm-line-height);
+}
+
+.ds-textarea-example__hint-error {
+  color: var(--brand-danger-500);
+}
+
+.ds-textarea-example__hint-count {
+  color: var(--text-body-secondary-neutral);
+  white-space: nowrap;
+}
+
+.ds-textarea-example__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-component-gap-sm);
+  width: 100%;
+  height: var(--component-height-xl);
+  padding: 0 var(--space-component-padding-lg);
+  background: var(--brand-primary-50);
+  border-radius: var(--radius-sm);
+}
+
+.ds-textarea-example__toolbar-tools {
+  display: flex;
+  align-items: center;
+}
+
+.ds-textarea-example__toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  border-left: var(--border-sm) solid var(--brand-neutral-500);
+  padding: 0 var(--space-layout-section-padding-xs);
+}
+
+.ds-textarea-example__toolbar-group--first {
+  border-left: none;
+  padding-left: 0;
+}
+
+.ds-textarea-example__toolbar-font {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  padding-right: var(--space-layout-section-padding-xs);
+  color: var(--text-body-primary-neutral);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+}
+
+.ds-textarea-example__toolbar-font .icon {
+  color: var(--interactive-select-icon-default);
+}
+
+.ds-textarea-example__toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-icon-md);
+  height: var(--component-icon-md);
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-xs);
+  background: none;
+  color: var(--interactive-select-icon-default);
+  cursor: pointer;
+  transition: color var(--duration-fast) ease, background-color var(--duration-fast) ease;
+}
+
+.ds-textarea-example__toolbar-btn:hover {
+  background: var(--brand-primary-75);
+}
+
+.ds-textarea-example__toolbar-btn--active {
+  background: var(--brand-primary-75);
+  color: var(--brand-primary-400);
+}
+
+.ds-textarea-example__toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
 }
 
 .ds-related-card__tag {
