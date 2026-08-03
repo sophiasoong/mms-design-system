@@ -15,6 +15,9 @@ import DatePickerDoc from './components/DatePickerDoc';
 import TabDoc from './components/TabDoc';
 import TagDoc from './components/TagDoc';
 import BadgeDoc from './components/BadgeDoc';
+import ToggleDoc from './components/ToggleDoc';
+import TableDoc from './components/TableDoc';
+import HintDoc from './components/HintDoc';
 import { getStoredBrandMode, applyBrandMode, type BrandMode } from './brandMode';
 import { BUTTON_SECTIONS } from './data/buttonSections';
 import { ICON_BUTTON_SECTIONS } from './data/iconButtonSections';
@@ -29,6 +32,9 @@ import { DATE_PICKER_SECTIONS } from './data/datePickerSections';
 import { TAB_SECTIONS } from './data/tabSections';
 import { TAG_SECTIONS } from './data/tagSections';
 import { BADGE_SECTIONS } from './data/badgeSections';
+import { TOGGLE_SECTIONS } from './data/toggleSections';
+import { TABLE_SECTIONS } from './data/tableSections';
+import { HINT_SECTIONS } from './data/hintSections';
 import type { AnchorSection } from './components/AnchorNav';
 import './App.css';
 
@@ -46,6 +52,9 @@ const SECTIONS_BY_COMPONENT: Record<string, AnchorSection[]> = {
   tab: TAB_SECTIONS,
   tag: TAG_SECTIONS,
   badge: BADGE_SECTIONS,
+  toggle: TOGGLE_SECTIONS,
+  table: TABLE_SECTIONS,
+  hint: HINT_SECTIONS,
 };
 
 function App() {
@@ -90,6 +99,12 @@ function App() {
             <TagDoc onNavigate={setActiveComponentId} />
           ) : activeComponentId === 'badge' ? (
             <BadgeDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'toggle' ? (
+            <ToggleDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'table' ? (
+            <TableDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'hint' ? (
+            <HintDoc onNavigate={setActiveComponentId} />
           ) : (
             <div className="ds-main__empty">Select a component to view its documentation.</div>
           )}

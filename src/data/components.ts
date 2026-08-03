@@ -6,12 +6,13 @@ export interface ComponentEntry {
 
 // `icon` is a Material Symbols Rounded glyph name rendered as ligature text. 'button',
 // 'icon-button', 'dropdown', 'chip', 'input', 'textarea', 'select', 'checkbox', 'radio',
-// 'datepicker', 'tab', 'tag', and 'badge' are exceptions: Sidebar.tsx and each Related
-// Component card render them as bespoke SVGs (ButtonIcon / IconButtonIcon / DropdownIcon /
-// ChipIcon / InputIcon / TextareaIcon / SelectIcon / CheckboxIcon / RadioIcon /
-// DatepickerIcon / TabIcon / TagIcon / BadgeIcon in ./components/icons) instead, since no
-// Material Symbol matches their Figma-specified marks — the icon values below go unused
-// for those ids and are kept only as a readable fallback label.
+// 'datepicker', 'tab', 'tag', 'badge', 'toggle', 'table', and 'hint' are exceptions:
+// Sidebar.tsx and each Related Component card render them as bespoke SVGs (ButtonIcon /
+// IconButtonIcon / DropdownIcon / ChipIcon / InputIcon / TextareaIcon / SelectIcon /
+// CheckboxIcon / RadioIcon / DatepickerIcon / TabIcon / TagIcon / BadgeIcon / ToggleIcon /
+// TableIcon / HintIcon in ./components/icons) instead, since no Material Symbol matches
+// their Figma-specified marks — the icon values below go unused for those ids and are
+// kept only as a readable fallback label.
 export const COMPONENTS: ComponentEntry[] = [
   { id: 'button', name: 'Button', icon: 'smart_button' },
   { id: 'icon-button', name: 'Icon Button', icon: 'add_circle' },
@@ -26,4 +27,7 @@ export const COMPONENTS: ComponentEntry[] = [
   { id: 'tab', name: 'Tab', icon: 'tab' },
   { id: 'tag', name: 'Tag', icon: 'sell' },
   { id: 'badge', name: 'Badge', icon: 'fiber_manual_record' },
+  { id: 'toggle', name: 'Toggle', icon: 'toggle_on' },
+  { id: 'table', name: 'Table', icon: 'table_chart' },
+  { id: 'hint', name: 'Hint', icon: 'help' },
 ];

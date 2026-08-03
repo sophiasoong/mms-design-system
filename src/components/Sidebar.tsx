@@ -7,13 +7,16 @@ import {
   ChipIcon,
   DatepickerIcon,
   DropdownIcon,
+  HintIcon,
   IconButtonIcon,
   InputIcon,
   RadioIcon,
   SelectIcon,
   TabIcon,
+  TableIcon,
   TagIcon,
   TextareaIcon,
+  ToggleIcon,
 } from './icons';
 import './Sidebar.css';
 
@@ -31,6 +34,9 @@ function renderItemIcon(component: (typeof COMPONENTS)[number]) {
   if (component.id === 'tab') return <TabIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'tag') return <TagIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'badge') return <BadgeIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'toggle') return <ToggleIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'table') return <TableIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'hint') return <HintIcon className="ds-sidebar__item-icon" />;
   return (
     <span className="icon ds-sidebar__item-icon" aria-hidden="true">
       {component.icon}

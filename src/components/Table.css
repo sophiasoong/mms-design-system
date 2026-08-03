@@ -1,0 +1,482 @@
+/* ---- Table: tabular data with selectable rows, sortable/annotated headers ----
+   Figma node 608:23852. Named `ds-datatable` (not `ds-table`) because `.ds-table` is
+   already the shared spec-table utility used across every doc page's Layout & Spacing /
+   States sections (see ButtonDoc.css) — this is the product Table component itself.
+   Figma's row size labels (Sm/Md/Lg/Xl = 40/48/64/96px) don't line up with the
+   identically-named --component-height-* tier of the same name; each is mapped below by
+   matching its literal pixel value to the token that actually carries it. */
+.ds-datatable {
+  width: 100%;
+  /* `separate` + zero spacing (not `collapse`) so the freeze-column box-shadow below can
+     paint — `border-collapse: collapse` clips box-shadow on td/th to nothing in every
+     browser, since collapsed cells don't get their own paint bounds past the border box. */
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: var(--typography-font-family-body);
+  background: var(--global-background-surface);
+}
+
+/* Anatomy demo: fixed narrower width so the side-pointing callout badges (3, 4) have
+   room to sit inside the figure's padding instead of bleeding past its border. */
+.ds-datatable.ds-anatomy__demo {
+  width: 400px;
+}
+
+.ds-datatable__header-row {
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
+  background: var(--brand-primary-50);
+}
+
+.ds-datatable__header-cell {
+  padding-inline: var(--space-component-padding-md);
+  text-align: left;
+  font-family: var(--typography-font-family-heading);
+  font-weight: var(--typography-font-weight-medium);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-secondary-neutral);
+  white-space: nowrap;
+}
+
+.ds-datatable__header-cell--center {
+  text-align: center;
+}
+
+.ds-datatable__header-content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-datatable__header-cell--center .ds-datatable__header-content {
+  justify-content: center;
+}
+
+.ds-datatable__header-icon {
+  color: var(--text-body-tertiary-neutral);
+}
+
+.ds-datatable__sort-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text-body-tertiary-neutral);
+}
+
+.ds-datatable__sort-btn--active {
+  color: var(--brand-primary-400);
+}
+
+.ds-datatable__cell {
+  padding-inline: var(--space-component-padding-md);
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-primary-neutral);
+}
+
+.ds-datatable__cell--center {
+  text-align: center;
+}
+
+.ds-datatable__select-cell {
+  width: var(--component-height-lg);
+  padding-inline: var(--space-component-padding-md);
+}
+
+/* ---- Sizes: row/header-cell height, mapped by matching Figma's literal pixel value to
+   the --component-height token that carries it, not by matching the tier name. */
+.ds-datatable--sm .ds-datatable__header-cell,
+.ds-datatable--sm .ds-datatable__cell {
+  height: var(--component-height-lg); /* Figma "Sm" = 40px */
+}
+
+.ds-datatable--md .ds-datatable__header-cell,
+.ds-datatable--md .ds-datatable__cell {
+  height: var(--component-height-xl); /* Figma "Md" = 48px */
+}
+
+.ds-datatable--lg .ds-datatable__header-cell,
+.ds-datatable--lg .ds-datatable__cell {
+  height: var(--component-height-3xl); /* Figma "Lg" = 64px */
+}
+
+.ds-datatable--xl .ds-datatable__header-cell,
+.ds-datatable--xl .ds-datatable__cell {
+  height: var(--component-height-5xl); /* Figma "Xl" = 96px */
+}
+
+/* ---- Row states ---- */
+.ds-datatable__row--hover,
+.ds-datatable__row:not(.ds-datatable__row--selected):not(.ds-datatable__row--highlighted):not(.ds-datatable__row--disabled):hover {
+  background: var(--brand-primary-50);
+}
+
+.ds-datatable__row--selected {
+  background: var(--brand-primary-75);
+}
+
+/* No token resolves this value — Figma's row/highlighted surface is a plain #fffbf2 with
+   no matching entry anywhere in tokens.css, so it's kept as a flagged literal per the
+   project's "flag instead of guessing" rule. */
+.ds-datatable__row--highlighted {
+  background: #fffbf2; /* unmatched token: row/highlighted surface */
+}
+
+.ds-datatable__row--disabled {
+  background: var(--brand-neutral-100);
+  color: var(--text-body-tertiary-neutral);
+}
+
+.ds-datatable__row--disabled .ds-datatable__cell {
+  color: var(--text-body-tertiary-neutral);
+}
+
+/* ---- Cell content styles: recipes for the "Text-button" / "Thumbnail" / "Upload" cell
+   styles from Figma node 608:22292, which have no standalone component of their own. */
+.ds-datatable__cell-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-link-default);
+  text-decoration: underline;
+}
+
+.ds-datatable__cell-thumbnail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-height-lg);
+  height: var(--component-height-lg);
+  background: var(--brand-neutral-200);
+  color: var(--text-body-tertiary-neutral);
+}
+
+.ds-datatable__cell-upload {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-component-gap-xs);
+  width: var(--component-height-3xl);
+  height: var(--component-height-3xl);
+  border: var(--border-sm) dashed var(--brand-neutral-600);
+  border-radius: var(--radius-md);
+  background: var(--global-background-surface);
+  color: var(--brand-primary-400);
+}
+
+.ds-datatable__cell-upload span:last-child {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-xxs-font-size, 10px);
+  color: var(--text-body-primary-neutral);
+}
+
+/* ---- Example: a full table implementation (toolbar, results/pagination, empty state)
+   from Figma node 948:20639. These wrapper pieces (toolbar, results bar, pagination,
+   empty state) have no standalone components of their own — everything inside them
+   (Input, FilterChip, Button, Table) is the project's real component. */
+.ds-table-example {
+  width: 100%;
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--surface-card-surface-default);
+}
+
+/* The row's column widths add up to more than the doc's content column on most
+   viewports — scope the overflow to just the table so the rest of the card (toolbar,
+   results bar, pagination) stays put while columns beyond the fold are reachable. */
+.ds-table-example__scroll {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brand-neutral-600) var(--brand-neutral-200);
+}
+
+/* Lays the freeze-shadow strips out flush against the table (frame edges) instead of
+   stacked above/below it, and — via the default flex `align-items: stretch` — gives each
+   0-width strip the same height as the table without measuring it in JS. */
+.ds-table-example__frame {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+}
+
+/* `width: 100%` on .ds-datatable otherwise shrinks every column to fit the card, ignoring
+   each TableHeaderCell's `width` — grow to content instead so columns keep their specified
+   widths and the row overflows into the scrollbar above. */
+.ds-table-example__frame .ds-datatable {
+  width: max-content;
+  min-width: 100%;
+  flex-shrink: 0;
+}
+
+/* Custom-styled scrollbars render as classic (always-on) bars instead of the OS's
+   auto-hiding overlay ones, so the horizontal scrollbar stays visible without a hover. */
+.ds-table-example__scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.ds-table-example__scroll::-webkit-scrollbar-track {
+  background: var(--brand-neutral-200);
+}
+
+.ds-table-example__scroll::-webkit-scrollbar-thumb {
+  background: var(--brand-neutral-600);
+  border-radius: var(--radius-md);
+}
+
+/* Freezes the checkbox column so it stays visible while the rest of the row scrolls
+   underneath it — the sticky cell needs its own opaque background (rather than inheriting
+   the transparent `td`/`th` default) so scrolled content doesn't show through it. The
+   freeze-column shadow itself is drawn once for the whole panel by
+   .ds-table-example__freeze-shadow below, not per cell. */
+.ds-table-example__scroll .ds-datatable__select-cell {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--surface-card-surface-default);
+}
+
+.ds-table-example__scroll .ds-datatable__header-row .ds-datatable__select-cell {
+  background: var(--brand-primary-50);
+}
+
+.ds-table-example__scroll .ds-datatable__row--selected .ds-datatable__select-cell {
+  background: var(--brand-primary-75);
+}
+
+.ds-table-example__scroll .ds-datatable__row:not(.ds-datatable__row--selected):hover .ds-datatable__select-cell {
+  background: var(--brand-primary-50);
+}
+
+/* Freezes the Action column to the right edge, mirroring the checkbox freeze above, so
+   row actions stay reachable without scrolling all the way through the row. Its
+   freeze-column shadow is drawn once for the whole panel by
+   .ds-table-example__freeze-shadow below, not per cell. */
+.ds-table-example__action-cell {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  background: var(--surface-card-surface-default);
+}
+
+.ds-table-example__scroll .ds-datatable__header-row .ds-table-example__action-cell {
+  background: var(--brand-primary-50);
+}
+
+.ds-table-example__scroll .ds-datatable__row--selected .ds-table-example__action-cell {
+  background: var(--brand-primary-75);
+}
+
+.ds-table-example__scroll .ds-datatable__row:not(.ds-datatable__row--selected):hover .ds-table-example__action-cell {
+  background: var(--brand-primary-50);
+}
+
+/* Single continuous drop shadow for the whole frozen-column panel — Figma's freeze-column
+   shadow (node 778:31606, "shadow/table": 0px 2px 8px rgba(0,0,0,0.15)) drawn once for the
+   full column height instead of repeating per cell/row, which left visible seams at row
+   boundaries. Its color has no matching token (existing shadow tokens are solid grays, not
+   alpha-black), so it's kept as the raw value read from Figma rather than guessed.
+   Each strip is a zero-width flex sibling of the table inside .ds-table-example__frame:
+   flex's `align-items: stretch` gives it the table's full height for free (no JS height
+   measurement needed), and being a flex item positioned before/after the table gives
+   `position: sticky` the correct edge to pin against as the frame scrolls. Its `left`/
+   `right` offset is set inline from the checkbox/Action column's measured width, since the
+   Action column hugs its button content and isn't a fixed size in CSS. Opacity (also set
+   inline) hides the strip at the scroll extreme where it has nothing left to indicate —
+   start for the checkbox column, end for the Action column. */
+.ds-table-example__freeze-shadow {
+  position: sticky;
+  flex: none;
+  width: 0;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 150ms ease;
+}
+
+.ds-table-example__freeze-shadow--left {
+  box-shadow: 2px 0 8px 0 rgba(0, 0, 0, 0.15);
+}
+
+.ds-table-example__freeze-shadow--right {
+  box-shadow: -2px 0 8px 0 rgba(0, 0, 0, 0.15);
+}
+
+.ds-table-example__action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-table-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  padding: var(--space-component-padding-lg);
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-table-toolbar__search {
+  width: 320px;
+}
+
+.ds-table-toolbar__filters {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-table-filter {
+  position: relative;
+}
+
+.ds-table-filter__panel {
+  position: absolute;
+  top: calc(100% + var(--space-component-gap-xs));
+  left: 0;
+  z-index: 10;
+}
+
+.ds-table-toolbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-table-results {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-component-padding-lg);
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-table-results__count {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-secondary-neutral);
+}
+
+.ds-table-results__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-table-results__updated {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-secondary-neutral);
+  white-space: nowrap;
+}
+
+.ds-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-component-gap-xs);
+  padding: var(--space-component-padding-lg);
+}
+
+.ds-pagination__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-height-md);
+  height: var(--component-height-md);
+  border: var(--border-sm) solid transparent;
+  background: none;
+  border-radius: 6px; /* unmatched token: pagination item radius (Figma: 6px, between --radius-sm/4px and --radius-md/8px) */
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  color: var(--text-body-primary-neutral);
+  cursor: pointer;
+}
+
+/* Figma's active-item border/label color (#1f11bb) matches --brand-primary-600 exactly. */
+.ds-pagination__item--active {
+  border-color: var(--brand-primary-600);
+  color: var(--brand-primary-600);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.ds-pagination__item--ellipsis {
+  cursor: default;
+  color: var(--text-body-tertiary-neutral);
+}
+
+.ds-pagination__nav {
+  flex-shrink: 0;
+}
+
+.ds-pagination__goto {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  margin-left: var(--space-component-gap-md);
+}
+
+.ds-pagination__goto-label {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-primary-neutral);
+  white-space: nowrap;
+}
+
+.ds-pagination__goto-input {
+  width: var(--component-height-md);
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+}
+
+.ds-pagination__goto-input .ds-input__field {
+  text-align: center;
+}
+
+/* ---- Empty state ---- */
+.ds-table-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  padding: 40px;
+  text-align: center;
+  /* Pins the block to the visible edge of the horizontally-scrollable table
+     container so it stays centered on screen even if the table was scrolled
+     right before the Empty tab was opened. */
+  position: sticky;
+  left: 0;
+}
+
+.ds-table-empty__illustration {
+  flex-shrink: 0;
+}
+
+.ds-table-empty__title {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-primary-neutral);
+}
+
+.ds-table-empty__desc {
+  max-width: 100%;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-secondary-neutral);
+}

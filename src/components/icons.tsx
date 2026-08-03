@@ -331,3 +331,78 @@ export function BadgeIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+/* Same pill-track outline as ChipIcon (both source from the same Figma-exported
+   96x96 frame), with a filled knob instead of ChipIcon's bar mark — matches the
+   supplied Toggle.svg exactly. */
+export function ToggleIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      width="24"
+      height="24"
+      viewBox="0 0 96 96"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M64 20C79.464 20 92 32.536 92 48C92 63.464 79.464 76 64 76H32L31.2773 75.9912C16.1474 75.6079 4 63.2224 4 48C4 32.7776 16.1474 20.3921 31.2773 20.0088L32 20H64ZM32 28C20.9543 28 12 36.9543 12 48C12 59.0457 20.9543 68 32 68H64C75.0457 68 84 59.0457 84 48C84 36.9543 75.0457 28 64 28H32Z"
+        fill="var(--brand-neutral-600)"
+      />
+      <path
+        d="M64 64C72.8366 64 80 56.8366 80 48C80 39.1634 72.8366 32 64 32C55.1634 32 48 39.1634 48 48C48 56.8366 55.1634 64 64 64Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+export function TableIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      width="24"
+      height="24"
+      viewBox="0 0 96 96"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M20 12H76C80.4183 12 84 15.5817 84 20V76C84 80.4183 80.4183 84 76 84H20C15.5817 84 12 80.4183 12 76V20C12 15.5817 15.5817 12 20 12Z"
+        stroke="var(--brand-neutral-600)"
+        strokeWidth="8"
+      />
+      <path
+        opacity="0.9"
+        d="M88 36H52V54H88V62H52V88H44V62H8V54H44V36H8V28H88V36Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+export function HintIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      width="24"
+      height="24"
+      viewBox="0 0 96 96"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M76.4131 40.0049C85.0587 40.224 92 47.3016 92 56V68L91.9951 68.4131C91.7795 76.9215 84.9215 83.7795 76.4131 83.9951L76 84H20C11.3016 84 4.22398 77.0587 4.00488 68.4131L4 68V56C4 47.1634 11.1634 40 20 40H76L76.4131 40.0049ZM20 48C15.5817 48 12 51.5817 12 56V68C12 72.4183 15.5817 76 20 76H76C80.4183 76 84 72.4183 84 68V56C84 51.5817 80.4183 48 76 48H20Z"
+        fill="var(--brand-neutral-600)"
+      />
+      <path
+        d="M20 62C20 59.7909 21.7909 58 24 58H72C74.2091 58 76 59.7909 76 62C76 64.2091 74.2091 66 72 66H24C21.7909 66 20 64.2091 20 62Z"
+        fill="currentColor"
+      />
+      <path
+        d="M18.318 23.445L26.8181 31.9025C27.5479 32.6342 28.3958 33 29.3617 33C30.3276 33 31.1755 32.6342 31.9053 31.9025C32.6351 31.1708 33 30.3315 33 29.3846C33 28.4377 32.6351 27.5984 31.9053 26.8667L23.4052 18.3447L29.2651 16.4078C29.8661 16.1926 30.1559 15.7837 30.1344 15.1812C30.113 14.5786 29.8017 14.1697 29.2007 13.9545L9.68912 8.07946C9.21689 7.9073 8.7876 8.0149 8.40123 8.40226C8.01486 8.78963 7.90754 9.22004 8.07926 9.69348L13.9392 29.2555C14.1538 29.858 14.5617 30.1701 15.1627 30.1916C15.7637 30.2131 16.1715 29.9226 16.3862 29.32L18.318 23.445Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
