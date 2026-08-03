@@ -180,7 +180,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
                 <div className="ds-dropdown-option ds-dropdown-option--multi ds-dropdown-option--selected">
                   <span className="ds-checkbox ds-checkbox--checked ds-anatomy__part-relative" aria-hidden="true">
                     <span className="ds-checkbox__box">
-                      <span className="icon" aria-hidden="true">
+                      <span className="icon ds-checkbox__check" aria-hidden="true">
                         check
                       </span>
                     </span>

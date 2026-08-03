@@ -8,8 +8,8 @@ const FIGMA_URL =
 
 const LABEL_COLORS: BadgeColor[] = ['green', 'orange', 'red', 'blue', 'gray'];
 
-const TYPE_TABS = ['Dot', 'Label'] as const;
-type TypeTab = (typeof TYPE_TABS)[number];
+const STYLE_TABS = ['Dot', 'Label'] as const;
+type StyleTab = (typeof STYLE_TABS)[number];
 
 interface BadgeExampleGroup {
   name: string;
@@ -39,7 +39,7 @@ interface BadgeDocProps {
 }
 
 export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
-  const [activeTypeTab, setActiveTypeTab] = useState<TypeTab>('Label');
+  const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Label');
   const [activeExampleColor, setActiveExampleColor] = useState<BadgeColor>('green');
 
   return (
@@ -91,7 +91,10 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
         </p>
         <div className="ds-anatomy">
           <div className="ds-anatomy__figure">
-            <div className="ds-badge ds-anatomy__demo ds-anatomy__part-relative" aria-hidden="true">
+            <div
+              className="ds-badge ds-badge--label ds-anatomy__demo ds-anatomy__part-relative"
+              aria-hidden="true"
+            >
               <span className="ds-badge__dot ds-badge__dot--green ds-anatomy__part-relative">
                 <span className="ds-anatomy__badge ds-anatomy__badge--side-left">1</span>
               </span>
@@ -122,21 +125,21 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
       <section id="variants" className="ds-section">
         <h2 className="ds-section__title">Variants</h2>
         <p className="ds-section__desc">
-          Type controls what's rendered: Label pairs the dot with text and comes in five
+          Style controls what's rendered: Label pairs the dot with text and comes in five
           colors; Dot is the standalone indicator and only varies by size in the source Figma
           spec.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Type</span>
-        <div className="ds-line-tabs" role="tablist" aria-label="Badge type groups">
-          {TYPE_TABS.map((tab) => (
+        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <div className="ds-line-tabs" role="tablist" aria-label="Badge style groups">
+          {STYLE_TABS.map((tab) => (
             <button
               key={tab}
               type="button"
               role="tab"
-              aria-selected={activeTypeTab === tab}
-              className={`ds-line-tab${activeTypeTab === tab ? ' ds-line-tab--active' : ''}`}
-              onClick={() => setActiveTypeTab(tab)}
+              aria-selected={activeStyleTab === tab}
+              className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
+              onClick={() => setActiveStyleTab(tab)}
             >
               {tab}
             </button>
@@ -144,7 +147,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
         </div>
 
         <div className="ds-variant-groups">
-          {activeTypeTab === 'Label' && (
+          {activeStyleTab === 'Label' && (
             <div className="ds-variant-group">
               <div className="ds-variant-row">
                 {LABEL_COLORS.map((color) => (
@@ -159,16 +162,16 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
             </div>
           )}
 
-          {activeTypeTab === 'Dot' && (
+          {activeStyleTab === 'Dot' && (
             <div className="ds-variant-group">
               <div className="ds-variant-row">
                 <div className="ds-variant-row__cell">
                   <Badge size="sm" />
-                  <span className="ds-variant-row__cell-label">Sm</span>
+                  <span className="ds-variant-row__cell-label">Sm · 16px</span>
                 </div>
                 <div className="ds-variant-row__cell">
                   <Badge size="lg" />
-                  <span className="ds-variant-row__cell-label">Lg</span>
+                  <span className="ds-variant-row__cell-label">Lg · 24px</span>
                 </div>
               </div>
               <span className="ds-variant-note">
@@ -181,7 +184,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Examples</span>
+            <span className="ds-variant-group__label">Example</span>
             <p className="ds-section__desc">Real-world status labels, grouped by color.</p>
 
             <div className="ds-line-tabs" role="tablist" aria-label="Badge example colors">
