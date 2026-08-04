@@ -176,6 +176,22 @@
   cursor: not-allowed;
 }
 
+.ds-input__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--brand-neutral-600);
+}
+
+.ds-input__clear:focus {
+  outline: none;
+}
+
 .ds-input__placeholder {
   overflow: hidden;
   text-overflow: ellipsis;

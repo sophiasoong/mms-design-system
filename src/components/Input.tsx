@@ -31,11 +31,15 @@ export function Input({
 }: InputProps) {
   const [chipDraft, setChipDraft] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const numberFieldRef = useRef<HTMLInputElement>(null);
+  const [isFocused, setIsFocused] = useState(false);
+  const [hasValue, setHasValue] = useState(!!defaultValue);
+  const fieldRef = useRef<HTMLInputElement>(null);
   const disabled = state === 'disabled';
   const hasChips = !!chips && chips.length > 0;
   const chipMode = !!onAddChip;
   const showStepper = type === 'number' && !chipMode;
+  const showClear =
+    !chipMode && type !== 'number' && type !== 'password' && isFocused && hasValue && !disabled;
   const classes = [
     'ds-input',
     `ds-input--${size}`,
@@ -58,8 +62,8 @@ export function Input({
     setChipDraft('');
   };
 
-  const handleStepUp = () => numberFieldRef.current?.stepUp();
-  const handleStepDown = () => numberFieldRef.current?.stepDown();
+  const handleStepUp = () => fieldRef.current?.stepUp();
+  const handleStepDown = () => fieldRef.current?.stepDown();
 
   const handleNumberKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === '-') event.preventDefault();
@@ -69,6 +73,18 @@ export function Input({
     const target = event.currentTarget;
     if (target.value.includes('-')) target.value = target.value.replace(/-/g, '');
   };
+
+  const handleClear = () => {
+    if (fieldRef.current) {
+      fieldRef.current.value = '';
+      fieldRef.current.focus();
+    }
+    setHasValue(false);
+  };
+
+  // Clicking the clear button would otherwise blur the field first (mousedown fires
+  // before click), which hides the button before its own click can register.
+  const preventBlur = (event: React.MouseEvent) => event.preventDefault();
 
   return (
     <div className={classes}>
@@ -98,18 +114,34 @@ export function Input({
           />
         ) : (
           <input
-            ref={type === 'number' ? numberFieldRef : undefined}
+            ref={fieldRef}
             className="ds-input__field"
             type={type === 'password' ? (passwordVisible ? 'text' : 'password') : type}
             defaultValue={defaultValue}
             placeholder={placeholder}
             disabled={disabled}
             min={type === 'number' ? 0 : undefined}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            onChange={(event) => setHasValue(!!event.target.value)}
             onKeyDown={type === 'number' ? handleNumberKeyDown : undefined}
             onInput={type === 'number' ? handleNumberInput : undefined}
           />
         )}
       </div>
+      {showClear && (
+        <button
+          type="button"
+          className="ds-input__clear"
+          onMouseDown={preventBlur}
+          onClick={handleClear}
+          aria-label="Clear input"
+        >
+          <span className="icon icon--sm icon--filled" aria-hidden="true">
+            cancel
+          </span>
+        </button>
+      )}
       {showStepper && (
         <div className="ds-input__stepper">
           <button
