@@ -284,8 +284,9 @@
 /* Single continuous drop shadow for the whole frozen-column panel — Figma's freeze-column
    shadow (node 778:31606, "shadow/table": 0px 2px 8px rgba(0,0,0,0.15)) drawn once for the
    full column height instead of repeating per cell/row, which left visible seams at row
-   boundaries. Its color has no matching token (existing shadow tokens are solid grays, not
-   alpha-black), so it's kept as the raw value read from Figma rather than guessed.
+   boundaries. Color uses --brand-neutral-700 (#a6a6a6 → rgb(166, 166, 166)) instead of
+   Figma's black base — that token has no alpha variant, so the 0.15 alpha is kept as a raw
+   rgba() wrapping its RGB channels rather than the var() alone.
    Each strip is a zero-width flex sibling of the table inside .ds-table-example__frame:
    flex's `align-items: stretch` gives it the table's full height for free (no JS height
    measurement needed), and being a flex item positioned before/after the table gives
@@ -293,7 +294,13 @@
    `right` offset is set inline from the checkbox/Action column's measured width, since the
    Action column hugs its button content and isn't a fixed size in CSS. Opacity (also set
    inline) hides the strip at the scroll extreme where it has nothing left to indicate —
-   start for the checkbox column, end for the Action column. */
+   start for the checkbox column, end for the Action column.
+   In Figma the shadow is cast by the frozen column itself, which has real width, so its
+   blur reaches full alpha at the casting edge. Here the caster is a 0-width strip, so a
+   Gaussian blur with no spread never reaches that alpha at the edge and reads as invisible
+   — confirmed by inspecting the rendered box-shadow live, where 0 spread produced no visible
+   line and a small spread did. A 2px spread (reusing the shadow's own "md" offset value)
+   restores a perceptible edge without inflating the blur radius past Figma's spec. */
 .ds-table-example__freeze-shadow {
   position: sticky;
   flex: none;
@@ -304,11 +311,11 @@
 }
 
 .ds-table-example__freeze-shadow--left {
-  box-shadow: 2px 0 8px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 2px 0 8px 2px rgba(166, 166, 166, 0.15);
 }
 
 .ds-table-example__freeze-shadow--right {
-  box-shadow: -2px 0 8px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: -2px 0 8px 2px rgba(166, 166, 166, 0.15);
 }
 
 .ds-table-example__action-buttons {
