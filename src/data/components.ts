@@ -6,19 +6,21 @@ export interface ComponentEntry {
 
 // `icon` is a Material Symbols Rounded glyph name rendered as ligature text. 'button',
 // 'icon-button', 'dropdown', 'chip', 'input', 'textarea', 'select', 'checkbox', 'radio',
-// 'datepicker', 'tab', 'tag', 'badge', 'toggle', 'table', and 'hint' are exceptions:
-// Sidebar.tsx and each Related Component card render them as bespoke SVGs (ButtonIcon /
-// IconButtonIcon / DropdownIcon / ChipIcon / InputIcon / TextareaIcon / SelectIcon /
-// CheckboxIcon / RadioIcon / DatepickerIcon / TabIcon / TagIcon / BadgeIcon / ToggleIcon /
-// TableIcon / HintIcon in ./components/icons) instead, since no Material Symbol matches
-// their Figma-specified marks — the icon values below go unused for those ids and are
-// kept only as a readable fallback label.
+// 'datepicker', 'tab', 'tag', 'badge', 'toggle', 'table', 'hint', 'tooltip', 'indicator',
+// and 'searchbar' are exceptions: Sidebar.tsx and each Related Component card render them
+// as bespoke SVGs (ButtonIcon / IconButtonIcon / DropdownIcon / ChipIcon / InputIcon /
+// TextareaIcon / SelectIcon / CheckboxIcon / RadioIcon / DatepickerIcon / TabIcon / TagIcon /
+// BadgeIcon / ToggleIcon / TableIcon / HintIcon / TooltipIcon / IndicatorIcon / SearchbarIcon
+// in ./components/icons) instead, since no Material Symbol matches their Figma-specified
+// marks — the icon values below go unused for those ids and are kept only as a readable
+// fallback label.
 export const COMPONENTS: ComponentEntry[] = [
   { id: 'button', name: 'Button', icon: 'smart_button' },
   { id: 'icon-button', name: 'Icon Button', icon: 'add_circle' },
   { id: 'dropdown', name: 'Dropdown', icon: 'list_alt' },
   { id: 'chip', name: 'Chip', icon: 'medication' },
   { id: 'input', name: 'Input', icon: 'text_fields' },
+  { id: 'searchbar', name: 'Searchbar', icon: 'search' },
   { id: 'textarea', name: 'Textarea', icon: 'notes' },
   { id: 'select', name: 'Select', icon: 'expand_circle_down' },
   { id: 'checkbox', name: 'Checkbox', icon: 'check_box' },
@@ -30,4 +32,6 @@ export const COMPONENTS: ComponentEntry[] = [
   { id: 'toggle', name: 'Toggle', icon: 'toggle_on' },
   { id: 'table', name: 'Table', icon: 'table_chart' },
   { id: 'hint', name: 'Hint', icon: 'help' },
+  { id: 'tooltip', name: 'Tooltip', icon: 'chat_bubble' },
+  { id: 'indicator', name: 'Indicator', icon: 'progress_activity' },
 ];

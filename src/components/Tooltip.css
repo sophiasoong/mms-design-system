@@ -1,0 +1,83 @@
+/* ---- Tooltip: floating label bubble with a directional arrow ---- */
+/* Figma node 194:1549 (Sm/Md/Lg x Top/Top-left/Top-right/Bottom/Bottom-left/
+   Bottom-right). Distinct from Hint (194:2853), the borderless bubble Select
+   uses for truncated option text — Tooltip is the general-purpose bubble +
+   arrow mark that annotates any trigger element. Surface/label/shadow reuse
+   the same tokens Hint already reuses, since Figma's tooltip variables
+   resolve to identical hex values with no dedicated tokens of their own. */
+
+.ds-tooltip {
+  display: inline-flex;
+  flex-direction: column;
+  /* Applied here instead of on .ds-tooltip__bubble alone so the arrow (a sibling,
+     not a descendant of the bubble) is lifted along with it — box-shadow on just
+     the bubble left the white arrow with no edge definition against a white page. */
+  filter: drop-shadow(0 2px 8px var(--interactive-dropdown-panel-shadow-default));
+}
+
+.ds-tooltip--md {
+  width: var(--component-width-tooltip-md);
+}
+
+.ds-tooltip--lg {
+  /* Figma's Lg width (600px) doesn't match --component-width-tooltip-lg (320px) —
+     same mismatch already flagged in Hint.css; kept as a raw value instead of reused. */
+  width: 600px;
+}
+
+.ds-tooltip__bubble {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-component-padding-md) var(--space-component-padding-lg);
+  background: var(--surface-card-surface-default);
+  border-radius: 6px; /* unmatched token: Figma's 6px sits between --radius-sm/4px and --radius-md/8px */
+}
+
+.ds-tooltip__label {
+  margin: 0;
+  width: 100%;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-primary-neutral);
+  word-break: break-word;
+}
+
+/* Figma's authored Sm variant hugs content with no wrap (contradicts its own
+   spec-table label of "max 240") — trusted over the label since it's what was
+   actually built. --component-width-tooltip-sm (160px) goes unused here. */
+.ds-tooltip--sm .ds-tooltip__label {
+  white-space: nowrap;
+}
+
+.ds-tooltip__arrow-wrapper {
+  display: flex;
+  padding-inline: var(--space-component-padding-xl);
+}
+
+/* Figma names positions by the side the bubble extends toward, not by where the
+   arrow lands — "-left" pushes the bubble left of the anchor, landing the arrow
+   near the wrapper's right edge (and the reverse for "-right"). */
+.ds-tooltip--align-left .ds-tooltip__arrow-wrapper {
+  justify-content: flex-end;
+}
+
+.ds-tooltip--align-center .ds-tooltip__arrow-wrapper {
+  justify-content: center;
+}
+
+.ds-tooltip--align-right .ds-tooltip__arrow-wrapper {
+  justify-content: flex-start;
+}
+
+.ds-tooltip__arrow {
+  flex-shrink: 0;
+  fill: var(--surface-card-surface-default);
+}
+
+/* Base triangle mark points up (Bottom placement's resting orientation); Top
+   placement flips it to point down toward the anchor beneath the bubble. */
+.ds-tooltip--top .ds-tooltip__arrow {
+  transform: rotate(180deg);
+}

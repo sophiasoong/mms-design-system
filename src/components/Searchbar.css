@@ -1,0 +1,100 @@
+/* ---- Searchbar: bordered text field with a trailing search/clear action ---- */
+/* Figma node 1:1629 (Size Lg/Md x State Default/Hover/Focus/Disabled). Shares its
+   frame styling with Input (border, radius, focus ring) but always shows a trailing
+   action icon — a search glyph at rest, swapping to a clear glyph once focused with
+   a value, mirroring Input.css's clear-button pattern. */
+
+.ds-searchbar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  width: 100%;
+  height: var(--component-height-lg);
+  padding-inline: var(--space-component-padding-sm);
+  background: var(--interactive-searchbar-surface-default);
+  border: var(--border-sm) solid var(--interactive-searchbar-border-default);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.ds-searchbar--md {
+  height: var(--component-height-md);
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-searchbar__field {
+  flex: 1 0 0;
+  min-width: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--interactive-searchbar-label-default);
+}
+
+.ds-searchbar__field:focus {
+  outline: none;
+}
+
+.ds-searchbar__field::placeholder {
+  color: var(--interactive-searchbar-placeholder-default);
+}
+
+.ds-searchbar__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--interactive-searchbar-icon-default);
+}
+
+/* Figma's search action icon resolves to interactive/searchbar/action/search/icon/default
+   (#5244ee) — tokens.css has no dedicated token for it, but the hex is an exact match for
+   --brand-primary-400, reused here rather than adding a parallel token. */
+.ds-searchbar__action--search .icon {
+  color: var(--brand-primary-400);
+}
+
+.ds-searchbar:hover:not(.ds-searchbar--disabled),
+.ds-searchbar.ds-searchbar--force-hover {
+  /* Figma's border/hover (#5244ee) is identical to border/focus — no distinct token, reused */
+  border-color: var(--interactive-searchbar-border-focus);
+}
+
+.ds-searchbar.ds-searchbar--force-focus,
+.ds-searchbar:focus-within:not(.ds-searchbar--disabled) {
+  border-color: var(--interactive-searchbar-border-focus);
+  box-shadow: 0 0 0 2px var(--interactive-shadow-primary);
+}
+
+.ds-searchbar.ds-searchbar--disabled {
+  /* No interactive-searchbar-surface-disabled token exists; hex matches
+     interactive-select-surface-disabled (#f5f5f5), reused per Input.css precedent */
+  background: var(--interactive-select-surface-disabled);
+  cursor: not-allowed;
+}
+
+.ds-searchbar.ds-searchbar--disabled .ds-searchbar__field {
+  /* No interactive-searchbar-label-disabled token exists; hex matches brand-neutral-700
+     (#a6a6a6), reused here */
+  color: var(--brand-neutral-700);
+  cursor: not-allowed;
+}
+
+.ds-searchbar.ds-searchbar--disabled .ds-searchbar__action {
+  cursor: not-allowed;
+}
+
+.ds-searchbar.ds-searchbar--disabled .ds-searchbar__action--search .icon {
+  /* Disabled action icon resolves to the same grey (#bfbfbf) as the default passive icon —
+     no separate token, reused */
+  color: var(--interactive-searchbar-icon-default);
+}

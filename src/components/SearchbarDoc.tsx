@@ -1,0 +1,393 @@
+import { useState } from 'react';
+import { Searchbar } from './Searchbar';
+import { ActionChip } from './Chip';
+import { DropdownIcon, InputIcon } from './icons';
+import './ButtonDoc.css';
+
+const FIGMA_URL =
+  'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=1-108';
+
+const STYLE_TABS = ['Label', 'Chip'] as const;
+type StyleTab = (typeof STYLE_TABS)[number];
+
+interface SearchbarDocProps {
+  onNavigate?: (componentId: string) => void;
+}
+
+export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
+  const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Label');
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+
+  return (
+    <div className="ds-doc">
+      <header className="ds-doc__header">
+        <span className="ds-doc__eyebrow">Component</span>
+        <h1 className="ds-doc__title">Searchbar</h1>
+        <p className="ds-doc__lede">
+          A Searchbar is a bordered text field dedicated to querying a list or dataset. A
+          trailing action icon submits the search, swapping to a clear icon once the field is
+          focused with a typed value.
+        </p>
+        <a
+          className="ds-doc__figma-link ds-button ds-button--secondary ds-button--solid ds-button--md"
+          href={FIGMA_URL}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span className="icon ds-button__icon" aria-hidden="true">
+            draw
+          </span>
+          <span className="ds-button__label">View in Figma</span>
+        </a>
+      </header>
+
+      {/* ---------------------------------------------------------------- */}
+      <section id="overview" className="ds-section">
+        <h2 className="ds-section__title">Overview</h2>
+        <p className="ds-section__desc">
+          Use a Searchbar wherever a user filters or queries a list of results, rather than
+          entering free-form text into a form (see Input).
+        </p>
+        <div className="ds-preview">
+          <div style={{ width: 320 }}>
+            <Searchbar placeholder="Search" />
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------------------------------------------------------- */}
+      <section id="anatomy" className="ds-section">
+        <h2 className="ds-section__title">Anatomy</h2>
+        <p className="ds-section__desc">
+          A bordered container holding typed or placeholder text, with a trailing action icon
+          that submits the search or clears the current value.
+        </p>
+        <div className="ds-anatomy">
+          <div className="ds-anatomy__figure">
+            <div
+              className="ds-searchbar ds-anatomy__demo ds-anatomy__part-relative"
+              aria-hidden="true"
+              style={{ width: 320 }}
+            >
+              <span className="ds-anatomy__badge ds-anatomy__badge--container">1</span>
+              <span className="ds-anatomy__bracket" aria-hidden="true" />
+              <span className="ds-searchbar__field ds-anatomy__part-relative">
+                Search
+                <span className="ds-anatomy__badge ds-anatomy__badge--side-left">2</span>
+              </span>
+              <span className="ds-searchbar__action ds-searchbar__action--search ds-anatomy__part-relative">
+                <span className="icon icon--sm" aria-hidden="true">
+                  search
+                </span>
+                <span className="ds-anatomy__badge ds-anatomy__badge--side">3</span>
+              </span>
+            </div>
+            <ul className="ds-anatomy__legend">
+              <li>
+                <span className="ds-anatomy__legend-num">1</span>
+                <span>
+                  <strong>Container</strong> —{' '}
+                  <span>border, radius, background respond to hover / focus / disabled</span>
+                </span>
+              </li>
+              <li>
+                <span className="ds-anatomy__legend-num">2</span>
+                <span>
+                  <strong>Field</strong> — <span>typed or placeholder text</span>
+                </span>
+              </li>
+              <li>
+                <span className="ds-anatomy__legend-num">3</span>
+                <span>
+                  <strong>Action</strong> —{' '}
+                  <span>submits the search by default, becomes a clear button once focused with a value</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------------------------------------------------------- */}
+      <section id="variants" className="ds-section">
+        <h2 className="ds-section__title">Variants</h2>
+        <p className="ds-section__desc">
+          Label holds a single free-typed query. Chip lets a picked filter sit inline as a
+          removable token ahead of the typed text.
+        </p>
+
+        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <div className="ds-line-tabs" role="tablist" aria-label="Searchbar style groups">
+          {STYLE_TABS.map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              role="tab"
+              aria-selected={activeStyleTab === tab}
+              className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
+              onClick={() => setActiveStyleTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        <div className="ds-variant-groups">
+          {activeStyleTab === 'Label' && (
+            <div className="ds-variant-group">
+              <div className="ds-preview">
+                <div style={{ width: 320 }}>
+                  <Searchbar placeholder="Search" />
+                </div>
+              </div>
+              <span className="ds-variant-note">A single free-typed query value.</span>
+            </div>
+          )}
+
+          {activeStyleTab === 'Chip' && (
+            <div className="ds-variant-group">
+              <div className="ds-preview ds-preview--stack">
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    gap: 'var(--space-component-gap-md)',
+                  }}
+                >
+                  <div style={{ width: 320 }}>
+                    <Searchbar
+                      placeholder="Please select"
+                      chipLabel={selectedFilter ?? undefined}
+                      onChipRemove={() => setSelectedFilter(null)}
+                    />
+                  </div>
+                  {!selectedFilter && (
+                    <div style={{ display: 'flex', gap: 'var(--space-component-gap-xs)' }}>
+                      {/* Figma's external filter-chip suggestion (19 Global Search, node
+                          112:2514) tints the pill purple (#f7f6ff / #d4d0fb / #5244ee) — close
+                          but not a pixel-exact match to any token this design system defines.
+                          Reusing ActionChip's own default (neutral) look here rather than
+                          introducing new one-off token values for a single external reference. */}
+                      <ActionChip
+                        label="Product"
+                        size="md"
+                        onClick={() => setSelectedFilter('Product')}
+                      />
+                      <ActionChip
+                        label="Promotion"
+                        size="md"
+                        onClick={() => setSelectedFilter('Promotion')}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <span className="ds-variant-note">
+                Click a filter chip to embed it inline in the field as a removable token —
+                typing continues to work alongside it. Clearing the chip brings the filter
+                suggestions back.
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="ds-variant-groups">
+          <div className="ds-variant-group">
+            <span className="ds-variant-group__label">Size</span>
+            <div className="ds-variant-row" style={{ flexDirection: 'column', alignItems: 'center' }}>
+              <div className="ds-variant-row__cell">
+                <div style={{ width: 240 }}>
+                  <Searchbar placeholder="Search" size="lg" />
+                </div>
+                <span className="ds-variant-row__cell-label">Lg · 40px</span>
+              </div>
+              <div className="ds-variant-row__cell">
+                <div style={{ width: 240 }}>
+                  <Searchbar placeholder="Search" size="md" />
+                </div>
+                <span className="ds-variant-row__cell-label">Md · 32px</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------------------------------------------------------- */}
+      <section id="states" className="ds-section">
+        <h2 className="ds-section__title">States</h2>
+        <p className="ds-section__desc">
+          Focus applies the brand focus ring; Disabled dims the surface and blocks interaction
+          entirely.
+        </p>
+        <table className="ds-table">
+          <thead>
+            <tr>
+              <th>State</th>
+              <th>Preview</th>
+              <th>Border token</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Default</td>
+              <td>
+                <div style={{ width: 240 }}>
+                  <Searchbar placeholder="Search" size="md" />
+                </div>
+              </td>
+              <td>
+                <span className="ds-swatch">
+                  <span
+                    className="ds-swatch__dot"
+                    style={{ background: 'var(--interactive-searchbar-border-default)' }}
+                  />
+                  <code>interactive-searchbar-border-default</code>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>Hover</td>
+              <td>
+                <div style={{ width: 240 }}>
+                  <Searchbar placeholder="Search" size="md" state="hover" />
+                </div>
+              </td>
+              <td>
+                <span className="ds-swatch">
+                  <span
+                    className="ds-swatch__dot"
+                    style={{ background: 'var(--interactive-searchbar-border-focus)' }}
+                  />
+                  <code>interactive-searchbar-border-focus (reused — Figma's hover matches focus)</code>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>Focus</td>
+              <td>
+                <div style={{ width: 240 }}>
+                  <Searchbar placeholder="Search" size="md" state="focus" />
+                </div>
+              </td>
+              <td>
+                <span className="ds-swatch">
+                  <span
+                    className="ds-swatch__dot"
+                    style={{ background: 'var(--interactive-searchbar-border-focus)' }}
+                  />
+                  <code>interactive-searchbar-border-focus (+ ring)</code>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>Disabled</td>
+              <td>
+                <div style={{ width: 240 }}>
+                  <Searchbar placeholder="Search" size="md" state="disabled" />
+                </div>
+              </td>
+              <td>
+                <span className="ds-swatch">
+                  <span
+                    className="ds-swatch__dot"
+                    style={{ background: 'var(--interactive-searchbar-border-default)' }}
+                  />
+                  <code>interactive-searchbar-border-default</code>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      {/* ---------------------------------------------------------------- */}
+      <section id="layout-spacing" className="ds-section">
+        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <p className="ds-section__desc">
+          A Searchbar fills its container's width; only height and internal gap change between
+          sizes.
+        </p>
+        <table className="ds-table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Height</th>
+              <td>
+                <div className="ds-table-cell">
+                  <code>--component-height-lg / -md</code>
+                  <span className="ds-tag">40 / 32px</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Padding</th>
+              <td>
+                <div className="ds-table-cell">
+                  <code>--space-component-padding-sm</code>
+                  <span className="ds-tag">8px</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Content gap</th>
+              <td>
+                <div className="ds-table-cell">
+                  <code>--space-component-gap-xs / -sm</code>
+                  <span className="ds-tag">4 / 8px</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Radius</th>
+              <td>
+                <div className="ds-table-cell">
+                  <code>--radius-md</code>
+                  <span className="ds-tag">8px</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Border</th>
+              <td>
+                <div className="ds-table-cell">
+                  <code>--border-sm</code>
+                  <span className="ds-tag">1px</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      {/* ---------------------------------------------------------------- */}
+      <section id="related-component" className="ds-section">
+        <h2 className="ds-section__title">Related Component</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Searchbar.</p>
+        <div className="ds-related-grid">
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('input')}
+          >
+            <InputIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Input</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('dropdown')}
+          >
+            <DropdownIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Dropdown</span>
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}

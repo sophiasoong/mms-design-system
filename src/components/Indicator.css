@@ -1,0 +1,104 @@
+/* ---- Indicator ----
+   Figma node 705:10506 — a Progress Indicator family with two sibling marks: Progress
+   Ring (circular) and Progress Bar (linear). Figma only defines 4 fixed percentage
+   states (25/50/75/100) as pre-drawn shapes per component; here both are built as a
+   single continuous 0-100 `progress` prop instead, since that's the only way either
+   is reusable as a real indicator. Track/fill colors have no dedicated Indicator token —
+   brand-neutral-200 and brand-primary-300 are exact hex matches to Figma's fill values
+   (confirmed via get_variable_defs), and brand-primary-300 is already brand-mode-aware
+   (see the [data-color-mode="mma"] block below in tokens.css), so the fill re-themes
+   automatically with no extra logic here. */
+
+.ds-progress-ring {
+  width: var(--component-height-xl);
+  height: var(--component-height-xl);
+  /* Figma's fill arcs start at 12 o'clock and sweep clockwise; the SVG circle's own
+     0deg is 3 o'clock, so the fill circle is rotated -90deg to match. */
+  transform: rotate(-90deg);
+}
+
+.ds-progress-ring__track,
+.ds-progress-ring__fill {
+  fill: none;
+  /* No stroke-width token in tokens.css — Figma's ring band is a fixed 4px. */
+  stroke-width: 4;
+}
+
+.ds-progress-ring__track {
+  stroke: var(--brand-neutral-200);
+}
+
+.ds-progress-ring__fill {
+  stroke: var(--brand-primary-300);
+  stroke-linecap: butt;
+  transition: stroke-dashoffset var(--duration-normal) ease;
+}
+
+/* No duration token covers a multi-second loop (--duration-slow tops out at 300ms,
+   far too fast for a full spin) — 1.2s is a flagged, not-guessed placeholder pick. */
+.ds-progress-ring--indeterminate {
+  animation: ds-progress-ring-spin 1.2s linear infinite;
+}
+
+@keyframes ds-progress-ring-spin {
+  from {
+    transform: rotate(-90deg);
+  }
+  to {
+    transform: rotate(270deg);
+  }
+}
+
+.ds-progress-bar-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  width: 100%;
+}
+
+.ds-progress-bar {
+  flex: 1 0 0;
+  min-width: 0;
+  /* No height token matches Figma's 6px track — flagged rather than guessed. */
+  height: 6px;
+  background: var(--brand-neutral-200);
+  border-radius: var(--radius-full);
+}
+
+/* Only the indeterminate fill needs clipping (it slides past the track's own edges) —
+   the determinate fill is left unclipped so the Anatomy demo's badge can hang above it. */
+.ds-progress-bar--indeterminate {
+  overflow: hidden;
+}
+
+.ds-progress-bar__fill {
+  height: 100%;
+  background: var(--brand-primary-300);
+  border-radius: var(--radius-full);
+  transition: width var(--duration-normal) ease;
+}
+
+.ds-progress-bar__fill--indeterminate {
+  width: 40%;
+  /* Same flagged 1.2s loop duration as the ring — no token covers this scale. */
+  animation: ds-progress-bar-slide 1.2s ease-in-out infinite;
+}
+
+@keyframes ds-progress-bar-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+.ds-progress-bar__label {
+  flex: none;
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-font-weight-regular);
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-primary-neutral);
+  white-space: nowrap;
+}

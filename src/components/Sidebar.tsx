@@ -9,14 +9,17 @@ import {
   DropdownIcon,
   HintIcon,
   IconButtonIcon,
+  IndicatorIcon,
   InputIcon,
   RadioIcon,
+  SearchbarIcon,
   SelectIcon,
   TabIcon,
   TableIcon,
   TagIcon,
   TextareaIcon,
   ToggleIcon,
+  TooltipIcon,
 } from './icons';
 import './Sidebar.css';
 
@@ -26,6 +29,7 @@ function renderItemIcon(component: (typeof COMPONENTS)[number]) {
   if (component.id === 'dropdown') return <DropdownIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'chip') return <ChipIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'input') return <InputIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'searchbar') return <SearchbarIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'textarea') return <TextareaIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'select') return <SelectIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'checkbox') return <CheckboxIcon className="ds-sidebar__item-icon" />;
@@ -37,6 +41,8 @@ function renderItemIcon(component: (typeof COMPONENTS)[number]) {
   if (component.id === 'toggle') return <ToggleIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'table') return <TableIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'hint') return <HintIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'tooltip') return <TooltipIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'indicator') return <IndicatorIcon className="ds-sidebar__item-icon" />;
   return (
     <span className="icon ds-sidebar__item-icon" aria-hidden="true">
       {component.icon}
