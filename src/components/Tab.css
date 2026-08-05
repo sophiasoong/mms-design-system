@@ -146,17 +146,12 @@
   gap: var(--space-component-gap-xs);
 }
 
-.ds-preview--grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-component-gap-lg);
-  container-type: inline-size;
-}
-
-@container (max-width: 480px) {
-  .ds-preview--grid-2 {
-    grid-template-columns: 1fr;
-  }
+.ds-preview.ds-preview--grid-2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: var(--space-layout-section-gap-xl);
+  column-gap: var(--space-component-gap-lg);
 }
 
 /* ---- Segment tab ----
