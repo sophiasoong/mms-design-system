@@ -7,19 +7,24 @@ import {
   ChipIcon,
   DatepickerIcon,
   DropdownIcon,
+  FooterIcon,
+  HeaderIcon,
   HintIcon,
   IconButtonIcon,
   IndicatorIcon,
   InputIcon,
+  PaginationIcon,
   RadioIcon,
   SearchbarIcon,
   SelectIcon,
+  StepIcon,
   TabIcon,
   TableIcon,
   TagIcon,
   TextareaIcon,
   ToggleIcon,
   TooltipIcon,
+  TopbarIcon,
 } from './icons';
 import './Sidebar.css';
 
@@ -43,6 +48,11 @@ function renderItemIcon(component: (typeof COMPONENTS)[number]) {
   if (component.id === 'hint') return <HintIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'tooltip') return <TooltipIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'indicator') return <IndicatorIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'step') return <StepIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'header') return <HeaderIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'footer') return <FooterIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'pagination') return <PaginationIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'topbar') return <TopbarIcon className="ds-sidebar__item-icon" />;
   return (
     <span className="icon ds-sidebar__item-icon" aria-hidden="true">
       {component.icon}

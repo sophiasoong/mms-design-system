@@ -100,12 +100,49 @@
   flex-direction: column;
 }
 
+/* Dimmed backdrop for previews of surfaces that float over the page (e.g. Modal),
+   using the existing global/overlay/light token instead of the plain white .ds-preview
+   surface, so a white component doesn't visually merge into a white preview box. */
+.ds-preview--scrim {
+  background: var(--global-overlay-light);
+  border-color: transparent;
+}
+
+/* Full-bleed bars (e.g. Topbar) can exceed the doc's content column on narrower
+   viewports — scope the overflow to just the preview, like Table's own column
+   scroll, so the section heading/description stay put while the rest is reachable
+   by scrolling. justify-content:flex-start (instead of the default center) avoids
+   the flexbox bug where centered overflow clips its own start edge; it has no
+   visible effect when content already fits, since the child fills 100% width either
+   way. Pairs with a width:100%/min-width wrapper around the previewed component, so
+   it still fills the box seamlessly when there's room but floors at its natural
+   size (triggering this scroll) instead of being force-shrunk on narrower ones. */
+.ds-preview--scroll {
+  overflow-x: auto;
+  justify-content: flex-start;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brand-neutral-600) var(--brand-neutral-200);
+}
+
 /* ---- Section content spacing: 24px between title/description and section content ---- */
 #overview > .ds-preview,
 #anatomy > .ds-anatomy,
 #layout-spacing > .ds-table,
 #related-component > .ds-related-grid {
   margin-top: calc(var(--space-layout-section-gap-lg) - var(--space-layout-section-gap-sm));
+}
+
+/* Contains a full-bleed anatomy demo (e.g. Topbar) to its own scrollbar instead of
+   letting it push the figure — and the legend list below it — wider than the doc
+   column. max-width:100% lets align-items:center on .ds-anatomy__figure still center
+   this wrapper; the child inside it keeps its natural (potentially wider) size and
+   scrolls starting from its left edge, which is the sensible default scroll position
+   for a leading-to-trailing bar. */
+.ds-anatomy__demo-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brand-neutral-600) var(--brand-neutral-200);
 }
 
 /* ---- Anatomy ---- */
@@ -391,6 +428,17 @@
   .ds-variant-row--grid-2 {
     grid-template-columns: 1fr;
   }
+}
+
+/* Same dimmed backdrop as .ds-preview--scrim, for row-based variant demos. */
+.ds-variant-row--scrim {
+  background: var(--global-overlay-light);
+  border-color: transparent;
+}
+
+/* The default caption color reads at near-zero contrast on the scrim backdrop above. */
+.ds-variant-row--scrim .ds-variant-row__cell-label {
+  color: var(--brand-neutral-0);
 }
 
 .ds-variant-row__cell {

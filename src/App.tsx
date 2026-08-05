@@ -21,6 +21,11 @@ import TableDoc from './components/TableDoc';
 import HintDoc from './components/HintDoc';
 import TooltipDoc from './components/TooltipDoc';
 import IndicatorDoc from './components/IndicatorDoc';
+import StepDoc from './components/StepDoc';
+import HeaderDoc from './components/HeaderDoc';
+import FooterDoc from './components/FooterDoc';
+import PaginationDoc from './components/PaginationDoc';
+import TopbarDoc from './components/TopbarDoc';
 import { getStoredBrandMode, applyBrandMode, type BrandMode } from './brandMode';
 import { BUTTON_SECTIONS } from './data/buttonSections';
 import { ICON_BUTTON_SECTIONS } from './data/iconButtonSections';
@@ -41,6 +46,11 @@ import { TABLE_SECTIONS } from './data/tableSections';
 import { HINT_SECTIONS } from './data/hintSections';
 import { TOOLTIP_SECTIONS } from './data/tooltipSections';
 import { INDICATOR_SECTIONS } from './data/indicatorSections';
+import { STEP_SECTIONS } from './data/stepSections';
+import { HEADER_SECTIONS } from './data/headerSections';
+import { FOOTER_SECTIONS } from './data/footerSections';
+import { PAGINATION_SECTIONS } from './data/paginationSections';
+import { TOPBAR_SECTIONS } from './data/topbarSections';
 import type { AnchorSection } from './components/AnchorNav';
 import './App.css';
 
@@ -64,6 +74,11 @@ const SECTIONS_BY_COMPONENT: Record<string, AnchorSection[]> = {
   hint: HINT_SECTIONS,
   tooltip: TOOLTIP_SECTIONS,
   indicator: INDICATOR_SECTIONS,
+  step: STEP_SECTIONS,
+  header: HEADER_SECTIONS,
+  footer: FOOTER_SECTIONS,
+  pagination: PAGINATION_SECTIONS,
+  topbar: TOPBAR_SECTIONS,
 };
 
 function App() {
@@ -120,6 +135,16 @@ function App() {
             <TooltipDoc onNavigate={setActiveComponentId} />
           ) : activeComponentId === 'indicator' ? (
             <IndicatorDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'step' ? (
+            <StepDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'header' ? (
+            <HeaderDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'footer' ? (
+            <FooterDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'pagination' ? (
+            <PaginationDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'topbar' ? (
+            <TopbarDoc onNavigate={setActiveComponentId} />
           ) : (
             <div className="ds-main__empty">Select a component to view its documentation.</div>
           )}

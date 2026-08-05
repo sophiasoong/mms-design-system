@@ -19,6 +19,7 @@ import { DatePicker } from './DatePicker';
 import IconButton from './IconButton';
 import { Toggle } from './Toggle';
 import { Tag } from './Tag';
+import Pagination from './Pagination';
 import { BadgeIcon, ButtonIcon, CheckboxIcon } from './icons';
 import './ButtonDoc.css';
 import './Table.css';
@@ -859,51 +860,8 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
                 </div>
 
                 {activeExampleTab === 'default' && (
-                  <div className="ds-pagination">
-                    <IconButton
-                      icon="chevron_left"
-                      appearance="ghost"
-                      size="md"
-                      label="Previous page"
-                      className="ds-pagination__nav"
-                    />
-                    <button type="button" className="ds-pagination__item ds-pagination__item--active">
-                      1
-                    </button>
-                    <button type="button" className="ds-pagination__item">
-                      2
-                    </button>
-                    <button type="button" className="ds-pagination__item">
-                      3
-                    </button>
-                    <button type="button" className="ds-pagination__item">
-                      4
-                    </button>
-                    <button type="button" className="ds-pagination__item">
-                      5
-                    </button>
-                    <span className="ds-pagination__item ds-pagination__item--ellipsis" aria-hidden="true">
-                      <span className="icon icon--sm" aria-hidden="true">
-                        more_horiz
-                      </span>
-                    </span>
-                    <button type="button" className="ds-pagination__item">
-                      10
-                    </button>
-                    <IconButton
-                      icon="chevron_right"
-                      appearance="ghost"
-                      size="md"
-                      label="Next page"
-                      className="ds-pagination__nav"
-                    />
-                    <div className="ds-pagination__goto">
-                      <Button variant="primary" appearance="outline" size="md" trailingIcon="expand_more">
-                        10 /page
-                      </Button>
-                      <span className="ds-pagination__goto-label">Go to</span>
-                      <Input className="ds-pagination__goto-input" size="md" placeholder="" />
-                    </div>
+                  <div className="ds-table-example__pagination">
+                    <Pagination currentPage={1} totalPages={10} />
                   </div>
                 )}
               </div>

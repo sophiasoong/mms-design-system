@@ -1,0 +1,86 @@
+/* ---- Pagination ----
+   Figma node 174:27843 ("Pagination"), Size=Md symbol (296:8615) and Size=Sm symbol
+   (760:34870), reference frame 760:34871. Tokens confirmed via get_design_context:
+     interactive/pagination/item/label/default  (#1e1e1e) -> --text-body-primary-neutral
+     interactive/pagination/item/label/current  (#1f11bb) -> --brand-primary-600
+     interactive/pagination/item/border/current (#1f11bb) -> --brand-primary-600
+   None of the three interactive/pagination/* tokens exist in tokens.css yet, so each is
+   reused by exact value — the same approach Table.css originally took for its inline
+   pagination block (now consolidated here). One value has no token match at all: the
+   item's 6px corner radius sits between --radius-sm (4px) and --radius-md (8px);
+   flagged rather than rounded to either. */
+
+.ds-pagination {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-pagination--sm {
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-pagination__nav {
+  flex-shrink: 0;
+}
+
+.ds-pagination__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-height-md);
+  height: var(--component-height-md);
+  border: var(--border-sm) solid transparent;
+  background: none;
+  border-radius: 6px; /* unmatched token: pagination item radius (Figma: 6px, between --radius-sm/4px and --radius-md/8px) */
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  color: var(--text-body-primary-neutral);
+  cursor: pointer;
+}
+
+.ds-pagination--sm .ds-pagination__item {
+  width: var(--component-height-xs);
+  height: var(--component-height-xs);
+}
+
+.ds-pagination__item--active {
+  border-color: var(--brand-primary-600);
+  color: var(--brand-primary-600);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.ds-pagination__item--ellipsis {
+  cursor: default;
+  color: var(--text-body-tertiary-neutral);
+}
+
+.ds-pagination__goto {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  margin-left: var(--space-component-gap-md);
+}
+
+.ds-pagination__goto-label {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-primary-neutral);
+  white-space: nowrap;
+}
+
+.ds-pagination__goto-input {
+  width: var(--component-height-md);
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+}
+
+.ds-pagination__goto-input .ds-input__field {
+  text-align: center;
+}
+
+/* Sm's goto box is 24px tall in Figma; Input has no size smaller than md (32px), so md
+   is reused as-is rather than guessing at a shorter variant — same flagged gap as
+   Footer's Sm buttons (also 24px, with no matching Button size). */

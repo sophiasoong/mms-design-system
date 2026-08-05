@@ -455,3 +455,120 @@ export function IndicatorIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+/* Sourced directly from the user-supplied Step.svg (96x96 frame, circle #BFBFBF ->
+   --brand-neutral-600, path black -> currentColor) — matches the two-tone convention
+   used by every other bespoke sidebar icon in this file. */
+export function StepIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <circle cx="48" cy="48" r="36" stroke="var(--brand-neutral-600)" strokeWidth="8" />
+      <path
+        d="M39 36.5L50 32V64.5"
+        stroke="currentColor"
+        strokeWidth="8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/* Header.svg source: rounded-square outline + 3 horizontal bars (a stylized panel/
+   title-bar glyph). Frame outline (#BFBFBF) -> --brand-neutral-600, the two lower bars
+   (#BFBFBF) -> --brand-neutral-600, the top bar (#222222, the "title" row) -> currentColor
+   — matches the two-tone convention used by every other bespoke sidebar icon in this file. */
+export function HeaderIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <path
+        d="M20 12H76C80.4183 12 84 15.5817 84 20V76C84 80.4183 80.4183 84 76 84H20C15.5817 84 12 80.4183 12 76V20C12 15.5817 15.5817 12 20 12Z"
+        stroke="var(--brand-neutral-600)"
+        strokeWidth="8"
+      />
+      <path
+        d="M20 24C20 21.7909 21.7909 20 24 20H72C74.2091 20 76 21.7909 76 24V28C76 30.2091 74.2091 32 72 32H24C21.7909 32 20 30.2091 20 28V24Z"
+        fill="currentColor"
+      />
+      <path
+        d="M20 68C20 65.7909 21.7909 64 24 64H72C74.2091 64 76 65.7909 76 68V72C76 74.2091 74.2091 76 72 76H24C21.7909 76 20 74.2091 20 72V68Z"
+        fill="var(--brand-neutral-600)"
+      />
+      <path
+        d="M20 42C20 39.7909 21.7909 38 24 38H72C74.2091 38 76 39.7909 76 42V54C76 56.2091 74.2091 58 72 58H24C21.7909 58 20 56.2091 20 54V42Z"
+        fill="var(--brand-neutral-600)"
+      />
+    </svg>
+  );
+}
+
+/* Footer.svg source: the same rounded-square + 3-bar glyph as Header.svg, mirrored — here
+   the bottom bar (#222222, the "footer" row) -> currentColor, while the frame outline and
+   the two remaining bars (#BFBFBF) -> --brand-neutral-600, matching this file's two-tone
+   convention. */
+export function FooterIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <path
+        d="M20 12H76C80.4183 12 84 15.5817 84 20V76C84 80.4183 80.4183 84 76 84H20C15.5817 84 12 80.4183 12 76V20C12 15.5817 15.5817 12 20 12Z"
+        stroke="var(--brand-neutral-600)"
+        strokeWidth="8"
+      />
+      <path
+        d="M20 24C20 21.7909 21.7909 20 24 20H72C74.2091 20 76 21.7909 76 24V28C76 30.2091 74.2091 32 72 32H24C21.7909 32 20 30.2091 20 28V24Z"
+        fill="var(--brand-neutral-600)"
+      />
+      <path
+        d="M20 68C20 65.7909 21.7909 64 24 64H72C74.2091 64 76 65.7909 76 68V72C76 74.2091 74.2091 76 72 76H24C21.7909 76 20 74.2091 20 72V68Z"
+        fill="currentColor"
+      />
+      <path
+        d="M20 42C20 39.7909 21.7909 38 24 38H72C74.2091 38 76 39.7909 76 42V54C76 56.2091 74.2091 58 72 58H24C21.7909 58 20 56.2091 20 54V42Z"
+        fill="var(--brand-neutral-600)"
+      />
+    </svg>
+  );
+}
+
+/* Pagination.svg source: the same rounded-square frame as Header/Footer.svg (#BFBFBF) ->
+   --brand-neutral-600, plus the "1"-like tick mark from Step.svg (#000000, the current-page
+   indicator) -> currentColor — matches the two-tone convention used by every other bespoke
+   sidebar icon in this file. */
+export function PaginationIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <path
+        d="M20 12H76C80.4183 12 84 15.5817 84 20V76C84 80.4183 80.4183 84 76 84H20C15.5817 84 12 80.4183 12 76V20C12 15.5817 15.5817 12 20 12Z"
+        stroke="var(--brand-neutral-600)"
+        strokeWidth="8"
+      />
+      <path
+        d="M39 36.5L50 32V64.5"
+        stroke="currentColor"
+        strokeWidth="8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/* Topbar.svg source: the same rounded-square frame as Header/Footer/Pagination.svg (#BFBFBF)
+   -> --brand-neutral-600, plus a single filled top strip with rounded top corners (#222222,
+   the "topbar" row spanning the full width) -> currentColor — matches the two-tone convention
+   used by every other bespoke sidebar icon in this file. */
+export function TopbarIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <path
+        d="M20 12H76C80.4183 12 84 15.5817 84 20V76C84 80.4183 80.4183 84 76 84H20C15.5817 84 12 80.4183 12 76V20C12 15.5817 15.5817 12 20 12Z"
+        stroke="var(--brand-neutral-600)"
+        strokeWidth="8"
+      />
+      <path
+        d="M8 20C8 13.3726 13.3726 8 20 8H76C82.6274 8 88 13.3726 88 20V32H8V20Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}

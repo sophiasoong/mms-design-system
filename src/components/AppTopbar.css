@@ -1,0 +1,218 @@
+/* ---- AppTopbar ----
+   Figma node 263:5472 ("Topbar" master component, MMS-Web-AI-Design-System file, node-id
+   263-3033 on the page). Named AppTopbar.tsx/.css (doc-facing id/label stay "topbar") since
+   this project's own site chrome already has a Topbar.tsx/.css pair in active use in App.tsx.
+   Tokens below are exact hex/px matches confirmed via get_design_context:
+     brand/green/600                                   (#52c41a) -> --brand-green-600 (online-status dot, via Badge)
+     brand/danger/500                                  (#ff4d4f) -> --brand-danger-500 (notification badge)
+     brand/primary/400                                 (#5244ee) -> --brand-primary-400 (hamburger icon color)
+     interactive/button/surface/secondary/solid/default (#ffeccc) -> via Button's secondary/solid
+     interactive/button/label/secondary/solid/default   (#996100) -> via Button's secondary/solid
+     interactive/searchbar/*                            -> already wired inside the reused Searchbar component
+     component/height/lg (40px), radius/md|full, border/sm,
+     space/component/gap/xs|sm|md, space/component/padding/2xl -> existing tokens of the same value.
+   Four values are flagged per the project's "flag instead of guessing" rule:
+     (1) Figma's outer bar is 68px tall with no matching height tier — --component-height-3xl
+         (64px) is used instead, the same tier the project's own chrome Topbar.tsx already uses.
+     (2) Figma's left/right padding wasn't captured as distinct values in the reference pull, so
+         both sides share --space-component-padding-2xl (32px, the confirmed right-edge value)
+         for a symmetric rail.
+     (3) The hamburger's Figma border is solid brand/primary/400 (#5244ee) at rest, but
+         IconButton's primary/outline default border token is --brand-neutral-500 (#d9d9d9) —
+         reused as-is rather than overriding one shared component's state, since the icon color
+         itself already matches --interactive-icon-button-icon-primary-outline-default (#5244ee)
+         exactly.
+     (4) Figma's "global/divider/neutral-dark" and "interactive/menu/trigger/surface/default"
+         (#d9d9d9 / #ffffff) have no CSS variables of those exact names yet — reused as
+         --brand-neutral-500 and --global-background-surface respectively, both exact hex
+         matches; the two menu triggers (language, user) and the search field are given no
+         dedicated trigger component in this codebase (Dropdown.tsx exports only option/panel
+         parts), so they're hand-rolled buttons here, following the same precedent used by
+         Header/Footer/Pagination for one-off composite sub-parts. */
+
+.ds-app-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  height: var(--component-height-3xl);
+  padding-inline: var(--space-component-padding-2xl);
+  gap: var(--space-component-gap-lg);
+  background: var(--global-background-surface);
+  border-bottom: var(--border-sm) solid var(--brand-neutral-500);
+  /* Queries below react to the bar's own rendered width, not the browser viewport — so it
+     collapses correctly whenever ITS box is narrow (a doc preview column, a constrained
+     embed), not only when the whole page is. */
+  container-type: inline-size;
+}
+
+.ds-app-topbar__leading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-md);
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.ds-app-topbar__store-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-md);
+  padding: var(--space-component-padding-xs);
+  cursor: pointer;
+  color: var(--brand-neutral-900);
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  font-weight: var(--typography-font-weight-medium);
+  white-space: nowrap;
+  transition: background-color var(--duration-fast) ease;
+}
+
+.ds-app-topbar__store-trigger:hover {
+  background: var(--brand-neutral-200);
+}
+
+.ds-app-topbar__store-trigger .icon {
+  font-size: var(--component-icon-sm);
+  color: var(--brand-neutral-700);
+}
+
+/* Figma's search field spans the bar's flexible middle section with no fixed width bound
+   captured in the reference pull — left to flex naturally rather than guessing a max-width.
+   No min-width floor: Searchbar's own input already bottoms out at min-width: 0, so leaving
+   this at its default lets the field shrink down to just its icon + padding in a narrow
+   container instead of forcing the fixed-width leading/trailing groups (menu, back button,
+   notifications) to overflow past the visible edge. */
+.ds-app-topbar__search {
+  flex: 1 1 auto;
+  display: flex;
+  min-width: 0;
+}
+
+/* Bumped from Searchbar's own default (icon--sm, 16px) to --component-icon-md (24px), to read
+   at the same scale as the FAQ/notification/avatar icons beside it. Scoped to Topbar's search
+   wrapper only — Searchbar's default stays 16px everywhere else it's reused (Dropdown, Header). */
+.ds-app-topbar__search .icon {
+  font-size: var(--component-icon-md);
+}
+
+.ds-app-topbar__trailing {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-md);
+  flex-shrink: 0;
+}
+
+.ds-app-topbar__notification-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Bumped from IconButton's default md icon (--component-icon-sm, 16px) to --component-icon-md
+   (24px), keeping the shared 32px md container (--component-height-md) untouched. Scoped to
+   Topbar only — IconButton's own default stays 16px everywhere else it's used at size="md". */
+.ds-app-topbar__faq .icon,
+.ds-app-topbar__notification-wrap .icon {
+  font-size: var(--component-icon-md);
+}
+
+.ds-app-topbar__notification-badge {
+  position: absolute;
+  top: calc(-1 * var(--space-component-gap-xs));
+  right: calc(-1 * var(--space-component-gap-xs));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--component-icon-md);
+  height: var(--component-icon-md);
+  padding-inline: var(--space-component-gap-xs);
+  border-radius: var(--radius-full);
+  border: var(--border-sm) solid var(--global-background-surface);
+  background: var(--brand-danger-500);
+  color: var(--brand-neutral-0);
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-xs-font-size);
+  font-weight: var(--typography-font-weight-medium);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.ds-app-topbar__divider {
+  width: var(--border-sm);
+  height: var(--component-height-sm);
+  background: var(--brand-neutral-500);
+}
+
+.ds-app-topbar__menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-md);
+  padding: var(--space-component-padding-xs);
+  cursor: pointer;
+  color: var(--brand-neutral-900);
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  font-weight: var(--typography-font-weight-medium);
+  white-space: nowrap;
+  transition: background-color var(--duration-fast) ease;
+}
+
+.ds-app-topbar__menu-trigger:hover {
+  background: var(--brand-neutral-200);
+}
+
+.ds-app-topbar__menu-trigger .icon {
+  font-size: var(--component-icon-sm);
+  color: var(--brand-neutral-700);
+}
+
+/* Circle resized from --component-icon-lg (36px) to --component-height-md (32px) to match the
+   FAQ/notification icon containers beside it; the account_circle glyph inside was already
+   --component-icon-md (24px), so only the surrounding circle changes here. */
+.ds-app-topbar__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-height-md);
+  height: var(--component-height-md);
+  border-radius: var(--radius-full);
+  background: var(--brand-neutral-200);
+  color: var(--brand-neutral-700);
+  flex-shrink: 0;
+}
+
+.ds-app-topbar__avatar .icon {
+  font-size: var(--component-icon-md);
+  color: var(--brand-neutral-700);
+}
+
+/* No breakpoint token exists anywhere in this project (tokens.css/tokens.json/DESIGN.md all
+   checked) — 1024px is hand-picked and flagged per the "flag instead of guessing" rule rather
+   than backed by a token. .ds-app-topbar__search has no min-width floor, so the row itself can
+   no longer overflow on its own — this breakpoint is a deliberate progressive-disclosure cutoff
+   (hide secondary controls once the bar drops below its comfortable full-content width, ~1028px)
+   rather than an overflow fix. @container (not @media) so this keys off .ds-app-topbar's own box,
+   matching the existing .ds-variant-group container-query precedent in ButtonDoc.css. Scoped
+   with :not(.ds-anatomy__demo) so the Anatomy section's labeled reference diagram keeps showing
+   every part regardless of how narrow its own box gets.
+   .ds-app-topbar__menu-trigger excludes :not(.ds-app-topbar__user-trigger) because the user/account
+   button reuses that same base class for its styling (see AppTopbar.tsx) — without the exclusion
+   this rule would hide the account menu along with the language trigger, not just the language
+   trigger as intended. */
+@container (max-width: 1024px) {
+  .ds-app-topbar:not(.ds-anatomy__demo) .ds-app-topbar__store-trigger,
+  .ds-app-topbar:not(.ds-anatomy__demo) .ds-app-topbar__faq,
+  .ds-app-topbar:not(.ds-anatomy__demo) .ds-app-topbar__divider,
+  .ds-app-topbar:not(.ds-anatomy__demo) .ds-app-topbar__menu-trigger:not(.ds-app-topbar__user-trigger) {
+    display: none;
+  }
+}

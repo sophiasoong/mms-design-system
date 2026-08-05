@@ -1,0 +1,54 @@
+/* ---- Footer ----
+   Figma node 856:55370 ("Footer" section), holding the Size=Lg/Style=Divider (739:12682),
+   Size=Lg/Style=Shadow (897:28251), and Size=Sm/Style=Divider (370:2997) symbols. Tokens
+   below are exact hex/px matches confirmed via get_design_context on each symbol:
+     global/background/surface                    (#ffffff) -> --global-background-surface
+     global/divider/neutral-light                  (#f4f4f4) -> --global-divider-neutral-light
+     interactive/dropdown/panel/shadow/default      (#d9d9d9) -> --interactive-dropdown-panel-shadow-default
+     radius/md (8px), border/sm (1px), space/component/padding/lg|sm,
+     space/component/gap/md, component/height/3xl|lg -> existing tokens of the same value.
+   Two values are flagged per the project's "flag instead of guessing" rule: (1) the Lg/Divider
+   symbol carries no border stroke in Figma, unlike Sm/Divider which does — implemented exactly
+   as designed rather than adding an unconfirmed border; (2) the Sm footer's buttons are 24px
+   tall in Figma with no bound size token, between Button's sm (28px) and no smaller tier, so
+   Button size="sm" is used as the closest existing match rather than introducing a new tier. */
+
+.ds-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--global-background-surface);
+}
+
+.ds-footer__trailing {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-md);
+}
+
+/* ---- Size ---- */
+.ds-footer--lg {
+  height: var(--component-height-3xl);
+  padding: var(--space-component-padding-lg);
+}
+
+.ds-footer--sm {
+  height: var(--component-height-lg);
+  padding: var(--space-component-padding-sm);
+}
+
+/* ---- Style ---- */
+.ds-footer--divider.ds-footer--lg {
+  border-radius: var(--radius-md);
+}
+
+.ds-footer--divider.ds-footer--sm {
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-footer--shadow {
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  box-shadow: 0 2px 8px 0 var(--interactive-dropdown-panel-shadow-default);
+}

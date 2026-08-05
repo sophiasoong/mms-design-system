@@ -389,69 +389,13 @@
   white-space: nowrap;
 }
 
-.ds-pagination {
+/* Pagination markup/styles now live in the standalone Pagination component
+   (Pagination.tsx/Pagination.css) — this wrapper only restores the right-aligned,
+   padded layout that Table's footer needs. */
+.ds-table-example__pagination {
   display: flex;
-  align-items: center;
   justify-content: flex-end;
-  gap: var(--space-component-gap-xs);
   padding: var(--space-component-padding-lg);
-}
-
-.ds-pagination__item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--component-height-md);
-  height: var(--component-height-md);
-  border: var(--border-sm) solid transparent;
-  background: none;
-  border-radius: 6px; /* unmatched token: pagination item radius (Figma: 6px, between --radius-sm/4px and --radius-md/8px) */
-  font-family: var(--typography-font-family-body);
-  font-size: var(--typography-sm-font-size);
-  color: var(--text-body-primary-neutral);
-  cursor: pointer;
-}
-
-/* Figma's active-item border/label color (#1f11bb) matches --brand-primary-600 exactly. */
-.ds-pagination__item--active {
-  border-color: var(--brand-primary-600);
-  color: var(--brand-primary-600);
-  font-weight: var(--typography-font-weight-medium);
-}
-
-.ds-pagination__item--ellipsis {
-  cursor: default;
-  color: var(--text-body-tertiary-neutral);
-}
-
-.ds-pagination__nav {
-  flex-shrink: 0;
-}
-
-.ds-pagination__goto {
-  display: flex;
-  align-items: center;
-  gap: var(--space-component-gap-sm);
-  margin-left: var(--space-component-gap-md);
-}
-
-.ds-pagination__goto-label {
-  font-family: var(--typography-font-family-body);
-  font-size: var(--typography-sm-font-size);
-  line-height: var(--typography-sm-line-height);
-  color: var(--text-body-primary-neutral);
-  white-space: nowrap;
-}
-
-.ds-pagination__goto-input {
-  width: var(--component-height-md);
-  padding-left: 0;
-  padding-right: 0;
-  text-align: center;
-}
-
-.ds-pagination__goto-input .ds-input__field {
-  text-align: center;
 }
 
 /* ---- Empty state ---- */
