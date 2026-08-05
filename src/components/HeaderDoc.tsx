@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Header, { type HeaderStyle } from './Header';
+import Header from './Header';
 import Button from './Button';
 import IconButton from './IconButton';
 import { ButtonIcon, IconButtonIcon, ToggleIcon, TagIcon } from './icons';
@@ -10,14 +10,6 @@ const FIGMA_URL =
 
 const STYLE_TABS = ['Modal', 'Form', 'Sub-form', 'Section', 'Form-list'] as const;
 type StyleTab = (typeof STYLE_TABS)[number];
-
-const STYLE_BY_TAB: Record<StyleTab, HeaderStyle> = {
-  Modal: 'modal',
-  Form: 'form',
-  'Sub-form': 'sub-form',
-  Section: 'section',
-  'Form-list': 'form-list',
-};
 
 interface HeaderDocProps {
   onNavigate?: (componentId: string) => void;
