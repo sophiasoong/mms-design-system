@@ -216,3 +216,24 @@
     display: none;
   }
 }
+
+/* .ds-anatomy__badge (ButtonDoc.css) hangs 16px below each part's own bottom edge — fine
+   when every part in a row is the same height, but Topbar's parts range from 28px (pill
+   buttons) to 32px (icon buttons) to 40px (Searchbar lg), so each badge's anchor line
+   landed at a different height. Stretching every group and part wrapper to the bar's
+   full height gives them all the same bottom edge, so every badge hangs from one flat
+   line; align-items: center keeps each part visually centered at its natural size within
+   the now-taller wrapper, same as before. Scoped to the anatomy demo only — the live,
+   functional Topbar keeps its normal (unstretched) group heights. */
+.ds-app-topbar.ds-anatomy__demo .ds-app-topbar__leading,
+.ds-app-topbar.ds-anatomy__demo .ds-app-topbar__trailing,
+.ds-app-topbar.ds-anatomy__demo .ds-app-topbar__search {
+  align-self: stretch;
+  align-items: center;
+}
+
+.ds-app-topbar.ds-anatomy__demo .ds-anatomy__part-relative {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+}

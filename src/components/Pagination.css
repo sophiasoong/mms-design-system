@@ -84,3 +84,30 @@
 /* Sm's goto box is 24px tall in Figma; Input has no size smaller than md (32px), so md
    is reused as-is rather than guessing at a shorter variant — same flagged gap as
    Footer's Sm buttons (also 24px, with no matching Button size). */
+
+/* .ds-anatomy__badge (ButtonDoc.css) hangs 16px below each part's own bottom edge — fine
+   when every part in a row is the same height, but Pagination's parts range from the
+   32px nav/item buttons to the taller "10/page" trigger and "Go to" Input, so each
+   badge's anchor line landed at a different height. .ds-pagination__goto is stretched
+   first so it shares the outer row's full height, then every part-relative wrapper
+   (both the top-level items and the two nested inside goto) stretches to that same
+   line, giving every badge one flat hanging line; align-items: center keeps each part
+   visually centered at its natural size within the taller wrapper, same as before.
+   The added gap only affects the "Go to" wrapper (badge 8, its only wrapper with two
+   real children — .ds-anatomy__badge is position: absolute and never a flex item) and
+   fixes that label + Input rendering stacked instead of side by side: .ds-input's root
+   is display: flex, a block-level value, which forces a line break inside a plain inline
+   .ds-anatomy__part-relative span with no flex/gap override of its own. Scoped to the
+   anatomy demo only — the live, functional Pagination keeps its normal (unstretched)
+   heights and its own .ds-pagination__goto gap. */
+.ds-pagination.ds-anatomy__demo .ds-pagination__goto {
+  align-self: stretch;
+  align-items: center;
+}
+
+.ds-pagination.ds-anatomy__demo .ds-anatomy__part-relative {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  gap: var(--space-component-gap-sm);
+}

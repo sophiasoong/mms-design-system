@@ -104,7 +104,15 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
                   <span className="ds-anatomy__badge">4</span>
                 </span>
                 <span className="ds-anatomy__part-relative">
-                  <IconButton icon="help" variant="neutral" appearance="ghost" shape="round" size="md" label="FAQ" />
+                  <IconButton
+                    icon="help"
+                    variant="neutral"
+                    appearance="ghost"
+                    shape="round"
+                    size="md"
+                    label="FAQ"
+                    className="ds-app-topbar__faq"
+                  />
                   <span className="ds-anatomy__badge">5</span>
                 </span>
                 <span className="ds-anatomy__part-relative">
