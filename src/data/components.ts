@@ -7,13 +7,14 @@ export interface ComponentEntry {
 // `icon` is a Material Symbols Rounded glyph name rendered as ligature text. 'button',
 // 'icon-button', 'dropdown', 'chip', 'input', 'textarea', 'select', 'checkbox', 'radio',
 // 'datepicker', 'tab', 'tag', 'badge', 'toggle', 'table', 'hint', 'tooltip', 'indicator',
-// 'searchbar', 'step', and 'header' are exceptions: Sidebar.tsx and each Related Component
-// card render them as bespoke SVGs (ButtonIcon / IconButtonIcon / DropdownIcon / ChipIcon /
-// InputIcon / TextareaIcon / SelectIcon / CheckboxIcon / RadioIcon / DatepickerIcon / TabIcon /
-// TagIcon / BadgeIcon / ToggleIcon / TableIcon / HintIcon / TooltipIcon / IndicatorIcon /
-// SearchbarIcon / StepIcon / HeaderIcon / FooterIcon / PaginationIcon / TopbarIcon in
-// ./components/icons) instead, since no Material Symbol matches their Figma-specified marks —
-// the icon values below go unused for those ids and are kept only as a readable fallback label.
+// 'searchbar', 'step', 'header', and 'sidebar' are exceptions: Sidebar.tsx and each Related
+// Component card render them as bespoke SVGs (ButtonIcon / IconButtonIcon / DropdownIcon /
+// ChipIcon / InputIcon / TextareaIcon / SelectIcon / CheckboxIcon / RadioIcon / DatepickerIcon /
+// TabIcon / TagIcon / BadgeIcon / ToggleIcon / TableIcon / HintIcon / TooltipIcon /
+// IndicatorIcon / SearchbarIcon / StepIcon / HeaderIcon / FooterIcon / PaginationIcon /
+// TopbarIcon / SidebarIcon in ./components/icons) instead, since no Material Symbol matches
+// their Figma-specified marks — the icon values below go unused for those ids and are kept
+// only as a readable fallback label.
 export const COMPONENTS: ComponentEntry[] = [
   { id: 'button', name: 'Button', icon: 'smart_button' },
   { id: 'icon-button', name: 'Icon Button', icon: 'add_circle' },
@@ -39,4 +40,5 @@ export const COMPONENTS: ComponentEntry[] = [
   { id: 'footer', name: 'Footer', icon: 'dock_to_bottom' },
   { id: 'pagination', name: 'Pagination', icon: 'more_horiz' },
   { id: 'topbar', name: 'Topbar', icon: 'view_headline' },
+  { id: 'sidebar', name: 'Sidebar', icon: 'side_navigation' },
 ];

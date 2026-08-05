@@ -572,3 +572,23 @@ export function TopbarIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+/* Sidebar.svg source: the same rounded-square frame as Header/Footer/Pagination/Topbar.svg
+   (#BFBFBF) -> --brand-neutral-600, plus a filled left rail (#222222, flush with the frame's
+   left edge and rounded top/bottom-left corners) -> currentColor — matches the two-tone
+   convention used by every other bespoke sidebar icon in this file. */
+export function SidebarIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <path
+        d="M20 12H76C80.4183 12 84 15.5817 84 20V76C84 80.4183 80.4183 84 76 84H20C15.5817 84 12 80.4183 12 76V20C12 15.5817 15.5817 12 20 12Z"
+        stroke="var(--brand-neutral-600)"
+        strokeWidth="8"
+      />
+      <path
+        d="M8 20C8 13.3726 13.3726 8 20 8H32V88H20C13.3726 88 8 82.6274 8 76V20Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}

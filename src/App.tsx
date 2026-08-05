@@ -26,6 +26,7 @@ import HeaderDoc from './components/HeaderDoc';
 import FooterDoc from './components/FooterDoc';
 import PaginationDoc from './components/PaginationDoc';
 import TopbarDoc from './components/TopbarDoc';
+import SidebarDoc from './components/SidebarDoc';
 import { getStoredBrandMode, applyBrandMode, type BrandMode } from './brandMode';
 import { BUTTON_SECTIONS } from './data/buttonSections';
 import { ICON_BUTTON_SECTIONS } from './data/iconButtonSections';
@@ -51,6 +52,7 @@ import { HEADER_SECTIONS } from './data/headerSections';
 import { FOOTER_SECTIONS } from './data/footerSections';
 import { PAGINATION_SECTIONS } from './data/paginationSections';
 import { TOPBAR_SECTIONS } from './data/topbarSections';
+import { SIDEBAR_SECTIONS } from './data/sidebarSections';
 import type { AnchorSection } from './components/AnchorNav';
 import './App.css';
 
@@ -79,6 +81,7 @@ const SECTIONS_BY_COMPONENT: Record<string, AnchorSection[]> = {
   footer: FOOTER_SECTIONS,
   pagination: PAGINATION_SECTIONS,
   topbar: TOPBAR_SECTIONS,
+  sidebar: SIDEBAR_SECTIONS,
 };
 
 function App() {
@@ -145,6 +148,8 @@ function App() {
             <PaginationDoc onNavigate={setActiveComponentId} />
           ) : activeComponentId === 'topbar' ? (
             <TopbarDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'sidebar' ? (
+            <SidebarDoc onNavigate={setActiveComponentId} />
           ) : (
             <div className="ds-main__empty">Select a component to view its documentation.</div>
           )}

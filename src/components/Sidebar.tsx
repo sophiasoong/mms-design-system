@@ -17,6 +17,7 @@ import {
   RadioIcon,
   SearchbarIcon,
   SelectIcon,
+  SidebarIcon,
   StepIcon,
   TabIcon,
   TableIcon,
@@ -53,6 +54,7 @@ function renderItemIcon(component: (typeof COMPONENTS)[number]) {
   if (component.id === 'footer') return <FooterIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'pagination') return <PaginationIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'topbar') return <TopbarIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'sidebar') return <SidebarIcon className="ds-sidebar__item-icon" />;
   return (
     <span className="icon ds-sidebar__item-icon" aria-hidden="true">
       {component.icon}

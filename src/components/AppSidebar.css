@@ -1,0 +1,248 @@
+/* ---- AppSidebar ----
+   Figma node 217:5484 ("Sidebar" master component, MMS-Web-AI-Design-System file, node-id
+   263-2633 on the page). Named AppSidebar.tsx/.css (doc-facing id/label stay "sidebar") since
+   this project's own site chrome already has a Sidebar.tsx/.css pair in active use in App.tsx.
+   Tokens below are exact hex matches confirmed via get_design_context:
+     surface/sidebar/surface/default                       (#110964) -> --surface-sidebar-surface-default
+     interactive/sidebar/item/surface/default|hover|active            -> --interactive-sidebar-item-surface-*
+     interactive/sidebar/item/label/default|hover|active               -> --interactive-sidebar-item-label-*
+     interactive/sidebar/item/icon/default|hover|active                -> --interactive-sidebar-item-icon-*
+     component/height/lg (40px), radius/lg (12px), border/sm,
+     space/component/gap/xs|sm, space/component/padding/none|sm|md -> existing tokens of the same value.
+   Three values are flagged per the project's "flag instead of guessing" rule:
+     (1) tokens.json defines interactiveSidebarHeaderLabelDefault / interactiveSidebarHeaderIconDefault
+         / textHeadingOnPrimary (all #ffffff, both mms/mma brands) — none of the three exist yet in
+         tokens.css, so the section header's label/icon reuse --brand-neutral-0 (#ffffff), the same
+         exact-value-fallback approach Pagination.css and AppTopbar.css already use for their own gaps.
+     (2) tokens.json's size/component/width/sm (260px) has no equivalent tokens.css variable (only
+         dropdown/modal/tooltip width tiers exist there) — 260px is hardcoded and flagged rather than
+         reused from an unrelated tier.
+     (3) Figma's own "Main" section indents its item list at --space-component-padding-sm (8px) while
+         the other three sections use --space-component-padding-md (12px) — a genuine inconsistency in
+         the source file, preserved as-is via .ds-app-sidebar__item-list--main rather than normalized. */
+
+.ds-app-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm);
+  width: 260px; /* flagged: no --component-width-sm equivalent in tokens.css, see file header note 2 */
+  box-sizing: border-box;
+  padding: var(--space-component-padding-lg) var(--space-component-padding-md);
+  background: var(--surface-sidebar-surface-default);
+  font-family: var(--typography-font-family-body);
+}
+
+.ds-app-sidebar__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-app-sidebar__section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: var(--component-height-lg);
+  padding-right: var(--space-component-padding-md);
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.ds-app-sidebar__section-label {
+  color: var(--brand-neutral-0); /* flagged: interactiveSidebarHeaderLabelDefault, see file header note 1 */
+  font-family: var(--typography-font-family-heading);
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.ds-app-sidebar__section-chevron {
+  font-size: var(--component-icon-sm);
+  color: var(--brand-neutral-0); /* flagged: interactiveSidebarHeaderIconDefault, see file header note 1 */
+}
+
+.ds-app-sidebar__item-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding-left: var(--space-component-padding-md);
+  border-left: var(--border-sm) solid var(--interactive-sidebar-item-label-default);
+}
+
+.ds-app-sidebar__item-list--main {
+  padding-left: var(--space-component-padding-sm); /* Figma inconsistency: Main is 8px vs. 12px elsewhere, see file header note 3 */
+}
+
+.ds-app-sidebar__item-wrap {
+  position: relative;
+}
+
+.ds-app-sidebar__item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: var(--space-component-gap-sm);
+  height: var(--component-height-lg);
+  padding-inline: var(--space-component-padding-md);
+  border: none;
+  border-radius: var(--radius-lg);
+  background: var(--interactive-sidebar-item-surface-default);
+  color: var(--interactive-sidebar-item-label-default);
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  font-weight: var(--typography-font-weight-regular);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.ds-app-sidebar__item:hover,
+.ds-app-sidebar__item--force-hover {
+  background: var(--interactive-sidebar-item-surface-hover);
+  color: var(--interactive-sidebar-item-label-hover);
+}
+
+.ds-app-sidebar__item:hover .ds-app-sidebar__item-icon,
+.ds-app-sidebar__item:hover .ds-app-sidebar__item-chevron,
+.ds-app-sidebar__item--force-hover .ds-app-sidebar__item-icon,
+.ds-app-sidebar__item--force-hover .ds-app-sidebar__item-chevron {
+  color: var(--interactive-sidebar-item-icon-hover);
+}
+
+/* Active state is the one row where Figma bumps label weight from regular to medium. */
+.ds-app-sidebar__item--active {
+  background: var(--interactive-sidebar-item-surface-active);
+  color: var(--interactive-sidebar-item-label-active);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.ds-app-sidebar__item--active .ds-app-sidebar__item-icon,
+.ds-app-sidebar__item--active .ds-app-sidebar__item-chevron {
+  color: var(--interactive-sidebar-item-icon-active);
+}
+
+.ds-app-sidebar__item-icon,
+.ds-app-sidebar__item-chevron {
+  flex-shrink: 0;
+  font-size: var(--component-icon-sm);
+  color: var(--interactive-sidebar-item-icon-default);
+}
+
+.ds-app-sidebar__item-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
+/* Flyout: Figma node 217:5616, a standalone popover demonstrating one level of
+   sub-navigation with no trigger or positioning spec of its own (modeled as an independent
+   symbol, not attached to a specific Main-section item) — a plain CSS hover/focus reveal is
+   used here rather than a portaled overlay, since this codebase has no existing precedent
+   for a JS-positioned popover to reuse. --interactive-dropdown-panel-shadow-default is
+   reused for elevation, the same token Dropdown/DatePicker/Hint already use for their
+   floating panels.
+
+   The `left` offset is measured from the triggering row (.ds-app-sidebar__item-wrap or
+   .ds-app-sidebar__flyout-item-wrap), but that row's own right edge sits *inside* its
+   parent panel's padding-box (the sidebar's px-md, or a flyout's own p-md — both
+   --space-component-padding-md per node 263:2634's "Sidebar"/"Flyout" frames). Node
+   263:2634 lays Sidebar/Flyout1/Flyout2 out as flex siblings with a flush 4px gap and no
+   overlap, so the offset must clear that padding *before* adding the 4px gap — otherwise
+   the panel renders --space-component-padding-md short, overlapping the parent panel. */
+.ds-app-sidebar__flyout {
+  position: absolute;
+  left: calc(100% + var(--space-component-padding-md) + var(--space-component-gap-xs));
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm);
+  width: 236px;
+  padding: var(--space-component-padding-md);
+  border-radius: var(--radius-lg);
+  background: var(--surface-sidebar-surface-default);
+  box-shadow: 0 2px 8px 0 var(--interactive-dropdown-panel-shadow-default);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) ease;
+}
+
+/* Invisible hover bridge over the gap above: without it, the pointer crosses real empty
+   screen space to get from the trigger row into the flyout, the trigger's :hover is lost
+   mid-crossing (visibility flips instantly — it isn't in the opacity transition), and the
+   panel disappears before the pointer arrives. It's sized to the flyout's own height (100%),
+   not the trigger row's, so a diagonal path toward a sub-item further down the panel stays
+   covered too. As a descendant of the flyout, hovering it counts as hovering the flyout,
+   which in turn keeps the ancestor trigger's :hover (and this rule's own visibility) alive. */
+.ds-app-sidebar__flyout::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: calc(-1 * (var(--space-component-padding-md) + var(--space-component-gap-xs)));
+  width: calc(var(--space-component-padding-md) + var(--space-component-gap-xs));
+  height: 100%;
+}
+
+/* Child combinator (not descendant): a level-1 flyout can itself contain a nested level-2
+   flyout (see .ds-app-sidebar__flyout-item-wrap below), which reuses this same .ds-app-sidebar__flyout
+   class. A descendant selector here would also match — and prematurely reveal — that nested
+   panel just from hovering the top-level item, before its own trigger sub-item is hovered. */
+.ds-app-sidebar__item-wrap--has-flyout:hover > .ds-app-sidebar__flyout,
+.ds-app-sidebar__item-wrap--has-flyout:focus-within > .ds-app-sidebar__flyout {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Wraps a single flyout sub-item so it can, in turn, host its own nested (level-2) flyout —
+   node 263:2634 confirms the same 236px width / 4px gap / shadow apply one level deeper, so the
+   nested panel reuses .ds-app-sidebar__flyout unchanged rather than a new class. */
+.ds-app-sidebar__flyout-item-wrap {
+  position: relative;
+}
+
+.ds-app-sidebar__flyout-item-wrap--has-flyout:hover > .ds-app-sidebar__flyout,
+.ds-app-sidebar__flyout-item-wrap--has-flyout:focus-within > .ds-app-sidebar__flyout {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.ds-app-sidebar__flyout-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: var(--component-height-lg);
+  padding-inline: var(--space-component-padding-md);
+  border: none;
+  border-radius: var(--radius-lg);
+  background: var(--interactive-sidebar-item-surface-default);
+  color: var(--interactive-sidebar-item-label-default);
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.ds-app-sidebar__flyout-item:hover {
+  background: var(--interactive-sidebar-item-surface-hover);
+  color: var(--interactive-sidebar-item-label-hover);
+}
+
+/* Forces a flyout open for documentation previews (Anatomy, Variants), where there's no real
+   hover/focus to trigger the hidden-by-default panel. Stays position: absolute so it floats
+   outside the main panel at the same left: calc(100% + gap) offset as real hover/focus. */
+.ds-app-sidebar__flyout--demo-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
