@@ -90,7 +90,47 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
   const [collapsed, setCollapsed] = useState(() => window.matchMedia(COLLAPSE_QUERY).matches);
   const [focusPending, setFocusPending] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [scrollThumb, setScrollThumb] = useState({ top: 0, height: 0 });
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollHideTimeout = useRef<ReturnType<typeof setTimeout>>();
+
+  // Native scrollbar-width/::-webkit-scrollbar rules reserve their gutter as
+  // soon as they're non-zero — even a transparent one — which shrinks this
+  // fixed-width collapsed rail and clips its icons. A custom overlay thumb
+  // (same pattern as Dropdown/MessageDoc's scrollbar) sits on top instead of
+  // in the layout, so it can never take space away from the icons.
+  const updateThumb = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const { scrollTop, scrollHeight, clientHeight } = el;
+    if (scrollHeight <= clientHeight) {
+      setScrollThumb({ top: 0, height: 0 });
+      return;
+    }
+    const height = (clientHeight / scrollHeight) * clientHeight;
+    const top = (scrollTop / (scrollHeight - clientHeight)) * (clientHeight - height);
+    setScrollThumb({ top, height });
+  };
+
+  // The scrollbar thumb only has a CSS hook (a class), not a native "currently
+  // scrolling" selector — track it here and drop the class again after the user
+  // has been idle for a moment.
+  const handleScroll = () => {
+    updateThumb();
+    setIsScrolling(true);
+    if (scrollHideTimeout.current) clearTimeout(scrollHideTimeout.current);
+    scrollHideTimeout.current = setTimeout(() => setIsScrolling(false), 800);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', updateThumb);
+    return () => {
+      window.removeEventListener('resize', updateThumb);
+      if (scrollHideTimeout.current) clearTimeout(scrollHideTimeout.current);
+    };
+  }, []);
 
   useEffect(() => {
     const mql = window.matchMedia(COLLAPSE_QUERY);
@@ -123,6 +163,12 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
   const showClear = searchFocused && query.length > 0;
 
   const filtered = COMPONENTS.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()));
+
+  // Filtering or collapsing changes how tall the list is, which changes the
+  // thumb's size/position — recompute once the DOM has settled.
+  useEffect(() => {
+    updateThumb();
+  }, [filtered.length, collapsed]);
 
   return (
     <aside className={`ds-sidebar${collapsed ? ' ds-sidebar--collapsed' : ''}`}>
@@ -180,26 +226,45 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
         </div>
       </div>
 
-      <nav aria-label="Components">
-        <p className="ds-sidebar__section-title">Components</p>
-        <ul className="ds-sidebar__list" role="list">
-          {filtered.map((component) => (
-            <li key={component.id}>
-              <button
-                className={`ds-sidebar__item${
-                  activeComponentId === component.id ? ' ds-sidebar__item--active' : ''
-                }`}
-                onClick={() => onSelectComponent(component.id)}
-                title={component.name}
-              >
-                {renderItemIcon(component)}
-                <span className="ds-sidebar__item-label">{component.name}</span>
-              </button>
-            </li>
-          ))}
-          {filtered.length === 0 && <li className="ds-sidebar__empty">No components found</li>}
-        </ul>
-      </nav>
+      <div className="ds-sidebar__scroll-wrap">
+        <div className="ds-sidebar__scroll" onScroll={handleScroll} ref={scrollRef}>
+          <nav aria-label="Components">
+            <p className="ds-sidebar__section-title">Components</p>
+            <ul className="ds-sidebar__list" role="list">
+              {filtered.map((component) => (
+                <li key={component.id}>
+                  <button
+                    className={`ds-sidebar__item${
+                      activeComponentId === component.id ? ' ds-sidebar__item--active' : ''
+                    }`}
+                    onClick={() => onSelectComponent(component.id)}
+                    title={component.name}
+                  >
+                    {renderItemIcon(component)}
+                    <span className="ds-sidebar__item-label">{component.name}</span>
+                  </button>
+                </li>
+              ))}
+              {filtered.length === 0 && <li className="ds-sidebar__empty">No components found</li>}
+            </ul>
+          </nav>
+        </div>
+        <div
+          className={`ds-sidebar__scrollbar${isScrolling ? ' ds-sidebar__scrollbar--visible' : ''}`}
+          aria-hidden="true"
+        >
+          <div className="ds-sidebar__scrollbar-track">
+            <div
+              className="ds-sidebar__scrollbar-thumb"
+              style={{
+                height: `${scrollThumb.height}px`,
+                transform: `translateY(${scrollThumb.top}px)`,
+                opacity: scrollThumb.height > 0 ? 1 : 0,
+              }}
+            />
+          </div>
+        </div>
+      </div>
     </aside>
   );
 }

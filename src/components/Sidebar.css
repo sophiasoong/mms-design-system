@@ -1,11 +1,12 @@
 .ds-sidebar {
   width: 260px;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   background: var(--brand-neutral-0);
   border-right: var(--border-sm) solid var(--global-divider-neutral-light);
-  padding: var(--space-layout-section-padding-sm);
-  overflow-y: auto;
-  overflow-x: hidden;
+  padding: var(--space-layout-section-padding-sm) var(--space-layout-section-padding-sm) 0;
   transition: width var(--duration-normal) ease;
 }
 
@@ -14,10 +15,72 @@
 }
 
 .ds-sidebar__header {
-  position: sticky;
+  flex-shrink: 0;
+}
+
+.ds-sidebar__scroll-wrap {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-sidebar__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: var(--space-layout-section-padding-sm);
+  scrollbar-width: none;
+}
+
+.ds-sidebar__scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Overlay thumb (same track/thumb structure as Dropdown's/MessageDoc's custom
+   scrollbar) instead of a native one — a native scrollbar-width/::-webkit-scrollbar
+   rule reserves its gutter the moment it's non-zero, even fully transparent,
+   which would shrink this fixed-width collapsed rail and clip its icons. An
+   absolutely positioned overlay never takes space away from the content, so it
+   can sit flush against the true right edge and only needs an opacity toggle
+   to hide by default and appear while Sidebar.tsx's scroll handler is active. */
+.ds-sidebar__scrollbar {
+  position: absolute;
   top: 0;
-  z-index: 2;
-  background: var(--brand-neutral-0);
+  right: 2px;
+  bottom: var(--space-layout-section-padding-sm);
+  width: 8px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-sidebar__scrollbar--visible {
+  opacity: 1;
+}
+
+/* The collapsed rail's icon button already spans edge-to-edge of the available
+   padding gutter (width: calc(padding-sm*2 + component-height-lg), the icon
+   fills the middle var(--component-height-lg)) — there's no spare space left
+   for the overlay to sit in without overlapping the icon, so skip it here. */
+.ds-sidebar--collapsed .ds-sidebar__scrollbar {
+  display: none;
+}
+
+.ds-sidebar__scrollbar-track {
+  width: 8px;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--global-scrollbar-track-default);
+}
+
+.ds-sidebar__scrollbar-thumb {
+  width: 8px;
+  border-radius: var(--radius-full);
+  background: var(--global-scrollbar-thumb-default);
+  transition: opacity var(--duration-fast) ease;
 }
 
 .ds-sidebar__toggle-row {
