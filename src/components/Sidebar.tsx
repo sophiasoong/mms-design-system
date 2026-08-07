@@ -94,7 +94,7 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
   const [scrollThumb, setScrollThumb] = useState({ top: 0, height: 0 });
   const searchInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const scrollHideTimeout = useRef<ReturnType<typeof setTimeout>>();
+  const scrollHideTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // Native scrollbar-width/::-webkit-scrollbar rules reserve their gutter as
   // soon as they're non-zero — even a transparent one — which shrinks this
