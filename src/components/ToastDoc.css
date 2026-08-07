@@ -1,0 +1,25 @@
+/* Toast doc page only — badges 2-4 (Title/Description/Button) live inside
+   .ds-toast__content, which sits to the right of the icon + icon-content gap, not flush
+   against the card's own left padding like the shared --side-left offset (padding-lg +
+   gap-sm) assumes. Without this override the badges would land in the icon gutter, still
+   inside the card, instead of clearing its left border like badges 1 and 5. This adds the
+   icon's width and the icon-to-content gap on top of the shared offset/line-width formula
+   (see BannerDoc.css for the same padding-mismatch fix). */
+.ds-toast-anatomy .ds-anatomy__badge--side-left {
+  transform: translate(
+    calc(
+      -1 *
+        (
+          var(--space-component-padding-lg) + var(--component-icon-md) +
+            var(--space-component-gap-sm) * 2
+        )
+    ),
+    -50%
+  );
+}
+
+.ds-toast-anatomy .ds-anatomy__badge--side-left::before {
+  width: calc(
+    var(--space-component-padding-lg) + var(--component-icon-md) + var(--space-component-gap-sm)
+  );
+}

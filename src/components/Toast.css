@@ -1,0 +1,121 @@
+.ds-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  /* flagged: no token matches Figma's fixed 396px toast width (closest is
+     --component-width-modal-sm at 432px) — kept as a raw value per the project's
+     "flag instead of guessing" rule. */
+  width: 396px;
+  padding: var(--space-component-padding-md) var(--space-component-padding-lg); /* space/component/padding/md, /lg */
+  border: var(--border-sm) solid; /* border/sm */
+  /* flagged: no token matches Figma's 6px radius (closest are --radius-sm at 4px and
+     --radius-md at 8px) — kept as a raw value per the project's "flag instead of
+     guessing" rule. */
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.ds-toast--single-line {
+  height: var(--component-height-xl); /* component/height/xl */
+}
+
+.ds-toast--multi-line {
+  align-items: flex-start;
+}
+
+/* ---- state: surface + border ---- */
+.ds-toast--success {
+  background: var(--feedback-toast-surface-success); /* feedback/toast/surface/success */
+  border-color: var(--feedback-toast-border-success); /* feedback/toast/border/success */
+}
+
+.ds-toast--info {
+  background: var(--feedback-toast-surface-info); /* feedback/toast/surface/info */
+  border-color: var(--feedback-toast-border-info); /* feedback/toast/border/info */
+}
+
+.ds-toast--warning {
+  background: var(--feedback-toast-surface-warning); /* feedback/toast/surface/warning */
+  border-color: var(--feedback-toast-border-warning); /* feedback/toast/border/warning */
+}
+
+.ds-toast--danger {
+  background: var(--feedback-toast-surface-danger); /* feedback/toast/surface/danger */
+  border-color: var(--feedback-toast-border-danger); /* feedback/toast/border/danger */
+}
+
+/* ---- icon ---- */
+.ds-toast__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-icon-md); /* component/icon/md */
+  height: var(--component-icon-md); /* component/icon/md */
+  flex-shrink: 0;
+}
+
+.ds-toast__icon .icon {
+  font-size: var(--component-icon-sm); /* component/icon/sm */
+}
+
+.ds-toast--success .ds-toast__icon {
+  color: var(--feedback-toast-icon-success); /* feedback/toast/icon/success */
+}
+
+.ds-toast--info .ds-toast__icon {
+  color: var(--feedback-toast-icon-info); /* feedback/toast/icon/info */
+}
+
+.ds-toast--warning .ds-toast__icon {
+  color: var(--feedback-toast-icon-warning); /* feedback/toast/icon/warning */
+}
+
+.ds-toast--danger .ds-toast__icon {
+  color: var(--feedback-toast-icon-danger); /* feedback/toast/icon/danger */
+}
+
+/* ---- text ---- */
+.ds-toast__title {
+  margin: 0;
+  font-size: var(--typography-md-font-size); /* typography/md/font-size */
+  line-height: var(--typography-md-line-height); /* typography/md/line-height */
+  font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
+  color: var(--text-heading-primary-neutral); /* text/heading/primary/neutral */
+}
+
+.ds-toast__desc {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  font-weight: var(--typography-font-weight-regular); /* typography/font-weight/regular */
+  word-break: break-word;
+  color: var(--text-heading-primary-neutral); /* text/heading/primary/neutral */
+}
+
+.ds-toast--multi-line .ds-toast__desc {
+  color: var(--text-body-secondary-neutral); /* text/body/secondary/neutral */
+}
+
+/* ---- multi-line content column ---- */
+.ds-toast__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* ---- action controls ---- */
+.ds-toast__button {
+  flex-shrink: 0;
+}
+
+.ds-toast--multi-line .ds-toast__button {
+  align-self: flex-start;
+}
+
+.ds-toast__close {
+  flex-shrink: 0;
+}

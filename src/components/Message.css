@@ -1,0 +1,119 @@
+/* Figma node 638:8267 ("Message", State=Default/State=Hover). A single notification row —
+   thumbnail + title/description + primary action, plus tags and a timestamp underneath. */
+.ds-message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-component-gap-lg);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--space-component-padding-sm) var(--space-component-padding-lg);
+  background: var(--brand-neutral-0);
+  transition: background-color var(--duration-fast) ease;
+}
+
+.ds-message:hover,
+.ds-message--force-hover {
+  /* interactive-searchbar/list hover tokens don't apply here — brand-primary-50 is an
+     exact match to Figma's hover fill (#f7f6ff) and already reused the same way by
+     Sidebar's own item hover. */
+  background: var(--brand-primary-50);
+}
+
+.ds-message__thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--component-height-xl);
+  height: var(--component-height-xl);
+  background: var(--brand-secondary-200);
+  border-radius: var(--radius-md);
+  /* Exact match to the message-type thumbnails' Figma-exported SVGs (#1F11BB) — brand-primary-400
+     was an earlier approximation before those exports confirmed the real value. */
+  color: var(--brand-primary-600);
+}
+
+.ds-message__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm);
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.ds-message__main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-component-gap-sm);
+  width: 100%;
+}
+
+.ds-message__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-component-gap-sm);
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.ds-message__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs);
+  width: 100%;
+}
+
+.ds-message__title {
+  color: var(--text-heading-primary-neutral);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.ds-message__desc {
+  color: var(--text-body-primary-neutral);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  /* Descriptions are real notification copy of varying length now, not a fixed-width
+     placeholder — clamp to 2 lines so a long one can't blow out the row height. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ds-message__badge {
+  flex-shrink: 0;
+}
+
+.ds-message__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  width: 100%;
+}
+
+.ds-message__tags {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* No dedicated tag/message-hover token exists — Figma's hover state swaps the tag
+   background to plain white; brand-neutral-0 is an exact value match, reused directly
+   instead of inventing a new token. */
+.ds-message:hover .ds-message__tag,
+.ds-message--force-hover .ds-message__tag {
+  background: var(--brand-neutral-0);
+}
+
+.ds-message__date {
+  color: var(--text-body-secondary-neutral);
+  font-size: var(--typography-xs-font-size);
+  white-space: nowrap;
+  flex-shrink: 0;
+}

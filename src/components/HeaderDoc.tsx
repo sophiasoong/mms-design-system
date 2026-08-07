@@ -4,6 +4,7 @@ import Button from './Button';
 import IconButton from './IconButton';
 import { ButtonIcon, IconButtonIcon, ToggleIcon, TagIcon } from './icons';
 import './ButtonDoc.css';
+import './HeaderDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=1-1202';
@@ -48,7 +49,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
           Use Header to give any surface a consistent title bar, with optional metadata and
           trailing actions layered in only where the surface needs them.
         </p>
-        <div className="ds-preview">
+        <div className="ds-preview ds-preview--scrim">
           <div style={{ width: 480 }}>
             <Header style="form" title="Shipping address" showInfo showDescription />
           </div>
@@ -63,7 +64,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
           when the surface needs it.
         </p>
         <div className="ds-anatomy">
-          <div className="ds-anatomy__figure">
+          <div className="ds-anatomy__figure ds-preview--scrim ds-header-anatomy">
             <div className="ds-header ds-header--form ds-anatomy__demo" aria-hidden="true" style={{ width: 480 }}>
               <div className="ds-header__content">
                 <div className="ds-header__title-row">
@@ -81,7 +82,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
                   <span className="ds-anatomy__badge">3</span>
                 </p>
               </div>
-              <span className="ds-anatomy__part-relative">
+              <span className="ds-anatomy__part-relative ds-header-anatomy__actions-anchor">
                 <Button variant="primary" appearance="outline" size="md">
                   Label
                 </Button>

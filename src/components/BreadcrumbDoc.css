@@ -1,0 +1,65 @@
+/* Breadcrumb doc page only — like Anchor, a light in-page component, so previews and
+   the anatomy figure use the shared light .ds-preview/.ds-anatomy__figure surface as-is,
+   with no dark-scrim override. */
+
+/* Example subsection: a Page-header composition (trail/back-link + title + actions),
+   mirroring the Figma "Page-header" component (node 856-53733) referenced there. */
+.ds-breadcrumb-example {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-layout-section-gap-lg);
+  width: 100%;
+}
+
+.ds-breadcrumb-example__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs);
+  min-width: 0;
+}
+
+.ds-breadcrumb-example__title {
+  font-size: var(--typography-xl-font-size);
+  line-height: var(--typography-xl-line-height);
+  font-weight: var(--typography-font-weight-bold);
+  color: var(--text-heading-primary-neutral);
+}
+
+.ds-breadcrumb-example__buttons {
+  display: flex;
+  gap: var(--space-component-gap-sm);
+  flex-shrink: 0;
+}
+
+.ds-breadcrumb-example__ref {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  color: var(--interactive-button-label-primary-ghost-default);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ds-breadcrumb-example__ref:hover {
+  text-decoration: underline;
+}
+
+/* dim = everything that is not the Breadcrumb/Back-link being showcased */
+.ds-breadcrumb-example__dim {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-breadcrumb-example:hover .ds-breadcrumb-example__dim {
+  opacity: var(--opacity-40);
+}
+
+/* focus = the actual Breadcrumb / Back-link instance */
+.ds-breadcrumb-example__focus {
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-breadcrumb-example:hover .ds-breadcrumb-example__focus {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}

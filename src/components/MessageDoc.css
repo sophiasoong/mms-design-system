@@ -1,0 +1,315 @@
+/* Message doc page only — the anatomy figure uses the same dimmed backdrop as
+   .ds-preview--scrim (Overview, Variants) instead of the shared white .ds-anatomy__figure,
+   matching the dark-mode anatomy treatment established on Action Panel's doc page.
+   The doubled selector raises specificity above .ds-anatomy__figure's own background
+   rule so this backdrop wins regardless of source order (same fix pattern as
+   .ds-anatomy__demo.ds-anatomy__demo). */
+.ds-message-anatomy.ds-message-anatomy {
+  background: var(--global-overlay-dark);
+  border-color: transparent;
+}
+
+/* The legend list sits directly on the dark backdrop with no white card behind it,
+   so its default dark-on-white text needs to flip to white — same treatment as
+   Action Panel's and Footer's legend. */
+.ds-message-anatomy .ds-anatomy__legend li {
+  color: var(--brand-neutral-0);
+}
+
+.ds-message-anatomy .ds-anatomy__legend strong,
+.ds-message-anatomy .ds-anatomy__legend span:not(.ds-anatomy__legend-num) {
+  color: var(--brand-neutral-0);
+}
+
+/* ButtonDoc.css's shared .ds-anatomy__legend span rule outranks .ds-anatomy__legend-num's
+   own color rule sitewide, silently graying out the legend number on every anatomy figure
+   — restoring the intended primary-600 here, scoped to this page (see Action Panel's and
+   Footer's identical override for the same shared-file bug). */
+.ds-message-anatomy .ds-anatomy__legend-num {
+  color: var(--brand-primary-600);
+}
+
+/* Badge 1 (thumbnail, side-left), 2/5 (title/badge, container), and 6 (meta row,
+   default) all hang their dash connector outside the message row's own white card,
+   directly over the dark scrim — the shared light-gray dash (--text-caption-primary-light)
+   disappears there, so it flips to white by default. Badges 3/4 (description/button,
+   side) are the exception: their dash stays inside the card's own right padding, still
+   over white, so it's restored back to the original gray. */
+.ds-message-anatomy .ds-anatomy__badge::before {
+  border-color: var(--brand-neutral-0);
+}
+
+.ds-message-anatomy .ds-anatomy__badge--side::before {
+  border-color: var(--text-caption-primary-light);
+}
+
+/* Example subsection (Variants) — same hover-dim/focus idiom as Breadcrumb's Example:
+   non-hero content fades to 40% opacity and the hero gets a ring, both triggered by a
+   single hover over the whole composition, so either tab reads as "here's what this
+   flow looks like in the product." */
+.ds-message-example {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ds-message-example__dim {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-message-example:hover .ds-message-example__dim {
+  opacity: var(--opacity-40);
+}
+
+.ds-message-example__focus {
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-message-example:hover .ds-message-example__focus {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+
+.ds-message-example__ref {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  color: var(--interactive-button-label-primary-ghost-default);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ds-message-example__ref:hover {
+  text-decoration: underline;
+}
+
+/* Notification Panel tab — the panel sits below-right of the (dimmed) topbar, as if it
+   had just opened from the bell, without depending on AppTopbar's internal markup. */
+.ds-message-example__panel-row {
+  display: flex;
+  justify-content: flex-end;
+  /* Hugs the topbar and the panel's own bell trigger — 4px on top/right only, flush
+     on the other two sides. */
+  padding: var(--space-component-padding-xs) var(--space-component-padding-xs)
+    var(--space-component-padding-none) var(--space-component-padding-none);
+}
+
+.ds-message-example__panel-item {
+  cursor: pointer;
+}
+
+.ds-message-example__panel {
+  display: flex;
+  flex-direction: column;
+  width: var(--component-width-dropdown-lg);
+  max-width: 100%;
+  background: var(--brand-neutral-0);
+  border-radius: var(--radius-md);
+  box-shadow: 0 var(--space-component-overlap-sm) var(--space-layout-section-padding-sm)
+    var(--surface-card-shadow-default);
+  overflow: hidden;
+}
+
+.ds-message-example__panel-footer {
+  padding: var(--space-layout-section-padding-sm);
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-message-example__view-all {
+  width: 100%;
+}
+
+/* Message Center tab — the page-level composition below the (dimmed) topbar: a page
+   title, a Card-tab-and-filter-bar row, then the focused list-to-detail pair. The
+   list's first row uses forceState="hover" to read as "selected" without inventing a
+   new Message state. Matches the Figma frame's own light page canvas rather than the
+   plain white .ds-message-example__panel/detail surfaces sitting on it. */
+.ds-message-example__body {
+  display: flex;
+  flex-direction: column;
+  /* Sidebar isn't part of this composition, so the Figma frame's own sidebar-relative
+     inset (36px) doesn't carry over cleanly — using the section-level gap/padding token
+     instead of guessing a one-off px value. */
+  gap: var(--space-layout-section-gap-md);
+  padding: var(--space-layout-section-padding-md);
+  background: var(--global-background-page);
+}
+
+.ds-message-example__page-title {
+  font-size: var(--typography-xl-font-size);
+  line-height: var(--typography-xl-line-height);
+  font-weight: var(--typography-font-weight-regular);
+  color: var(--text-heading-primary-neutral);
+}
+
+.ds-message-example__filters {
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-message-example__filter-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-lg);
+  padding: var(--space-component-padding-lg);
+  background: var(--brand-neutral-0);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.ds-message-example__searchbar {
+  /* Searchbar.css's own width:100% otherwise fills the whole filter-bar row and pushes
+     the filter chips to a second line — same fixed-width-plus-shrink treatment as
+     .ds-message-example__panel above, reusing that token rather than a new one. */
+  flex: 0 1 var(--component-width-dropdown-sm);
+}
+
+.ds-message-example__filter-chips {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  /* Figma's 10px chip gap has no matching token; --space-component-gap-sm (8px) is the
+     closest scale value, same approximate-to-nearest-token approach as Chip.css. */
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-message-example__panes {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-layout-section-gap-md);
+}
+
+/* Wraps the scrollable list + its custom scrollbar overlay. The list:preview 1/3:2/3
+   split is encoded as a 33.3333%/66.6667% flex-basis rather than flex-basis:0 +
+   grow-ratio-alone — with a basis of 0, .ds-message-example__detail's own padding
+   can't resolve to a negative content-box, so the browser floors its hypothetical
+   size at that padding and skews the split; a percentage basis large enough to
+   already contain the padding avoids that floor.
+   align-self:flex-start opts back out of .ds-message-example__panes's
+   align-items:stretch — now that .ds-message-example__list caps its own height to
+   7.5 rows instead of filling 100%, stretching this wrapper to match the (taller)
+   detail pane would leave dead space below the list and strand the scrollbar
+   overlay's bottom inset (anchored to this wrapper) well past the list's real
+   bottom edge. Sizing the wrapper to its own capped content keeps the overlay
+   flush against the list it decorates, at the cost of no longer bottom-aligning
+   with the detail pane.
+   position:relative anchors the scrollbar overlay to the wrapper rather than the
+   scrolling element itself — an absolutely positioned child of a scrolling container
+   scrolls away with its content, same fix as Dropdown's own
+   .ds-dropdown--relative/.ds-dropdown__scrollbar pairing. */
+.ds-message-example__list-wrap {
+  position: relative;
+  display: flex;
+  flex: 1 1 33.3333%;
+  align-self: flex-start;
+  min-width: 0;
+}
+
+.ds-message-example__list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--brand-neutral-0);
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-md);
+  /* Caps the list to 7.5 rows tall so it always needs to scroll, rather than
+     growing to fit however many of the 15 rows happen to exist. One row's worst-case
+     height (title + a 2-line, clamped description) is built entirely from the same
+     tokens Message.css already uses for that row: top+bottom padding
+     (space-component-padding-sm x2), the title-to-description gap (space-component-gap-xs),
+     the description-to-meta gap (space-component-gap-sm), the meta row's tag height
+     (component-height-xs), and 3 text lines — 1 title + 2 clamped description
+     (typography-sm-line-height x3). 7.5x that row height is 840px, which matches the
+     measured row height (112px) exactly. overflow-y:auto scrolls the remaining rows. */
+  height: calc(
+    7.5 *
+      (
+        (2 * var(--space-component-padding-sm)) + var(--space-component-gap-xs) +
+          var(--space-component-gap-sm) + var(--component-height-xs) +
+          (3 * var(--typography-sm-line-height))
+      )
+  );
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.ds-message-example__list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbar overlay — same track/thumb structure and tokens as Dropdown's
+   .ds-dropdown__scrollbar, but with a real thumb height/offset driven by the list's
+   actual scroll position (MessageDoc.tsx's scroll listener) instead of a static
+   decorative size, since this list is real scrollable content rather than a fixed
+   Figma mock. Fades out via opacity when the list's content already fits (no scroll
+   possible), rather than being removed from the DOM, so the transition stays smooth. */
+.ds-message-example__scrollbar {
+  position: absolute;
+  top: var(--space-component-padding-sm);
+  right: var(--space-component-padding-xs);
+  bottom: var(--space-component-padding-sm);
+  width: 8px;
+  pointer-events: none;
+}
+
+.ds-message-example__scrollbar-track {
+  width: 8px;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--global-scrollbar-track-default);
+}
+
+.ds-message-example__scrollbar-thumb {
+  width: 8px;
+  border-radius: var(--radius-full);
+  background: var(--global-scrollbar-thumb-default);
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-message-example__detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-lg);
+  flex: 2 1 66.6667%;
+  min-width: 0;
+  padding: var(--space-component-padding-3xl);
+  background: var(--brand-neutral-0);
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-md);
+}
+
+/* Button defaults to align-items: stretch from the flex-column parent above —
+   override so it hugs its label width instead of stretching full-bleed. */
+.ds-message-example__detail .ds-button {
+  align-self: flex-start;
+}
+
+.ds-message-example__detail-title {
+  font-size: var(--typography-lg-font-size);
+  line-height: var(--typography-lg-line-height);
+  font-weight: var(--typography-font-weight-bold);
+  color: var(--text-heading-primary-neutral);
+}
+
+.ds-message-example__detail-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  color: var(--text-caption-primary-light);
+  background: var(--brand-neutral-200);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.ds-message-example__detail-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ds-message-example__detail-text {
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+  color: var(--text-body-primary-neutral);
+}

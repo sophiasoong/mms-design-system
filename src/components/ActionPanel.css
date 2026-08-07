@@ -1,0 +1,117 @@
+/* Figma node 163:17058 ("Action Panel" page) / 856:46641 (Action-panel symbol).
+   Header/Main/Main2 map 1:1 to the Figma component's own slots of the same name — Main
+   and Main2 are deliberately generic content slots so callers compose them from the
+   existing Radio / Select / Badge / Button components (plus the small structural
+   helpers exported alongside ActionPanel) rather than this component reinventing
+   radio-groups or field-rows internally. */
+
+.ds-action-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 244px; /* Figma's explicit panel width — no equivalent exists in tokens.css (only
+  dropdown/modal/tooltip width tiers) or in tokens.json's size/component/width scale, so it's
+  hardcoded and flagged rather than reused from an unrelated tier, matching AppSidebar's 260px. */
+  background: var(--global-background-surface); /* global/background/surface */
+  border-radius: var(--radius-md); /* radius/md */
+  overflow: hidden;
+}
+
+.ds-action-panel__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+  min-height: var(--component-height-2xl); /* component/height/2xl */
+  padding: var(--space-component-padding-lg); /* space/component/padding/lg */
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light); /* border/sm, global/divider/neutral-light */
+  box-sizing: border-box;
+}
+
+.ds-action-panel__title {
+  flex: 1 1 auto;
+  font-family: var(--typography-font-family-heading); /* typography/font/family/heading */
+  font-weight: var(--typography-font-weight-medium); /* typography/font/weight/medium */
+  font-size: var(--typography-md-font-size); /* typography/md/font-size */
+  line-height: var(--typography-md-line-height); /* typography/md/line-height */
+  color: var(--text-heading-primary-neutral); /* text/heading/primary/neutral */
+}
+
+.ds-action-panel__main,
+.ds-action-panel__main2 {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  padding: var(--space-component-padding-lg); /* space/component/padding/lg */
+  box-sizing: border-box;
+}
+
+.ds-action-panel__main {
+  gap: var(--space-layout-section-gap-xs); /* space/layout/section/gap/xs */
+}
+
+.ds-action-panel__main--divided {
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light); /* border/sm, global/divider/neutral-light */
+}
+
+/* Main/Main2 stretch their children (radio groups, fields) to fill the panel's width,
+   but a Button placed directly in either slot (e.g. "Apply") should stay content-width —
+   matching the doc page's own "content-width buttons" description of this pattern. */
+.ds-action-panel__main > .ds-button,
+.ds-action-panel__main2 > .ds-button {
+  align-self: flex-start;
+}
+
+.ds-action-panel__main2 {
+  gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
+}
+
+.ds-action-panel__section-title {
+  display: flex;
+  align-items: center;
+  min-height: var(--component-height-md); /* component/height/md */
+  font-family: var(--typography-font-family-heading); /* typography/font/family/heading */
+  font-weight: var(--typography-font-weight-medium); /* typography/font/weight/medium */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  color: var(--text-heading-primary-neutral); /* text/heading/primary/neutral */
+}
+
+.ds-action-panel__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  width: 100%;
+}
+
+.ds-action-panel__field-label {
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-weight: var(--typography-font-weight-regular); /* typography/font/weight/regular */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  color: var(--text-body-secondary-neutral); /* text/body/secondary/neutral (exact hex match for Figma's text/label/primary, #5c5c5c) */
+}
+
+.ds-action-panel__field-value {
+  display: flex;
+  align-items: center;
+  min-height: var(--component-height-md); /* component/height/md */
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-weight: var(--typography-font-weight-medium); /* typography/font/weight/medium */
+  font-size: var(--typography-md-font-size); /* typography/md/font-size */
+  line-height: var(--typography-md-line-height); /* typography/md/line-height */
+  color: var(--text-body-primary-neutral); /* text/body/primary/neutral */
+}
+
+/* Radio-group structural helpers — Figma nests a group's sub-options under an
+   indented wrapper (pl-24) between two flush top-level options. */
+.ds-action-panel__radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  width: 100%;
+}
+
+.ds-action-panel__radio-group--nested {
+  padding-left: var(--space-component-padding-xl); /* space/component/padding/xl */
+}

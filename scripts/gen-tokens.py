@@ -84,8 +84,16 @@ USED = [
     'interactive-checkbox-mark-disabled','interactive-checkbox-shadow-focus',
     'global-scrollbar-thumb-default','global-scrollbar-track-default',
     'global-background-surface',
-    # Dropdown — Combo examples (filter-chip / select triggers)
+    # Select / combo inputs — Input, Select, Dropdown, Textarea, DatePicker, ButtonDoc all
+    # reference these; keep them here even if a given doc example doesn't show every state.
     'interactive-select-surface-focus','interactive-select-placeholder-default',
+    'interactive-select-surface-default','interactive-select-surface-disabled',
+    'interactive-select-border-default','interactive-select-border-hover',
+    'interactive-select-border-focus','interactive-select-border-error','interactive-select-border-disabled',
+    'interactive-select-icon-default','interactive-select-icon-hover',
+    'interactive-select-icon-focus','interactive-select-icon-disabled',
+    'interactive-select-label-default','interactive-select-label-disabled',
+    'interactive-select-placeholder-focus',
     # Anchor nav
     'interactive-anchor-indicator-default','interactive-anchor-label-active',
     'interactive-anchor-label-default','interactive-anchor-label-hover',
@@ -133,6 +141,21 @@ USED = [
     'interactive-icon-button-icon-success-focus','interactive-icon-button-icon-success-disabled',
     # Icon button — pending (no dedicated token exists; borrows the Toast/Banner warning color)
     'feedback-toast-icon-warning','feedback-toast-surface-warning',
+    # List (title/value text only — icon/subtitle/caption/highlight/thumbnail/divider/
+    # background all reuse existing tokens of identical value; see List.css)
+    'interactive-list-label-title',
+    # Banner
+    'feedback-banner-border-danger','feedback-banner-border-default',
+    'feedback-banner-border-info','feedback-banner-border-warning',
+    'feedback-banner-icon-danger','feedback-banner-icon-default',
+    'feedback-banner-icon-info','feedback-banner-icon-warning',
+    'feedback-banner-surface-danger','feedback-banner-surface-default',
+    'feedback-banner-surface-info','feedback-banner-surface-warning',
+    # Toast (icon-warning/surface-warning already declared above)
+    'feedback-toast-icon-success','feedback-toast-icon-info','feedback-toast-icon-danger',
+    'feedback-toast-surface-success','feedback-toast-surface-info','feedback-toast-surface-danger',
+    'feedback-toast-border-success','feedback-toast-border-info','feedback-toast-border-warning',
+    'feedback-toast-border-danger',
 ]
 
 def kebab(k):
@@ -170,6 +193,9 @@ for k in USED:
         missing.append(k)
         continue
     lines.append(f'  --{kebab(k)}: {mms[k]};')
+# Not present in tokens.json — Select's error state doesn't change label color,
+# so this aliases to label-default's value rather than guessing a new one.
+lines.append(f"  --interactive-select-label-error: {mms['interactive-select-label-default']};")
 lines.append('}')
 lines.append('')
 lines.append('/* ---- color: MMA overrides (only tokens whose value differs by brand) ---- */')

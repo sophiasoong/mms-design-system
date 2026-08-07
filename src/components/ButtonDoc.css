@@ -101,10 +101,11 @@
 }
 
 /* Dimmed backdrop for previews of surfaces that float over the page (e.g. Modal),
-   using the existing global/overlay/light token instead of the plain white .ds-preview
-   surface, so a white component doesn't visually merge into a white preview box. */
+   using the existing global/overlay/dark token instead of the plain white .ds-preview
+   surface, so a white component doesn't visually merge into a white preview box.
+   Dark (not light) so white caption/legend text over the scrim stays readable. */
 .ds-preview--scrim {
-  background: var(--global-overlay-light);
+  background: var(--global-overlay-dark);
   border-color: transparent;
 }
 
@@ -254,9 +255,12 @@
   position: relative;
 }
 
-/* Real components (e.g. .ds-dropdown) clip overflow for their normal rendering — override
-   it when used as an anatomy demo root so hanging/side badges aren't clipped. */
-.ds-anatomy__demo.ds-anatomy__part-relative {
+/* Real components (e.g. .ds-dropdown, .ds-action-panel) clip overflow for their normal
+   rendering — override it whenever used as an anatomy demo root so hanging/side badges,
+   whether on the root itself or on its annotated children, aren't clipped. The doubled
+   class raises specificity above the single-class component rule so this wins regardless
+   of CSS injection order between the two stylesheets. */
+.ds-anatomy__demo.ds-anatomy__demo {
   overflow: visible;
 }
 
@@ -265,7 +269,9 @@
 .ds-anatomy__badge--side {
   top: 50%;
   left: 100%;
-  transform: translate(16px, -50%);
+  /* Badge clears the part's own padding (space-component-padding-lg) plus an added
+     gap-sm standoff, so the circle no longer sits flush against the anatomy card's edge. */
+  transform: translate(calc(var(--space-component-padding-lg) + var(--space-component-gap-sm)), -50%);
 }
 
 .ds-anatomy__badge--side::before {
@@ -274,8 +280,10 @@
   top: 50%;
   left: auto;
   bottom: auto;
-  right: 100%;
-  width: 16px;
+  /* Starts gap-sm past the badge, i.e. right at the card's edge, so the standoff itself
+     stays blank and the dashes only run through the padding gutter up to the labeled part. */
+  right: calc(100% + var(--space-component-gap-sm));
+  width: var(--space-component-padding-lg);
   height: 0;
   border-left: none;
   border-top: var(--border-sm) dashed var(--text-caption-primary-light);
@@ -286,7 +294,7 @@
   top: 50%;
   left: auto;
   right: 100%;
-  transform: translate(-16px, -50%);
+  transform: translate(calc(-1 * (var(--space-component-padding-lg) + var(--space-component-gap-sm))), -50%);
 }
 
 .ds-anatomy__badge--side-left::before {
@@ -294,9 +302,9 @@
   position: absolute;
   top: 50%;
   bottom: auto;
-  left: 100%;
+  left: calc(100% + var(--space-component-gap-sm));
   right: auto;
-  width: 16px;
+  width: var(--space-component-padding-lg);
   height: 0;
   border-left: none;
   border-top: var(--border-sm) dashed var(--text-caption-primary-light);
@@ -432,7 +440,7 @@
 
 /* Same dimmed backdrop as .ds-preview--scrim, for row-based variant demos. */
 .ds-variant-row--scrim {
-  background: var(--global-overlay-light);
+  background: var(--global-overlay-dark);
   border-color: transparent;
 }
 
@@ -1065,4 +1073,33 @@
   margin-left: auto;
   font-size: var(--typography-xxs-font-size);
   color: var(--text-caption-primary-light);
+}
+
+/* ---- Sidebar Overview usage screenshot (Figma node 1373:249747, "Homepage") ---- */
+/* A static in-situ reference stands in for a live full app-shell demo, since Sidebar's
+   own preview can't show the surrounding Topbar/page-content it's meant to sit beside.
+   The source PNG is cropped tight to the frame content (the raw Figma export carried a
+   few px of outer bleed on the top/left only), so inset:0 lines up exactly with the
+   Sidebar's real edges instead of catching a sliver of that margin. The highlight box's
+   huge box-shadow spread dims everything outside the Sidebar's bounding box in one rule,
+   clipped to the frame by the parent's overflow:hidden, instead of stacking separate dim
+   panels around it. */
+.ds-sidebar-usage {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+}
+
+.ds-sidebar-usage__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ds-sidebar-usage__highlight {
+  position: absolute;
+  /* Sidebar (node 1373:249750) spans the full-height left rail: 260px of the 1920px frame */
+  inset: 0 86.48% 0 0;
+  box-shadow: 0 0 0 9999px var(--global-overlay-dark);
+  pointer-events: none;
 }

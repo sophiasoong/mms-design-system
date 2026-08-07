@@ -1,0 +1,61 @@
+/* Dialog doc page only — the anatomy figure uses the same dimmed backdrop as
+   .ds-preview--scrim (Overview, Variants) instead of the shared white .ds-anatomy__figure,
+   matching the dark-mode anatomy treatment established on Action Panel's and Message's doc
+   pages. The doubled selector raises specificity above .ds-anatomy__figure's own background
+   rule so this backdrop wins regardless of source order (same fix pattern as
+   .ds-anatomy__demo.ds-anatomy__demo). */
+.ds-dialog-anatomy.ds-dialog-anatomy {
+  background: var(--global-overlay-dark);
+  border-color: transparent;
+}
+
+/* The legend list sits directly on the dark backdrop with no white card behind it,
+   so its default dark-on-white text needs to flip to white — same treatment as
+   Action Panel's and Message's legend. */
+.ds-dialog-anatomy .ds-anatomy__legend li {
+  color: var(--brand-neutral-0);
+}
+
+.ds-dialog-anatomy .ds-anatomy__legend strong,
+.ds-dialog-anatomy .ds-anatomy__legend span:not(.ds-anatomy__legend-num) {
+  color: var(--brand-neutral-0);
+}
+
+/* ButtonDoc.css's shared .ds-anatomy__legend span rule outranks .ds-anatomy__legend-num's
+   own color rule sitewide, silently graying out the legend number on every anatomy figure
+   — restoring the intended primary-600 here, scoped to this page (see Action Panel's and
+   Message's identical override for the same shared-file bug). */
+.ds-dialog-anatomy .ds-anatomy__legend-num {
+  color: var(--brand-primary-600);
+}
+
+/* ButtonDoc.css's shared --side badge offset (padding-lg + gap-sm) is calibrated to
+   Message's 16px card padding. Dialog's card uses --space-component-padding-2xl (32px)
+   instead, so the shared offset would land badge 4 (Buttons) straddling the card's own
+   edge rather than clearing it — this recalculates the same offset with Dialog's actual
+   padding token. */
+.ds-dialog-anatomy .ds-anatomy__badge--side {
+  transform: translate(
+    calc(var(--space-component-padding-2xl) + var(--space-component-gap-sm)),
+    -50%
+  );
+}
+
+.ds-dialog-anatomy .ds-anatomy__badge--side::before {
+  width: var(--space-component-padding-2xl);
+}
+
+/* Badges 1/2 (title/description) use --side-left so they stack vertically along the
+   card's left edge instead of hanging above the demo. Same padding mismatch as the
+   --side override above: the shared offset (padding-lg + gap-sm) is calibrated for
+   Message's 16px card padding, so it's recalculated here with Dialog's actual 32px. */
+.ds-dialog-anatomy .ds-anatomy__badge--side-left {
+  transform: translate(
+    calc(-1 * (var(--space-component-padding-2xl) + var(--space-component-gap-sm))),
+    -50%
+  );
+}
+
+.ds-dialog-anatomy .ds-anatomy__badge--side-left::before {
+  width: var(--space-component-padding-2xl);
+}

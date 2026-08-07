@@ -174,7 +174,6 @@
   --interactive-button-surface-danger-ghost-disabled: #ff4d4f00;
   --interactive-button-label-danger-ghost-default: #ff4d4f;
   --interactive-shadow-primary: #5244ee3d;
-  --brand-primary-200: #a9a1f7;
   --brand-primary-300: #7d73f2;
   --brand-primary-400: #5244ee;
   --brand-primary-600: #1f11bb;
@@ -193,16 +192,7 @@
   --brand-neutral-800: #5c5c5c;
   --brand-neutral-900: #1e1e1e;
   --brand-neutral-950: #222222;
-  --brand-danger-300: #ffa39e;
   --brand-danger-500: #ff4d4f;
-  --status-yellow-500: #fff600;
-  --status-blue-500: #1890ff;
-  --brand-blue-100: #e6f7ff;
-  --brand-blue-300: #91d5ff;
-  --brand-blue-600: #1890ff;
-  --brand-green-100: #f6ffed;
-  --brand-green-300: #b7eb8f;
-  --brand-green-600: #52c41a;
   --text-heading-primary-neutral: #1e1e1e;
   --text-heading-secondary-neutral: #5c5c5c;
   --text-body-primary-neutral: #1e1e1e;
@@ -232,7 +222,6 @@
   --global-background-page: #f5f5f5;
   --global-divider-neutral-light: #f4f4f4;
   --global-overlay-dark: #22222299;
-  --global-overlay-light: #22222266;
   --surface-tag-background-neutral-default: #f5f5f5;
   --surface-tag-border-neutral-default: #d9d9d9;
   --surface-tag-label-neutral-default: #5c5c5c;
@@ -261,9 +250,9 @@
   --global-scrollbar-thumb-default: #a6a6a6;
   --global-scrollbar-track-default: #ffffff00;
   --global-background-surface: #ffffff;
-  --interactive-select-surface-default: #ffffff;
-  --interactive-select-surface-hover: #ffffff;
   --interactive-select-surface-focus: #ffffff;
+  --interactive-select-placeholder-default: #bfbfbf;
+  --interactive-select-surface-default: #ffffff;
   --interactive-select-surface-disabled: #f5f5f5;
   --interactive-select-border-default: #d9d9d9;
   --interactive-select-border-hover: #5244ee;
@@ -275,11 +264,7 @@
   --interactive-select-icon-focus: #5244ee;
   --interactive-select-icon-disabled: #bfbfbf;
   --interactive-select-label-default: #1e1e1e;
-  --interactive-select-label-hover: #1e1e1e;
-  --interactive-select-label-error: #1e1e1e;
   --interactive-select-label-disabled: #a6a6a6;
-  --interactive-select-placeholder-default: #bfbfbf;
-  --interactive-select-placeholder-hover: #bfbfbf;
   --interactive-select-placeholder-focus: #bfbfbf;
   --interactive-anchor-indicator-default: #e5e5e5;
   --interactive-anchor-label-active: #5244ee;
@@ -359,6 +344,30 @@
   --interactive-icon-button-icon-success-disabled: #a6a6a6;
   --feedback-toast-icon-warning: #fa8c16;
   --feedback-toast-surface-warning: #fff7e6;
+  --interactive-list-label-title: #222222;
+  --feedback-banner-border-danger: #ffa39e;
+  --feedback-banner-border-default: #d4d0fb;
+  --feedback-banner-border-info: #91d5ff;
+  --feedback-banner-border-warning: #ffd591;
+  --feedback-banner-icon-danger: #ff4d4f;
+  --feedback-banner-icon-default: #5244ee;
+  --feedback-banner-icon-info: #1890ff;
+  --feedback-banner-icon-warning: #fa8c16;
+  --feedback-banner-surface-danger: #fff1f0;
+  --feedback-banner-surface-default: #f7f6ff;
+  --feedback-banner-surface-info: #e6f7ff;
+  --feedback-banner-surface-warning: #fff7e6;
+  --feedback-toast-icon-success: #52c41a;
+  --feedback-toast-icon-info: #1890ff;
+  --feedback-toast-icon-danger: #f5222d;
+  --feedback-toast-surface-success: #f6ffed;
+  --feedback-toast-surface-info: #e6f7ff;
+  --feedback-toast-surface-danger: #fff1f0;
+  --feedback-toast-border-success: #b7eb8f;
+  --feedback-toast-border-info: #91d5ff;
+  --feedback-toast-border-warning: #ffd591;
+  --feedback-toast-border-danger: #ffa39e;
+  --interactive-select-label-error: #1e1e1e;
 }
 
 /* ---- color: MMA overrides (only tokens whose value differs by brand) ---- */
@@ -387,7 +396,6 @@
   --interactive-button-border-danger-outline-focus: #a8071a;
   --interactive-button-label-danger-ghost-default: #cf1322;
   --interactive-shadow-primary: #a47c4e3d;
-  --brand-primary-200: #dacbae;
   --brand-primary-300: #c5ab7f;
   --brand-primary-400: #a47c4e;
   --brand-primary-600: #8d6341;
@@ -414,7 +422,4 @@
   --interactive-icon-button-icon-primary-outline-focus: #8d6341;
   --interactive-icon-button-surface-primary-ghost-default: #a47c4e00;
   --interactive-icon-button-icon-danger-default: #cf1322;
-  --interactive-select-border-hover: #a47c4e;
-  --interactive-select-border-focus: #a47c4e;
-  --interactive-select-icon-focus: #a47c4e;
 }

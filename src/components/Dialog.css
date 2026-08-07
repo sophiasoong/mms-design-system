@@ -1,0 +1,65 @@
+/* Dialog card — Figma node 346:1729. 416px is the component's own fixed width in every
+   sampled instance (194:2828), not a responsive breakpoint, so it's kept as a literal
+   rather than mapped to a --component-width-* token (those are reserved for modal/dropdown
+   surfaces, none of which land on 416). */
+.ds-dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-component-gap-lg);
+  width: 416px;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: var(--space-component-padding-2xl);
+  background: var(--surface-card-surface-default);
+  /* Figma specs a 6px corner radius as a raw literal (rounded-[6px], not bound to a
+     variable) — no --radius-* token lands on 6px, so this reuses --radius-md (8px), the
+     radius already standardized on every other floating card surface in this system
+     (Dropdown's panel, List's/Message's dropdown panels). */
+  border-radius: var(--radius-md);
+  /* Figma's "shadow/surface" effect (offset 0/1px, blur 1px, color surface/card/shadow/
+     default) has no dedicated shadow-offset/blur token; --border-sm (1px) numerically
+     matches both the offset and blur exactly, so it's reused here instead of a raw value. */
+  box-shadow: 0 var(--border-sm) var(--border-sm) var(--surface-card-shadow-default);
+}
+
+.ds-dialog__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-component-gap-sm);
+  width: 100%;
+}
+
+.ds-dialog__title {
+  width: 100%;
+  margin: 0;
+  font-family: var(--typography-font-family-heading);
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--text-heading-primary-neutral);
+}
+
+.ds-dialog__desc {
+  width: 100%;
+  margin: 0;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  font-weight: var(--typography-font-weight-regular);
+  color: var(--text-body-secondary-neutral);
+}
+
+.ds-dialog__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-component-gap-md);
+  width: 100%;
+}
+
+/* 'loading' layout (866:29773) centers the Progress-ring in place of end-aligned buttons. */
+.ds-dialog__buttons--center {
+  justify-content: center;
+}

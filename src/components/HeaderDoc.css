@@ -1,0 +1,83 @@
+/* Header doc page only — the anatomy figure uses the same dimmed backdrop as
+   .ds-preview--scrim (Overview) instead of the shared white .ds-anatomy__figure,
+   matching the dark-mode anatomy treatment established on Action Panel's doc page.
+   The doubled selector raises specificity above .ds-anatomy__figure's own background
+   rule so this backdrop wins regardless of source order (same fix pattern as
+   .ds-anatomy__demo.ds-anatomy__demo). */
+.ds-header-anatomy.ds-header-anatomy {
+  background: var(--global-overlay-dark);
+  border-color: transparent;
+}
+
+/* Badges 1/2 (hang above via --container) and 3/4 (hang below, default) all sit
+   flush at the header bar's own edge by default (0 gap). Push each 8px clear of
+   the bar, matching Action Panel's badge-to-component fix, and pull the existing
+   dash back so it only spans the padding gutter up to the bar's edge — the
+   reclaimed 8px near the badge stays blank here (over the dark backdrop) until the
+   ::after rules below fill it with a white dash. */
+.ds-header-anatomy .ds-anatomy__badge:not(.ds-anatomy__badge--container) {
+  top: calc(100% + var(--space-component-padding-lg) + var(--space-component-gap-sm));
+}
+
+.ds-header-anatomy .ds-anatomy__badge:not(.ds-anatomy__badge--container)::before {
+  bottom: calc(100% + var(--space-component-gap-sm));
+  height: var(--space-component-padding-lg);
+}
+
+.ds-header-anatomy .ds-anatomy__badge:not(.ds-anatomy__badge--container)::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 0;
+  height: var(--space-component-gap-sm);
+  border-left: var(--border-sm) dashed var(--brand-neutral-0);
+}
+
+.ds-header-anatomy .ds-anatomy__badge--container {
+  bottom: calc(100% + var(--space-component-padding-lg) + var(--space-component-gap-sm));
+}
+
+.ds-header-anatomy .ds-anatomy__badge--container::before {
+  top: calc(100% + var(--space-component-gap-sm));
+  height: var(--space-component-padding-lg);
+}
+
+.ds-header-anatomy .ds-anatomy__badge--container::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 0;
+  height: var(--space-component-gap-sm);
+  border-left: var(--border-sm) dashed var(--brand-neutral-0);
+}
+
+/* The actions slot (badge 4) is the row's only single-line child next to the taller
+   title+description column, so align-items:center leaves it floating mid-row instead
+   of flush against the bottom padding like every other annotated part — breaking the
+   badge's padding-lg assumption. Anchoring it to the row's bottom edge restores that
+   assumption without touching Header's real cross-axis alignment elsewhere. */
+.ds-header-anatomy__actions-anchor {
+  align-self: flex-end;
+}
+
+/* The legend list sits directly on the dark backdrop with no white card behind it,
+   so its default dark-on-white text needs to flip to white — same treatment as
+   Action Panel's legend. */
+.ds-header-anatomy .ds-anatomy__legend li {
+  color: var(--brand-neutral-0);
+}
+
+.ds-header-anatomy .ds-anatomy__legend strong,
+.ds-header-anatomy .ds-anatomy__legend span:not(.ds-anatomy__legend-num) {
+  color: var(--brand-neutral-0);
+}
+
+/* ButtonDoc.css's shared .ds-anatomy__legend span rule outranks .ds-anatomy__legend-num's
+   own color rule sitewide, silently graying out the legend number on every anatomy figure
+   — restoring the intended primary-600 here, scoped to this page (see Action Panel's
+   identical override for the same shared-file bug). */
+.ds-header-anatomy .ds-anatomy__legend-num {
+  color: var(--brand-primary-600);
+}

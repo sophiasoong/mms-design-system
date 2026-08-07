@@ -27,6 +27,14 @@ import FooterDoc from './components/FooterDoc';
 import PaginationDoc from './components/PaginationDoc';
 import TopbarDoc from './components/TopbarDoc';
 import SidebarDoc from './components/SidebarDoc';
+import ActionPanelDoc from './components/ActionPanelDoc';
+import AnchorDoc from './components/AnchorDoc';
+import BreadcrumbDoc from './components/BreadcrumbDoc';
+import MessageDoc from './components/MessageDoc';
+import ListDoc from './components/ListDoc';
+import DialogDoc from './components/DialogDoc';
+import BannerDoc from './components/BannerDoc';
+import ToastDoc from './components/ToastDoc';
 import { getStoredBrandMode, applyBrandMode, type BrandMode } from './brandMode';
 import { BUTTON_SECTIONS } from './data/buttonSections';
 import { ICON_BUTTON_SECTIONS } from './data/iconButtonSections';
@@ -53,6 +61,14 @@ import { FOOTER_SECTIONS } from './data/footerSections';
 import { PAGINATION_SECTIONS } from './data/paginationSections';
 import { TOPBAR_SECTIONS } from './data/topbarSections';
 import { SIDEBAR_SECTIONS } from './data/sidebarSections';
+import { ACTION_PANEL_SECTIONS } from './data/actionPanelSections';
+import { ANCHOR_SECTIONS } from './data/anchorSections';
+import { BREADCRUMB_SECTIONS } from './data/breadcrumbSections';
+import { MESSAGE_SECTIONS } from './data/messageSections';
+import { LIST_SECTIONS } from './data/listSections';
+import { DIALOG_SECTIONS } from './data/dialogSections';
+import { BANNER_SECTIONS } from './data/bannerSections';
+import { TOAST_SECTIONS } from './data/toastSections';
 import type { AnchorSection } from './components/AnchorNav';
 import './App.css';
 
@@ -82,6 +98,14 @@ const SECTIONS_BY_COMPONENT: Record<string, AnchorSection[]> = {
   pagination: PAGINATION_SECTIONS,
   topbar: TOPBAR_SECTIONS,
   sidebar: SIDEBAR_SECTIONS,
+  'action-panel': ACTION_PANEL_SECTIONS,
+  anchor: ANCHOR_SECTIONS,
+  breadcrumb: BREADCRUMB_SECTIONS,
+  message: MESSAGE_SECTIONS,
+  list: LIST_SECTIONS,
+  dialog: DIALOG_SECTIONS,
+  banner: BANNER_SECTIONS,
+  toast: TOAST_SECTIONS,
 };
 
 function App() {
@@ -150,6 +174,22 @@ function App() {
             <TopbarDoc onNavigate={setActiveComponentId} />
           ) : activeComponentId === 'sidebar' ? (
             <SidebarDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'action-panel' ? (
+            <ActionPanelDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'anchor' ? (
+            <AnchorDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'breadcrumb' ? (
+            <BreadcrumbDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'message' ? (
+            <MessageDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'list' ? (
+            <ListDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'dialog' ? (
+            <DialogDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'banner' ? (
+            <BannerDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'toast' ? (
+            <ToastDoc onNavigate={setActiveComponentId} />
           ) : (
             <div className="ds-main__empty">Select a component to view its documentation.</div>
           )}

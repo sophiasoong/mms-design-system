@@ -1,0 +1,64 @@
+/* Figma node 652:4030 (Anchor) / 640:3464 (AnchorItem). A separate presentational
+   component from the app's own AnchorNav (the real "on this page" scroll-spy nav) —
+   see AnchorNav.css for why: that component is load-bearing, real navigation, so this
+   one exists purely to document the pattern without risking a shared-code regression.
+   Reuses the same anchor/tab tokens and the same brand-mode workaround: hover/active
+   reference --brand-primary-300/-400 directly, since interactive-anchor-label-hover,
+   interactive-anchor-label-active, and interactive-tab-indicator-line-active are all
+   unaliased to MMS indigo in tokens.json and stay frozen there under [data-color-mode="mma"]. */
+.ds-anchor {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.ds-anchor-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-md);
+  width: 100%;
+  height: var(--component-height-lg);
+  border: none;
+  border-left: var(--border-md) solid var(--interactive-anchor-indicator-default);
+  background: transparent;
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-font-weight-regular);
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+  color: var(--interactive-anchor-label-default);
+  cursor: pointer;
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.ds-anchor-item--tab {
+  padding-inline: var(--space-component-padding-md);
+}
+
+.ds-anchor-item--sub-tab {
+  padding-left: var(--space-component-padding-xl);
+  padding-right: var(--space-component-padding-md);
+}
+
+.ds-anchor-item__label {
+  white-space: nowrap;
+}
+
+.ds-anchor-item:hover:not(:disabled):not(.ds-anchor-item--active),
+.ds-anchor-item.ds-anchor-item--force-hover {
+  border-left-color: var(--interactive-anchor-indicator-hover);
+  color: var(--brand-primary-300);
+}
+
+.ds-anchor-item--active {
+  border-left-color: var(--brand-primary-400);
+  color: var(--brand-primary-400);
+  font-family: var(--typography-font-family-heading);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+.ds-anchor-item:disabled {
+  border-left-color: var(--interactive-anchor-indicator-disabled);
+  color: var(--interactive-anchor-label-disabled);
+  cursor: not-allowed;
+}

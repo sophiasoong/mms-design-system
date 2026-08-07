@@ -1,0 +1,88 @@
+/* Figma node 152:3905 (Breadcrumb) / 261:2589 (_Breadcrumb-item states) / 263:2631
+   (Back-link). interactive/breadcrumb/item/label/default (#a6a6a6), .../label/active
+   and .../border/hover (#1e1e1e), and .../label/disabled (#d9d9d9) are unaliased to the
+   same raw neutral gray/black under both mms and mma in tokens.json (no brand hue
+   involved, unlike Sidebar's/Anchor's purple substitutions) — text-body-tertiary-neutral,
+   text-body-primary-neutral, and brand-neutral-500 are exact hex matches already used
+   the same way elsewhere (see ActionPanel.css), so those are reused directly instead of
+   adding new single-purpose tokens. */
+
+.ds-breadcrumb {
+  display: flex;
+  align-items: center;
+  height: var(--component-height-xs); /* component/height/xs */
+}
+
+.ds-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  /* min-height (not an explicit padding-block) keeps the item's own box 24px tall —
+     line-height 20 plus 2px above/below has no matching token in tokens.css/tokens.json,
+     so centering via the component's own height avoids guessing at that 2px value. */
+  min-height: var(--component-height-xs); /* component/height/xs */
+  padding-inline: var(--space-component-padding-xs); /* space/component/padding/xs */
+  border: none;
+  border-bottom: var(--border-sm) solid transparent;
+  background: transparent;
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-weight: var(--typography-font-weight-regular); /* typography/font/weight/regular */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  color: var(--text-body-tertiary-neutral); /* text/body/tertiary/neutral */
+  cursor: pointer;
+  transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.ds-breadcrumb-item:hover:not(:disabled),
+.ds-breadcrumb-item.ds-breadcrumb-item--force-hover {
+  border-bottom-color: var(--text-body-primary-neutral); /* text/body/primary/neutral */
+}
+
+span.ds-breadcrumb-item--active {
+  color: var(--text-body-primary-neutral); /* text/body/primary/neutral */
+  cursor: default;
+}
+
+span.ds-breadcrumb-item--disabled {
+  color: var(--brand-neutral-500); /* brand/neutral/500 */
+  cursor: default;
+}
+
+.ds-breadcrumb-separator,
+.ds-breadcrumb-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--component-height-xs); /* component/height/xs */
+  padding-inline: var(--space-component-padding-sm); /* space/component/padding/sm */
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-weight: var(--typography-font-weight-regular); /* typography/font/weight/regular */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  color: var(--text-body-secondary-neutral); /* text/body/secondary/neutral */
+}
+
+.ds-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  height: var(--component-height-xs); /* component/height/xs */
+  padding-inline: var(--space-component-padding-none) var(--space-component-padding-sm); /* pl-none, pr-sm */
+  border: none;
+  border-radius: var(--radius-md); /* radius/md */
+  background: var(--interactive-button-surface-primary-ghost-default); /* interactive/button/surface/primary/ghost/default */
+  color: var(--interactive-button-label-primary-ghost-default); /* interactive/button/label/primary/ghost/default */
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-weight: var(--typography-font-weight-regular); /* typography/font/weight/regular */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.ds-back-link:hover {
+  background: var(--interactive-button-surface-primary-ghost-hover); /* interactive/button/surface/primary/ghost/hover */
+}
+
+.ds-back-link__icon {
+  display: inline-flex;
+}

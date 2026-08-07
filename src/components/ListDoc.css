@@ -1,0 +1,302 @@
+/* Example subsection (Variants) — each tab's composition mixes real List rows with
+   surrounding chrome (searchbar, header/footer, upload copy), so hovering it follows the
+   same dim/focus convention as Message's/Breadcrumb's Example: dim the chrome, ring the
+   actual List row groups. */
+.ds-list-example {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* dim = everything in the composition that is not List itself */
+.ds-list-example__dim {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-list-example:hover .ds-list-example__dim {
+  opacity: var(--opacity-40);
+}
+
+/* focus = the actual List row groups */
+.ds-list-example__focus {
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-list-example:hover .ds-list-example__focus {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+
+.ds-list-example__ref {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  color: var(--interactive-button-label-primary-ghost-default);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ds-list-example__ref:hover {
+  text-decoration: underline;
+}
+
+/* Anatomy figure — same dimmed backdrop as .ds-preview--scrim instead of the shared white
+   .ds-anatomy__figure, matching Message's/Header's/Footer's/Action Panel's dark-mode anatomy
+   treatment. The doubled selector raises specificity above .ds-anatomy__figure's own
+   background rule so this backdrop wins regardless of source order between the two
+   stylesheets (same fix pattern as .ds-anatomy__demo.ds-anatomy__demo). */
+.ds-list-anatomy.ds-list-anatomy {
+  background: var(--global-overlay-dark);
+  border-color: transparent;
+}
+
+/* The legend list sits directly on the dark backdrop with no white card behind it, so its
+   default dark-on-white text needs to flip to white — same treatment as Message's legend.
+   The row itself (badges 1-6) keeps its own white card background from List.css, so its
+   title/subtitle/caption text needs no color changes. */
+.ds-list-anatomy .ds-anatomy__legend li {
+  color: var(--brand-neutral-0);
+}
+
+.ds-list-anatomy .ds-anatomy__legend strong,
+.ds-list-anatomy .ds-anatomy__legend span:not(.ds-anatomy__legend-num) {
+  color: var(--brand-neutral-0);
+}
+
+/* ButtonDoc.css's shared .ds-anatomy__legend span rule outranks .ds-anatomy__legend-num's own
+   color rule sitewide, silently graying out the legend number on every anatomy figure —
+   restoring the intended primary-600 here, scoped to this page (see Message's/Action Panel's
+   identical override for the same shared-file bug). */
+.ds-list-anatomy .ds-anatomy__legend-num {
+  color: var(--brand-primary-600);
+}
+
+/* Badges 1 (thumbnail, side-left), 2 (title, container), and 6 (divider, default) all hang
+   their dash connector outside the row's own white card, directly over the dark scrim — the
+   shared light-gray dash (--text-caption-primary-light) disappears there, so it flips to
+   white by default. Badges 3/4/5 (filter chip/subtitle/caption, side) are the exception:
+   their dash stays inside the card's own right padding, still over white, so it's restored
+   back to the original gray. */
+.ds-list-anatomy .ds-anatomy__badge::before {
+  border-color: var(--brand-neutral-0);
+}
+
+.ds-list-anatomy .ds-anatomy__badge--side::before {
+  border-color: var(--text-caption-primary-light);
+}
+
+/* Search Dropdown tab — a recent-searches panel as it drops from a focused Searchbar:
+   filter chips, a "Search History" header with a ghost Clear-All action, Md-size List
+   rows, and a keyboard-hint footer. Reuses .ds-message-example__panel's card treatment
+   (fixed dropdown width, radius, shadow) rather than inventing a new one. */
+.ds-list-example__panel {
+  display: flex;
+  flex-direction: column;
+  width: var(--component-width-dropdown-lg);
+  max-width: 100%;
+  background: var(--brand-neutral-0);
+  border-radius: var(--radius-md);
+  box-shadow: 0 var(--space-component-overlap-sm) var(--space-layout-section-padding-sm)
+    var(--surface-card-shadow-default);
+  overflow: hidden;
+}
+
+.ds-list-example__searchbar-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-md);
+  padding: var(--space-component-padding-md);
+}
+
+.ds-list-example__chips {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-list-example__history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-component-padding-md) var(--space-component-padding-sm);
+}
+
+.ds-list-example__history-label {
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+  font-weight: var(--typography-font-weight-medium);
+  color: var(--brand-neutral-700);
+}
+
+.ds-list-example__rows {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Search History's Md rows have no divider of their own (unlike Lg — see .ds-list-example__rows--lg
+   below), so Figma (639:5388) separates them with a gap instead. Scoped off the --lg modifier so
+   Search Results' rows, which stack flush with their own per-row divider, are unaffected. */
+.ds-list-example__rows:not(.ds-list-example__rows--lg) {
+  gap: var(--space-component-gap-lg);
+}
+
+/* Search History's dropdown rows sit inside the panel's own padding-md gutter (unlike a
+   flush-edge list), so Figma (639:5388) gives them extra breathing room over List's shared
+   Md padding-sm — scoped to these rows rather than every Md-size List in the app. */
+.ds-list-example__rows .ds-list--md {
+  padding: 0 var(--space-component-padding-lg);
+}
+
+/* Figma (639:5388) sizes the history-row leading icon at 16px, but the shared .icon class
+   defaults to 24px (--component-icon-md) — List's own leading-icon box is already 16px per
+   spec (List.css), so only the glyph itself needs to shrink to match its container, same
+   fix pattern as the Uploaded Files file-row icon below. */
+.ds-list-example__rows .ds-list__leading-icon .icon {
+  font-size: var(--component-icon-sm);
+}
+
+.ds-list-example__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  padding: var(--space-component-padding-sm) var(--space-component-padding-md);
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+/* Search History's rows container now separates its rows with a gap (see
+   .ds-list-example__rows above) instead of a top divider, so the footer's own divider — the
+   container's "bottom" edge — is dropped too for the same flush look. Scoped off Search
+   Results' panel (--panel--radius-xl) so its footer, which follows Lg rows' own per-row
+   dividers, is unaffected. */
+.ds-list-example__panel:not(.ds-list-example__panel--radius-xl) .ds-list-example__footer {
+  border-top: none;
+}
+
+.ds-list-example__kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--space-component-padding-xs);
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+  color: var(--brand-neutral-700);
+  background: var(--brand-neutral-100);
+  border-radius: var(--radius-sm);
+}
+
+.ds-list-example__hint {
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+  color: var(--brand-neutral-700);
+}
+
+/* Shared by all three Example tabs so their panels/cards line up at one width. */
+.ds-list-example__panel--wide {
+  width: 100%;
+  max-width: 560px;
+}
+
+/* Search Results' own Figma frame (639:5409) specifies a larger corner radius than the
+   Search History dropdown (639:5388) — kept as its own modifier so it doesn't leak there. */
+.ds-list-example__panel--radius-xl {
+  border-radius: var(--radius-xl);
+}
+
+.ds-list-example__rows--lg > .ds-list--lg:last-child {
+  border-bottom: none;
+}
+
+/* Uploaded Files tab — a dropzone-style import summary above a compact file list. Figma
+   (714:18194) doesn't map to any existing panel styling, and none of its raw values match a
+   dedicated "dropzone" token (none exist), so each is resolved to the closest generic token. */
+.ds-list-example__upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm);
+  width: 395px;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: var(--space-component-padding-lg);
+  background: var(--brand-neutral-0);
+}
+
+.ds-list-example__upload-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-component-gap-md);
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--space-component-padding-xl) var(--space-component-padding-lg);
+  background: var(--brand-neutral-100);
+  border: var(--border-sm) solid var(--brand-neutral-500);
+  border-radius: var(--radius-md);
+}
+
+.ds-list-example__upload-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm);
+  width: 100%;
+  text-align: center;
+}
+
+.ds-list-example__upload-title {
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+  color: var(--text-heading-primary-neutral);
+}
+
+.ds-list-example__upload-desc,
+.ds-list-example__upload-total {
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-tertiary-neutral);
+}
+
+.ds-list-example__upload-results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-md);
+  width: 100%;
+}
+
+/* Pass/Error are summary rows sitting directly on the upload card's neutral-100 backdrop —
+   List's own white background (List.css) would show as a mismatched seam here, so it's
+   overridden just for these two instances rather than for every List in the app. */
+.ds-list-example__upload-results .ds-list {
+  background: transparent;
+}
+
+.ds-list-example__upload-total {
+  display: block;
+  width: 100%;
+  text-align: right;
+}
+
+.ds-list-example__upload-files {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs);
+}
+
+/* Figma (714:18194) sizes the file-row attach icon smaller than List's documented 16px
+   leading-icon box — a 16px glyph centered in a 24px container — so it's scoped to these
+   rows rather than resizing every List's leading icon (Layout & Spacing still specs 16px). */
+.ds-list-example__upload-files .ds-list__leading-icon {
+  width: var(--component-icon-md);
+  height: var(--component-icon-md);
+}
+
+.ds-list-example__upload-files .ds-list__leading-icon .icon {
+  font-size: var(--component-icon-sm);
+}
+
+.ds-list-example__upload-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-lg);
+}

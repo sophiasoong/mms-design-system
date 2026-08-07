@@ -1,0 +1,13 @@
+/* Anchor doc page only — unlike Header/Footer/Action Panel (dark UI chrome), Anchor
+   is a light, in-page nav list (same as the app's own AnchorNav), so its previews and
+   anatomy figure use the shared light .ds-preview/.ds-anatomy__figure surface as-is,
+   with no dark-scrim override. */
+
+/* .ds-anatomy__part-relative is only position:relative by default (inline, since it
+   wraps a <span>) — block+full-width here so the row it wraps actually fills it and
+   the side-left badge lands at the row's own left edge, not the row's shrunk content
+   width. */
+.ds-anchor-anatomy__row {
+  display: block;
+  width: 100%;
+}

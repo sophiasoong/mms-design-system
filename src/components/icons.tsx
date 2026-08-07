@@ -411,7 +411,7 @@ export function TooltipIcon({ className }: { className?: string }) {
   return (
     <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
-        d="M16 74C13.8 74 11.9167 73.2167 10.35 71.65C8.78333 70.0833 8 68.2 8 66V18C8 15.8 8.78333 13.9167 10.35 12.35C11.9167 10.7833 13.8 10 16 10H80C82.2 10 84.0833 10.7833 85.65 12.35C87.2167 13.9167 88 15.8 88 18V66C88 68.2 87.2167 70.0833 85.65 71.65C84.0833 73.2167 82.2 74 80 74H58.7L51.3 85C50.9 85.6 50.4167 86.05 49.85 86.35C49.2833 86.65 48.6667 86.8 48 86.8C47.3333 86.8 46.7167 86.65 46.15 86.35C45.5833 86.05 45.1 85.6 44.7 85L37.3 74H16ZM48 75.6L54.4 66H80V18H16V66H41.6L48 75.6Z"
+        d="M16 74C13.8 74 11.9167 73.2167 10.35 71.65C8.78333 70.0833 8 68.2 8 66V18C8 15.8 8.78333 13.9167 10.35 12.35C11.9167 10.7833 13.8 10 16 10H80C82.2 10 84.0833 10.7833 85.65 12.35C87.2167 13.9167 88 15.8 88 18V66C88 68.2 87.2167 70.0833 85.65 71.65C84.0833 73.2167 82.2 74 80 74H58.7L51.3 85C50.9 85.6 50.4167 86.05 49.85 86.35C49.2833 86.65 48.6667 86.8 48 86.8C47.3333 86.8 46.7167 86.65 46.15 86.35C45.5833 86.05 45.1 85.6 44.7 85L37.3 74H16ZM46.3359 73.1038C47.1275 74.2913 48.8725 74.2913 49.6641 73.1038L53.8063 66.8906C54.1772 66.3342 54.8017 66 55.4704 66H78C79.1046 66 80 65.1046 80 64V20C80 18.8954 79.1046 18 78 18H18C16.8954 18 16 18.8954 16 20V64C16 65.1046 16.8954 66 18 66H40.5296C41.1983 66 41.8228 66.3342 42.1937 66.8906L46.3359 73.1038Z"
         fill="var(--brand-neutral-600)"
       />
       <path
@@ -589,6 +589,161 @@ export function SidebarIcon({ className }: { className?: string }) {
         d="M8 20C8 13.3726 13.3726 8 20 8H32V88H20C13.3726 88 8 82.6274 8 76V20Z"
         fill="currentColor"
       />
+    </svg>
+  );
+}
+
+/* Action Panel.svg source: the same rounded-square frame as Header/Footer/Pagination/
+   Topbar/Sidebar.svg (#BFBFBF) -> --brand-neutral-600, plus a filled right rail
+   (#222222, mirroring Sidebar.svg's left rail but on the trailing edge) -> currentColor
+   — matches the two-tone convention used by every other bespoke sidebar icon in this file. */
+export function ActionPanelIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <path
+        d="M20 12H76C80.4183 12 84 15.5817 84 20V76C84 80.4183 80.4183 84 76 84H20C15.5817 84 12 80.4183 12 76V20C12 15.5817 15.5817 12 20 12Z"
+        stroke="var(--brand-neutral-600)"
+        strokeWidth="8"
+      />
+      <path
+        d="M56 24C56 21.7909 57.7909 20 60 20H72C74.2091 20 76 21.7909 76 24V72C76 74.2091 74.2091 76 72 76H60C57.7909 76 56 74.2091 56 72V24Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+/* Anchor.svg source: a vertical rail (rect, #BFBFBF) -> --brand-neutral-600, plus three
+   horizontal rounded bars — the top bar (#222222, the current/active anchor item) ->
+   currentColor, the middle and bottom bars (#BFBFBF, inactive items) -> --brand-neutral-600
+   — matches the two-tone convention used by every other bespoke sidebar icon in this file. */
+export function AnchorIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <rect x="12" y="8" width="8" height="80" rx="4" fill="var(--brand-neutral-600)" />
+      <path
+        d="M30 22C30 18.6863 32.6863 16 36 16H56C59.3137 16 62 18.6863 62 22V22C62 25.3137 59.3137 28 56 28H36C32.6863 28 30 25.3137 30 22V22Z"
+        fill="currentColor"
+      />
+      <path
+        d="M30 48C30 44.6863 32.6863 42 36 42H78C81.3137 42 84 44.6863 84 48V48C84 51.3137 81.3137 54 78 54H36C32.6863 54 30 51.3137 30 48V48Z"
+        fill="var(--brand-neutral-600)"
+      />
+      <path
+        d="M30 74C30 70.6863 32.6863 68 36 68H64C67.3137 68 70 70.6863 70 74V74C70 77.3137 67.3137 80 64 80H36C32.6863 80 30 77.3137 30 74V74Z"
+        fill="var(--brand-neutral-600)"
+      />
+    </svg>
+  );
+}
+
+/* Traced from the user-provided Breadcrumb.svg (96x96): the dark left segment (#222222)
+   is the active/current crumb, so it maps to currentColor; the lighter right segment and
+   connecting chevron (#BFBFBF) are both the fixed background shape, same as every other
+   icon in this file. */
+export function BreadcrumbIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <path
+        d="M8 48C8 44.6863 10.6863 42 14 42H32C35.3137 42 38 44.6863 38 48C38 51.3137 35.3137 54 32 54H14C10.6863 54 8 51.3137 8 48Z"
+        fill="currentColor"
+      />
+      <path
+        d="M58 48C58 44.6863 60.6863 42 64 42H82C85.3137 42 88 44.6863 88 48C88 51.3137 85.3137 54 82 54H64C60.6863 54 58 51.3137 58 48Z"
+        fill="var(--brand-neutral-600)"
+      />
+      <path
+        d="M50 43L46 53.5"
+        stroke="var(--brand-neutral-600)"
+        strokeWidth="6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/* Traced from the user-provided Message.svg (96x96): the bell outline (#BFBFBF) is the
+   fixed background shape -> --brand-neutral-600; the clapper and top clasp (#222222) are
+   the notification "detail" marks -> currentColor, matching this file's two-tone convention. */
+export function MessageIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <path
+        d="M77.16 69.16L72 64V44C72 31.72 65.44 21.44 54 18.72V16C54 12.68 51.32 10 48 10C44.68 10 42 12.68 42 16V18.72C30.52 21.44 24 31.68 24 44V64L18.84 69.16C16.32 71.68 18.08 76 21.64 76H74.32C77.92 76 79.68 71.68 77.16 69.16ZM64 68H32V44C32 34.08 38.04 26 48 26C57.96 26 64 34.08 64 44V68Z"
+        fill="var(--brand-neutral-600)"
+      />
+      <path d="M48 88C52.4 88 56 84.4 56 80H40C40 84.4 43.56 88 48 88Z" fill="currentColor" />
+      <path
+        d="M42 16C42 12.6863 44.6863 10 48 10C51.3137 10 54 12.6863 54 16V18.7H42V16Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+/* Traced from the user-provided List.svg (96x96): the top bar and its leading circle
+   (#222222) are the "active row" mark -> currentColor; the middle and bottom bars and
+   circles (#BFBFBF) are the muted background rows -> --brand-neutral-600, matching this
+   file's two-tone convention. */
+export function ListIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <path d="M32 24C32 21.7909 33.7909 20 36 20H80C82.2091 20 84 21.7909 84 24C84 26.2091 82.2091 28 80 28H36C33.7909 28 32 26.2091 32 24Z" fill="currentColor" />
+      <circle cx="18" cy="24" r="6" fill="currentColor" />
+      <path d="M32 48C32 45.7909 33.7909 44 36 44H80C82.2091 44 84 45.7909 84 48C84 50.2091 82.2091 52 80 52H36C33.7909 52 32 50.2091 32 48Z" fill="var(--brand-neutral-600)" />
+      <circle cx="18" cy="48" r="6" fill="var(--brand-neutral-600)" />
+      <path d="M32 72C32 69.7909 33.7909 68 36 68H80C82.2091 68 84 69.7909 84 72C84 74.2091 82.2091 76 80 76H36C33.7909 76 32 74.2091 32 72Z" fill="var(--brand-neutral-600)" />
+      <circle cx="18" cy="72" r="6" fill="var(--brand-neutral-600)" />
+    </svg>
+  );
+}
+
+/* Traced from the user-provided Dialog.svg (96x96): the rounded card outline and its two
+   text-line bars (#BFBFBF) are the fixed dialog-body mark -> --brand-neutral-600; the two
+   bottom "button pill" shapes (#222222) are the active/detail marks -> currentColor,
+   matching this file's two-tone convention. */
+export function DialogIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <path
+        d="M72 12C80.8366 12 88 19.1634 88 28V68C88 76.6984 81.0587 83.776 72.4131 83.9951L72 84H24L23.5869 83.9951C15.0785 83.7795 8.2205 76.9215 8.00488 68.4131L8 68V28C8 19.1634 15.1634 12 24 12H72ZM24 20C19.5817 20 16 23.5817 16 28V68C16 72.4183 19.5817 76 24 76H72C76.4183 76 80 72.4183 80 68V28C80 23.5817 76.4183 20 72 20H24ZM61 45C63.2091 45 65 46.7909 65 49C65 51.2091 63.2091 53 61 53H27C24.7909 53 23 51.2091 23 49C23 46.7909 24.7909 45 27 45H61ZM49 29C51.2091 29 53 30.7909 53 33C53 35.2091 51.2091 37 49 37H27C24.7909 37 23 35.2091 23 33C23 30.7909 24.7909 29 27 29H49Z"
+        fill="var(--brand-neutral-600)"
+      />
+      <path d="M34 66C34 63.7909 35.7909 62 38 62H48C50.2091 62 52 63.7909 52 66C52 68.2091 50.2091 70 48 70H38C35.7909 70 34 68.2091 34 66Z" fill="currentColor" />
+      <path d="M56 66C56 63.7909 57.7909 62 60 62H70C72.2091 62 74 63.7909 74 66C74 68.2091 72.2091 70 70 70H60C57.7909 70 56 68.2091 56 66Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+/* Traced from the user-provided Banner.svg (96x96): the rounded rect outline (#BFBFBF) is
+   the fixed banner-body mark -> --brand-neutral-600; the text bar and dot (#222222) are the
+   active/detail marks -> currentColor, matching this file's two-tone convention. */
+export function BannerIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <path
+        d="M76.4131 20.0049C85.0587 20.224 92 27.3016 92 36V60C92 68.6984 85.0587 75.776 76.4131 75.9951L76 76H20C11.3016 76 4.22398 69.0587 4.00488 60.4131L4 60V36C4 27.1634 11.1634 20 20 20H76L76.4131 20.0049ZM20 28C15.5817 28 12 31.5817 12 36V60C12 64.4183 15.5817 68 20 68H76C80.4183 68 84 64.4183 84 60V36C84 31.5817 80.4183 28 76 28H20ZM72 52C74.2091 52 76 53.7909 76 56C76 58.2091 74.2091 60 72 60H38C35.7909 60 34 58.2091 34 56C34 53.7909 35.7909 52 38 52H72Z"
+        fill="var(--brand-neutral-600)"
+      />
+      <path d="M34 40C34 37.7909 35.7909 36 38 36H60C62.2091 36 64 37.7909 64 40C64 42.2091 62.2091 44 60 44H38C35.7909 44 34 42.2091 34 40Z" fill="currentColor" />
+      <circle cx="24" cy="40" r="6" fill="currentColor" />
+    </svg>
+  );
+}
+
+/* Traced from the user-provided Toast.svg (96x96): the rounded card outline and its two
+   lower text-line bars (#BFBFBF) are the fixed toast-body mark -> --brand-neutral-600; the
+   highlighted top bar (#222222) is the active/detail mark -> currentColor, matching this
+   file's two-tone convention. */
+export function ToastIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <path
+        d="M72 12C80.8366 12 88 19.1634 88 28V68C88 76.6984 81.0587 83.776 72.4131 83.9951L72 84H24L23.5869 83.9951C15.0785 83.7795 8.2205 76.9215 8.00488 68.4131L8 68V28C8 19.1634 15.1634 12 24 12H72ZM24 20C19.5817 20 16 23.5817 16 28V68C16 72.4183 19.5817 76 24 76H72C76.4183 76 80 72.4183 80 68V28C80 23.5817 76.4183 20 72 20H24ZM68 60C70.2091 60 72 61.7909 72 64C72 66.2091 70.2091 68 68 68H28C25.7909 68 24 66.2091 24 64C24 61.7909 25.7909 60 28 60H68ZM68 44C70.2091 44 72 45.7909 72 48C72 50.2091 70.2091 52 68 52H28C25.7909 52 24 50.2091 24 48C24 45.7909 25.7909 44 28 44H68Z"
+        fill="var(--brand-neutral-600)"
+      />
+      <path d="M42 33C42 30.7909 43.7909 29 46 29H68C70.2091 29 72 30.7909 72 33V33C72 35.2091 70.2091 37 68 37H46C43.7909 37 42 35.2091 42 33V33Z" fill="currentColor" />
     </svg>
   );
 }

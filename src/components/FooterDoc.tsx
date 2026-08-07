@@ -3,6 +3,7 @@ import Footer from './Footer';
 import Button from './Button';
 import { ButtonIcon } from './icons';
 import './ButtonDoc.css';
+import './FooterDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=370-2983';
@@ -61,7 +62,7 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
           optional and only appears at the Lg size.
         </p>
         <div className="ds-anatomy">
-          <div className="ds-anatomy__figure">
+          <div className="ds-anatomy__figure ds-preview--scrim ds-footer-anatomy">
             <div className="ds-footer ds-footer--lg ds-footer--divider ds-anatomy__demo" aria-hidden="true" style={{ width: 480 }}>
               <span className="ds-anatomy__part-relative">
                 <Button variant="primary" appearance="ghost" size="md" leadingIcon="chevron_left">

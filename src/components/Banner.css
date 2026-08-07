@@ -1,0 +1,134 @@
+.ds-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  /* flagged: no token matches Figma's fixed 412px banner width (closest is
+     --component-width-modal-sm at 432px) — kept as a raw value per the project's
+     "flag instead of guessing" rule. */
+  width: 412px;
+  padding: var(--space-component-padding-md) var(--space-component-padding-lg); /* space/component/padding/md, /lg */
+  border: var(--border-sm) solid; /* border/sm */
+  border-radius: var(--radius-md); /* radius/md */
+  box-sizing: border-box;
+}
+
+.ds-banner--single-line {
+  height: var(--component-height-xl); /* component/height/xl */
+}
+
+.ds-banner--multi-line {
+  align-items: flex-start;
+}
+
+/* ---- state: surface + border ---- */
+.ds-banner--primary {
+  background: var(--feedback-banner-surface-default); /* feedback/banner/surface/default */
+  border-color: var(--feedback-banner-border-default); /* feedback/banner/border/default */
+}
+
+.ds-banner--info {
+  background: var(--feedback-banner-surface-info); /* feedback/banner/surface/info */
+  border-color: var(--feedback-banner-border-info); /* feedback/banner/border/info */
+}
+
+.ds-banner--warning {
+  background: var(--feedback-banner-surface-warning); /* feedback/banner/surface/warning */
+  border-color: var(--feedback-banner-border-warning); /* feedback/banner/border/warning */
+}
+
+.ds-banner--danger {
+  background: var(--feedback-banner-surface-danger); /* feedback/banner/surface/danger */
+  border-color: var(--feedback-banner-border-danger); /* feedback/banner/border/danger */
+}
+
+/* ---- icon ---- */
+.ds-banner__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-icon-md); /* component/icon/md */
+  height: var(--component-icon-md); /* component/icon/md */
+  flex-shrink: 0;
+}
+
+.ds-banner__icon .icon {
+  font-size: var(--component-icon-sm); /* component/icon/sm */
+}
+
+.ds-banner--primary .ds-banner__icon {
+  color: var(--feedback-banner-icon-default); /* feedback/banner/icon/default */
+}
+
+.ds-banner--info .ds-banner__icon {
+  color: var(--feedback-banner-icon-info); /* feedback/banner/icon/info */
+}
+
+.ds-banner--warning .ds-banner__icon {
+  color: var(--feedback-banner-icon-warning); /* feedback/banner/icon/warning */
+}
+
+.ds-banner--danger .ds-banner__icon {
+  color: var(--feedback-banner-icon-danger); /* feedback/banner/icon/danger */
+}
+
+/* ---- text ---- */
+.ds-banner__title {
+  margin: 0;
+  font-size: var(--typography-md-font-size); /* typography/md/font-size */
+  line-height: var(--typography-md-line-height); /* typography/md/line-height */
+  font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
+  color: var(--text-heading-primary-neutral); /* text/heading/primary/neutral */
+}
+
+.ds-banner__desc {
+  margin: 0;
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  font-weight: var(--typography-font-weight-regular); /* typography/font-weight/regular */
+  color: var(--text-body-primary-neutral); /* text/body/primary/neutral */
+}
+
+.ds-banner--multi-line .ds-banner__desc {
+  color: var(--text-body-secondary-neutral); /* text/body/secondary/neutral */
+}
+
+.ds-banner--single-line .ds-banner__desc-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ds-banner--single-line .ds-banner__desc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ds-banner__hint {
+  position: absolute;
+  top: calc(100% + var(--space-component-gap-xs)); /* space/component/gap/xs */
+  left: 0;
+  z-index: 10;
+}
+
+/* ---- multi-line content column ---- */
+.ds-banner__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* ---- action controls ---- */
+.ds-banner__button {
+  flex-shrink: 0;
+}
+
+.ds-banner--multi-line .ds-banner__button {
+  align-self: flex-start;
+}
+
+.ds-banner__close {
+  flex-shrink: 0;
+}

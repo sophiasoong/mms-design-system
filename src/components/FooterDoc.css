@@ -1,0 +1,54 @@
+/* Footer doc page only — the anatomy figure uses the same dimmed backdrop as
+   .ds-preview--scrim (Overview) instead of the shared white .ds-anatomy__figure,
+   matching the dark-mode anatomy treatment established on Action Panel's doc page.
+   The doubled selector raises specificity above .ds-anatomy__figure's own background
+   rule so this backdrop wins regardless of source order (same fix pattern as
+   .ds-anatomy__demo.ds-anatomy__demo). */
+.ds-footer-anatomy.ds-footer-anatomy {
+  background: var(--global-overlay-dark);
+  border-color: transparent;
+}
+
+/* Badges 1/2/3 hang below (default) flush at the footer bar's own edge by default
+   (0 gap). Push each 8px clear of the bar, matching Action Panel's badge-to-component
+   fix, and pull the existing dash back so it only spans the padding gutter up to the
+   bar's edge — the reclaimed 8px near the badge stays blank here (over the dark
+   backdrop) until the ::after rule below fills it with a white dash. */
+.ds-footer-anatomy .ds-anatomy__badge {
+  top: calc(100% + var(--space-component-padding-lg) + var(--space-component-gap-sm));
+}
+
+.ds-footer-anatomy .ds-anatomy__badge::before {
+  bottom: calc(100% + var(--space-component-gap-sm));
+  height: var(--space-component-padding-lg);
+}
+
+.ds-footer-anatomy .ds-anatomy__badge::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 0;
+  height: var(--space-component-gap-sm);
+  border-left: var(--border-sm) dashed var(--brand-neutral-0);
+}
+
+/* The legend list sits directly on the dark backdrop with no white card behind it,
+   so its default dark-on-white text needs to flip to white — same treatment as
+   Action Panel's legend. */
+.ds-footer-anatomy .ds-anatomy__legend li {
+  color: var(--brand-neutral-0);
+}
+
+.ds-footer-anatomy .ds-anatomy__legend strong,
+.ds-footer-anatomy .ds-anatomy__legend span:not(.ds-anatomy__legend-num) {
+  color: var(--brand-neutral-0);
+}
+
+/* ButtonDoc.css's shared .ds-anatomy__legend span rule outranks .ds-anatomy__legend-num's
+   own color rule sitewide, silently graying out the legend number on every anatomy figure
+   — restoring the intended primary-600 here, scoped to this page (see Action Panel's
+   identical override for the same shared-file bug). */
+.ds-footer-anatomy .ds-anatomy__legend-num {
+  color: var(--brand-primary-600);
+}
