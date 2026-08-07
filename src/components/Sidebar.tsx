@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { COMPONENTS } from '../data/components';
 import {
+  ActionPanelIcon,
+  AnchorIcon,
   BadgeIcon,
+  BannerIcon,
+  BreadcrumbIcon,
   ButtonIcon,
   CheckboxIcon,
   ChipIcon,
   DatepickerIcon,
+  DialogIcon,
   DropdownIcon,
   FooterIcon,
   HeaderIcon,
@@ -13,6 +18,8 @@ import {
   IconButtonIcon,
   IndicatorIcon,
   InputIcon,
+  ListIcon,
+  MessageIcon,
   PaginationIcon,
   RadioIcon,
   SearchbarIcon,
@@ -23,6 +30,7 @@ import {
   TableIcon,
   TagIcon,
   TextareaIcon,
+  ToastIcon,
   ToggleIcon,
   TooltipIcon,
   TopbarIcon,
@@ -55,6 +63,14 @@ function renderItemIcon(component: (typeof COMPONENTS)[number]) {
   if (component.id === 'pagination') return <PaginationIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'topbar') return <TopbarIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'sidebar') return <SidebarIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'action-panel') return <ActionPanelIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'anchor') return <AnchorIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'breadcrumb') return <BreadcrumbIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'message') return <MessageIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'list') return <ListIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'dialog') return <DialogIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'banner') return <BannerIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'toast') return <ToastIcon className="ds-sidebar__item-icon" />;
   return (
     <span className="icon ds-sidebar__item-icon" aria-hidden="true">
       {component.icon}
@@ -73,6 +89,7 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
   const [query, setQuery] = useState('');
   const [collapsed, setCollapsed] = useState(() => window.matchMedia(COLLAPSE_QUERY).matches);
   const [focusPending, setFocusPending] = useState(false);
+  const [searchFocused, setSearchFocused] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -93,6 +110,17 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
     setCollapsed(false);
     setFocusPending(true);
   };
+
+  const handleClearSearch = () => {
+    setQuery('');
+    searchInputRef.current?.focus();
+  };
+
+  // Clicking the clear button would otherwise blur the field first (mousedown fires
+  // before click), which hides the button before its own click can register.
+  const preventBlur = (event: React.MouseEvent) => event.preventDefault();
+
+  const showClear = searchFocused && query.length > 0;
 
   const filtered = COMPONENTS.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()));
 
@@ -129,10 +157,25 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
           placeholder="Search component name"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => setSearchFocused(true)}
+          onBlur={() => setSearchFocused(false)}
           aria-label="Search component name"
           tabIndex={collapsed ? -1 : undefined}
           ref={searchInputRef}
         />
+        {showClear && (
+          <button
+            type="button"
+            className="ds-sidebar__search-clear"
+            onMouseDown={preventBlur}
+            onClick={handleClearSearch}
+            aria-label="Clear search"
+          >
+            <span className="icon icon--sm icon--filled" aria-hidden="true">
+              cancel
+            </span>
+          </button>
+        )}
       </div>
 
       <nav aria-label="Components">

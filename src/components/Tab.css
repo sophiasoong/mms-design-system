@@ -132,6 +132,8 @@
 
 .ds-tab-line-group {
   display: inline-flex;
+  flex-wrap: wrap;
+  max-width: 100%;
   border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
 }
 
@@ -144,14 +146,29 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-component-gap-xs);
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* A container-query rule can't target the same element that establishes its own
+   containment context (only descendants) — so the query container lives on this
+   wrapper, one level above the grid it resizes. */
+.ds-tab-overview-grid {
+  container-type: inline-size;
 }
 
 .ds-preview.ds-preview--grid-2 {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  justify-items: center;
   row-gap: var(--space-layout-section-gap-xl);
-  column-gap: var(--space-component-gap-lg);
+  column-gap: var(--space-component-padding-6xl);
+}
+
+@container (max-width: 640px) {
+  .ds-preview.ds-preview--grid-2 {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---- Segment tab ----

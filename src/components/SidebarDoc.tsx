@@ -82,8 +82,13 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
           Use Sidebar once, at the root of the application shell, beside the page content — it
           stays fixed while the main content area scrolls independently.
         </p>
-        <div className="ds-preview ds-preview--scroll" style={{ padding: 0 }}>
-          <AppSidebar />
+        <div className="ds-preview ds-sidebar-usage">
+          <img
+            className="ds-sidebar-usage__img"
+            src="/assets/sidebar-overview-usage.png"
+            alt="Sidebar shown in place within the app shell, beside the page content (Figma reference)"
+          />
+          <span className="ds-sidebar-usage__highlight" aria-hidden="true" />
         </div>
       </section>
 

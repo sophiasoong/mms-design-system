@@ -110,11 +110,26 @@
   transform: translate(-50%, -50%);
 }
 
+.ds-sidebar__search-clear {
+  position: absolute;
+  right: var(--space-component-padding-sm);
+  top: calc(var(--component-height-md) / 2);
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text-caption-primary-light);
+}
+
 .ds-sidebar__search-input {
   width: 100%;
   height: var(--component-height-md);
   padding-inline-start: var(--space-component-padding-2xl);
-  padding-inline-end: var(--space-component-padding-sm);
+  padding-inline-end: var(--space-component-padding-2xl);
   border: var(--border-sm) solid var(--interactive-searchbar-border-default);
   border-radius: var(--radius-md);
   background: var(--interactive-searchbar-surface-default);
@@ -193,8 +208,15 @@
     padding var(--duration-normal) ease, gap var(--duration-normal) ease;
 }
 
+.ds-sidebar--collapsed .ds-sidebar__list li:not(.ds-sidebar__empty) {
+  display: flex;
+  justify-content: center;
+}
+
 .ds-sidebar--collapsed .ds-sidebar__item {
   justify-content: center;
+  flex-shrink: 0;
+  width: var(--component-height-lg);
   padding-inline: var(--space-component-padding-xs);
   gap: var(--space-component-gap-none);
 }

@@ -65,34 +65,36 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
           single connected control (e.g. a view toggle); and Chip tab when the options read as
           filters rather than views.
         </p>
-        <div className="ds-preview ds-preview--grid-2">
-          <div className="ds-preview__group">
-            <div className="ds-tab-line-group ds-tab-line-group--card" role="tablist" aria-label="Card tab example">
-              <CardTabItem label="Overview" state="active" />
-              <CardTabItem label="Details" />
-              <CardTabItem label="History" />
+        <div className="ds-tab-overview-grid">
+          <div className="ds-preview ds-preview--grid-2">
+            <div className="ds-preview__group">
+              <div className="ds-tab-line-group ds-tab-line-group--card" role="tablist" aria-label="Card tab example">
+                <CardTabItem label="Overview" state="active" />
+                <CardTabItem label="Details" />
+                <CardTabItem label="History" />
+              </div>
+              <span className="ds-variant-row__cell-label">Card Tab</span>
             </div>
-            <span className="ds-variant-row__cell-label">Card Tab</span>
-          </div>
-          <div className="ds-preview__group">
-            <div className="ds-tab-line-group" role="tablist" aria-label="Line tab example">
-              <LineTabItem label="Overview" state="active" />
-              <LineTabItem label="Comments" badge="count" count="12" />
-              <LineTabItem label="Activity" badge="dot" />
+            <div className="ds-preview__group">
+              <div className="ds-tab-line-group" role="tablist" aria-label="Line tab example">
+                <LineTabItem label="Overview" state="active" />
+                <LineTabItem label="Comments" badge="count" count="12" />
+                <LineTabItem label="Activity" badge="dot" />
+              </div>
+              <span className="ds-variant-row__cell-label">Line Tab</span>
             </div>
-            <span className="ds-variant-row__cell-label">Line Tab</span>
-          </div>
-          <div className="ds-preview__group">
-            <div role="tablist" aria-label="Segment tab example">
-              <SegmentTabItem label="Day" position="start" state="active" />
-              <SegmentTabItem label="Week" position="middle" />
-              <SegmentTabItem label="Month" position="end" />
+            <div className="ds-preview__group">
+              <div role="tablist" aria-label="Segment tab example">
+                <SegmentTabItem label="Day" position="start" state="active" />
+                <SegmentTabItem label="Week" position="middle" />
+                <SegmentTabItem label="Month" position="end" />
+              </div>
+              <span className="ds-variant-row__cell-label">Segment Tab</span>
             </div>
-            <span className="ds-variant-row__cell-label">Segment Tab</span>
-          </div>
-          <div className="ds-preview__group">
-            <ChipTab title="Filter" options={CHIP_OPTIONS} selected="Open" />
-            <span className="ds-variant-row__cell-label">Chip Tab</span>
+            <div className="ds-preview__group">
+              <ChipTab title="Filter" options={CHIP_OPTIONS} selected="Open" />
+              <span className="ds-variant-row__cell-label">Chip Tab</span>
+            </div>
           </div>
         </div>
       </section>

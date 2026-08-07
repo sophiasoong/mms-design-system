@@ -55,6 +55,7 @@ export function Radio({
     return (
       <span className={classes} aria-hidden="true">
         <span className="ds-radio__hit">{mark}</span>
+        {label && <span className="ds-radio__label">{label}</span>}
       </span>
     );
   }
