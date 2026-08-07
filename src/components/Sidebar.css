@@ -13,6 +13,13 @@
   width: calc(var(--space-layout-section-padding-sm) * 2 + var(--component-height-lg));
 }
 
+.ds-sidebar__header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--brand-neutral-0);
+}
+
 .ds-sidebar__toggle-row {
   display: flex;
   justify-content: flex-end;

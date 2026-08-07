@@ -126,56 +126,58 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
 
   return (
     <aside className={`ds-sidebar${collapsed ? ' ds-sidebar--collapsed' : ''}`}>
-      <div className="ds-sidebar__toggle-row">
-        <button
-          type="button"
-          className="ds-sidebar__toggle"
-          onClick={() => setCollapsed((c) => !c)}
-          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          aria-pressed={collapsed}
-        >
-          <span className="icon" aria-hidden="true">
-            {collapsed ? 'left_panel_open' : 'left_panel_close'}
-          </span>
-        </button>
-      </div>
-
-      <div className="ds-sidebar__search">
-        <button
-          type="button"
-          className="ds-sidebar__search-icon-btn"
-          aria-label="Search components"
-          onClick={handleSearchIconClick}
-        >
-          <span className="icon ds-sidebar__search-icon" aria-hidden="true">
-            search
-          </span>
-        </button>
-        <input
-          type="text"
-          className="ds-sidebar__search-input"
-          placeholder="Search component name"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => setSearchFocused(true)}
-          onBlur={() => setSearchFocused(false)}
-          aria-label="Search component name"
-          tabIndex={collapsed ? -1 : undefined}
-          ref={searchInputRef}
-        />
-        {showClear && (
+      <div className="ds-sidebar__header">
+        <div className="ds-sidebar__toggle-row">
           <button
             type="button"
-            className="ds-sidebar__search-clear"
-            onMouseDown={preventBlur}
-            onClick={handleClearSearch}
-            aria-label="Clear search"
+            className="ds-sidebar__toggle"
+            onClick={() => setCollapsed((c) => !c)}
+            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            aria-pressed={collapsed}
           >
-            <span className="icon icon--sm icon--filled" aria-hidden="true">
-              cancel
+            <span className="icon" aria-hidden="true">
+              {collapsed ? 'left_panel_open' : 'left_panel_close'}
             </span>
           </button>
-        )}
+        </div>
+
+        <div className="ds-sidebar__search">
+          <button
+            type="button"
+            className="ds-sidebar__search-icon-btn"
+            aria-label="Search components"
+            onClick={handleSearchIconClick}
+          >
+            <span className="icon ds-sidebar__search-icon" aria-hidden="true">
+              search
+            </span>
+          </button>
+          <input
+            type="text"
+            className="ds-sidebar__search-input"
+            placeholder="Search component name"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onFocus={() => setSearchFocused(true)}
+            onBlur={() => setSearchFocused(false)}
+            aria-label="Search component name"
+            tabIndex={collapsed ? -1 : undefined}
+            ref={searchInputRef}
+          />
+          {showClear && (
+            <button
+              type="button"
+              className="ds-sidebar__search-clear"
+              onMouseDown={preventBlur}
+              onClick={handleClearSearch}
+              aria-label="Clear search"
+            >
+              <span className="icon icon--sm icon--filled" aria-hidden="true">
+                cancel
+              </span>
+            </button>
+          )}
+        </div>
       </div>
 
       <nav aria-label="Components">
