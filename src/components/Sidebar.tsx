@@ -7,6 +7,7 @@ import {
   BannerIcon,
   BreadcrumbIcon,
   ButtonIcon,
+  CardIcon,
   CheckboxIcon,
   ChipIcon,
   DatepickerIcon,
@@ -71,6 +72,7 @@ function renderItemIcon(component: (typeof COMPONENTS)[number]) {
   if (component.id === 'dialog') return <DialogIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'banner') return <BannerIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'toast') return <ToastIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'card') return <CardIcon className="ds-sidebar__item-icon" />;
   return (
     <span className="icon ds-sidebar__item-icon" aria-hidden="true">
       {component.icon}

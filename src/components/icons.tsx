@@ -747,3 +747,20 @@ export function ToastIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+/* Traced from the user-provided Card.svg (96x96): the folded document/report outline
+   (#BFBFBF) is the fixed card mark -> --brand-neutral-600 (exact hex match); the two
+   inner text-line bars (#222222) are the active/detail mark -> currentColor, matching
+   this file's two-tone convention. */
+export function CardIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="24" height="24" viewBox="0 0 96 96" fill="none" aria-hidden="true">
+      <path
+        d="M13 77.1L8.09999 41.4C7.76666 39.2667 8.28333 37.3333 9.64999 35.6C11.0167 33.8667 12.7667 32.8333 14.9 32.5L21 76L49.3 72H76C75.4667 73.4 74.65 74.5833 73.55 75.55C72.45 76.5167 71.1 77.1 69.5 77.3L21.8 83.9C19.6 84.2333 17.6667 83.7333 16 82.4C14.3333 81.0667 13.3333 79.3 13 77.1ZM32 64.4C29.8 64.4 27.9167 63.6167 26.35 62.05C24.7833 60.4833 24 58.6 24 56.4V20C24 17.8 24.7833 15.9167 26.35 14.35C27.9167 12.7833 29.8 12 32 12H80C82.2 12 84.0833 12.7833 85.65 14.35C87.2167 15.9167 88 17.8 88 20V56.4C88 58.6 87.2167 60.4833 85.65 62.05C84.0833 63.6167 82.2 64.4 80 64.4H32ZM32 54.4C32 55.5046 32.8954 56.4 34 56.4H78C79.1046 56.4 80 55.5046 80 54.4V22C80 20.8954 79.1046 20 78 20H34C32.8954 20 32 20.8954 32 22V54.4Z"
+        fill="var(--brand-neutral-600)"
+      />
+      <path d="M37 44C37 41.7909 38.7909 40 41 40H57C59.2091 40 61 41.7909 61 44V44C61 46.2091 59.2091 48 57 48H41C38.7909 48 37 46.2091 37 44V44Z" fill="currentColor" />
+      <path d="M37 32C37 29.7909 38.7909 28 41 28H69C71.2091 28 73 29.7909 73 32V32C73 34.2091 71.2091 36 69 36H41C38.7909 36 37 34.2091 37 32V32Z" fill="currentColor" />
+    </svg>
+  );
+}

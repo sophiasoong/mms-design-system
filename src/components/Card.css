@@ -1,0 +1,133 @@
+/* Figma: Pricing Card, node 816:33444 (basic), 816:33560 (subscription date field),
+   829:45504 (highlighted / Most Popular). All three variants share the same card
+   shell and inner layout; only the optional slots (badge, title line count, date
+   field, divider placement, row count, footer) differ. */
+
+.ds-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Figma specifies a flat 300px card width with no responsive behavior and no
+     matching --component-width-* token (those are all for dropdown/modal/tooltip) —
+     flagged raw value, same convention as Hint.css's flagged 600px Lg width. */
+  width: 300px;
+  padding: var(--space-component-padding-lg);
+  background: var(--surface-card-surface-default);
+  border-radius: var(--radius-md);
+  /* Figma's base card has no border or shadow — it reads against the page's
+     --global-background-page tint by contrast alone; only the highlighted
+     variant below adds a shadow. */
+}
+
+/* Figma effect: DROP_SHADOW brand/primary/200, offset (0, 1), radius 6, spread 0.
+   brand/primary/200 (#a9a1f7) has no matching token — brand-primary-* only defines
+   50/75/100/300/400/600 — using brand-primary-100 as the nearest existing tier,
+   flagged rather than guessed. */
+.ds-card--highlighted {
+  box-shadow: 0 1px 6px var(--brand-primary-100);
+}
+
+.ds-card__badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ds-card__body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-layout-section-gap-lg);
+}
+
+.ds-card__header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* pt-48 holds even when no badge is present (all 3 Figma variants), so the
+     header's top padding is constant rather than conditional on `badge`. */
+  padding-top: var(--space-component-padding-4xl);
+  gap: var(--space-component-gap-lg);
+}
+
+.ds-card__title {
+  margin: 0;
+  font-family: var(--typography-font-family-heading);
+  font-size: var(--typography-xl-font-size);
+  line-height: var(--typography-xl-line-height);
+  font-weight: var(--typography-font-weight-bold);
+  color: var(--text-heading-primary-neutral);
+  text-align: center;
+}
+
+.ds-card__price {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-card__price-label,
+.ds-card__price-unit {
+  margin: 0;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-md-font-size);
+  line-height: var(--typography-md-line-height);
+  color: var(--text-body-secondary-neutral);
+}
+
+.ds-card__price-value {
+  margin: 0;
+  font-family: var(--typography-font-family-heading);
+  font-size: var(--typography-2xl-font-size);
+  line-height: var(--typography-2xl-line-height);
+  font-weight: var(--typography-font-weight-bold);
+  color: var(--text-heading-primary-neutral);
+}
+
+.ds-card__field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-card__field-label {
+  margin: 0;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-secondary-neutral);
+}
+
+.ds-card__divider {
+  width: 100%;
+  height: var(--border-sm);
+  background: var(--global-divider-neutral-light);
+}
+
+.ds-card__list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm);
+}
+
+/* List's leading icon defaults to --brand-neutral-800 (its generic-icon color) —
+   Figma's checkmark row uses the brand purple instead, so override it here rather
+   than adding a one-off color prop to List for a single caller's variant. */
+.ds-card__list-row .ds-list__leading-icon {
+  color: var(--brand-primary-400);
+}
+
+.ds-card__footer {
+  width: 100%;
+}
+
+.ds-card__footer .ds-button {
+  width: 100%;
+}
