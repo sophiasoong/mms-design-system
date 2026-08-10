@@ -156,6 +156,36 @@ USED = [
     'feedback-toast-surface-success','feedback-toast-surface-info','feedback-toast-surface-danger',
     'feedback-toast-border-success','feedback-toast-border-info','feedback-toast-border-warning',
     'feedback-toast-border-danger',
+    # Lightbox
+    'surface-lightbox-overlay-default','surface-lightbox-action-surface-default',
+    'surface-lightbox-action-icon-default','surface-lightbox-action-icon-hover',
+    'surface-lightbox-action-icon-pressed','text-caption-primary-dark',
+    # Upload — Dropzone
+    'interactive-dropzone-border-default','interactive-dropzone-border-disabled',
+    'interactive-dropzone-border-drag-over','interactive-dropzone-border-filled',
+    'interactive-dropzone-border-hover','interactive-dropzone-description-default',
+    'interactive-dropzone-description-disabled','interactive-dropzone-icon-default',
+    'interactive-dropzone-icon-disabled','interactive-dropzone-label-default',
+    'interactive-dropzone-label-disabled','interactive-dropzone-surface-default',
+    'interactive-dropzone-surface-disabled','interactive-dropzone-surface-filled',
+    'interactive-dropzone-surface-hover',
+    # Upload — Image-item
+    'interactive-image-item-action-add-icon-default','interactive-image-item-action-add-icon-disabled',
+    'interactive-image-item-action-add-icon-hover','interactive-image-item-action-preview-icon-default',
+    'interactive-image-item-action-preview-icon-disabled','interactive-image-item-action-preview-icon-hover',
+    'interactive-image-item-action-remove-icon-default','interactive-image-item-action-remove-icon-disabled',
+    'interactive-image-item-action-remove-icon-hover','interactive-image-item-border-default',
+    'interactive-image-item-border-disabled','interactive-image-item-border-hover',
+    'interactive-image-item-border-loading','interactive-image-item-border-selected',
+    'interactive-image-item-label-default','interactive-image-item-label-disabled',
+    'interactive-image-item-label-hover','interactive-image-item-surface-default',
+    'interactive-image-item-surface-disabled','interactive-image-item-surface-hover',
+    'interactive-image-item-surface-loading','interactive-image-item-surface-selected',
+    # Upload — progress bar, feedback dots, helper text
+    'surface-progress-bar-fill-default','surface-progress-bar-track-default',
+    'brand-feedback-danger','brand-feedback-highlight','brand-feedback-info',
+    'brand-feedback-success','brand-feedback-warning',
+    'text-helper-default','text-helper-error',
 ]
 
 def kebab(k):

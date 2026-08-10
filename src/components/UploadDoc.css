@@ -1,0 +1,129 @@
+/* Same dimmed backdrop as .ds-preview--scrim instead of the shared white
+   .ds-anatomy__figure, since the dropzone/file-list/button surfaces here are all white
+   or near-white and would otherwise merge into it — same treatment as Card's/List's
+   anatomy figure. The doubled selector raises specificity above .ds-anatomy__figure's
+   own background rule so this backdrop wins regardless of source order between the two
+   stylesheets (same fix pattern as .ds-anatomy__demo.ds-anatomy__demo). */
+.ds-upload-anatomy.ds-upload-anatomy {
+  background: var(--global-overlay-dark);
+  border-color: transparent;
+}
+
+/* The legend list sits directly on the dark backdrop with no white surface behind it,
+   so its default dark-on-white text needs to flip to white — same treatment as Card's
+   legend. */
+.ds-upload-anatomy .ds-anatomy__legend li {
+  color: var(--brand-neutral-0);
+}
+
+.ds-upload-anatomy .ds-anatomy__legend strong,
+.ds-upload-anatomy .ds-anatomy__legend span:not(.ds-anatomy__legend-num) {
+  color: var(--brand-neutral-0);
+}
+
+/* ButtonDoc.css's shared .ds-anatomy__legend span rule outranks .ds-anatomy__legend-num's
+   own color rule sitewide, silently graying out the legend number on every anatomy figure
+   — restoring the intended primary-600 here, scoped to this page (see Card's/List's
+   identical override for the same shared-file bug). */
+.ds-upload-anatomy .ds-anatomy__legend-num {
+  color: var(--brand-primary-600);
+}
+
+.ds-upload-doc__states-table {
+  margin-bottom: var(--space-layout-section-gap-lg); /* space/layout/section/gap/lg */
+}
+
+/* Groups the dropzone + file list + buttons trio (Anatomy figure and Variants > Dropzone
+   preview) onto one shared white surface instead of each piece floating separately on the
+   dark scrim backdrop — same shell tokens as Card's own card (Card.css). */
+.ds-upload-doc__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-sm); /* space/layout/section/gap/sm */
+  padding: var(--space-component-padding-lg); /* space/component/padding/lg */
+  background: var(--surface-card-surface-default); /* surface/card/surface/default */
+  border-radius: var(--radius-md); /* radius/md */
+}
+
+/* Badge 1 anchors to .ds-upload-dropzone, which sits one space-component-padding-lg inside
+   .ds-upload-doc__card — the shared --container offset (a flat 16px, tuned for anatomy figures
+   with no extra nesting) only clears the dropzone's own top edge, landing the badge flush with
+   the card's edge instead of outside it. Add the card's padding-lg plus a gap-sm standoff so it
+   clears the card the same way badges 6 & 7 clear it horizontally. */
+.ds-upload-anatomy .ds-anatomy__badge--container {
+  bottom: calc(100% + var(--space-component-padding-lg) + var(--space-component-gap-sm)); /* space/component/padding/lg, space/component/gap/sm */
+}
+
+/* Badges 2-4 anchor to elements nested inside .ds-upload-dropzone, which carries its own
+   horizontal space-component-padding-lg on top of the card's — the shared --side-left offset
+   only escapes one padding-lg, landing these badges at the dropzone's edge (still inset by the
+   card's padding) instead of fully outside the card like badges 6 & 7. Double the offset (and
+   the connector's dash length to match) so they land flush with 6 & 7. */
+.ds-upload-anatomy .ds-upload-dropzone__content .ds-anatomy__badge--side-left,
+.ds-upload-anatomy .ds-upload-dropzone__results .ds-anatomy__badge--side-left {
+  transform: translate(
+    calc(-1 * (2 * var(--space-component-padding-lg) + var(--space-component-gap-sm))), /* space/component/padding/lg x2, space/component/gap/sm */
+    -50%
+  );
+}
+
+.ds-upload-anatomy .ds-upload-dropzone__content .ds-anatomy__badge--side-left::before,
+.ds-upload-anatomy .ds-upload-dropzone__results .ds-anatomy__badge--side-left::before {
+  width: calc(2 * var(--space-component-padding-lg)); /* space/component/padding/lg x2 */
+}
+
+/* Overview's 3-step instructional composite (Figma node 755:13998) reuses the same white
+   card shell as .ds-upload-doc__card, but its steps stack with layout/section/gap/md
+   (16px) instead of the card's own layout/section/gap/sm (12px) used for the
+   dropzone+file-list+buttons trio elsewhere on this page. */
+.ds-upload-doc__steps {
+  gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
+}
+
+.ds-upload-doc__step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-xs); /* space/layout/section/gap/xs */
+}
+
+.ds-upload-doc__step-title {
+  margin: 0;
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-weight: var(--typography-font-weight-regular); /* typography/font/weight/regular */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  color: var(--text-body-primary-neutral); /* text/body/primary/neutral */
+}
+
+/* Indents each step's content under its numbered title. align-items: flex-start keeps
+   content-sized children (the Download Template button) from stretching to the card's
+   full width — the flex column default would otherwise expand them like the dropzone,
+   which needs the opposite (see .ds-upload-doc__step-upload below). */
+.ds-upload-doc__step-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: var(--space-component-padding-lg); /* space/component/padding/lg */
+}
+
+.ds-upload-doc__step-upload {
+  width: 100%;
+}
+
+.ds-upload-doc__step-detail {
+  gap: var(--space-component-gap-none); /* space/component/gap/none */
+}
+
+.ds-upload-doc__step-detail p {
+  width: 100%;
+  margin: 0;
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-weight: var(--typography-font-weight-regular); /* typography/font/weight/regular */
+  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  color: var(--text-body-primary-neutral); /* text/body/primary/neutral */
+}
+
+.ds-upload-doc__step-detail .ds-upload-doc__step-danger {
+  color: var(--brand-danger-500); /* brand/danger/500 */
+}

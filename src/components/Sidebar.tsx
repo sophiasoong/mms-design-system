@@ -19,6 +19,7 @@ import {
   IconButtonIcon,
   IndicatorIcon,
   InputIcon,
+  LightboxIcon,
   ListIcon,
   MessageIcon,
   PaginationIcon,
@@ -35,6 +36,7 @@ import {
   ToggleIcon,
   TooltipIcon,
   TopbarIcon,
+  UploadIcon,
 } from './icons';
 import './Sidebar.css';
 
@@ -73,6 +75,8 @@ function renderItemIcon(component: (typeof COMPONENTS)[number]) {
   if (component.id === 'banner') return <BannerIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'toast') return <ToastIcon className="ds-sidebar__item-icon" />;
   if (component.id === 'card') return <CardIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'lightbox') return <LightboxIcon className="ds-sidebar__item-icon" />;
+  if (component.id === 'upload') return <UploadIcon className="ds-sidebar__item-icon" />;
   return (
     <span className="icon ds-sidebar__item-icon" aria-hidden="true">
       {component.icon}

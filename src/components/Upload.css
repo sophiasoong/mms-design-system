@@ -1,0 +1,434 @@
+/* ---- field: dropzone / image-grid / button ---- */
+.ds-upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-sm); /* space/layout/section/gap/sm */
+  box-sizing: border-box;
+}
+
+.ds-upload--image-grid {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-md); /* space/component/gap/md */
+}
+
+.ds-upload--button {
+  align-items: flex-start;
+}
+
+.ds-upload__file-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+}
+
+/* List's leading-icon box is already 16px (List.css), but the shared .icon class defaults
+   to 24px (--component-icon-md) — shrink the glyph to match, same fix pattern as List's own
+   docs (ListDoc.css's Search History and Uploaded Files rows). */
+.ds-upload__file-list .ds-list__leading-icon .icon {
+  font-size: var(--component-icon-sm); /* component/icon/sm */
+}
+
+.ds-upload__buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-md); /* space/component/gap/md */
+}
+
+/* ---- UploadDropzone ---- */
+.ds-upload-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-component-gap-md); /* space/component/gap/md */
+  /* flagged: no width token models Figma's fixed 395px dropzone instance — the field
+     fills its container's intrinsic width instead per the "flag instead of guessing" rule. */
+  width: 100%;
+  padding: var(--space-component-padding-xl) var(--space-component-padding-lg); /* space/component/padding/xl (y), /lg (x) */
+  border-radius: var(--radius-md); /* radius/md ("for-card") */
+  box-sizing: border-box;
+  transition: border-color var(--duration-fast) ease, background var(--duration-normal) ease;
+}
+
+.ds-upload-dropzone--default {
+  border: var(--border-sm) solid var(--interactive-dropzone-border-default); /* border/sm, interactive/dropzone/border/default */
+  background: var(--interactive-dropzone-surface-default); /* interactive/dropzone/surface/default */
+}
+
+.ds-upload-dropzone--hover {
+  border: var(--border-sm) dashed var(--interactive-dropzone-border-hover); /* border/sm, interactive/dropzone/border/hover */
+  background: var(--interactive-dropzone-surface-hover); /* interactive/dropzone/surface/hover */
+}
+
+.ds-upload-dropzone--filled {
+  align-items: stretch;
+  text-align: left;
+  border: var(--border-sm) solid var(--interactive-dropzone-border-filled); /* border/sm, interactive/dropzone/border/filled */
+  background: var(--interactive-dropzone-surface-filled); /* interactive/dropzone/surface/filled */
+}
+
+.ds-upload-dropzone__icon {
+  /* flagged: no --component-icon token matches Figma's 48px dropzone glyph (largest
+     token, --component-icon-lg, is 36px) — kept as a raw value per the "flag instead
+     of guessing" rule. */
+  width: 48px;
+  height: 48px;
+  color: var(--interactive-dropzone-icon-default); /* interactive/dropzone/icon/default */
+}
+
+.ds-upload-dropzone__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+}
+
+.ds-upload-dropzone__title {
+  margin: 0;
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-size: var(--typography-md-font-size); /* typography/md/font-size */
+  line-height: var(--typography-md-line-height); /* typography/md/line-height */
+  font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
+  color: var(--interactive-dropzone-label-default); /* interactive/dropzone/label/default */
+}
+
+.ds-upload-dropzone__description {
+  margin: 0;
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  color: var(--interactive-dropzone-description-default); /* interactive/dropzone/description/default */
+}
+
+.ds-upload-dropzone__progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  width: 100%;
+}
+
+.ds-upload-dropzone__progress-track {
+  flex: 1 1 auto;
+  /* flagged: no size token matches Figma's 6px progress-bar track height — kept as a
+     raw value per the "flag instead of guessing" rule. */
+  height: 6px;
+  border-radius: var(--radius-full); /* radius/full */
+  background: var(--surface-progress-bar-track-default); /* surface/progress-bar/track/default */
+  overflow: hidden;
+}
+
+.ds-upload-dropzone__progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full); /* radius/full */
+  background: var(--surface-progress-bar-fill-default); /* surface/progress-bar/fill/default */
+  transition: width var(--duration-normal) ease;
+}
+
+.ds-upload-dropzone__progress-label {
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
+  line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
+  color: var(--interactive-dropzone-description-default); /* interactive/dropzone/description/default */
+  white-space: nowrap;
+}
+
+.ds-upload-dropzone__results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  width: 100%;
+}
+
+.ds-upload-dropzone__result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+}
+
+.ds-upload-dropzone__result-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+}
+
+.ds-upload-dropzone__result-icon--success {
+  color: var(--brand-feedback-success); /* brand/feedback/success */
+}
+
+.ds-upload-dropzone__result-icon--danger {
+  color: var(--brand-feedback-danger); /* brand/feedback/danger */
+}
+
+.ds-upload-dropzone__result-label {
+  flex: 1 1 auto;
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  color: var(--interactive-dropzone-label-default); /* interactive/dropzone/label/default */
+}
+
+.ds-upload-dropzone__result-value {
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
+  color: var(--interactive-dropzone-label-default); /* interactive/dropzone/label/default */
+}
+
+.ds-upload-dropzone__detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  padding-left: var(--space-component-padding-xl); /* space/component/padding/xl — closest match to Figma's 24px sub-row indent */
+}
+
+.ds-upload-dropzone__detail-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+}
+
+.ds-upload-dropzone__detail-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  flex: 1 1 auto;
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
+  line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
+  color: var(--text-helper-default); /* text/helper/default */
+}
+
+.ds-upload-dropzone__detail-dot {
+  /* flagged: no size token models a small status-dot diameter — 6px is a raw value
+     per the "flag instead of guessing" rule. */
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full); /* radius/full */
+  flex-shrink: 0;
+}
+
+.ds-upload-dropzone__detail-dot--success {
+  background: var(--brand-feedback-success); /* brand/feedback/success */
+}
+
+.ds-upload-dropzone__detail-dot--danger {
+  background: var(--brand-feedback-danger); /* brand/feedback/danger */
+}
+
+.ds-upload-dropzone__detail-value {
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
+  line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
+  color: var(--text-helper-default); /* text/helper/default */
+}
+
+.ds-upload-dropzone__total {
+  margin: 0;
+  align-self: flex-end;
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
+  line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
+  color: var(--interactive-dropzone-description-default); /* interactive/dropzone/description/default */
+}
+
+/* ---- UploadImageItem ---- */
+.ds-upload-image-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  box-sizing: border-box;
+  padding: var(--space-component-padding-sm); /* space/component/padding/sm */
+  border: var(--border-sm) dashed var(--interactive-image-item-border-default); /* border/sm, interactive/image-item/border/default */
+  background: var(--interactive-image-item-surface-default); /* interactive/image-item/surface/default */
+  transition: border-color var(--duration-fast) ease, background var(--duration-normal) ease;
+}
+
+.ds-upload-image-item--sm {
+  width: var(--component-height-4xl); /* component/height/4xl */
+  height: var(--component-height-4xl); /* component/height/4xl */
+}
+
+.ds-upload-image-item--lg {
+  width: var(--component-height-6xl); /* component/height/6xl */
+  height: var(--component-height-6xl); /* component/height/6xl */
+}
+
+.ds-upload-image-item--round {
+  border-radius: var(--radius-full); /* radius/full */
+}
+
+.ds-upload-image-item--square {
+  border-radius: var(--radius-md); /* radius/md */
+}
+
+.ds-upload-image-item:hover:not(.ds-upload-image-item--filled) {
+  border-color: var(--interactive-image-item-border-hover); /* interactive/image-item/border/hover */
+}
+
+.ds-upload-image-item--loading {
+  border-style: solid;
+  border-color: var(--interactive-image-item-border-loading); /* interactive/image-item/border/loading */
+  background: var(--interactive-image-item-surface-loading); /* interactive/image-item/surface/loading */
+}
+
+.ds-upload-image-item--filled {
+  /* Padding/gap stay the same as the default state's (space/component/padding/sm,
+     space/component/gap/xs) — Figma's Lg/Square/Selected variant (705:12045 / 737:7068)
+     keeps that 8px/4px rhythm around its drag handle + thumbnail row instead of going
+     edge-to-edge. */
+  border-style: solid;
+  border-color: var(--interactive-image-item-border-selected); /* interactive/image-item/border/selected */
+  background: var(--interactive-image-item-surface-selected); /* interactive/image-item/surface/selected */
+}
+
+.ds-upload-image-item__add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--interactive-image-item-action-add-icon-default); /* interactive/image-item/action/add-icon/default */
+  transition: color var(--duration-fast) ease;
+}
+
+.ds-upload-image-item__add:hover {
+  color: var(--interactive-image-item-action-add-icon-hover); /* interactive/image-item/action/add-icon/hover */
+}
+
+.ds-upload-image-item__label {
+  margin: 0;
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-size: var(--typography-xxs-font-size); /* typography/xxs/font-size */
+  line-height: var(--typography-xxs-line-height); /* typography/xxs/line-height */
+  color: var(--interactive-image-item-label-default); /* interactive/image-item/label/default */
+  text-align: center;
+}
+
+.ds-upload-image-item:hover .ds-upload-image-item__label {
+  color: var(--interactive-image-item-label-hover); /* interactive/image-item/label/hover */
+}
+
+.ds-upload-image-item__error {
+  position: absolute;
+  top: calc(100% + var(--space-component-gap-xs));
+  left: 0;
+  white-space: nowrap;
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-size: var(--typography-xxs-font-size); /* typography/xxs/font-size */
+  line-height: var(--typography-xxs-line-height); /* typography/xxs/line-height */
+  color: var(--text-helper-error); /* text/helper/error */
+}
+
+.ds-upload-image-item__progress-track {
+  width: 100%;
+  /* flagged: no size token matches this progress-bar's 6px track height, consistent
+     with UploadDropzone's progress bar above. */
+  height: 6px;
+  border-radius: var(--radius-full); /* radius/full */
+  background: var(--surface-progress-bar-track-default); /* surface/progress-bar/track/default */
+  overflow: hidden;
+}
+
+.ds-upload-image-item__progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full); /* radius/full */
+  background: var(--surface-progress-bar-fill-default); /* surface/progress-bar/fill/default */
+}
+
+.ds-upload-image-item__frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+}
+
+.ds-upload-image-item__thumbnail {
+  position: relative;
+  flex: 1 1 0%;
+  min-width: 0;
+  height: 100%;
+}
+
+.ds-upload-image-item__thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ds-upload-image-item__drag {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--brand-primary-400); /* brand/primary/400 — sits on the plain card surface now (not over the thumbnail), no dedicated Upload "drag" token exists */
+}
+
+/* inset expands past .ds-upload-image-item__thumbnail's own box, which is inset from the item's
+   true edge by the item's padding-sm + border-sm, so hover fills the whole tile (round or square)
+   instead of leaving that gap uncovered. Shape-specific radius rules below match each mask. */
+.ds-upload-image-item__overlay {
+  position: absolute;
+  inset: calc(-1 * (var(--space-component-padding-sm) + var(--border-sm))); /* space/component/padding/sm, border/sm */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  background: var(--global-overlay-dark); /* global/overlay/dark */
+  opacity: 0;
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-upload-image-item--round .ds-upload-image-item__overlay {
+  border-radius: var(--radius-full); /* radius/full */
+}
+
+.ds-upload-image-item--square .ds-upload-image-item__overlay {
+  border-radius: var(--radius-md); /* radius/md */
+}
+
+/* Lg Square with a drag handle: the frame's left child is the drag handle, not the thumbnail, and
+   the base rule's edge-to-edge extension above would reach past the thumbnail's own box into the
+   drag handle's hit area (and beyond, on the other 3 sides). Cancel that extension entirely for
+   this variant so the overlay stays within the thumbnail's own box, matching its normal padding,
+   instead of dimming/overlapping the drag icon or filling past the thumbnail on any side. */
+.ds-upload-image-item--square:has(.ds-upload-image-item__drag) .ds-upload-image-item__overlay {
+  inset: 0;
+}
+
+.ds-upload-image-item__thumbnail:hover .ds-upload-image-item__overlay {
+  opacity: 1;
+}
+
+.ds-upload-image-item__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color var(--duration-fast) ease;
+}
+
+.ds-upload-image-item__action--preview {
+  color: var(--interactive-image-item-action-preview-icon-default); /* interactive/image-item/action/preview-icon/default */
+}
+
+.ds-upload-image-item__action--preview:hover {
+  color: var(--interactive-image-item-action-preview-icon-hover); /* interactive/image-item/action/preview-icon/hover */
+}
+
+.ds-upload-image-item__action--remove {
+  color: var(--interactive-image-item-action-remove-icon-default); /* interactive/image-item/action/remove-icon/default */
+}
+
+.ds-upload-image-item__action--remove:hover {
+  color: var(--interactive-image-item-action-remove-icon-hover); /* interactive/image-item/action/remove-icon/hover */
+}

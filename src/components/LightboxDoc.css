@@ -1,0 +1,46 @@
+/* Lightbox's action-bar icons are white by default (surface-lightbox-action-icon-*),
+   which disappears against the States table's white row background — this swatch
+   reproduces the actual dark action-bar surface so the icon stays legible. */
+.ds-lightbox-doc__action-swatch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-component-padding-md);
+  background: var(--surface-lightbox-action-surface-default);
+  border-radius: var(--radius-full);
+}
+
+/* .ds-lightbox__media clips its image/video content in real usage — inside the anatomy
+   demo that also clips badges 3 and 4, which are meant to hang above/below it. Nothing
+   in the demo's placeholder content actually needs clipping, so it's safe to open up here. */
+.ds-lightbox-anatomy .ds-lightbox__media {
+  overflow: visible;
+}
+
+/* Badge 4 sits directly on .ds-lightbox__media (a flex container) instead of a wrapping
+   span, so the play button it points to stays flex-centered — that means the default
+   "hang below the target" offset (measured from the target's own bottom edge) instead
+   measures from media's full height. At the demo's 16:9 ratio, media is short enough
+   that the 128px play icon nearly fills it (no room left below the icon before hitting
+   the footer/counter), so the badge instead hangs to the icon's right: the icon is
+   centered at 50%, so its right edge sits at 50% + half its 128px size. */
+.ds-anatomy__badge.ds-lightbox-anatomy__badge-play {
+  top: 50%;
+  left: calc(50% + 64px + 16px);
+  transform: translateY(-50%);
+}
+
+.ds-anatomy__badge.ds-lightbox-anatomy__badge-play::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  bottom: auto;
+  left: auto;
+  right: 100%;
+  width: 16px;
+  height: 0;
+  border-left: none;
+  border-top: var(--border-sm) dashed var(--text-caption-primary-light);
+  transform: translateY(-50%);
+}
+

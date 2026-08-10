@@ -36,6 +36,8 @@ import DialogDoc from './components/DialogDoc';
 import BannerDoc from './components/BannerDoc';
 import ToastDoc from './components/ToastDoc';
 import CardDoc from './components/CardDoc';
+import LightboxDoc from './components/LightboxDoc';
+import UploadDoc from './components/UploadDoc';
 import { getStoredBrandMode, applyBrandMode, type BrandMode } from './brandMode';
 import { BUTTON_SECTIONS } from './data/buttonSections';
 import { ICON_BUTTON_SECTIONS } from './data/iconButtonSections';
@@ -71,6 +73,8 @@ import { DIALOG_SECTIONS } from './data/dialogSections';
 import { BANNER_SECTIONS } from './data/bannerSections';
 import { TOAST_SECTIONS } from './data/toastSections';
 import { CARD_SECTIONS } from './data/cardSections';
+import { LIGHTBOX_SECTIONS } from './data/lightboxSections';
+import { UPLOAD_SECTIONS } from './data/uploadSections';
 import type { AnchorSection } from './components/AnchorNav';
 import './App.css';
 
@@ -109,6 +113,8 @@ const SECTIONS_BY_COMPONENT: Record<string, AnchorSection[]> = {
   banner: BANNER_SECTIONS,
   toast: TOAST_SECTIONS,
   card: CARD_SECTIONS,
+  lightbox: LIGHTBOX_SECTIONS,
+  upload: UPLOAD_SECTIONS,
 };
 
 function App() {
@@ -195,6 +201,10 @@ function App() {
             <ToastDoc onNavigate={setActiveComponentId} />
           ) : activeComponentId === 'card' ? (
             <CardDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'lightbox' ? (
+            <LightboxDoc onNavigate={setActiveComponentId} />
+          ) : activeComponentId === 'upload' ? (
+            <UploadDoc onNavigate={setActiveComponentId} />
           ) : (
             <div className="ds-main__empty">Select a component to view its documentation.</div>
           )}

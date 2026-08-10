@@ -8,15 +8,16 @@ export interface ComponentEntry {
 // 'icon-button', 'dropdown', 'chip', 'input', 'textarea', 'select', 'checkbox', 'radio',
 // 'datepicker', 'tab', 'tag', 'badge', 'toggle', 'table', 'hint', 'tooltip', 'indicator',
 // 'searchbar', 'step', 'header', 'sidebar', 'action-panel', 'anchor', 'breadcrumb', and
-// 'message', 'list', 'dialog', 'banner', 'toast', and 'card' are exceptions: Sidebar.tsx and each
-// Related Component card render them as bespoke SVGs (ButtonIcon / IconButtonIcon / DropdownIcon /
-// ChipIcon / InputIcon / TextareaIcon / SelectIcon / CheckboxIcon / RadioIcon /
-// DatepickerIcon / TabIcon / TagIcon / BadgeIcon / ToggleIcon / TableIcon / HintIcon /
-// TooltipIcon / IndicatorIcon / SearchbarIcon / StepIcon / HeaderIcon / FooterIcon /
-// PaginationIcon / TopbarIcon / SidebarIcon / ActionPanelIcon / AnchorIcon / BreadcrumbIcon /
-// MessageIcon / ListIcon / DialogIcon / BannerIcon / ToastIcon / CardIcon in ./components/icons)
-// instead, since no Material Symbol matches their Figma-specified marks — the icon values below
-// go unused for those ids and are kept only as a readable fallback label.
+// 'message', 'list', 'dialog', 'banner', 'toast', 'card', 'lightbox', and 'upload' are
+// exceptions: Sidebar.tsx and each Related Component card render them as bespoke SVGs
+// (ButtonIcon / IconButtonIcon / DropdownIcon / ChipIcon / InputIcon / TextareaIcon /
+// SelectIcon / CheckboxIcon / RadioIcon / DatepickerIcon / TabIcon / TagIcon / BadgeIcon /
+// ToggleIcon / TableIcon / HintIcon / TooltipIcon / IndicatorIcon / SearchbarIcon / StepIcon /
+// HeaderIcon / FooterIcon / PaginationIcon / TopbarIcon / SidebarIcon / ActionPanelIcon /
+// AnchorIcon / BreadcrumbIcon / MessageIcon / ListIcon / DialogIcon / BannerIcon / ToastIcon /
+// CardIcon / LightboxIcon / UploadIcon in ./components/icons) instead, since no Material
+// Symbol matches their Figma-specified marks — the icon values below go unused for those ids
+// and are kept only as a readable fallback label.
 export const COMPONENTS: ComponentEntry[] = [
   { id: 'button', name: 'Button', icon: 'smart_button' },
   { id: 'icon-button', name: 'Icon Button', icon: 'add_circle' },
@@ -52,4 +53,6 @@ export const COMPONENTS: ComponentEntry[] = [
   { id: 'banner', name: 'Banner', icon: 'campaign' },
   { id: 'toast', name: 'Toast', icon: 'notifications' },
   { id: 'card', name: 'Card', icon: 'credit_card' },
+  { id: 'lightbox', name: 'Lightbox', icon: 'photo_library' },
+  { id: 'upload', name: 'Upload', icon: 'cloud_upload' },
 ];

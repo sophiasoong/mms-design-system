@@ -1,0 +1,204 @@
+.ds-lightbox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-sm); /* space/layout/section/gap/sm */
+  width: 100%;
+  height: 100%;
+  background: var(--surface-lightbox-overlay-default); /* surface/lightbox/overlay/default */
+  box-sizing: border-box;
+  /* flagged: no token models a component-level scale factor — 80% (0.8x) is a raw
+     value per the "flag instead of guessing" rule. transform (not a smaller width/
+     height) keeps every internal proportion — icon sizes, padding, gaps — identical,
+     just uniformly smaller, and scales descendants (including anatomy badges) as one
+     rigid unit so nothing drifts out of alignment with what it's pointing at. */
+  transform: scale(0.8);
+  /* Reacts to the Lightbox's own rendered width (not the viewport), same @container
+     precedent as AppTopbar/AppSidebar — so it collapses to the mobile nav layout
+     whenever ITS box is narrow, not only when the whole page is. */
+  container-type: inline-size;
+}
+
+/* ---- header ---- */
+.ds-lightbox__header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  padding: var(--space-component-padding-2xl) var(--space-component-padding-2xl)
+    var(--space-component-padding-xl); /* space/component/padding/2xl (top, x), /xl (bottom) */
+  box-sizing: border-box;
+}
+
+/* ---- main: nav columns + media ---- */
+.ds-lightbox__main {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
+}
+
+.ds-lightbox__nav {
+  /* flagged: no token matches Figma's fixed 104px nav-column width — kept as a raw
+     value per the project's "flag instead of guessing" rule. */
+  width: 104px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ds-lightbox__media {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ds-lightbox__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Clips the photo's own scale(2) transform to this frame independent of
+     .ds-lightbox__media's overflow — the anatomy demo sets media to overflow:visible
+     so badges 3/4 can hang outside it, which would otherwise let the scaled photo's
+     background bleed past the frame along with them. */
+  overflow: hidden;
+  background: var(--brand-primary-75); /* brand/primary/75 */
+}
+
+/* flagged: no aspect-ratio token exists in tokens.json — 2.13:1 is kept as a raw
+   value per the "flag instead of guessing" rule. height must stay auto (not 100%
+   or max-height:100%) so the browser derives it from width/2.13 — constraining
+   height independently makes the aspect-ratio property a no-op. */
+.ds-lightbox__placeholder-photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2.13 / 1;
+  /* object-fit:contain (not cover) scales the whole subject down to fit inside the
+     2.13:1 frame instead of cropping it — combined with the padding below, this is
+     what shrinks and centers the lego stack rather than filling the frame edge to
+     edge. background shows in the padding inset and in the contain-fit letterboxing. */
+  object-fit: contain;
+  background: var(--brand-primary-75); /* brand/primary/75 */
+  /* flagged: no token models an image-inset amount — 12% is a hand-picked value
+     (not from tokens.json) chosen to leave a clearly visible primary-75 margin
+     on every side per the "flag instead of guessing" rule. */
+  padding: 12%;
+  box-sizing: border-box;
+  /* flagged: no token models an image-scale factor — 200% (2x) is a raw value per
+     the "flag instead of guessing" rule. .ds-lightbox__media clips anything past
+     the frame (overflow:hidden), so this crops in rather than resizing the frame. */
+  transform: scale(2);
+  display: block;
+}
+
+.ds-lightbox__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--brand-neutral-0); /* brand/neutral/0 — Figma's video-play glyph is plain white with no dedicated Lightbox token */
+}
+
+/* flagged: no token matches Figma's 128px video-play glyph (largest icon token is
+   --component-icon-lg at 36px) — kept as a raw value per the "flag instead of
+   guessing" rule. */
+.ds-lightbox__play .icon {
+  font-size: 128px;
+}
+
+/* ---- footer: counter + action bar ---- */
+.ds-lightbox__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-layout-section-gap-lg); /* space/layout/section/gap/lg */
+  flex-shrink: 0;
+  padding-bottom: var(--space-component-padding-2xl); /* space/component/padding/2xl */
+  box-sizing: border-box;
+}
+
+.ds-lightbox__counter {
+  margin: 0;
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-size: var(--typography-lg-font-size); /* typography/lg/font-size */
+  line-height: var(--typography-lg-line-height); /* typography/lg/line-height */
+  font-weight: var(--typography-font-weight-regular); /* typography/font-weight/regular */
+  color: var(--text-caption-primary-dark); /* text/caption/primary/dark */
+  white-space: nowrap;
+}
+
+.ds-lightbox__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-padding-2xl); /* space/component/padding/2xl — reused as the bar's icon gap per Figma */
+  padding: var(--space-component-padding-xl) var(--space-component-padding-2xl); /* space/component/padding/xl (y), /2xl (x) */
+  background: var(--surface-lightbox-action-surface-default); /* surface/lightbox/action/surface/default */
+  border-radius: var(--radius-full); /* radius/full */
+  box-sizing: border-box;
+}
+
+.ds-lightbox__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--surface-lightbox-action-icon-default); /* surface/lightbox/action/icon/default */
+  transition: color var(--duration-fast) ease;
+}
+
+.ds-lightbox__action:hover {
+  color: var(--surface-lightbox-action-icon-hover); /* surface/lightbox/action/icon/hover */
+}
+
+.ds-lightbox__action:active {
+  color: var(--surface-lightbox-action-icon-pressed); /* surface/lightbox/action/icon/pressed */
+}
+
+.ds-lightbox__action .icon {
+  font-size: var(--component-icon-md); /* component/icon/md */
+}
+
+/* ---- mobile: nav buttons float over the media instead of reserving side columns ---- */
+/* No breakpoint token exists in this project for a Lightbox-specific cutoff — 640px is
+   hand-picked (matching the existing @container breakpoint in ButtonDoc.css/Tab.css) and
+   flagged per the "flag instead of guessing" rule. Figma's Mobile master (600px) drops the
+   104px side nav columns and instead floats the prev/next buttons over the image edges, both
+   still 32px from the edge and vertically centered. Switching .ds-lightbox__nav to
+   position:absolute removes it from flex flow, so .ds-lightbox__media (flex:1) fills the
+   freed width automatically — no separate media rule needed. */
+@container (max-width: 640px) {
+  .ds-lightbox__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    z-index: 1;
+  }
+
+  .ds-lightbox__nav--previous {
+    left: 32px;
+  }
+
+  .ds-lightbox__nav--next {
+    right: 32px;
+  }
+}
