@@ -4,8 +4,8 @@ import { ProgressRing } from './Indicator';
 import './Dialog.css';
 
 /** Matches Figma's four sampled Buttons-slot configurations (node 194:2828): 'confirm'
- * (ghost + solid primary, the default), 'alert' (a single solid primary, Description
- * hidden), 'destructive' (ghost primary + solid danger), and 'loading' (a centered
+ * (outline + solid primary, the default), 'alert' (a single solid primary, Description
+ * hidden), 'destructive' (outline primary + solid danger), and 'loading' (a centered
  * Progress-ring in place of buttons). */
 export type DialogLayout = 'confirm' | 'alert' | 'destructive' | 'loading';
 
@@ -66,7 +66,7 @@ export default function Dialog({
           </Button>
         ) : (
           <>
-            <Button variant="primary" appearance="ghost" size="md" onClick={onSecondaryClick}>
+            <Button variant="primary" appearance="outline" size="md" onClick={onSecondaryClick}>
               {secondaryLabel}
             </Button>
             <Button

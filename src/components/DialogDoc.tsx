@@ -79,7 +79,7 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
                 </span>
               </div>
               <div className="ds-dialog__buttons ds-anatomy__part-relative">
-                <Button variant="primary" appearance="ghost" size="md">
+                <Button variant="primary" appearance="outline" size="md">
                   Label
                 </Button>
                 <Button variant="primary" appearance="solid" size="md">
@@ -125,7 +125,7 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
       <section id="variants" className="ds-section">
         <h2 className="ds-section__title">Variants</h2>
         <p className="ds-section__desc">
-          Layout controls the actions row: Confirm pairs a ghost and a solid primary action;
+          Layout controls the actions row: Confirm pairs an outline and a solid primary action;
           Alert drops the description for a single solid action; Destructive swaps the solid
           action for danger; Loading replaces the actions with a Progress ring.
         </p>
@@ -183,7 +183,7 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
             </div>
             {activeVariantTab === 'Confirm' && (
               <span className="ds-variant-note">
-                The default layout — a ghost secondary action beside a solid primary action.
+                The default layout — an outline secondary action beside a solid primary action.
               </span>
             )}
             {activeVariantTab === 'Alert' && (
