@@ -18,7 +18,7 @@ export interface CardDateField {
 }
 
 export interface CardProps {
-  /** Renders a pill (reusing Tag's primary style) centered on the card's top edge, e.g. "Most Popular". */
+  /** Renders a pill (reusing Tag's primary style) inside the card, flush with its top padding, e.g. "Most Popular". */
   badge?: string;
   title?: ReactNode;
   priceLabel: string;

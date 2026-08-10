@@ -1,16 +1,23 @@
+import { useState } from 'react';
 import { Card } from './Card';
 import Button from './Button';
 import { ListIcon, ButtonIcon } from './icons';
 import './ButtonDoc.css';
+import './CardDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=829-45366';
+
+const VARIANT_TABS = ['Basic', 'Subscription date field', 'Highlighted / Most Popular'] as const;
+type VariantTab = (typeof VARIANT_TABS)[number];
 
 interface CardDocProps {
   onNavigate?: (componentId: string) => void;
 }
 
 export default function CardDoc({ onNavigate }: CardDocProps) {
+  const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Basic');
+
   return (
     <div className="ds-doc">
       <header className="ds-doc__header">
@@ -42,7 +49,7 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
           (badge, title, a Subscription date field, the footer button) is optional and only shows
           up on plans that need it.
         </p>
-        <div className="ds-preview">
+        <div className="ds-preview ds-preview--scrim">
           <Card
             title="Customize Space"
             priceLabel="Starts at"
@@ -51,6 +58,8 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
             items={[
               { label: 'Storage', value: '60' },
               { label: 'Tote quota', value: '80' },
+              { label: 'Pick pack', value: '40' },
+              { label: 'Stock-in frequency', value: '4' },
             ]}
           />
         </div>
@@ -63,7 +72,7 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
           Eight parts — only the container, price block, and list are always present.
         </p>
         <div className="ds-anatomy">
-          <div className="ds-anatomy__figure">
+          <div className="ds-anatomy__figure ds-preview--scrim ds-card-anatomy">
             <div
               className="ds-card ds-anatomy__demo ds-anatomy__part-relative"
               style={{ width: 300 }}
@@ -130,7 +139,7 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
                 <span className="ds-anatomy__legend-num">2</span>
                 <span>
                   <strong>Badge</strong> —{' '}
-                  <span>an optional pill (reusing Tag's primary style) straddling the top edge</span>
+                  <span>an optional pill (reusing Tag's primary style) inside the card, flush with the top padding</span>
                 </span>
               </li>
               <li>
@@ -187,77 +196,101 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
           a badge and an elevated shadow.
         </p>
 
+        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <div className="ds-line-tabs" role="tablist" aria-label="Card style variants">
+          {VARIANT_TABS.map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              role="tab"
+              aria-selected={activeVariantTab === tab}
+              className={`ds-line-tab${activeVariantTab === tab ? ' ds-line-tab--active' : ''}`}
+              onClick={() => setActiveVariantTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Basic</span>
-            <div className="ds-preview">
-              <Card
-                title="Customize Space"
-                priceLabel="Starts at"
-                price="$500 +"
-                priceUnit="HKD per month"
-                items={[
-                  { label: 'Storage', value: '60' },
-                  { label: 'Tote quota', value: '80' },
-                ]}
-              />
+            <div className="ds-preview ds-preview--scrim">
+              {activeVariantTab === 'Basic' && (
+                <Card
+                  title="Customize Space"
+                  priceLabel="Starts at"
+                  price="$500 +"
+                  priceUnit="HKD per month"
+                  items={[
+                    { label: 'Storage', value: '60' },
+                    { label: 'Tote quota', value: '80' },
+                    { label: 'Pick pack', value: '40' },
+                    { label: 'Stock-in frequency', value: '4' },
+                  ]}
+                />
+              )}
+              {activeVariantTab === 'Subscription date field' && (
+                <Card
+                  priceLabel="Subtotal"
+                  price="$5,999"
+                  priceUnit="per month"
+                  dateField={{ label: 'Subscription' }}
+                  showDivider={false}
+                  items={[
+                    { label: 'Storage', value: '100' },
+                    { label: 'Tote(s)', value: '120' },
+                    { label: 'Storage Fee', value: '$3,999', dividerBefore: true },
+                    { label: 'Pick & pack', value: '$1,000' },
+                    { label: 'Totes Deposit Fee', value: '$1,000' },
+                  ]}
+                  footer={
+                    <Button variant="primary" appearance="solid" size="lg">
+                      Apply Now
+                    </Button>
+                  }
+                />
+              )}
+              {activeVariantTab === 'Highlighted / Most Popular' && (
+                <Card
+                  badge="Most Popular"
+                  title={
+                    <>
+                      Based on sales
+                      <br />
+                      within 1 month
+                    </>
+                  }
+                  priceLabel="Starts at"
+                  price="$4,999"
+                  priceUnit="HKD per month"
+                  items={[
+                    { label: 'Storage', value: '60' },
+                    { label: 'Tote quota', value: '80' },
+                    { label: 'Pick pack', value: '40' },
+                    { label: 'Stock-in frequency', value: '4' },
+                  ]}
+                  footer={
+                    <Button variant="primary" appearance="solid" size="lg">
+                      Apply Now
+                    </Button>
+                  }
+                  highlighted
+                />
+              )}
             </div>
-          </div>
-
-          <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Subscription date field</span>
-            <div className="ds-preview">
-              <Card
-                priceLabel="Subtotal"
-                price="$5,999"
-                priceUnit="per month"
-                dateField={{ label: 'Subscription' }}
-                showDivider={false}
-                items={[
-                  { label: 'Storage', value: '100' },
-                  { label: 'Tote(s)', value: '120' },
-                  { label: 'Storage Fee', value: '$3,999', dividerBefore: true },
-                  { label: 'Pick & pack', value: '$1,000' },
-                  { label: 'Totes Deposit Fee', value: '$1,000' },
-                ]}
-                footer={
-                  <Button variant="primary" appearance="solid" size="lg">
-                    Apply Now
-                  </Button>
-                }
-              />
-            </div>
-          </div>
-
-          <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Highlighted / Most Popular</span>
-            <div className="ds-preview">
-              <Card
-                badge="Most Popular"
-                title={
-                  <>
-                    Based on sales
-                    <br />
-                    within 1 month
-                  </>
-                }
-                priceLabel="Starts at"
-                price="$4,999"
-                priceUnit="HKD per month"
-                items={[
-                  { label: 'Storage', value: '60' },
-                  { label: 'Tote quota', value: '80' },
-                  { label: 'Pick pack', value: '40' },
-                  { label: 'Stock-in frequency', value: '4' },
-                ]}
-                footer={
-                  <Button variant="primary" appearance="solid" size="lg">
-                    Apply Now
-                  </Button>
-                }
-                highlighted
-              />
-            </div>
+            {activeVariantTab === 'Basic' && (
+              <span className="ds-variant-note">A plain plan — price block, list, no extras.</span>
+            )}
+            {activeVariantTab === 'Subscription date field' && (
+              <span className="ds-variant-note">
+                A subscription plan with a date field and a mid-list divider.
+              </span>
+            )}
+            {activeVariantTab === 'Highlighted / Most Popular' && (
+              <span className="ds-variant-note">
+                A highlighted plan with a badge and an elevated shadow.
+              </span>
+            )}
           </div>
         </div>
       </section>

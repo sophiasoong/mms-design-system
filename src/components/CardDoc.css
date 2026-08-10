@@ -1,0 +1,64 @@
+/* Card doc page only — the anatomy figure uses the same dimmed backdrop as
+   .ds-preview--scrim (Overview) instead of the shared white .ds-anatomy__figure.
+   .ds-anatomy__figure's own background rule sits later in ButtonDoc.css than
+   .ds-preview--scrim's, so at equal specificity it wins and silently keeps the figure
+   white — the doubled selector below raises specificity above both so this backdrop
+   wins regardless of source order (same fix pattern as .ds-anatomy__demo.ds-anatomy__demo). */
+.ds-card-anatomy.ds-card-anatomy {
+  background: var(--global-overlay-dark);
+  border-color: transparent;
+}
+
+/* Badges 1/3/5/7 (--side-left) and 2/4/6 (--side) each clear the card's own padding via
+   their ::before connector (defined once in ButtonDoc.css, gray, left un-overridden here,
+   since it runs inside the card over the card's own white surface) plus an added gap-sm
+   standoff that lands past the card's edge, over the dark backdrop — same treatment as
+   Action Panel's identical side-badge anatomy. The ::after below extends the connector
+   across that standoff with the light-on-dark color the shared gray dash doesn't have. */
+.ds-card-anatomy .ds-anatomy__badge--side::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  bottom: auto;
+  right: 100%;
+  left: auto;
+  width: var(--space-component-gap-sm);
+  height: 0;
+  border-left: none;
+  border-top: var(--border-sm) dashed var(--brand-neutral-0);
+  transform: translateY(-50%);
+}
+
+.ds-card-anatomy .ds-anatomy__badge--side-left::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  bottom: auto;
+  left: 100%;
+  right: auto;
+  width: var(--space-component-gap-sm);
+  height: 0;
+  border-left: none;
+  border-top: var(--border-sm) dashed var(--brand-neutral-0);
+  transform: translateY(-50%);
+}
+
+/* The legend list sits directly on the dark backdrop with no white card behind it, so
+   its default dark-on-white text needs to flip to white — same treatment as Action
+   Panel's legend. */
+.ds-card-anatomy .ds-anatomy__legend li {
+  color: var(--brand-neutral-0);
+}
+
+.ds-card-anatomy .ds-anatomy__legend strong,
+.ds-card-anatomy .ds-anatomy__legend span:not(.ds-anatomy__legend-num) {
+  color: var(--brand-neutral-0);
+}
+
+/* ButtonDoc.css's shared .ds-anatomy__legend span rule outranks .ds-anatomy__legend-num's
+   own color rule sitewide, silently graying out the legend number on every anatomy figure
+   — restoring the intended primary-600 here, scoped to this page (see Action Panel's
+   identical override for the same shared-file bug). */
+.ds-card-anatomy .ds-anatomy__legend-num {
+  color: var(--brand-primary-600);
+}
