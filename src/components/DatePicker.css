@@ -100,12 +100,17 @@
   color: var(--interactive-select-label-disabled);
 }
 
-/* ---- Panel ---- */
+/* ---- Panel ----
+   Portaled to document.body (see useAnchoredPanelPosition) so ancestors with
+   overflow:hidden — e.g. Form's rounded card — can't clip the calendar. JS supplies the
+   fixed top/left from the trigger's live bounding rect; margin-top keeps the same visual
+   gap the old `top: calc(100% + gap-xs)` relative offset gave it. z-index is raised well
+   past the doc chrome's own stacking (Banner/Sidebar/Table top out at 10) since the panel
+   now competes with the whole page, not just its own trigger's siblings. */
 .ds-date-picker__panel {
-  position: absolute;
-  top: calc(100% + var(--space-component-gap-xs));
-  left: 0;
-  z-index: 10;
+  position: fixed;
+  margin-top: var(--space-component-gap-xs);
+  z-index: 1000;
   width: 280px;
   border-radius: var(--radius-md);
   background: var(--interactive-select-surface-default);

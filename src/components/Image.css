@@ -1,0 +1,20 @@
+/* ---- Image: empty-state illustration ---- */
+/* Figma's Img-empty (node 681-19533) is a 120x100 (108 for the "search" style) flattened
+   composition with rotate/skew/blend-mode layers that aren't practical to hand-trace as
+   inline SVG — exported as a static PNG per style instead (public/assets/image-*.png),
+   matching this codebase's existing convention for illustration/photo content (see
+   Lightbox.tsx). Width matches --component-height-6xl (120px); tokens.css has no matching
+   100/108px height token, so height is left to the image's own intrinsic size — flagging
+   per CLAUDE.md rather than guessing a token. */
+.ds-image {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-height-6xl); /* --component-height-6xl: 120px */
+}
+
+.ds-image__illustration {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}

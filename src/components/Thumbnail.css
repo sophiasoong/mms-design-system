@@ -1,0 +1,153 @@
+/* ---- Thumbnail: 4 unrelated Figma sub-components (grid/search/table/message) sharing one
+   React wrapper, matching this codebase's Icon.tsx precedent of one generic component over
+   a family of Figma variants. Sources: Thumbnail-grid 733:9737, Thumbnail-search 144:320,
+   Thumbnail-table 673:27282, Thumbnail-message 673:27774 (fileKey RU2sCgGMuU0PXUhKwYcpfr). */
+.ds-thumbnail {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* Grid: square photo tile, no radius in Figma's own source (unlike every other variant here). */
+.ds-thumbnail--grid {
+  background: var(--brand-neutral-200); /* brand/neutral/200 */
+}
+
+.ds-thumbnail--md {
+  width: var(--component-height-2xl); /* component/height/2xl */
+  height: var(--component-height-2xl);
+}
+
+.ds-thumbnail--lg {
+  /* flagged: Figma's Lg grid tile is 104px; tokens.css has no matching component-height step
+     between 96px (5xl) and 120px (6xl). */
+  width: 104px;
+  height: 104px;
+}
+
+.ds-thumbnail--grid .ds-thumbnail__image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Md crops the photo to fill the tile; Lg letterboxes it in full on the neutral background —
+   an intentional Figma distinction between the two sizes, not an inconsistency. */
+.ds-thumbnail--md .ds-thumbnail__image {
+  object-fit: cover;
+}
+
+.ds-thumbnail--lg .ds-thumbnail__image {
+  object-fit: contain;
+}
+
+.ds-thumbnail--grid .ds-thumbnail__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* flagged: Figma's icon gap is 10px, between space/component/gap/sm (8px) and /md (12px). */
+  gap: 10px;
+  background: var(--global-overlay-dark); /* global/overlay/dark */
+  opacity: 0;
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-thumbnail--grid:hover .ds-thumbnail__overlay,
+.ds-thumbnail--grid.ds-thumbnail--force-hover .ds-thumbnail__overlay {
+  opacity: 1;
+}
+
+.ds-thumbnail__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--brand-neutral-0); /* brand/neutral/0 — Figma renders both grid overlay icons white */
+}
+
+.ds-thumbnail__action-icon {
+  width: var(--component-icon-sm); /* component/icon/sm */
+  height: var(--component-icon-sm);
+}
+
+.ds-thumbnail__action-icon--delete {
+  /* flagged: Figma's delete glyph is 14px within the 16px action box (no exact icon-size token). */
+  width: 14px;
+  height: 14px;
+}
+
+/* Search: single centered glyph on a tinted rounded box. */
+.ds-thumbnail--search {
+  width: var(--component-icon-lg); /* component/icon/lg */
+  height: var(--component-icon-lg);
+  border-radius: var(--radius-md); /* radius/md */
+  background: var(--brand-primary-50); /* brand/primary/50 */
+  color: var(--brand-primary-400); /* brand/primary/400 */
+}
+
+.ds-thumbnail--search .ds-thumbnail__glyph {
+  display: inline-flex;
+}
+
+/* Figma's Union (Product) glyph has no matching icon-size token (20px, between sm/16 and md/24). */
+.ds-thumbnail__glyph--product svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Figma names these two "component/icon/sm" but renders them at 24px — this project's own
+   --component-icon-sm is 16px, so they're mapped here by actual pixel value (--component-icon-md)
+   rather than by Figma's variable name, to avoid silently importing the wrong size. */
+.ds-thumbnail__glyph--promotion svg,
+.ds-thumbnail__glyph--page svg {
+  width: var(--component-icon-md); /* component/icon/md */
+  height: var(--component-icon-md);
+}
+
+/* Table: Wireflow is an icon-on-neutral tile; Mockup is a cropped screenshot, no tint needed. */
+.ds-thumbnail--table {
+  width: var(--component-height-lg); /* component/height/lg */
+  height: var(--component-height-lg);
+}
+
+.ds-thumbnail--wireflow {
+  background: var(--brand-neutral-200); /* brand/neutral/200 */
+  color: var(--brand-neutral-800); /* brand/neutral/800 */
+}
+
+/* flagged: Figma's Picture glyph is 20px, no exact icon-size token. */
+.ds-thumbnail--wireflow .ds-thumbnail__glyph svg {
+  width: 20px;
+  height: 20px;
+}
+
+.ds-thumbnail--mockup .ds-thumbnail__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Message: matches Message.css's .ds-message__thumb exactly (see Thumbnail.tsx comment). */
+.ds-thumbnail--message {
+  width: var(--component-height-xl); /* component/height/xl */
+  height: var(--component-height-xl);
+  border-radius: var(--radius-md); /* radius/md */
+  background: var(--brand-secondary-200); /* brand/secondary/200 */
+  color: var(--brand-primary-600); /* brand/primary/600 */
+}
+
+.ds-thumbnail--message .ds-thumbnail__glyph svg {
+  display: block; /* svg is inline by default, which reserves descender space below it and
+                      pushes it off-center within the flex-centered .ds-thumbnail box */
+  width: 100%;
+  height: 100%;
+}

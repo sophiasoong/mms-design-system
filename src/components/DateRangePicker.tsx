@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Button from './Button';
 import IconButton from './IconButton';
 import { CalendarIcon } from './icons';
+import { useAnchoredPanelPosition } from '../useAnchoredPanel';
 import './DatePicker.css';
 
 export type DateRangePickerSize = 'md' | 'lg';
@@ -231,13 +233,16 @@ export function DateRangePicker({
   const [leftViewDate, setLeftViewDate] = useState(() => startOfMonth(range.start ?? new Date()));
   const [rightViewDate, setRightViewDate] = useState(() => addMonths(leftViewDate, 1));
   const rootRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const panelPosition = useAnchoredPanelPosition(rootRef, isOpen);
 
   useEffect(() => {
     if (!isOpen) return;
     const handlePointerDown = (event: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
+      const target = event.target as Node;
+      if (rootRef.current?.contains(target)) return;
+      if (panelRef.current?.contains(target)) return;
+      setIsOpen(false);
     };
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setIsOpen(false);
@@ -304,40 +309,46 @@ export function DateRangePicker({
         <CalendarIcon className="ds-date-picker__icon" />
       </button>
 
-      {isOpen && (
-        <div className="ds-date-picker__panel ds-date-picker__panel--range">
-          <div className="ds-date-picker__range-panels">
-            <Panel
-              viewDate={leftViewDate}
-              onNavigate={(delta) => setLeftViewDate((d) => addMonths(d, delta))}
-              range={range}
-              today={today}
-              onSelectDay={selectDay}
-            />
-            <Panel
-              viewDate={rightViewDate}
-              onNavigate={(delta) => setRightViewDate((d) => addMonths(d, delta))}
-              range={range}
-              today={today}
-              onSelectDay={selectDay}
-            />
-          </div>
+      {isOpen &&
+        createPortal(
+          <div
+            className="ds-date-picker__panel ds-date-picker__panel--range"
+            style={panelPosition}
+            ref={panelRef}
+          >
+            <div className="ds-date-picker__range-panels">
+              <Panel
+                viewDate={leftViewDate}
+                onNavigate={(delta) => setLeftViewDate((d) => addMonths(d, delta))}
+                range={range}
+                today={today}
+                onSelectDay={selectDay}
+              />
+              <Panel
+                viewDate={rightViewDate}
+                onNavigate={(delta) => setRightViewDate((d) => addMonths(d, delta))}
+                range={range}
+                today={today}
+                onSelectDay={selectDay}
+              />
+            </div>
 
-          <div className="ds-date-picker__footer">
-            <Button
-              variant="primary"
-              appearance="ghost"
-              size="sm"
-              onClick={() => commit({ start: null, end: null })}
-            >
-              Reset
-            </Button>
-            <Button variant="primary" appearance="solid" size="sm" onClick={closePanel}>
-              Apply
-            </Button>
-          </div>
-        </div>
-      )}
+            <div className="ds-date-picker__footer">
+              <Button
+                variant="primary"
+                appearance="ghost"
+                size="sm"
+                onClick={() => commit({ start: null, end: null })}
+              >
+                Reset
+              </Button>
+              <Button variant="primary" appearance="solid" size="sm" onClick={closePanel}>
+                Apply
+              </Button>
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

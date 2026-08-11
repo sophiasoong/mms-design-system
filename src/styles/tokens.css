@@ -419,6 +419,10 @@
   --brand-feedback-warning: #ffa000;
   --text-helper-default: #5c5c5c;
   --text-helper-error: #ff4d4f;
+  --surface-modal-surface-default: #ffffff;
+  --text-heading-primary-brand: #110964;
+  --text-required-default: #ff4d4f;
+  --text-label-primary: #5c5c5c;
   --interactive-select-label-error: #1e1e1e;
 }
 

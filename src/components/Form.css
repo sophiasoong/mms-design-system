@@ -1,0 +1,110 @@
+/* Figma node 602:11970 ("Form" page) / 789:56940 (Form component).
+   Header = title + info IconButton + optional tag slot + collapse chevron IconButton.
+   Main stacks FormRow instances ("Form-col" in Figma), each splitting into FormCol
+   columns ("Col-1".."Col-4"), each stacking FormField rows built from the existing
+   Input / Select / Textarea / DatePicker / Toggle / Radio components. */
+
+.ds-form {
+  --surface-form-background-default: var(--surface-card-surface-default); /* flagged: no
+    surface/form/background/default token exists in the raw Figma source data; substituting
+    the identical value (#ffffff) from surface/card/surface/default instead of guessing. */
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: var(--radius-md); /* radius/md */
+  overflow: hidden;
+}
+
+.ds-form__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+  padding: var(--space-component-gap-lg); /* space/component/gap/lg */
+  background: var(--surface-form-background-default);
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light); /* border/sm, global/divider/neutral/light */
+}
+
+.ds-form__header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  min-width: 0;
+}
+
+.ds-form__title {
+  font-size: var(--typography-md-font-size); /* typography/md/font-size */
+  line-height: var(--typography-md-line-height); /* typography/md/line-height */
+  font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
+  color: var(--text-heading-primary-brand); /* text/heading/primary/brand */
+}
+
+.ds-form__tag {
+  display: flex;
+  align-items: center;
+}
+
+.ds-form__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
+  padding: var(--space-layout-section-padding-md); /* space/layout/section/padding/md */
+  background: var(--brand-neutral-0); /* brand/neutral/0 */
+}
+
+/* Collapsed state stays mounted (height/vertical padding zeroed, not unmounted) so its
+   full-width content still contributes to .ds-form's shrink-to-fit width — otherwise the
+   header would visibly narrow to its own (usually smaller) intrinsic width on collapse. */
+.ds-form__main.ds-form__main--collapsed {
+  height: 0;
+  gap: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.ds-form-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
+}
+
+.ds-form-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.ds-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  min-width: 0;
+}
+
+.ds-form-field__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  font-size: var(--typography-md-font-size); /* typography/md/font-size */
+  line-height: var(--typography-md-line-height); /* typography/md/line-height */
+  color: var(--text-label-primary); /* text/label/primary */
+}
+
+.ds-form-field__required {
+  color: var(--text-required-default); /* text/required/default */
+}
+
+.ds-form-field__info {
+  color: var(--text-label-primary); /* text/label/primary */
+}
+
+.ds-form-field__value {
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  color: var(--text-body-primary-neutral); /* text/body/primary/neutral */
+}

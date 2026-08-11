@@ -23,6 +23,13 @@
   font-size: var(--component-icon-sm);
 }
 
+/* Larger glyph for icons that read too small within their fixed button box (e.g. the
+   Form header's expand/collapse chevron) — scales the icon only; the button's own
+   size is unchanged. */
+.ds-icon-button--icon-scale-lg .ds-icon-button__icon {
+  font-size: calc(var(--component-icon-sm) * 1.2); /* component/icon/sm * 1.2 */
+}
+
 /* ---- size ---- */
 .ds-icon-button--sm {
   width: var(--component-height-xs);

@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Button from './Button';
 import IconButton from './IconButton';
 import { CalendarIcon } from './icons';
+import { useAnchoredPanelPosition } from '../useAnchoredPanel';
 import './DatePicker.css';
 
 export type DateTimePickerSize = 'md' | 'lg';
@@ -113,13 +115,16 @@ export function DateTimePicker({
   const [isOpen, setIsOpen] = useState(false);
   const [viewDate, setViewDate] = useState(() => startOfMonth(current.date ?? new Date()));
   const rootRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const panelPosition = useAnchoredPanelPosition(rootRef, isOpen);
 
   useEffect(() => {
     if (!isOpen) return;
     const handlePointerDown = (event: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
+      const target = event.target as Node;
+      if (rootRef.current?.contains(target)) return;
+      if (panelRef.current?.contains(target)) return;
+      setIsOpen(false);
     };
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setIsOpen(false);
@@ -172,126 +177,132 @@ export function DateTimePicker({
         <CalendarIcon className="ds-date-picker__icon" />
       </button>
 
-      {isOpen && (
-        <div className="ds-date-picker__panel ds-date-picker__panel--datetime">
-          <div className="ds-date-picker__header ds-date-picker__header--datetime">
-            <div className="ds-date-picker__header-cal">
-              <div className="ds-date-picker__nav">
-                <IconButton
-                  icon="keyboard_double_arrow_left"
-                  label="Previous year"
-                  size="md"
-                  variant="primary"
-                  appearance="ghost"
-                  onClick={() => setViewDate((d) => addMonths(d, -12))}
-                />
-                <IconButton
-                  icon="chevron_left"
-                  label="Previous month"
-                  size="md"
-                  variant="primary"
-                  appearance="ghost"
-                  onClick={() => setViewDate((d) => addMonths(d, -1))}
-                />
+      {isOpen &&
+        createPortal(
+          <div
+            className="ds-date-picker__panel ds-date-picker__panel--datetime"
+            style={panelPosition}
+            ref={panelRef}
+          >
+            <div className="ds-date-picker__header ds-date-picker__header--datetime">
+              <div className="ds-date-picker__header-cal">
+                <div className="ds-date-picker__nav">
+                  <IconButton
+                    icon="keyboard_double_arrow_left"
+                    label="Previous year"
+                    size="md"
+                    variant="primary"
+                    appearance="ghost"
+                    onClick={() => setViewDate((d) => addMonths(d, -12))}
+                  />
+                  <IconButton
+                    icon="chevron_left"
+                    label="Previous month"
+                    size="md"
+                    variant="primary"
+                    appearance="ghost"
+                    onClick={() => setViewDate((d) => addMonths(d, -1))}
+                  />
+                </div>
+                <span className="ds-date-picker__label">
+                  {MONTH_LABELS[viewDate.getMonth()]}-{viewDate.getFullYear()}
+                </span>
+                <div className="ds-date-picker__nav">
+                  <IconButton
+                    icon="chevron_right"
+                    label="Next month"
+                    size="md"
+                    variant="primary"
+                    appearance="ghost"
+                    onClick={() => setViewDate((d) => addMonths(d, 1))}
+                  />
+                  <IconButton
+                    icon="keyboard_double_arrow_right"
+                    label="Next year"
+                    size="md"
+                    variant="primary"
+                    appearance="ghost"
+                    onClick={() => setViewDate((d) => addMonths(d, 12))}
+                  />
+                </div>
               </div>
-              <span className="ds-date-picker__label">
-                {MONTH_LABELS[viewDate.getMonth()]}-{viewDate.getFullYear()}
-              </span>
-              <div className="ds-date-picker__nav">
-                <IconButton
-                  icon="chevron_right"
-                  label="Next month"
-                  size="md"
-                  variant="primary"
-                  appearance="ghost"
-                  onClick={() => setViewDate((d) => addMonths(d, 1))}
-                />
-                <IconButton
-                  icon="keyboard_double_arrow_right"
-                  label="Next year"
-                  size="md"
-                  variant="primary"
-                  appearance="ghost"
-                  onClick={() => setViewDate((d) => addMonths(d, 12))}
-                />
-              </div>
-            </div>
-            <div className="ds-date-picker__header-time">
-              {pad2(current.hours)}:{pad2(current.minutes)}:{pad2(current.seconds)}
-            </div>
-          </div>
-
-          <div className="ds-date-picker__body--datetime">
-            <div className="ds-date-picker__date-panel">
-              <div className="ds-date-picker__weekdays">
-                {WEEKDAY_LABELS.map((wd) => (
-                  <span key={wd} className="ds-date-picker__weekday">
-                    {wd}
-                  </span>
-                ))}
-              </div>
-              <div className="ds-date-picker__grid">
-                {cells.map((date) => {
-                  const inMonth = date.getMonth() === viewDate.getMonth();
-                  const isSelected = current.date ? isSameDay(date, current.date) : false;
-                  const isToday = isSameDay(date, today);
-                  const cellClass = [
-                    'ds-date-picker__cell',
-                    !inMonth ? 'ds-date-picker__cell--disabled' : '',
-                    isSelected ? 'ds-date-picker__cell--selected' : '',
-                    isToday && !isSelected ? 'ds-date-picker__cell--today' : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ');
-                  return (
-                    <button
-                      key={date.toISOString()}
-                      type="button"
-                      className={cellClass}
-                      disabled={!inMonth}
-                      onClick={() => commit({ ...current, date })}
-                    >
-                      {date.getDate()}
-                    </button>
-                  );
-                })}
+              <div className="ds-date-picker__header-time">
+                {pad2(current.hours)}:{pad2(current.minutes)}:{pad2(current.seconds)}
               </div>
             </div>
 
-            <div className="ds-date-picker__time-panel">
-              <TimeColumn
-                values={HOURS}
-                selected={current.hours}
-                onSelect={(hours) => commit({ ...current, hours })}
-              />
-              <TimeColumn
-                values={MINUTES_SECONDS}
-                selected={current.minutes}
-                onSelect={(minutes) => commit({ ...current, minutes })}
-              />
-              <TimeColumn
-                values={MINUTES_SECONDS}
-                selected={current.seconds}
-                onSelect={(seconds) => commit({ ...current, seconds })}
-              />
-            </div>
-          </div>
+            <div className="ds-date-picker__body--datetime">
+              <div className="ds-date-picker__date-panel">
+                <div className="ds-date-picker__weekdays">
+                  {WEEKDAY_LABELS.map((wd) => (
+                    <span key={wd} className="ds-date-picker__weekday">
+                      {wd}
+                    </span>
+                  ))}
+                </div>
+                <div className="ds-date-picker__grid">
+                  {cells.map((date) => {
+                    const inMonth = date.getMonth() === viewDate.getMonth();
+                    const isSelected = current.date ? isSameDay(date, current.date) : false;
+                    const isToday = isSameDay(date, today);
+                    const cellClass = [
+                      'ds-date-picker__cell',
+                      !inMonth ? 'ds-date-picker__cell--disabled' : '',
+                      isSelected ? 'ds-date-picker__cell--selected' : '',
+                      isToday && !isSelected ? 'ds-date-picker__cell--today' : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ');
+                    return (
+                      <button
+                        key={date.toISOString()}
+                        type="button"
+                        className={cellClass}
+                        disabled={!inMonth}
+                        onClick={() => commit({ ...current, date })}
+                      >
+                        {date.getDate()}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
 
-          <div className="ds-date-picker__footer">
-            <Button
-              variant="primary"
-              appearance="ghost"
-              size="sm"
-              onClick={() => commit({ date: null, hours: 0, minutes: 0, seconds: 0 })}
-            >
-              Reset
-            </Button>
-            <Button variant="primary" appearance="solid" size="sm" onClick={closePanel}>
-              Apply
-            </Button>
-          </div>
-        </div>
-      )}
+              <div className="ds-date-picker__time-panel">
+                <TimeColumn
+                  values={HOURS}
+                  selected={current.hours}
+                  onSelect={(hours) => commit({ ...current, hours })}
+                />
+                <TimeColumn
+                  values={MINUTES_SECONDS}
+                  selected={current.minutes}
+                  onSelect={(minutes) => commit({ ...current, minutes })}
+                />
+                <TimeColumn
+                  values={MINUTES_SECONDS}
+                  selected={current.seconds}
+                  onSelect={(seconds) => commit({ ...current, seconds })}
+                />
+              </div>
+            </div>
+
+            <div className="ds-date-picker__footer">
+              <Button
+                variant="primary"
+                appearance="ghost"
+                size="sm"
+                onClick={() => commit({ date: null, hours: 0, minutes: 0, seconds: 0 })}
+              >
+                Reset
+              </Button>
+              <Button variant="primary" appearance="solid" size="sm" onClick={closePanel}>
+                Apply
+              </Button>
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

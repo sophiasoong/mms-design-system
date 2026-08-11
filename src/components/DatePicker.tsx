@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Button from './Button';
 import IconButton from './IconButton';
 import { CalendarIcon } from './icons';
+import { useAnchoredPanelPosition } from '../useAnchoredPanel';
 import './DatePicker.css';
 
 export type DatePickerSize = 'md' | 'lg';
@@ -75,17 +77,20 @@ export function DatePicker({
   const [isOpen, setIsOpen] = useState(false);
   const [viewDate, setViewDate] = useState(() => startOfMonth(selected ?? new Date()));
   const rootRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   const disabled = state === 'disabled';
   const forcedOpen = state === 'open';
   const showPanel = forcedOpen || isOpen;
+  const panelPosition = useAnchoredPanelPosition(rootRef, showPanel);
 
   useEffect(() => {
     if (!isOpen) return;
     const handlePointerDown = (event: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
+      const target = event.target as Node;
+      if (rootRef.current?.contains(target)) return;
+      if (panelRef.current?.contains(target)) return;
+      setIsOpen(false);
     };
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setIsOpen(false);
@@ -143,100 +148,102 @@ export function DatePicker({
         <CalendarIcon className="ds-date-picker__icon" />
       </button>
 
-      {showPanel && (
-        <div className="ds-date-picker__panel">
-          <div className="ds-date-picker__header">
-            <div className="ds-date-picker__nav">
-              <IconButton
-                icon="keyboard_double_arrow_left"
-                label="Previous year"
-                size="md"
-                variant="primary"
-                appearance="ghost"
-                onClick={() => setViewDate((d) => addMonths(d, -12))}
-              />
-              <IconButton
-                icon="chevron_left"
-                label="Previous month"
-                size="md"
-                variant="primary"
-                appearance="ghost"
-                onClick={() => setViewDate((d) => addMonths(d, -1))}
-              />
-            </div>
-            <span className="ds-date-picker__label">
-              {MONTH_LABELS[viewDate.getMonth()]}-{viewDate.getFullYear()}
-            </span>
-            <div className="ds-date-picker__nav">
-              <IconButton
-                icon="chevron_right"
-                label="Next month"
-                size="md"
-                variant="primary"
-                appearance="ghost"
-                onClick={() => setViewDate((d) => addMonths(d, 1))}
-              />
-              <IconButton
-                icon="keyboard_double_arrow_right"
-                label="Next year"
-                size="md"
-                variant="primary"
-                appearance="ghost"
-                onClick={() => setViewDate((d) => addMonths(d, 12))}
-              />
-            </div>
-          </div>
-
-          <div className="ds-date-picker__weekdays">
-            {WEEKDAY_LABELS.map((label) => (
-              <span key={label} className="ds-date-picker__weekday">
-                {label}
+      {showPanel &&
+        createPortal(
+          <div className="ds-date-picker__panel" style={panelPosition} ref={panelRef}>
+            <div className="ds-date-picker__header">
+              <div className="ds-date-picker__nav">
+                <IconButton
+                  icon="keyboard_double_arrow_left"
+                  label="Previous year"
+                  size="md"
+                  variant="primary"
+                  appearance="ghost"
+                  onClick={() => setViewDate((d) => addMonths(d, -12))}
+                />
+                <IconButton
+                  icon="chevron_left"
+                  label="Previous month"
+                  size="md"
+                  variant="primary"
+                  appearance="ghost"
+                  onClick={() => setViewDate((d) => addMonths(d, -1))}
+                />
+              </div>
+              <span className="ds-date-picker__label">
+                {MONTH_LABELS[viewDate.getMonth()]}-{viewDate.getFullYear()}
               </span>
-            ))}
-          </div>
+              <div className="ds-date-picker__nav">
+                <IconButton
+                  icon="chevron_right"
+                  label="Next month"
+                  size="md"
+                  variant="primary"
+                  appearance="ghost"
+                  onClick={() => setViewDate((d) => addMonths(d, 1))}
+                />
+                <IconButton
+                  icon="keyboard_double_arrow_right"
+                  label="Next year"
+                  size="md"
+                  variant="primary"
+                  appearance="ghost"
+                  onClick={() => setViewDate((d) => addMonths(d, 12))}
+                />
+              </div>
+            </div>
 
-          <div className="ds-date-picker__grid">
-            {cells.map((date) => {
-              const inMonth = date.getMonth() === viewDate.getMonth();
-              const isSelected = selected ? isSameDay(date, selected) : false;
-              const isToday = isSameDay(date, today);
-              const cellClass = [
-                'ds-date-picker__cell',
-                !inMonth ? 'ds-date-picker__cell--disabled' : '',
-                isSelected ? 'ds-date-picker__cell--selected' : '',
-                isToday && !isSelected ? 'ds-date-picker__cell--today' : '',
-              ]
-                .filter(Boolean)
-                .join(' ');
-              return (
-                <button
-                  key={date.toISOString()}
-                  type="button"
-                  className={cellClass}
-                  disabled={!inMonth}
-                  onClick={() => {
-                    commit(date);
-                    closePanel();
-                  }}
-                >
-                  {date.getDate()}
-                </button>
-              );
-            })}
-          </div>
+            <div className="ds-date-picker__weekdays">
+              {WEEKDAY_LABELS.map((label) => (
+                <span key={label} className="ds-date-picker__weekday">
+                  {label}
+                </span>
+              ))}
+            </div>
 
-          <div className="ds-date-picker__footer">
-            {/* Figma's footer buttons are exactly 24px (component-height-xs); Button's
-                size enum only offers sm(28)/md(32)/lg(40), so "sm" (closest) is used. */}
-            <Button variant="primary" appearance="ghost" size="sm" onClick={() => commit(null)}>
-              Reset
-            </Button>
-            <Button variant="primary" appearance="solid" size="sm" onClick={closePanel}>
-              Apply
-            </Button>
-          </div>
-        </div>
-      )}
+            <div className="ds-date-picker__grid">
+              {cells.map((date) => {
+                const inMonth = date.getMonth() === viewDate.getMonth();
+                const isSelected = selected ? isSameDay(date, selected) : false;
+                const isToday = isSameDay(date, today);
+                const cellClass = [
+                  'ds-date-picker__cell',
+                  !inMonth ? 'ds-date-picker__cell--disabled' : '',
+                  isSelected ? 'ds-date-picker__cell--selected' : '',
+                  isToday && !isSelected ? 'ds-date-picker__cell--today' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ');
+                return (
+                  <button
+                    key={date.toISOString()}
+                    type="button"
+                    className={cellClass}
+                    disabled={!inMonth}
+                    onClick={() => {
+                      commit(date);
+                      closePanel();
+                    }}
+                  >
+                    {date.getDate()}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="ds-date-picker__footer">
+              {/* Figma's footer buttons are exactly 24px (component-height-xs); Button's
+                  size enum only offers sm(28)/md(32)/lg(40), so "sm" (closest) is used. */}
+              <Button variant="primary" appearance="ghost" size="sm" onClick={() => commit(null)}>
+                Reset
+              </Button>
+              <Button variant="primary" appearance="solid" size="sm" onClick={closePanel}>
+                Apply
+              </Button>
+            </div>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

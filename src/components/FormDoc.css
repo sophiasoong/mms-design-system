@@ -1,0 +1,250 @@
+/* Form doc page only — the anatomy figure uses the same dimmed backdrop as
+   .ds-preview--scrim (Overview) instead of the shared white .ds-anatomy__figure, matching
+   Modal's, Dialog's, and Action Panel's dark-mode anatomy treatment. .ds-anatomy__figure's
+   own background rule sits later in ButtonDoc.css than .ds-preview--scrim's, so at equal
+   specificity it wins and silently keeps the figure white — the doubled selector raises
+   specificity above both so this backdrop wins regardless of source order (same fix
+   pattern as .ds-anatomy__demo.ds-anatomy__demo). */
+.ds-form-anatomy.ds-form-anatomy {
+  background: var(--global-overlay-dark);
+  border-color: transparent;
+}
+
+/* Badges 1/2/3 all use .ds-anatomy__badge--side-left (aligned on one vertical line) — same
+   stacked layout as Modal's and Action Panel's anatomy. The ::after extends the connector
+   across the gap between the card's edge and the backdrop, over the dark backdrop itself,
+   so it needs the light-on-dark color the shared gray dash doesn't have. */
+.ds-form-anatomy .ds-anatomy__badge--side-left::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  bottom: auto;
+  left: 100%;
+  right: auto;
+  width: var(--space-component-gap-sm);
+  height: 0;
+  border-left: none;
+  border-top: var(--border-sm) dashed var(--brand-neutral-0);
+  transform: translateY(-50%);
+}
+
+/* The legend list sits directly on the dark backdrop with no white card behind it, so its
+   default dark-on-white text needs to flip to white. */
+.ds-form-anatomy .ds-anatomy__legend li {
+  color: var(--brand-neutral-0);
+}
+
+.ds-form-anatomy .ds-anatomy__legend strong,
+.ds-form-anatomy .ds-anatomy__legend span:not(.ds-anatomy__legend-num) {
+  color: var(--brand-neutral-0);
+}
+
+/* ButtonDoc.css's shared .ds-anatomy__legend span rule outranks .ds-anatomy__legend-num's
+   own color rule sitewide, silently graying out the legend number on every anatomy figure
+   — restoring the intended primary-600 here, scoped to this page (same shared-file bug
+   fixed identically on Modal's, Dialog's, and Action Panel's doc pages). */
+.ds-form-anatomy .ds-anatomy__legend-num {
+  color: var(--brand-primary-600);
+}
+
+/* Form doc page only — inline pair of Radio controls for the Shipping Details example's
+   "Fulfillment" field, which Figma shows as two radios side by side rather than stacked. */
+.ds-form-doc__radio-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+}
+
+/* ---- Example: rich-text Textarea field (Figma 789:56940 / 941:56469) ---- */
+.ds-richtext {
+  display: flex;
+  flex-direction: column;
+  border: var(--border-sm) solid var(--interactive-select-border-default); /* border/sm,
+    interactive/select/border/default — reused since no dedicated richtext/border token
+    exists in the raw source data and this is the same field-border treatment. */
+  border-radius: var(--radius-md); /* radius/md */
+  overflow: hidden;
+}
+
+.ds-richtext__toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  padding: var(--space-component-gap-sm) var(--space-component-gap-lg); /* space/component/gap/sm, space/component/gap/lg */
+  background: var(--brand-primary-50); /* flagged: no richtext/toolbar/background token
+    exists; brand/primary/50 (#f7f6ff) approximates the Figma toolbar tint. */
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light); /* border/sm, global/divider/neutral/light */
+}
+
+.ds-richtext__toolbar-select {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  padding: 0 var(--space-component-gap-sm); /* space/component/gap/sm */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  color: var(--text-body-primary-neutral); /* text/body/primary/neutral */
+}
+
+.ds-richtext__divider {
+  align-self: stretch;
+  width: var(--border-sm); /* border/sm */
+  background: var(--global-divider-neutral-light); /* global/divider/neutral/light */
+}
+
+.ds-richtext__spacer {
+  flex: 1 0 auto;
+}
+
+.ds-richtext__preview {
+  border: none;
+  background: none;
+  padding: 0 var(--space-component-gap-sm); /* space/component/gap/sm */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  color: var(--text-link-default); /* text/link/default */
+  cursor: pointer;
+}
+
+.ds-richtext__field.ds-textarea {
+  border: none;
+  border-radius: 0;
+}
+
+.ds-richtext__hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+  padding-top: var(--space-component-gap-xs); /* space/component/gap/xs */
+  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
+  line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
+}
+
+.ds-richtext__hint-error {
+  color: var(--text-helper-error); /* text/helper/error */
+}
+
+.ds-richtext__hint-count {
+  color: var(--text-helper-default); /* text/helper/default */
+}
+
+/* ---- Example: Sub-form tinted wrapper (Figma 941:56469) ---- */
+.ds-subform {
+  display: flex;
+  flex-direction: column;
+  background: var(--brand-primary-75); /* flagged: no surface/sub-form/background/default
+    token exists in the raw source data; brand/primary/75 (#f1ecff) is an exact color
+    match for the Figma lavender tint. */
+  border-radius: var(--radius-md); /* radius/md */
+  overflow: hidden;
+}
+
+.ds-subform__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+  padding: var(--space-component-gap-lg); /* space/component/gap/lg */
+}
+
+.ds-subform__title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  font-size: var(--typography-md-font-size); /* typography/md/font-size */
+  line-height: var(--typography-md-line-height); /* typography/md/line-height */
+  font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
+  color: var(--text-heading-primary-brand); /* text/heading/primary/brand */
+}
+
+.ds-subform__body {
+  padding: 0 var(--space-layout-section-padding-md) var(--space-layout-section-padding-md); /* space/layout/section/padding/md */
+}
+
+/* ---- Example: Form-list repeatable Banner card (Figma 1201:63864) ---- */
+.ds-form-list-item {
+  display: flex;
+  flex-direction: column;
+  background: var(--brand-neutral-100); /* flagged: no surface/form-list/background/default
+    token exists in the raw source data; brand/neutral/100 (#fbfbfb) is an exact color
+    match for the Figma card background. */
+  border-radius: var(--radius-md); /* radius/md */
+  overflow: hidden;
+}
+
+.ds-form-list-item__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  padding: var(--space-component-gap-lg); /* space/component/gap/lg */
+}
+
+.ds-form-list-item__drag {
+  color: var(--text-body-tertiary-neutral); /* text/body/tertiary/neutral */
+  cursor: grab;
+}
+
+.ds-form-list-item__thumb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: var(--component-height-lg); /* component/height/lg */
+  height: var(--component-height-lg); /* component/height/lg */
+  border-radius: var(--radius-sm); /* radius/sm */
+  background: var(--brand-neutral-0); /* brand/neutral/0 */
+  border: var(--border-sm) solid var(--global-divider-neutral-light); /* border/sm, global/divider/neutral/light */
+  color: var(--text-body-tertiary-neutral); /* text/body/tertiary/neutral */
+}
+
+.ds-form-list-item__title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  flex: 1 0 0;
+  min-width: 0;
+  font-size: var(--typography-md-font-size); /* typography/md/font-size */
+  color: var(--text-body-primary-neutral); /* text/body/primary/neutral */
+}
+
+.ds-form-list-item__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+}
+
+.ds-form-list-item__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
+  padding: 0 var(--space-layout-section-padding-md) var(--space-layout-section-padding-md); /* space/layout/section/padding/md */
+}
+
+.ds-form-doc__field-caption {
+  margin: 0;
+  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
+  line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
+  color: var(--text-caption-primary-light); /* text/caption/primary/light */
+}
+
+/* Display Schedule row — Figma lays this out on a 4-column grid (Display Schedule
+   spans 2, each date field spans 1) rather than FormRow's equal-width flex columns,
+   so a single non-scheduled column doesn't stretch to fill the row. */
+.ds-form-doc__schedule-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
+}
+
+.ds-form-doc__schedule-cell {
+  grid-column: span 1;
+  min-width: 0;
+}
+
+.ds-form-doc__schedule-cell--wide {
+  grid-column: span 2;
+}
+
+.ds-form-doc__add-banner {
+  align-self: flex-start;
+}

@@ -1,0 +1,35 @@
+/* Assets bundles three separate Figma sources (Icon 967:42491, Image 970:33124,
+   Thumbnail 673:27209) on one page — each section gets its own inline "View in Figma"
+   link next to its heading instead of the usual single header-level link. */
+.ds-assets__section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-assets__ref {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  color: var(--interactive-button-label-primary-ghost-default);
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: var(--typography-sm-font-size);
+}
+
+.ds-assets__ref:hover {
+  text-decoration: underline;
+}
+
+.ds-assets__icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+  gap: var(--space-component-gap-lg);
+  width: 100%;
+  padding: var(--space-layout-section-padding-sm);
+  background: var(--brand-neutral-0);
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-lg);
+}

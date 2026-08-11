@@ -186,6 +186,10 @@ USED = [
     'brand-feedback-danger','brand-feedback-highlight','brand-feedback-info',
     'brand-feedback-success','brand-feedback-warning',
     'text-helper-default','text-helper-error',
+    # Modal
+    'surface-modal-surface-default',
+    # Form
+    'text-heading-primary-brand','text-required-default','text-label-primary',
 ]
 
 def kebab(k):
