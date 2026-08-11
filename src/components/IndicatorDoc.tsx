@@ -143,11 +143,18 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
 
           <div className="ds-variant-group">
             <span className="ds-variant-group__label">With label</span>
-            <div className="ds-preview">
-              <div style={{ width: 240 }}>
-                <ProgressBar progress={40} showLabel />
+            {activeTypeTab === 'bar' ? (
+              <div className="ds-preview">
+                <div style={{ width: 240 }}>
+                  <ProgressBar progress={40} showLabel />
+                </div>
               </div>
-            </div>
+            ) : (
+              <span className="ds-variant-note">
+                Progress Ring has no built-in label — pair it with your own text if a value
+                needs to be shown.
+              </span>
+            )}
           </div>
 
           <div className="ds-variant-group">
@@ -157,10 +164,13 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
               progress value.
             </p>
             <div className="ds-preview">
-              <ProgressRing progress={0} indeterminate />
-              <div style={{ width: 240 }}>
-                <ProgressBar progress={0} indeterminate />
-              </div>
+              {activeTypeTab === 'ring' ? (
+                <ProgressRing progress={0} indeterminate />
+              ) : (
+                <div style={{ width: 240 }}>
+                  <ProgressBar progress={0} indeterminate />
+                </div>
+              )}
             </div>
           </div>
         </div>
