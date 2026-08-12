@@ -897,3 +897,34 @@ export function AssetsIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+/* Modal's Crop Image zoom-in control (designer-supplied SVG, replacing the Material
+   Symbols "zoom_in" glyph). Native 16×16 viewBox, matching --component-icon-sm exactly.
+   Source fill was a hardcoded #5244ee — an exact match for --brand-primary-400 — so it
+   maps to currentColor and takes its color from ModalDoc.css's
+   .ds-modal-example__crop-zoom-icon rule instead of hardcoding the hex here. */
+export function ZoomInIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path
+        d="M7.25 14C7.25 14.4142 7.58579 14.75 8 14.75C8.41421 14.75 8.75 14.4142 8.75 14V8.75001L14 8.75001C14.4142 8.75001 14.75 8.41422 14.75 8.00001C14.75 7.5858 14.4142 7.25001 14 7.25001L8.75 7.25001V2C8.75 1.58579 8.41421 1.25 8 1.25C7.58579 1.25 7.25 1.58579 7.25 2V7.25001L2 7.25001C1.58579 7.25001 1.25 7.5858 1.25 8.00001C1.25 8.41423 1.58579 8.75001 2 8.75001L7.25 8.75001V14Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+/* Modal's Crop Image zoom-out control (designer-supplied SVG, replacing the Material
+   Symbols "zoom_out" glyph). Same 16×16 sizing and currentColor mapping as ZoomInIcon. */
+export function ZoomOutIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M14 8.75L2 8.75C1.58579 8.75 1.25 8.41422 1.25 8C1.25 7.58579 1.58579 7.25 2 7.25L14 7.25C14.4142 7.25 14.75 7.58579 14.75 8C14.75 8.41421 14.4142 8.75 14 8.75Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}

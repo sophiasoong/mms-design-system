@@ -1,8 +1,46 @@
-import { useState } from 'react';
-import { Icon, ICON_NAMES, type IconName, type IconSize } from './Icon';
+import { useState, type ReactNode } from 'react';
+import { Icon, type IconName, type IconSize } from './Icon';
 import { Image, type ImageStyle } from './Image';
 import { Thumbnail, type ThumbnailMessageStyle } from './Thumbnail';
-import { UploadIcon, MessageIcon } from './icons';
+import { UploadIcon, MessageIcon, DropzoneIcon } from './icons';
+import {
+  ChevronDown12Icon,
+  ChevronUp12Icon,
+  ChevronRight12Icon,
+  ChevronDown16Icon,
+  ChevronUp16Icon,
+  ChevronNext16Icon,
+  ChevronBack16Icon,
+  Clear16Icon,
+  History16Icon,
+  Order16Icon,
+  Sorter16Icon,
+  Resize16Icon,
+  Drag16Icon,
+  Outlink16Icon,
+  Calendar16Icon,
+  SwapRight16Icon,
+  DoubleChevronLeft16Icon,
+  DoubleChevronRight16Icon,
+  VisibilityOff16Icon,
+  Product16Icon,
+  Promotion16Icon,
+  Navigation16Icon,
+  Visible16Icon,
+  Order20Icon,
+  Product20Icon,
+  Dashboard20Icon,
+  Ad20Icon,
+  Payment20Icon,
+  Rating20Icon,
+  Merchant20Icon,
+  System20Icon,
+  Return20Icon,
+  Promotion20Icon,
+  ThreePL20Icon,
+  StoreHktv20Icon,
+  StoreThePlace20Icon,
+} from './iconSizeGroups';
 import './AssetsDoc.css';
 
 const ICON_FIGMA_URL =
@@ -18,6 +56,127 @@ const ICON_SIZES: { size: IconSize; label: string }[] = [
   { size: 'md', label: 'Md · 24px' },
   { size: 'lg', label: 'Lg · 36px' },
 ];
+
+// The Icon-library's own 5 native size TIERS from Figma (967:42491) — a different axis
+// from ICON_SIZES above: each tier is its own frame of hand-drawn artwork at a fixed
+// native pixel size, not one glyph CSS-scaled to 4 sizes. Some tier icons reuse Icon's
+// ICONS map (Xs/Sm/Md already render at 12/16/24px) or assetIcons.tsx components that
+// happen to match 1:1; the rest are new, tier-specific traces in iconSizeGroups.tsx.
+const ICON_SIZE_TABS = ['12px', '16px', '20px', '24px', '48px'] as const;
+type IconSizeTab = (typeof ICON_SIZE_TABS)[number];
+
+interface SizeTabIconEntry {
+  key: string;
+  label: string;
+  glyph: ReactNode;
+}
+
+// 12px tier (Figma frame 367:3410) — Right/Down/Up are each their own native 12x12
+// export, see iconSizeGroups.tsx's header comment. Each glyph carries the
+// ds-icon__glyph class so the shared .ds-icon--xs wrapper below (Icon.css) centers
+// and caps it in a common 12x12 box, same as Icon.tsx does for its own ICONS map.
+const ICON_TAB_12: SizeTabIconEntry[] = [
+  { key: 'right', label: 'Right', glyph: <ChevronRight12Icon className="ds-icon__glyph" /> },
+  { key: 'down', label: 'Down', glyph: <ChevronDown12Icon className="ds-icon__glyph" /> },
+  { key: 'up', label: 'Up', glyph: <ChevronUp12Icon className="ds-icon__glyph" /> },
+];
+
+// 16px tier (Figma frame 367:3028) — names already covered by Icon's own ICONS map,
+// rendered at size="sm" (16px) rather than re-traced.
+const ICON_TAB_16_NAMES: IconName[] = [
+  'menu',
+  'search',
+  'attachment',
+  'add',
+  'info',
+  'success',
+  'error',
+  'preview',
+  'close',
+  'upload',
+  'delete',
+  'edit',
+];
+
+// 16px tier, continued — the tier's remaining traces, each its own dedicated
+// tier-specific component (see iconSizeGroups.tsx's Product16Icon/Promotion16Icon/
+// Navigation16Icon/Visible16Icon header comment: despite sharing names with
+// assetIcons.tsx's Thumbnail-only ProductIcon/PromotionIcon/PageIcon/VisibilityIcon,
+// those are genuinely different native sizes/proportions, so they're kept separate
+// rather than reused here). Each glyph carries ds-icon__glyph so the shared
+// .ds-icon--sm wrapper below centers/caps it in the same 16x16 box the
+// ICON_TAB_16_NAMES row above already gets from <Icon size="sm"> — otherwise these
+// render at their own raw native sizes, which vary widely glyph to glyph and look
+// inconsistent both against each other and against the row above.
+const ICON_TAB_16_EXTRA: SizeTabIconEntry[] = [
+  { key: 'down', label: 'Down', glyph: <ChevronDown16Icon className="ds-icon__glyph" /> },
+  { key: 'up', label: 'Up', glyph: <ChevronUp16Icon className="ds-icon__glyph" /> },
+  { key: 'next', label: 'Next', glyph: <ChevronNext16Icon className="ds-icon__glyph" /> },
+  { key: 'back', label: 'Back', glyph: <ChevronBack16Icon className="ds-icon__glyph" /> },
+  {
+    key: 'double-chevron-left',
+    label: 'Left',
+    glyph: <DoubleChevronLeft16Icon className="ds-icon__glyph" />,
+  },
+  {
+    key: 'double-chevron-right',
+    label: 'Right',
+    glyph: <DoubleChevronRight16Icon className="ds-icon__glyph" />,
+  },
+  { key: 'swap-right', label: 'Swap Right', glyph: <SwapRight16Icon className="ds-icon__glyph" /> },
+  { key: 'clear', label: 'Clear', glyph: <Clear16Icon className="ds-icon__glyph" /> },
+  { key: 'history', label: 'History', glyph: <History16Icon className="ds-icon__glyph" /> },
+  { key: 'sorter', label: 'Sorter', glyph: <Sorter16Icon className="ds-icon__glyph" /> },
+  { key: 'resize', label: 'Resize', glyph: <Resize16Icon className="ds-icon__glyph" /> },
+  { key: 'outlink', label: 'Outlink', glyph: <Outlink16Icon className="ds-icon__glyph" /> },
+  { key: 'calendar', label: 'Calendar', glyph: <Calendar16Icon className="ds-icon__glyph" /> },
+  { key: 'order', label: 'Order', glyph: <Order16Icon className="ds-icon__glyph" /> },
+  { key: 'drag', label: 'Drag', glyph: <Drag16Icon className="ds-icon__glyph" /> },
+  { key: 'product', label: 'Product', glyph: <Product16Icon className="ds-icon__glyph" /> },
+  { key: 'promotion', label: 'Promotion', glyph: <Promotion16Icon className="ds-icon__glyph" /> },
+  { key: 'navigation', label: 'Navigation', glyph: <Navigation16Icon className="ds-icon__glyph" /> },
+  { key: 'visible', label: 'Visible', glyph: <Visible16Icon className="ds-icon__glyph" /> },
+  { key: 'hidden', label: 'Hidden', glyph: <VisibilityOff16Icon className="ds-icon__glyph" /> },
+];
+
+// 20px tier (Figma frame 367:3016) — entirely net-new traces; every name here shares
+// wording with an unrelated icon elsewhere (16px tier or the 48px message thumbs in
+// messageTypeIcons.tsx) but is confirmed different artwork, see iconSizeGroups.tsx.
+const ICON_TAB_20: SizeTabIconEntry[] = [
+  { key: 'order', label: 'Order', glyph: <Order20Icon /> },
+  { key: 'product', label: 'Product', glyph: <Product20Icon /> },
+  { key: 'dashboard', label: 'Dashboard', glyph: <Dashboard20Icon /> },
+  { key: 'ad', label: 'Ad', glyph: <Ad20Icon /> },
+  { key: 'payment', label: 'Payment', glyph: <Payment20Icon /> },
+  { key: 'rating', label: 'Rating', glyph: <Rating20Icon /> },
+  { key: 'merchant', label: 'Merchant', glyph: <Merchant20Icon /> },
+  { key: 'system', label: 'System', glyph: <System20Icon /> },
+  { key: 'return', label: 'Return', glyph: <Return20Icon /> },
+  { key: 'promotion', label: 'Promotion', glyph: <Promotion20Icon /> },
+  { key: '3pl', label: '3PL', glyph: <ThreePL20Icon /> },
+  { key: 'store-hktv', label: 'HKTV Store', glyph: <StoreHktv20Icon /> },
+  { key: 'store-the-place', label: 'thePlace Store', glyph: <StoreThePlace20Icon /> },
+];
+
+// 24px tier (Figma frame 655:21348) — fully covered by Icon's own ICONS map, rendered
+// at size="md" (24px).
+const ICON_TAB_24_NAMES: IconName[] = [
+  'faq',
+  'notification',
+  'download',
+  'flip-horizontal',
+  'flip-vertical',
+  'rotate-left',
+  'rotate-right',
+  'zoom-out',
+  'zoom-in',
+  'more',
+  'drag',
+];
+
+// 48px tier (Figma frame 705:12687) — its one icon already exists as the Upload
+// dropzone's own glyph.
+const ICON_TAB_48: SizeTabIconEntry[] = [{ key: 'dropzone', label: 'Dropzone', glyph: <DropzoneIcon /> }];
 
 const IMAGE_STYLES: { style: ImageStyle; label: string }[] = [
   { style: 'empty', label: 'Empty' },
@@ -72,6 +231,7 @@ interface AssetsDocProps {
 
 export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
   const [activeThumbnailTab, setActiveThumbnailTab] = useState<ThumbnailTab>('Grid');
+  const [activeIconSizeTab, setActiveIconSizeTab] = useState<IconSizeTab>(ICON_SIZE_TABS[0]);
 
   return (
     <div className="ds-doc">
@@ -119,16 +279,72 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
           list rows throughout this system.
         </p>
 
+        <div className="ds-line-tabs" role="tablist" aria-label="Icon size groups">
+          {ICON_SIZE_TABS.map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              role="tab"
+              aria-selected={activeIconSizeTab === tab}
+              className={`ds-line-tab${activeIconSizeTab === tab ? ' ds-line-tab--active' : ''}`}
+              onClick={() => setActiveIconSizeTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">All icons</span>
             <div className="ds-assets__icon-grid">
-              {ICON_NAMES.map((name) => (
-                <div className="ds-variant-row__cell" key={name}>
-                  <Icon name={name} size="md" />
-                  <span className="ds-variant-row__cell-label">{formatIconLabel(name)}</span>
-                </div>
-              ))}
+              {activeIconSizeTab === '12px' &&
+                ICON_TAB_12.map(({ key, label, glyph }) => (
+                  <div className="ds-variant-row__cell" key={key}>
+                    <span className="ds-icon ds-icon--xs">{glyph}</span>
+                    <span className="ds-variant-row__cell-label">{label}</span>
+                  </div>
+                ))}
+
+              {activeIconSizeTab === '16px' && (
+                <>
+                  {ICON_TAB_16_NAMES.map((name) => (
+                    <div className="ds-variant-row__cell" key={name}>
+                      <Icon name={name} size="sm" />
+                      <span className="ds-variant-row__cell-label">{formatIconLabel(name)}</span>
+                    </div>
+                  ))}
+                  {ICON_TAB_16_EXTRA.map(({ key, label, glyph }) => (
+                    <div className="ds-variant-row__cell" key={key}>
+                      <span className="ds-icon ds-icon--sm">{glyph}</span>
+                      <span className="ds-variant-row__cell-label">{label}</span>
+                    </div>
+                  ))}
+                </>
+              )}
+
+              {activeIconSizeTab === '20px' &&
+                ICON_TAB_20.map(({ key, label, glyph }) => (
+                  <div className="ds-variant-row__cell" key={key}>
+                    <span className="ds-assets__icon-tile--20">{glyph}</span>
+                    <span className="ds-variant-row__cell-label">{label}</span>
+                  </div>
+                ))}
+
+              {activeIconSizeTab === '24px' &&
+                ICON_TAB_24_NAMES.map((name) => (
+                  <div className="ds-variant-row__cell" key={name}>
+                    <Icon name={name} size="md" />
+                    <span className="ds-variant-row__cell-label">{formatIconLabel(name)}</span>
+                  </div>
+                ))}
+
+              {activeIconSizeTab === '48px' &&
+                ICON_TAB_48.map(({ key, label, glyph }) => (
+                  <div className="ds-variant-row__cell" key={key}>
+                    {glyph}
+                    <span className="ds-variant-row__cell-label">{label}</span>
+                  </div>
+                ))}
             </div>
           </div>
 

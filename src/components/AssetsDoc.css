@@ -33,3 +33,24 @@
   border: var(--border-sm) solid var(--global-divider-neutral-light);
   border-radius: var(--radius-lg);
 }
+
+/* FLAGGED: no design token covers a 20px icon box — tokens.css only defines
+   --component-icon-xs/sm/md/lg (12/16/24/36), same gap already documented in
+   Icon.css for why the Icon component's size prop excludes this Figma tier.
+   Raw 20px is used here only to size this doc page's 20px-tab tile so glyphs
+   with varying native viewBoxes (see iconSizeGroups.tsx) sit in a consistent
+   box, matching how ds-icon--xs/sm/md do it for the tokenized tiers. */
+.ds-assets__icon-tile--20 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--text-body-primary-neutral);
+}
+
+.ds-assets__icon-tile--20 svg {
+  max-width: 100%;
+  max-height: 100%;
+}

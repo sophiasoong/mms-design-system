@@ -459,6 +459,7 @@
 .ds-variant-row__cell-label {
   font-size: var(--typography-sm-font-size);
   color: var(--text-caption-primary-light);
+  text-align: center;
 }
 
 .ds-variant-note {
