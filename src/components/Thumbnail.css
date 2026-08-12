@@ -123,6 +123,12 @@
   color: var(--brand-neutral-800); /* brand/neutral/800 */
 }
 
+/* svg is inline by default, which reserves descender space below it and pushes it
+   off-center within the flex-centered .ds-thumbnail box — same fix as Search's glyph. */
+.ds-thumbnail--wireflow .ds-thumbnail__glyph {
+  display: inline-flex;
+}
+
 /* flagged: Figma's Picture glyph is 20px, no exact icon-size token. */
 .ds-thumbnail--wireflow .ds-thumbnail__glyph svg {
   width: 20px;
