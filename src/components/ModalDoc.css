@@ -145,25 +145,63 @@
   gap: var(--space-component-gap-lg);
 }
 
-/* flagged: no token exists for this crop mockup's fixed frame size — a one-off doc
-   illustration dimension, kept as a raw value. */
+/* Figma "Subtract" (node 755:17466): the mask's own exported canvas is 470×430 — sized
+   the frame to match exactly rather than an arbitrary mockup dimension.
+   flagged: no size token matches 470/430 — kept as raw values, same as the mask hole
+   size below.
+   --crop-cutout-size is declared here (not a token — see the mask's own flag below)
+   so the mask hole and the image's base render size share one number instead of two
+   independently-hardcoded 120px values drifting apart. */
 .ds-modal-example__crop-frame {
+  --crop-cutout-size: 120px;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 320px;
-  height: 240px;
+  width: 470px;
+  height: 430px;
   overflow: hidden;
   border: var(--border-sm) solid var(--surface-card-border-default);
   border-radius: var(--radius-md);
   background: var(--global-background-page);
 }
 
+/* Base size matches the mask's cutout exactly (--crop-cutout-size, both 120px) so that
+   at the default 100% zoom the whole square image fits the crop window precisely,
+   instead of the old behavior of filling the entire 470×430 frame at "100%". The flex
+   frame's align-items/justify-content: center keeps this centered; the scale transform
+   below then grows/shrinks it from that same center point, matching the mask's own
+   centering. Zooming below 100% will reveal the frame's own background inside the
+   crop window (the image no longer fully covers it) — expected, not a bug, since
+   50–200% is deliberately centered on "100% = fits the square" rather than "100% =
+   fills the frame". */
 .ds-modal-example__crop-image {
-  width: 100%;
-  height: 100%;
+  width: var(--crop-cutout-size);
+  height: var(--crop-cutout-size);
   object-fit: cover;
-  transform: scale(0.8);
+  /* --crop-zoom-scale is set inline from cropZoom (see ModalDoc.tsx) so dragging the
+     zoom slider actually re-scales the image instead of the old fixed scale(0.8). */
+  transform: scale(var(--crop-zoom-scale, 1));
+}
+
+/* Figma "Subtract" (node 755:17466): fill #222222 at 60% opacity — an exact match for
+   --global-overlay-dark (#22222299), so no raw color value is needed. Reproduced as a
+   "spotlight" box-shadow (a transparent box whose huge non-inset shadow fills
+   everything around it) rather than the source SVG mask, so it scales with the frame
+   without an extra asset; .ds-modal-example__crop-frame's overflow: hidden clips the
+   shadow to the frame's edges, matching the mask's own full-bleed coverage.
+   flagged: no token exists for the 120px square cutout size — reused verbatim from the
+   Figma mask's own literal hole size (295-175 / 275.25-155.25), a one-off doc
+   illustration dimension, now shared via --crop-cutout-size above. */
+.ds-modal-example__crop-mask {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--crop-cutout-size);
+  height: var(--crop-cutout-size);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 9999px var(--global-overlay-dark);
+  pointer-events: none;
 }
 
 .ds-modal-example__crop-zoom {
@@ -171,8 +209,42 @@
   align-items: center;
   gap: var(--space-component-gap-sm);
   width: 100%;
-  max-width: 320px;
+  max-width: 470px;
   color: var(--text-body-secondary-neutral);
+}
+
+/* Wraps ZoomOutIcon/ZoomInIcon so they're clickable (step cropZoom by ±1 —
+   see ModalDoc.tsx). Reset to a bare hit target: no native button chrome
+   (padding/border/background) so the icon alone reads as the control, matching
+   the borderless icon-only look of the Figma slider. */
+.ds-modal-example__crop-zoom-btn {
+  display: inline-flex;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.ds-modal-example__crop-zoom-btn:disabled {
+  cursor: not-allowed;
+}
+
+/* Figma Slider (node 1485:30025) shows the zoom icons in brand/primary/400, but
+   now that they're interactive icon-button targets (not static row text), sourced
+   from the semantic --interactive-icon-button-icon-primary-ghost-* trio instead —
+   -default (#5244ee) is an exact value match for the old brand-primary-400, so
+   this is a no-visual-diff swap that also gives hover/disabled states for free. */
+.ds-modal-example__crop-zoom-icon {
+  flex-shrink: 0;
+  color: var(--interactive-icon-button-icon-primary-ghost-default);
+}
+
+.ds-modal-example__crop-zoom-btn:hover:not(:disabled) .ds-modal-example__crop-zoom-icon {
+  color: var(--interactive-icon-button-icon-primary-ghost-hover);
+}
+
+.ds-modal-example__crop-zoom-btn:disabled .ds-modal-example__crop-zoom-icon {
+  color: var(--interactive-icon-button-icon-primary-ghost-disabled);
 }
 
 .ds-modal-example__crop-slider-wrap {
@@ -181,9 +253,64 @@
   flex: 1;
 }
 
+/* Figma Slider (node 1485:30025): pill track split into a filled
+   (brand/primary/300) and unfilled (brand/neutral/200) portion. --slider-fill
+   is set inline per the current value (see ModalDoc.tsx) so the split
+   renders without JS-driven pseudo-element hacks. */
 .ds-modal-example__crop-slider {
   flex: 1;
-  accent-color: var(--brand-primary-400);
+  appearance: none;
+  -webkit-appearance: none;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    to right,
+    var(--brand-primary-300) var(--slider-fill, 0%),
+    var(--brand-neutral-200) var(--slider-fill, 0%)
+  );
+  cursor: pointer;
+}
+
+.ds-modal-example__crop-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  /* No margin-top offset: current Chrome already auto-centers the WebKit
+     thumb on the track's box — verified empirically (elementFromPoint scan
+     of the thumb's hit box against the track's rect). The classic
+     margin-top: (trackHeight - thumbHeight) / 2 = -7px hack from older
+     WebKit versions over-corrects here, pushing the thumb ~4px above
+     center. */
+  border-radius: var(--radius-full);
+  background: var(--brand-neutral-0);
+  /* FLAGGED: Figma's thumb border is brand/primary/200 (#a9a1f7), which has
+     no matching token — brand-primary-* only defines 50/75/100/300/400/600.
+     Using brand-primary-100 as the nearest existing tier, the same
+     substitution already flagged for this exact gap in Card.css
+     (.ds-card--highlighted). */
+  border: 2px solid var(--brand-primary-100);
+  cursor: pointer;
+}
+
+.ds-modal-example__crop-slider::-moz-range-track {
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--brand-neutral-200);
+}
+
+.ds-modal-example__crop-slider::-moz-range-progress {
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--brand-primary-300);
+}
+
+.ds-modal-example__crop-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-full);
+  background: var(--brand-neutral-0);
+  border: 2px solid var(--brand-primary-100);
+  cursor: pointer;
 }
 
 .ds-modal-example__crop-slider-tooltip {
@@ -194,10 +321,23 @@
   pointer-events: none;
 }
 
-.ds-modal-example__crop-value {
-  min-width: 40px;
-  font-family: var(--typography-font-family-body);
-  font-size: var(--typography-sm-font-size);
-  color: var(--text-body-secondary-neutral);
-  text-align: right;
+/* Figma "Tooltip-Fixed" (node 755:17470) — this percentage hint uses a dark
+   brand/neutral/800 bubble + white label, distinct from the light
+   general-purpose Tooltip (Tooltip.css, node 194:1549). Overridden here
+   rather than in the shared component so Tooltip's own documented default
+   stays correct for every other page that reuses it. */
+.ds-modal-example__crop-slider-tooltip .ds-tooltip__bubble {
+  background: var(--brand-neutral-800);
+}
+
+/* FLAGGED: no body-scale "on-dark" text token exists (tokens.css only
+   defines --text-caption-primary-dark, for the caption scale, not body) —
+   using the brand-neutral-0 primitive directly, the same fallback already
+   used above for white text on this page's dark anatomy backdrop. */
+.ds-modal-example__crop-slider-tooltip .ds-tooltip__label {
+  color: var(--brand-neutral-0);
+}
+
+.ds-modal-example__crop-slider-tooltip .ds-tooltip__arrow {
+  fill: var(--brand-neutral-800);
 }

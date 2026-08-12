@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import Modal, { type ModalSize } from './Modal';
 import Header from './Header';
 import Footer from './Footer';
@@ -14,7 +14,7 @@ import { ActionPanelField, ActionPanelValue } from './ActionPanel';
 import { Table, TableHeader, TableHeaderCell, TableRow, TableCell } from './Table';
 import Pagination from './Pagination';
 import { Tooltip } from './Tooltip';
-import { ButtonIcon, HeaderIcon, FooterIcon } from './icons';
+import { ButtonIcon, HeaderIcon, FooterIcon, ZoomInIcon, ZoomOutIcon } from './icons';
 import './ButtonDoc.css';
 import './Table.css';
 import './ModalDoc.css';
@@ -88,6 +88,12 @@ const EXAMPLE_TABLE_ROWS = [
   { sku: 'SKU-1002', name: 'Bluetooth Speaker', category: 'Electronics', price: '$79.00', stock: 64 },
   { sku: 'SKU-1003', name: 'Ceramic Mug', category: 'Home', price: '$12.00', stock: 340 },
   { sku: 'SKU-1004', name: 'Yoga Mat', category: 'Sports', price: '$25.00', stock: 95 },
+  { sku: 'SKU-1005', name: 'Stainless Water Bottle', category: 'Home', price: '$18.00', stock: 210 },
+  { sku: 'SKU-1006', name: 'Desk Lamp', category: 'Home', price: '$34.00', stock: 58 },
+  { sku: 'SKU-1007', name: 'Running Shoes', category: 'Sports', price: '$89.00', stock: 42 },
+  { sku: 'SKU-1008', name: 'Phone Case', category: 'Electronics', price: '$15.00', stock: 500 },
+  { sku: 'SKU-1009', name: 'Notebook Set', category: 'Office', price: '$9.00', stock: 275 },
+  { sku: 'SKU-1010', name: 'Wireless Mouse', category: 'Electronics', price: '$29.00', stock: 150 },
 ];
 
 interface ModalDocProps {
@@ -97,8 +103,15 @@ interface ModalDocProps {
 export default function ModalDoc({ onNavigate }: ModalDocProps) {
   const [activeExampleId, setActiveExampleId] = useState<ExampleId>('upload');
   const activeExample = EXAMPLE_TABS.find((tab) => tab.id === activeExampleId)!;
-  const [cropZoom, setCropZoom] = useState(80);
+  // 100 = the image's base rendered size already fits the crop cutout exactly
+  // (see .ds-modal-example__crop-image in ModalDoc.css), so 100 is the default.
+  const [cropZoom, setCropZoom] = useState(100);
   const [isCropZoomDragging, setIsCropZoomDragging] = useState(false);
+  const cropZoomPercent = ((cropZoom - 50) / (200 - 50)) * 100;
+  // Shared by the slider's own onChange and the +/- icon buttons below, so both
+  // paths clamp to the same 50-200 range instead of duplicating the bounds.
+  const stepCropZoom = (delta: number) =>
+    setCropZoom((value) => Math.min(200, Math.max(50, value + delta)));
 
   return (
     <div className="ds-doc">
@@ -217,12 +230,11 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
             <div className="ds-preview ds-preview--scrim ds-preview--scroll">
-              {/* flagged: no token exists for a demo container height — Full's height:100%
-                  needs a defined parent height to resolve against, so 480px is kept as a
-                  raw value here, only for this Full-size preview box. */}
-              <div
-                style={{ width: '100%', height: activeExample.size === 'full' ? 480 : undefined }}
-              >
+              {/* No fixed height on this wrapper: .ds-modal--full's height:100% (Modal.css)
+                  then has no definite parent height to resolve against, so it computes to
+                  auto per spec — the Table example (the only 'full' example) hugs its own
+                  content instead of being clipped/scrolled inside an arbitrary box height. */}
+              <div style={{ width: '100%' }}>
                 <Modal size={activeExample.size} title={activeExample.title} showInfo>
                   {activeExampleId === 'upload' && (
                     <div className="ds-modal-example__upload-steps">
@@ -279,24 +291,50 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
 
                   {activeExampleId === 'crop-image' && (
                     // flagged: no token exists for this crop mockup's fixed canvas/frame
-                    // pixel dimensions — a one-off doc illustration size, kept as raw values.
+                    // pixel dimensions (470x430, matching the Figma "Subtract" mask's own
+                    // exported canvas size) — kept as raw values.
                     <div className="ds-modal-example__crop-canvas">
                       <div className="ds-modal-example__crop-frame">
                         <img
                           src="/assets/lightbox-lego-stack-cutout.png"
                           alt=""
                           className="ds-modal-example__crop-image"
+                          // Drives the actual zoom: cropZoom is a 50–200 percent value,
+                          // so 100 = native scale — the image's base rendered size (see
+                          // .ds-modal-example__crop-image in ModalDoc.css) already matches
+                          // the mask's cutout exactly, so 100% is "fit the crop square",
+                          // not "fill the whole frame". Read by .ds-modal-example__crop-image's
+                          // transform rule instead of the old static scale(0.8), so dragging
+                          // the slider now visibly re-scales the image instead of just moving
+                          // the track fill.
+                          style={{ '--crop-zoom-scale': cropZoom / 100 } as CSSProperties}
                         />
+                        {/* Figma "Subtract" (node 755:17466): a full-bleed dark mask with a
+                            centered square cutout, marking the square area that will be
+                            kept on crop. */}
+                        <div className="ds-modal-example__crop-mask" aria-hidden="true" />
                       </div>
                       <div className="ds-modal-example__crop-zoom">
-                        <span className="icon icon--sm" aria-hidden="true">
-                          zoom_out
-                        </span>
+                        <button
+                          type="button"
+                          className="ds-modal-example__crop-zoom-btn"
+                          aria-label="Zoom out"
+                          onClick={() => stepCropZoom(-1)}
+                          disabled={cropZoom <= 50}
+                        >
+                          <ZoomOutIcon className="ds-modal-example__crop-zoom-icon" />
+                        </button>
                         <div className="ds-modal-example__crop-slider-wrap">
                           {isCropZoomDragging && (
                             <div
                               className="ds-modal-example__crop-slider-tooltip"
-                              style={{ left: `${((cropZoom - 50) / (200 - 50)) * 100}%` }}
+                              // Offsets the tooltip by the thumb's half-width (9px, see
+                              // .ds-modal-example__crop-slider::-webkit-slider-thumb) so it
+                              // stays centered over the thumb instead of the raw track %,
+                              // which drifts at the low/high ends of a native range input.
+                              style={{
+                                left: `calc(${cropZoomPercent}% + ${(0.5 - cropZoomPercent / 100) * 18}px)`,
+                              }}
                             >
                               <Tooltip size="sm">{cropZoom}%</Tooltip>
                             </div>
@@ -310,12 +348,18 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
                             onChange={(event) => setCropZoom(Number(event.target.value))}
                             onPointerDown={() => setIsCropZoomDragging(true)}
                             onPointerUp={() => setIsCropZoomDragging(false)}
+                            style={{ '--slider-fill': `${cropZoomPercent}%` } as CSSProperties}
                           />
                         </div>
-                        <span className="icon icon--sm" aria-hidden="true">
-                          zoom_in
-                        </span>
-                        <span className="ds-modal-example__crop-value">{cropZoom}%</span>
+                        <button
+                          type="button"
+                          className="ds-modal-example__crop-zoom-btn"
+                          aria-label="Zoom in"
+                          onClick={() => stepCropZoom(1)}
+                          disabled={cropZoom >= 200}
+                        >
+                          <ZoomInIcon className="ds-modal-example__crop-zoom-icon" />
+                        </button>
                       </div>
                     </div>
                   )}
@@ -404,7 +448,9 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
                       </div>
 
                       <div className="ds-table-results">
-                        <span className="ds-table-results__count">1–4 of 4 results</span>
+                        <span className="ds-table-results__count">
+                          1–{EXAMPLE_TABLE_ROWS.length} of {EXAMPLE_TABLE_ROWS.length} results
+                        </span>
                         <div className="ds-table-results__actions">
                           <span className="ds-table-results__updated">
                             Last Updated 2026-08-11 09:15
