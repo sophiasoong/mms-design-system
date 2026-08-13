@@ -309,7 +309,7 @@ function BannerListItem({ scheduled, index }: { scheduled: boolean; index: numbe
         </span>
         <span className="ds-form-list-item__title">
           Banner
-          <span className="icon icon--xs ds-form-field__info" aria-hidden="true">
+          <span className="icon icon--sm ds-form-field__info" aria-hidden="true">
             info
           </span>
         </span>

@@ -99,8 +99,13 @@
   color: var(--text-required-default); /* text/required/default */
 }
 
+/* Colored to match the section header's own info icon (Header.tsx's IconButton
+   icon="info" variant="secondary" appearance="ghost") — brand-secondary-600
+   (#ffa000) instead of the plain label-gray this used to inherit. Sizing now
+   comes from the shared .icon--sm utility class (16px, same as that IconButton's
+   own icon) rather than .icon--xs — see Form.tsx / FormDoc.tsx. */
 .ds-form-field__info {
-  color: var(--text-label-primary); /* text/label/primary */
+  color: var(--brand-secondary-600); /* brand/secondary/600 */
 }
 
 .ds-form-field__value {

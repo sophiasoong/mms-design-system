@@ -23,15 +23,26 @@
   text-decoration: underline;
 }
 
+/* FLAGGED: no token covers this grid's column-width floor. The original
+   88px minimum (no matching token then either) was sized for single-word
+   labels; two-word labels like "Flip Horizontal" wrapped to 2 lines inside
+   it. Raised to 120px, the narrowest width its own longest label ("Flip
+   Horizontal" at --typography-sm-font-size) renders on one line — cells stay
+   equal-width (icon above label, matching .ds-variant-row__cell's default
+   column stack) and labels stay single-line via white-space: nowrap below. */
 .ds-assets__icon-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: var(--space-component-gap-lg);
   width: 100%;
   padding: var(--space-layout-section-padding-sm);
   background: var(--brand-neutral-0);
   border: var(--border-sm) solid var(--global-divider-neutral-light);
   border-radius: var(--radius-lg);
+}
+
+.ds-assets__icon-grid .ds-variant-row__cell-label {
+  white-space: nowrap;
 }
 
 /* FLAGGED: no design token covers a 20px icon box — tokens.css only defines

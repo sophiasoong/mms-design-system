@@ -53,10 +53,13 @@ USED = [
     'interactive-shadow-primary',
     # App chrome — surface / text / sidebar / divider / brand
     'brand-primary-300','brand-primary-400','brand-primary-600','brand-primary-50','brand-primary-75','brand-primary-100',
-    'brand-secondary-200',
+    'brand-secondary-200','brand-secondary-600',
     'brand-neutral-0','brand-neutral-100','brand-neutral-200','brand-neutral-300','brand-neutral-400',
     'brand-neutral-500','brand-neutral-600','brand-neutral-700','brand-neutral-800','brand-neutral-900','brand-neutral-950',
     'brand-danger-500',
+    # Tag / Badge — Green and Blue color variants (Tag.css, Badge.css)
+    'brand-green-100','brand-green-300','brand-green-600',
+    'brand-blue-100','brand-blue-300','brand-blue-600',
     'text-heading-primary-neutral','text-heading-secondary-neutral','text-body-primary-neutral',
     'text-body-secondary-neutral','text-body-tertiary-neutral','text-caption-primary-light','text-link-default',
     'surface-card-surface-default','surface-card-shadow-default','surface-card-border-default',

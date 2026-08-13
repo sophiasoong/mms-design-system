@@ -481,7 +481,11 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
                   <TableRow>
                     <TableCell>Input</TableCell>
                     <TableCell>
-                      <Input size="md" placeholder="Placeholder" />
+                      <Input
+                        size="md"
+                        placeholder="Placeholder"
+                        className="ds-table-content-style__input"
+                      />
                     </TableCell>
                   </TableRow>
                   <TableRow>

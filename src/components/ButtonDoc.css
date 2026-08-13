@@ -1104,3 +1104,20 @@
   box-shadow: 0 0 0 9999px var(--global-overlay-dark);
   pointer-events: none;
 }
+
+/* ---- Table "Cell" content-style demo (TableDoc.tsx) ---- */
+/* Input normally stretches to fill its container (Input.css: width: 100%), so inside
+   this wide preview table it sprawled to the cell's full ~716px — far past what a
+   Placeholder field needs, and visually inconsistent with the Date-picker row directly
+   below it. Date-picker doesn't stretch: .ds-date-picker is inline-flex with no width of
+   its own, so it settles at its trigger's min-width floor (DatePicker.css: 200px — no
+   token covers this either, see that file's header comment). Matching Input to that same
+   200px keeps the two rows visually aligned without changing Input's default full-width
+   behavior anywhere else it's used.
+   Doubled up as .ds-input.ds-table-content-style__input (0,2,0) rather than the bare
+   class alone (0,1,0) — Vite dev's CSS injection order between this file and Input.css
+   isn't reliably later-wins, so matching Input.css's own .ds-input specificity plus one
+   is what actually guarantees the override rather than depending on import order. */
+.ds-input.ds-table-content-style__input {
+  width: 200px;
+}

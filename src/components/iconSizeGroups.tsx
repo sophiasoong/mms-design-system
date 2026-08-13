@@ -370,8 +370,17 @@ export function Dashboard20Icon({ className }: { className?: string }) {
 }
 
 export function Ad20Icon({ className }: { className?: string }) {
+  // FIXED: rendered at width/height="18" (integer) instead of the raw 17.5
+  // viewBox value. At its native fractional 17.5px size, this icon's outer
+  // ring rasterized with a visible gap along the bottom arc (confirmed via
+  // native-pixel canvas capture — a browser rounding/antialiasing dropout
+  // specific to non-integer render sizes on thin ring paths). Bumping to the
+  // nearest whole pixel removes the fractional device-pixel boundary that
+  // caused it; viewBox stays "0 0 17.5 17.5" so the path data (and the
+  // ~2.9% resulting scale-up) is unchanged — visually identical, still well
+  // within the 20px tile in AssetsDoc.css.
   return (
-    <svg className={className} width="17.5" height="17.5" viewBox="0 0 17.5 17.5" fill="none" aria-hidden="true">
+    <svg className={className} width="18" height="18" viewBox="0 0 17.5 17.5" fill="none" aria-hidden="true">
       <path
         d="M12.3436 8.12592H9.37485V5.15717C9.37485 5.07123 9.30454 5.00092 9.2186 5.00092H8.2811C8.19516 5.00092 8.12485 5.07123 8.12485 5.15717V8.12592H5.1561C5.07016 8.12592 4.99985 8.19623 4.99985 8.28217V9.21967C4.99985 9.3056 5.07016 9.37592 5.1561 9.37592H8.12485V12.3447C8.12485 12.4306 8.19516 12.5009 8.2811 12.5009H9.2186C9.30454 12.5009 9.37485 12.4306 9.37485 12.3447V9.37592H12.3436C12.4295 9.37592 12.4999 9.3056 12.4999 9.21967V8.28217C12.4999 8.19623 12.4295 8.12592 12.3436 8.12592Z"
         fill="currentColor"

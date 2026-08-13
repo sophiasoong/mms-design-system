@@ -146,7 +146,7 @@ const ICON_TAB_20: SizeTabIconEntry[] = [
   { key: 'order', label: 'Order', glyph: <Order20Icon /> },
   { key: 'product', label: 'Product', glyph: <Product20Icon /> },
   { key: 'dashboard', label: 'Dashboard', glyph: <Dashboard20Icon /> },
-  { key: 'ad', label: 'Ad', glyph: <Ad20Icon /> },
+  { key: 'ad', label: 'Add', glyph: <Ad20Icon /> },
   { key: 'payment', label: 'Payment', glyph: <Payment20Icon /> },
   { key: 'rating', label: 'Rating', glyph: <Rating20Icon /> },
   { key: 'merchant', label: 'Merchant', glyph: <Merchant20Icon /> },

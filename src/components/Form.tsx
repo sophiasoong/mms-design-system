@@ -113,7 +113,7 @@ export function FormField({ label, required, info, children }: FormFieldProps) {
           </span>
         )}
         {info && (
-          <span className="icon icon--xs ds-form-field__info" aria-hidden="true">
+          <span className="icon icon--sm ds-form-field__info" aria-hidden="true">
             info
           </span>
         )}
