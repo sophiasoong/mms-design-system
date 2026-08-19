@@ -75,8 +75,14 @@
 /* Overview's 3-step instructional composite (Figma node 755:13998) reuses the same white
    card shell as .ds-upload-doc__card, but its steps stack with layout/section/gap/md
    (16px) instead of the card's own layout/section/gap/sm (12px) used for the
-   dropzone+file-list+buttons trio elsewhere on this page. */
+   dropzone+file-list+buttons trio elsewhere on this page. Own display:flex/flex-direction
+   declared here (not just inherited from the paired .ds-upload-doc__card class) — gap has
+   no effect on plain block-flow children, so ModalDoc's reuse of this class alone (its
+   Upload Products example has no card shell to borrow flex from) was silently collapsing
+   to a 0px gap despite the token being set; verified via computed style + rect diff. */
 .ds-upload-doc__steps {
+  display: flex;
+  flex-direction: column;
   gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
 }
 
