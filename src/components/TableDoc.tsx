@@ -795,10 +795,10 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
                       <TableHeaderCell width={140} info>Brand</TableHeaderCell>
                       <TableHeaderCell width={320}>SKU Name</TableHeaderCell>
                       <TableHeaderCell width={140}>Category</TableHeaderCell>
-                      <TableHeaderCell width={100} align="center">Original Price</TableHeaderCell>
-                      <TableHeaderCell width={100} align="center">Selling Price</TableHeaderCell>
+                      <TableHeaderCell width={100} align="right">Original Price</TableHeaderCell>
+                      <TableHeaderCell width={100} align="right">Selling Price</TableHeaderCell>
                       <TableHeaderCell width={110}>Merchant</TableHeaderCell>
-                      <TableHeaderCell width={90} align="center">Discount</TableHeaderCell>
+                      <TableHeaderCell width={90} align="right">Discount</TableHeaderCell>
                       <TableHeaderCell align="center" className="ds-table-example__action-cell">
                         Action
                       </TableHeaderCell>
@@ -824,10 +824,10 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
                           <TableCell>{row.brand}</TableCell>
                           <TableCell>{row.name}</TableCell>
                           <TableCell>{row.category}</TableCell>
-                          <TableCell align="center">{row.originalPrice}</TableCell>
-                          <TableCell align="center">{row.sellingPrice}</TableCell>
+                          <TableCell align="right">{row.originalPrice}</TableCell>
+                          <TableCell align="right">{row.sellingPrice}</TableCell>
                           <TableCell>{row.merchant}</TableCell>
-                          <TableCell align="center">{row.discount}</TableCell>
+                          <TableCell align="right">{row.discount}</TableCell>
                           <TableCell align="center" className="ds-table-example__action-cell">
                             <div className="ds-table-example__action-buttons">
                               <Button variant="primary" appearance="ghost" size="sm">

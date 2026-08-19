@@ -13,6 +13,12 @@ export interface SearchbarProps {
   /** Renders a removable filter chip inline before the typed text — the Figma "Chip" style. */
   chipLabel?: string;
   onChipRemove?: () => void;
+  /** Renders a leading scope-selector segment naming what the query searches within —
+   * the Figma "Scoped-searchbar" style (node 494:135). Segmented from the field with its
+   * own tinted background and a divider border, and pairs with a matching segmented
+   * trailing search action rather than the plain inline icon. */
+  scopeLabel?: string;
+  onScopeClick?: () => void;
   onSearch?: (value: string) => void;
   className?: string;
 }
@@ -24,6 +30,8 @@ export function Searchbar({
   state = 'default',
   chipLabel,
   onChipRemove,
+  scopeLabel,
+  onScopeClick,
   onSearch,
   className,
 }: SearchbarProps) {
@@ -32,12 +40,14 @@ export function Searchbar({
   const fieldRef = useRef<HTMLInputElement>(null);
   const disabled = state === 'disabled';
   const hasChip = Boolean(chipLabel);
+  const hasScope = Boolean(scopeLabel);
   // A chip is a committed filter, so its clear affordance persists regardless of focus —
   // unlike the plain typed-text case, which only shows a clear button while focused.
   const showClear = !disabled && (hasChip || (isFocused && value.length > 0));
   const classes = [
     'ds-searchbar',
     `ds-searchbar--${size}`,
+    hasScope ? 'ds-searchbar--scoped' : '',
     disabled ? 'ds-searchbar--disabled' : '',
     state === 'hover' ? 'ds-searchbar--force-hover' : '',
     state === 'focus' ? 'ds-searchbar--force-focus' : '',
@@ -58,6 +68,20 @@ export function Searchbar({
 
   return (
     <div className={classes}>
+      {hasScope && (
+        <button
+          type="button"
+          className="ds-searchbar__scope"
+          onMouseDown={preventBlur}
+          onClick={onScopeClick}
+          disabled={disabled}
+        >
+          <span className="ds-searchbar__scope-label">{scopeLabel}</span>
+          <span className="icon icon--sm ds-searchbar__scope-chevron" aria-hidden="true">
+            expand_more
+          </span>
+        </button>
+      )}
       {hasChip && (
         <InputChip
           label={chipLabel}
@@ -84,7 +108,7 @@ export function Searchbar({
       {showClear ? (
         <button
           type="button"
-          className="ds-searchbar__action"
+          className={`ds-searchbar__action${hasScope ? ' ds-searchbar__action--scoped' : ''}`}
           onMouseDown={preventBlur}
           onClick={handleClear}
           aria-label="Clear search"
@@ -96,7 +120,7 @@ export function Searchbar({
       ) : (
         <button
           type="button"
-          className="ds-searchbar__action ds-searchbar__action--search"
+          className={`ds-searchbar__action ds-searchbar__action--search${hasScope ? ' ds-searchbar__action--scoped' : ''}`}
           onMouseDown={preventBlur}
           onClick={() => onSearch?.(value)}
           disabled={disabled}

@@ -69,6 +69,13 @@ USED = [
     'interactive-sidebar-item-icon-default','interactive-sidebar-item-icon-hover','interactive-sidebar-item-icon-active',
     'interactive-searchbar-surface-default','interactive-searchbar-border-default','interactive-searchbar-label-default',
     'interactive-searchbar-placeholder-default','interactive-searchbar-border-focus','interactive-searchbar-icon-default',
+    # Searchbar — Scope Selector style (Figma's "Scoped-searchbar", node 494:135):
+    # leading scope segment + dedicated trailing search-action segment
+    'interactive-searchbar-scope-surface-default','interactive-searchbar-scope-border-default',
+    'interactive-searchbar-scope-border-focus','interactive-searchbar-scope-label-default',
+    'interactive-searchbar-action-search-surface-default','interactive-searchbar-action-search-surface-disabled',
+    'interactive-searchbar-action-search-border-default','interactive-searchbar-action-search-border-disabled',
+    'interactive-searchbar-action-search-icon-default','interactive-searchbar-action-search-icon-disabled',
     'global-background-page','global-divider-neutral-light','global-overlay-dark',
     'surface-tag-background-neutral-default','surface-tag-border-neutral-default','surface-tag-label-neutral-default',
     'interactive-list-background-hover',

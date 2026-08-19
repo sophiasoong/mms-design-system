@@ -166,17 +166,30 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
                   <IconButton
                     variant="success"
                     appearance="ghost"
+                    shape="round"
                     icon="check_circle"
                     label="Success"
                   />
                   <span className="ds-variant-row__cell-label">success</span>
                 </div>
                 <div className="ds-variant-row__cell">
-                  <IconButton variant="pending" appearance="ghost" icon="info" label="Pending" />
+                  <IconButton
+                    variant="pending"
+                    appearance="ghost"
+                    shape="round"
+                    icon="info"
+                    label="Pending"
+                  />
                   <span className="ds-variant-row__cell-label">pending</span>
                 </div>
                 <div className="ds-variant-row__cell">
-                  <IconButton variant="danger" appearance="ghost" icon="error" label="Error" />
+                  <IconButton
+                    variant="danger"
+                    appearance="ghost"
+                    shape="round"
+                    icon="error"
+                    label="Error"
+                  />
                   <span className="ds-variant-row__cell-label">error</span>
                 </div>
               </div>

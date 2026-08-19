@@ -974,8 +974,11 @@
   color: var(--brand-danger-500);
 }
 
+/* Matches .ds-form-field__info's own fix (Form.css) — a field-title info icon reads as
+   secondary/amber (brand-secondary-600, #ffa000), not the plain label-gray it inherited
+   before. */
 .ds-textarea-example__info-icon {
-  color: var(--brand-neutral-600);
+  color: var(--brand-secondary-600);
 }
 
 .ds-textarea-example__hint {

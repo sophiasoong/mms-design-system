@@ -4,7 +4,7 @@ import './Table.css';
 
 export type TableSize = 'sm' | 'md' | 'lg' | 'xl';
 export type TableRowState = 'default' | 'hover' | 'selected' | 'highlighted' | 'disabled';
-export type TableAlign = 'left' | 'center';
+export type TableAlign = 'left' | 'center' | 'right';
 export type TableSortDirection = 'asc' | 'desc' | null;
 
 export interface TableProps {
@@ -81,7 +81,7 @@ export function TableHeaderCell({
       <span className="ds-datatable__header-content">
         <span className="ds-datatable__header-label">{children}</span>
         {info && (
-          <span className="icon icon--sm ds-datatable__header-icon" aria-hidden="true">
+          <span className="icon icon--sm ds-datatable__header-icon ds-datatable__header-icon--info" aria-hidden="true">
             info
           </span>
         )}

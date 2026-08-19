@@ -3,7 +3,7 @@ import Modal, { type ModalSize } from './Modal';
 import Header from './Header';
 import Footer from './Footer';
 import Button from './Button';
-import { UploadDropzone } from './Upload';
+import Upload from './Upload';
 import { Input } from './Input';
 import { Select } from './Select';
 import { Toggle } from './Toggle';
@@ -17,6 +17,7 @@ import { Tooltip } from './Tooltip';
 import { ButtonIcon, HeaderIcon, FooterIcon, ZoomInIcon, ZoomOutIcon } from './icons';
 import './ButtonDoc.css';
 import './Table.css';
+import './UploadDoc.css';
 import './ModalDoc.css';
 
 const FIGMA_URL =
@@ -236,37 +237,38 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
                   content instead of being clipped/scrolled inside an arbitrary box height. */}
               <div style={{ width: '100%' }}>
                 <Modal size={activeExample.size} title={activeExample.title} showInfo>
+                  {/* Mirrors the Upload doc's own Overview demo exactly (same step-title/body/
+                      detail/danger classes from UploadDoc.css) — Modal's sm width (432px) was
+                      already an exact match for that demo's card width, so this modal is the
+                      same upload flow, just staged inside a Modal's chrome instead of a
+                      standalone card. */}
                   {activeExampleId === 'upload' && (
-                    <div className="ds-modal-example__upload-steps">
-                      <div className="ds-modal-example__upload-step">
-                        <span className="ds-modal-example__upload-step-num">1</span>
-                        <div className="ds-modal-example__upload-step-body">
-                          <span className="ds-modal-example__upload-step-title">
-                            Download the template
-                          </span>
-                          <Button variant="primary" appearance="ghost" size="sm" leadingIcon="download">
-                            Download template
-                          </Button>
+                    <div className="ds-upload-doc__steps">
+                      <div className="ds-upload-doc__step">
+                        <p className="ds-upload-doc__step-title">
+                          1. Download Template File or Upload Batch File
+                        </p>
+                        <div className="ds-upload-doc__step-body">
+                          <Button>Download Template</Button>
                         </div>
                       </div>
-                      <div className="ds-modal-example__upload-step">
-                        <span className="ds-modal-example__upload-step-num">2</span>
-                        <div className="ds-modal-example__upload-step-body">
-                          <span className="ds-modal-example__upload-step-title">
-                            Fill in the product details
-                          </span>
-                          <span className="ds-modal-example__upload-step-error">
-                            Do not rename or reorder the columns
-                          </span>
+                      <div className="ds-upload-doc__step">
+                        <p className="ds-upload-doc__step-title">2. Add your data to template file</p>
+                        <div className="ds-upload-doc__step-body ds-upload-doc__step-detail">
+                          <p>If using Excel, make sure to export or save as .xls or xlsx</p>
+                          <p className="ds-upload-doc__step-danger">
+                            Reminder: Do not modify template title fields, or error may occur
+                          </p>
                         </div>
                       </div>
-                      <div className="ds-modal-example__upload-step">
-                        <span className="ds-modal-example__upload-step-num">3</span>
-                        <div className="ds-modal-example__upload-step-body">
-                          <span className="ds-modal-example__upload-step-title">
-                            Upload the completed file
-                          </span>
-                          <UploadDropzone />
+                      <div className="ds-upload-doc__step">
+                        <p className="ds-upload-doc__step-title">3. Upload Batch File</p>
+                        <div className="ds-upload-doc__step-body">
+                          <Upload
+                            style="dropzone"
+                            showFileList={false}
+                            className="ds-upload-doc__step-upload"
+                          />
                         </div>
                       </div>
                     </div>

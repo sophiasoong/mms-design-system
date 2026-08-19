@@ -1,14 +1,20 @@
 import { useState } from 'react';
 import { Searchbar } from './Searchbar';
 import { ActionChip } from './Chip';
+import { DropdownOption } from './Dropdown';
 import { DropdownIcon, InputIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=1-108';
 
-const STYLE_TABS = ['Label', 'Chip'] as const;
+const STYLE_TABS = ['Label', 'Chip', 'Scope Selector'] as const;
 type StyleTab = (typeof STYLE_TABS)[number];
+
+// Figma's "Scoped-searchbar" example (node 1604:37717) pairs the trigger with a generic
+// 3-option Dropdown panel — these stand in for its placeholder "Option" rows with values
+// relevant to a merchant search bar.
+const SCOPE_OPTIONS = ['Promotion ID', 'Order ID', 'Product ID'];
 
 interface SearchbarDocProps {
   onNavigate?: (componentId: string) => void;
@@ -17,6 +23,8 @@ interface SearchbarDocProps {
 export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
   const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Label');
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [scopeValue, setScopeValue] = useState(SCOPE_OPTIONS[0]);
+  const [scopeOpen, setScopeOpen] = useState(false);
 
   return (
     <div className="ds-doc">
@@ -113,7 +121,8 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
         <h2 className="ds-section__title">Variants</h2>
         <p className="ds-section__desc">
           Label holds a single free-typed query. Chip lets a picked filter sit inline as a
-          removable token ahead of the typed text.
+          removable token ahead of the typed text. Scope Selector narrows the query to a named
+          field via a leading dropdown segment.
         </p>
 
         <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
@@ -187,6 +196,47 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                 Click a filter chip to embed it inline in the field as a removable token —
                 typing continues to work alongside it. Clearing the chip brings the filter
                 suggestions back.
+              </span>
+            </div>
+          )}
+
+          {activeStyleTab === 'Scope Selector' && (
+            <div className="ds-variant-group">
+              <div className="ds-preview">
+                <div className="ds-combo-figure" style={{ width: 320 }}>
+                  <Searchbar
+                    placeholder="Search"
+                    scopeLabel={scopeValue}
+                    onScopeClick={() => setScopeOpen((open) => !open)}
+                  />
+                  {scopeOpen && (
+                    // Overrides .ds-dropdown's fixed width tokens (sm/lg) with a shrink-to-fit
+                    // width — this panel's options are short, fixed labels rather than
+                    // arbitrary-length content, so hugging them reads better than stretching
+                    // to match the searchbar's (unrelated) width.
+                    <div className="ds-dropdown" style={{ width: 'fit-content' }}>
+                      <div className="ds-dropdown__options">
+                        {SCOPE_OPTIONS.map((option) => (
+                          <DropdownOption
+                            key={option}
+                            label={option}
+                            style="single"
+                            state={scopeValue === option ? 'selected' : 'default'}
+                            onClick={() => {
+                              setScopeValue(option);
+                              setScopeOpen(false);
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <span className="ds-variant-note">
+                A leading scope segment names the field a query searches within — click it to
+                open a Dropdown panel and switch scopes without losing the typed value. The
+                trailing search action picks up the same tinted segment treatment.
               </span>
             </div>
           )}

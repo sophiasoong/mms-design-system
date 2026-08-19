@@ -42,6 +42,12 @@
   text-align: center;
 }
 
+/* Value-style columns (prices, discounts, other numeric data) right-align so digits line
+   up along their trailing edge, matching the .ds-datatable__cell--right data cells below. */
+.ds-datatable__header-cell--right {
+  text-align: right;
+}
+
 .ds-datatable__header-content {
   display: inline-flex;
   align-items: center;
@@ -52,8 +58,22 @@
   justify-content: center;
 }
 
+.ds-datatable__header-cell--right .ds-datatable__header-content {
+  justify-content: flex-end;
+}
+
 .ds-datatable__header-icon {
   color: var(--text-body-tertiary-neutral);
+}
+
+/* Matches .ds-form-field__info / .ds-textarea-example__info-icon's own fix — a header's
+   info icon reads as secondary/amber (brand-secondary-600, #ffa000), not the plain
+   tertiary-neutral gray the shared .ds-datatable__header-icon class carries. Scoped to
+   this modifier (rather than recoloring .ds-datatable__header-icon itself) because that
+   base class is also shared with the sort-direction icon in .ds-datatable__sort-btn,
+   which must stay its own tertiary-neutral/active colors untouched. */
+.ds-datatable__header-icon--info {
+  color: var(--brand-secondary-600);
 }
 
 .ds-datatable__sort-btn {
@@ -81,6 +101,12 @@
 
 .ds-datatable__cell--center {
   text-align: center;
+}
+
+/* Matches .ds-datatable__header-cell--right — Value-style cell content (prices, discounts)
+   right-aligned instead of the default left, so digits line up along their trailing edge. */
+.ds-datatable__cell--right {
+  text-align: right;
 }
 
 .ds-datatable__select-cell {

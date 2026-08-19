@@ -7,11 +7,14 @@
      interactive/dropdown/panel/shadow/default      (#d9d9d9) -> --interactive-dropdown-panel-shadow-default
      radius/md (8px), border/sm (1px), space/component/padding/lg|sm,
      space/component/gap/md, component/height/3xl|lg -> existing tokens of the same value.
-   Two values are flagged per the project's "flag instead of guessing" rule: (1) the Lg/Divider
-   symbol carries no border stroke in Figma, unlike Sm/Divider which does — implemented exactly
-   as designed rather than adding an unconfirmed border; (2) the Sm footer's buttons are 24px
-   tall in Figma with no bound size token, between Button's sm (28px) and no smaller tier, so
-   Button size="sm" is used as the closest existing match rather than introducing a new tier. */
+   The Lg/Divider Figma symbol itself carries no border stroke, but per explicit user request
+   the Lg divider now gets the same hairline top border as Sm/Divider (--border-sm solid
+   --global-divider-neutral-light) so the separation reads clearly in real usage — Footer's
+   own Divider demo, and every Modal, which always renders its footer as size="lg"
+   style="divider". One value remains flagged per the project's "flag instead of guessing"
+   rule: the Sm footer's buttons are 24px tall in Figma with no bound size token, between
+   Button's sm (28px) and no smaller tier, so Button size="sm" is used as the closest existing
+   match rather than introducing a new tier. */
 
 .ds-footer {
   display: flex;
@@ -42,6 +45,7 @@
 /* ---- Style ---- */
 .ds-footer--divider.ds-footer--lg {
   border-radius: var(--radius-md);
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light);
 }
 
 .ds-footer--divider.ds-footer--sm {
