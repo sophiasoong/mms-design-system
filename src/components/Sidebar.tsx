@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { COMPONENTS } from '../data/components';
+import { CATEGORIES, COMPONENTS } from '../data/components';
 import {
   ActionPanelIcon,
   AnchorIcon,
@@ -176,6 +176,15 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
 
   const filtered = COMPONENTS.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()));
 
+  // Group the (already-filtered) list under each CATEGORIES entry, in that order,
+  // preserving each component's relative position within its group. A category with
+  // no matches is dropped entirely rather than rendering an empty heading — matters
+  // most while searching, where most groups will have zero hits.
+  const groups = CATEGORIES.map((category) => ({
+    category,
+    items: filtered.filter((c) => c.category === category.id),
+  })).filter((group) => group.items.length > 0);
+
   // Filtering or collapsing changes how tall the list is, which changes the
   // thumb's size/position — recompute once the DOM has settled.
   useEffect(() => {
@@ -241,24 +250,32 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
       <div className="ds-sidebar__scroll-wrap">
         <div className="ds-sidebar__scroll" onScroll={handleScroll} ref={scrollRef}>
           <nav aria-label="Components">
-            <p className="ds-sidebar__section-title">Components</p>
-            <ul className="ds-sidebar__list" role="list">
-              {filtered.map((component) => (
-                <li key={component.id}>
-                  <button
-                    className={`ds-sidebar__item${
-                      activeComponentId === component.id ? ' ds-sidebar__item--active' : ''
-                    }`}
-                    onClick={() => onSelectComponent(component.id)}
-                    title={component.name}
-                  >
-                    {renderItemIcon(component)}
-                    <span className="ds-sidebar__item-label">{component.name}</span>
-                  </button>
-                </li>
-              ))}
-              {filtered.length === 0 && <li className="ds-sidebar__empty">No components found</li>}
-            </ul>
+            {groups.map((group) => (
+              <div className="ds-sidebar__group" key={group.category.id}>
+                <p className="ds-sidebar__section-title">{group.category.label}</p>
+                <ul className="ds-sidebar__list" role="list">
+                  {group.items.map((component) => (
+                    <li key={component.id}>
+                      <button
+                        className={`ds-sidebar__item${
+                          activeComponentId === component.id ? ' ds-sidebar__item--active' : ''
+                        }`}
+                        onClick={() => onSelectComponent(component.id)}
+                        title={component.name}
+                      >
+                        {renderItemIcon(component)}
+                        <span className="ds-sidebar__item-label">{component.name}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+            {groups.length === 0 && (
+              <ul className="ds-sidebar__list" role="list">
+                <li className="ds-sidebar__empty">No components found</li>
+              </ul>
+            )}
           </nav>
         </div>
         <div

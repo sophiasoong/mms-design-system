@@ -227,6 +227,14 @@
   border-color: var(--brand-primary-400);
 }
 
+/* Same section-separation token this file already uses between the search field and
+   the nav below it (.ds-sidebar__search's own margin-bottom) — reused here to keep one
+   category group visually distinct from the next. First group needs no top gap since
+   .ds-sidebar__list already carries its own padding-top. */
+.ds-sidebar__group + .ds-sidebar__group {
+  margin-top: var(--space-layout-section-gap-sm);
+}
+
 .ds-sidebar__section-title {
   padding-inline: var(--space-component-padding-sm);
   margin-bottom: var(--space-component-gap-xs);
