@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Toggle, type ToggleSize } from './Toggle';
-import { CheckboxIcon, RadioIcon } from './icons';
+import { FormIcon, HeaderIcon, TableIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -325,24 +325,32 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Other selection controls that pair with Toggle.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Toggle.</p>
         <div className="ds-related-grid">
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('checkbox')}
+            onClick={() => onNavigate?.('form')}
           >
-            <CheckboxIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Checkbox</span>
+            <FormIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Form</span>
           </button>
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('radio')}
+            onClick={() => onNavigate?.('header')}
           >
-            <RadioIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Radio</span>
+            <HeaderIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Header</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('table')}
+          >
+            <TableIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Table</span>
           </button>
         </div>
       </section>

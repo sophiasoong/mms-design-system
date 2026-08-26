@@ -359,7 +359,8 @@
   border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
 }
 
-.ds-table-toolbar__search {
+.ds-table-toolbar__search-wrap {
+  position: relative;
   width: 320px;
 }
 

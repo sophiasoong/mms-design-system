@@ -129,6 +129,6 @@
   border-bottom-color: var(--brand-neutral-0);
   border-radius: var(--radius-md) var(--radius-md) 0 0;
   gap: var(--space-component-gap-md);
-  height: var(--component-height-lg);
+  height: var(--component-height-2xl); /* component/height/2xl (56px) */
   padding: var(--space-component-padding-lg) var(--space-component-padding-xl);
 }

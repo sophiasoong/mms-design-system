@@ -5,5 +5,5 @@ export const ASSETS_SECTIONS: AnchorSection[] = [
   { id: 'icon', label: 'Icon' },
   { id: 'image', label: 'Image' },
   { id: 'thumbnail', label: 'Thumbnail' },
-  { id: 'related-component', label: 'Related Component' },
+  { id: 'related-component', label: 'Related Components' },
 ];

@@ -9,7 +9,7 @@ import { Select } from './Select';
 import { Badge } from './Badge';
 import Button from './Button';
 import IconButton from './IconButton';
-import { RadioIcon, SelectIcon, ButtonIcon, BadgeIcon } from './icons';
+import { HeaderIcon, ButtonIcon, RadioIcon, SelectIcon, BadgeIcon } from './icons';
 import './ButtonDoc.css';
 import './ActionPanelDoc.css';
 
@@ -466,9 +466,25 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Components an Action Panel commonly composes in its Main / Main2 slots.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Action Panel.</p>
         <div className="ds-related-grid">
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('header')}
+          >
+            <HeaderIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Header</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('button')}
+          >
+            <ButtonIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Button</span>
+          </button>
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
@@ -484,14 +500,6 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
           >
             <SelectIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Select</span>
-          </button>
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('button')}
-          >
-            <ButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Button</span>
           </button>
           <button
             type="button"

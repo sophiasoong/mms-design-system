@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Upload, { UploadDropzone, UploadImageItem } from './Upload';
 import List from './List';
 import Button from './Button';
-import { ListIcon, ButtonIcon } from './icons';
+import { ListIcon, FormIcon } from './icons';
 import './ButtonDoc.css';
 import './UploadDoc.css';
 
@@ -651,9 +651,27 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Components Upload is built from.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Upload.</p>
         <div className="ds-related-grid">
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('form')}
+          >
+            <FormIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Form</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('assets')}
+          >
+            <span className="icon ds-related-card__icon" aria-hidden="true">
+              image
+            </span>
+            <span className="ds-related-card__name">Thumbnail</span>
+          </button>
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
@@ -661,14 +679,6 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
           >
             <ListIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">List</span>
-          </button>
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('button')}
-          >
-            <ButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Button</span>
           </button>
         </div>
       </section>

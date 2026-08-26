@@ -7,5 +7,5 @@ export const BREADCRUMB_SECTIONS: AnchorSection[] = [
   { id: 'example', label: 'Example' },
   { id: 'states', label: 'States' },
   { id: 'layout-spacing', label: 'Layout & Spacing' },
-  { id: 'related-component', label: 'Related Component' },
+  { id: 'related-component', label: 'Related Components' },
 ];

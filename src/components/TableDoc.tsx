@@ -15,12 +15,27 @@ import { Checkbox } from './Checkbox';
 import { FilterChip } from './Chip';
 import Dropdown, { DropdownOption } from './Dropdown';
 import { Input } from './Input';
+import { Searchbar } from './Searchbar';
 import { DatePicker } from './DatePicker';
 import IconButton from './IconButton';
 import { Toggle } from './Toggle';
 import { Tag } from './Tag';
 import Pagination from './Pagination';
-import { BadgeIcon, ButtonIcon, CheckboxIcon } from './icons';
+import {
+  BadgeIcon,
+  ButtonIcon,
+  CheckboxIcon,
+  InputIcon,
+  SelectIcon,
+  DatepickerIcon,
+  TagIcon,
+  ToggleIcon,
+  IconButtonIcon,
+  UploadIcon,
+  SearchbarIcon,
+  ChipIcon,
+  PaginationIcon,
+} from './icons';
 import './ButtonDoc.css';
 import './Table.css';
 
@@ -115,6 +130,7 @@ const EXAMPLE_ROWS: ExampleRow[] = [
 
 const CATEGORY_FILTER_OPTIONS = Array.from(new Set(EXAMPLE_ROWS.map((row) => row.category)));
 const STATUS_FILTER_OPTIONS = ['Success', 'Pending', 'Rejected'];
+const SCOPE_OPTIONS = ['SKU ID', 'Brand', 'Product Name'];
 
 interface OverviewRow {
   name: string;
@@ -150,7 +166,10 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
   const [categoryFilter, setCategoryFilter] = useState<number[]>([]);
   const [categorySearch, setCategorySearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<number | null>(null);
+  const [scopeValue, setScopeValue] = useState(SCOPE_OPTIONS[0]);
+  const [scopeOpen, setScopeOpen] = useState(false);
   const filtersRef = useRef<HTMLDivElement>(null);
+  const scopeRef = useRef<HTMLDivElement>(null);
   const exampleScrollRef = useRef<HTMLDivElement>(null);
   const [freezeShadow, setFreezeShadow] = useState({
     checkboxWidth: 0,
@@ -167,6 +186,15 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [openFilter]);
+
+  useEffect(() => {
+    if (!scopeOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!scopeRef.current?.contains(e.target as Node)) setScopeOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [scopeOpen]);
 
   useEffect(() => {
     const el = exampleScrollRef.current;
@@ -664,11 +692,32 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
             <div className="ds-preview">
               <div className="ds-table-example">
                 <div className="ds-table-toolbar">
-                  <Input
-                    className="ds-table-toolbar__search"
-                    size="md"
-                    placeholder="Search SKU ID, brand, or product name"
-                  />
+                  <div className="ds-table-toolbar__search-wrap" ref={scopeRef}>
+                    <Searchbar
+                      size="md"
+                      placeholder="Search"
+                      scopeLabel={scopeValue}
+                      onScopeClick={() => setScopeOpen((open) => !open)}
+                    />
+                    {scopeOpen && (
+                      <div className="ds-dropdown ds-table-filter__panel" role="listbox">
+                        <div className="ds-dropdown__options">
+                          {SCOPE_OPTIONS.map((option) => (
+                            <DropdownOption
+                              key={option}
+                              label={option}
+                              style="single"
+                              state={scopeValue === option ? 'selected' : 'default'}
+                              onClick={() => {
+                                setScopeValue(option);
+                                setScopeOpen(false);
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                   <div className="ds-table-toolbar__filters" ref={filtersRef}>
                     <div className="ds-table-filter">
                       <FilterChip
@@ -1038,9 +1087,9 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
+        <h2 className="ds-section__title">Related Components</h2>
         <p className="ds-section__desc">
-          Components commonly embedded inside Table's own cells.
+          Components that commonly appear alongside Table.
         </p>
         <div className="ds-related-grid">
           <button
@@ -1054,6 +1103,30 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('input')}
+          >
+            <InputIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Input</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('select')}
+          >
+            <SelectIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Select</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('datepicker')}
+          >
+            <DatepickerIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Datepicker</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
             onClick={() => onNavigate?.('badge')}
           >
             <BadgeIcon className="ds-related-card__icon" />
@@ -1062,10 +1135,76 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('tag')}
+          >
+            <TagIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Tag</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('toggle')}
+          >
+            <ToggleIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Toggle</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('assets')}
+          >
+            <span className="icon ds-related-card__icon" aria-hidden="true">
+              image
+            </span>
+            <span className="ds-related-card__name">Thumbnail</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('icon-button')}
+          >
+            <IconButtonIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Icon Button</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
             onClick={() => onNavigate?.('button')}
           >
             <ButtonIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Button</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('upload')}
+          >
+            <UploadIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Upload</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('searchbar')}
+          >
+            <SearchbarIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Searchbar</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('chip')}
+          >
+            <ChipIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Chip</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('pagination')}
+          >
+            <PaginationIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Pagination</span>
           </button>
         </div>
       </section>

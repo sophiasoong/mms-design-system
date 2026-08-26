@@ -27,7 +27,7 @@ export interface ComponentEntry {
 // 'datepicker', 'tab', 'tag', 'badge', 'toggle', 'table', 'hint', 'tooltip', 'indicator',
 // 'searchbar', 'step', 'header', 'sidebar', 'action-panel', 'anchor', 'breadcrumb', and
 // 'message', 'list', 'dialog', 'banner', 'toast', 'card', 'lightbox', 'upload', 'modal',
-// 'form', and 'assets' are exceptions: Sidebar.tsx and each Related Component card render
+// 'form', and 'assets' are exceptions: Sidebar.tsx and each Related Components card render
 // them as bespoke SVGs (ButtonIcon / IconButtonIcon / DropdownIcon / ChipIcon / InputIcon /
 // TextareaIcon / SelectIcon / CheckboxIcon / RadioIcon / DatepickerIcon / TabIcon / TagIcon /
 // BadgeIcon / ToggleIcon / TableIcon / HintIcon / TooltipIcon / IndicatorIcon / SearchbarIcon /

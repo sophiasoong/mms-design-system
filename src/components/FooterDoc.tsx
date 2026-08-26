@@ -346,8 +346,8 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Component that Footer composes for its actions.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Footer.</p>
         <div className="ds-related-grid">
           <button
             type="button"

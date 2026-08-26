@@ -1,0 +1,176 @@
+/* ---- Variants > Example: Filter-chip ----
+   The Delivery Date "chip" is a real DatePicker instance (portal panel, click-to-open,
+   controlled value) reskinned via className to sit visually alongside FilterChip — no
+   duplicate open/close logic. Values below are a flagged reuse of Chip.css's own
+   .ds-chip--filter tokens (see Chip.css lines 1-108) so the two controls match exactly. */
+.ds-date-picker--chip {
+  width: auto;
+  min-width: 0;
+}
+
+.ds-date-picker--chip .ds-date-picker__trigger {
+  width: auto;
+  min-width: 0;
+  height: var(--component-height-md);
+  padding-inline-start: var(--space-component-padding-md); /* chip/filter/padding-start */
+  padding-inline-end: var(--space-component-padding-lg); /* chip/filter/padding-end */
+  background: var(--brand-neutral-100); /* chip/filter/surface/default */
+  border-color: var(--brand-neutral-500); /* chip/filter/border/default */
+  border-radius: var(--radius-xl); /* chip/radius */
+  color: var(--brand-neutral-800); /* chip/filter/text/default */
+}
+
+.ds-date-picker--chip .ds-date-picker__trigger:hover {
+  border-color: var(--brand-neutral-800); /* chip/filter/border/hover */
+}
+
+/* .ds-date-picker__value(--placeholder) sets its own color in DatePicker.css, which wins
+   over the trigger-level color above — override both explicitly so the label reads black
+   like FilterChip's, even before a date is picked. */
+.ds-date-picker--chip .ds-date-picker__value,
+.ds-date-picker--chip .ds-date-picker__value--placeholder {
+  color: var(--brand-neutral-800); /* chip/filter/text/default */
+}
+
+.ds-date-picker--chip-selected .ds-date-picker__trigger {
+  background: var(--brand-primary-75); /* chip/filter/surface/selected */
+  border-color: var(--brand-primary-200); /* chip/filter/border/selected */
+  color: var(--brand-primary-400); /* chip/filter/text/selected */
+}
+
+.ds-date-picker--chip-selected .ds-date-picker__value {
+  color: var(--brand-primary-400); /* chip/filter/text/selected */
+}
+
+/* Trailing icon swapped from the calendar glyph to Chip.tsx's own ChevronDownIcon (via
+   DatePicker's icon prop) so the Delivery Date "chip" matches FilterChip's chevron exactly
+   — same component, same .ds-chip__chevron sizing box (already component-icon-sm on both),
+   just recolored per state like the label above. */
+.ds-date-picker--chip .ds-chip__chevron {
+  color: var(--brand-neutral-800); /* chip/filter/text/default */
+}
+
+.ds-date-picker--chip-selected .ds-chip__chevron {
+  color: var(--brand-primary-400); /* chip/filter/text/selected */
+}
+
+/* ---- Variants > Example: Filter-chip table hover-dim/highlight ----
+   Duplicated from ChipDoc.css's .ds-example-chip-table block (lines 40-80) — same
+   dim-siblings-not-ancestors mechanism. Unlike ChipDoc's own instance, only the
+   Delivery Date Datepicker-as-chip gets the highlight ring; Storefront Code and Waybill
+   Status stay static since they aren't the subject of this Example. */
+.ds-example-datepicker-table .ds-table-toolbar__search-wrap,
+.ds-example-datepicker-table .ds-datatable__header-row,
+.ds-example-datepicker-table .ds-datatable__cell {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-datepicker-table:hover .ds-table-toolbar__search-wrap,
+.ds-example-datepicker-table:hover .ds-datatable__header-row,
+.ds-example-datepicker-table:hover .ds-datatable__cell {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-datepicker-table .ds-table-toolbar__filters .ds-date-picker--chip .ds-date-picker__trigger {
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-example-datepicker-table:hover .ds-table-toolbar__filters .ds-date-picker--chip .ds-date-picker__trigger {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+.ds-preview--scrim .ds-example-mock__name {
+  color: var(--brand-neutral-0);
+}
+
+/* ---- Variants > Example: Date-picker field ----
+   Fill-width fix scoped to this page's Send Date field only — DatePicker.css's own
+   .ds-date-picker root has no explicit width (unlike Select.css's .ds-select, which is
+   display:flex + width:100%), so it shrinks to content inside a FormCol by default. */
+.ds-example-datepicker-form__field--send-date .ds-date-picker {
+  width: 100%;
+}
+
+/* Hover-dim/highlight — single fixed target (Send Date), simpler than the Radio/Checkbox
+   --field/--card container-modifier pair since this tab has only one demo composition. */
+.ds-example-datepicker-form .ds-form__title,
+.ds-example-datepicker-form .ds-form-field__label,
+.ds-example-datepicker-form .ds-example-datepicker-form__field:not(.ds-example-datepicker-form__field--send-date) {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-datepicker-form:hover .ds-form__title,
+.ds-example-datepicker-form:hover .ds-form-field__label,
+.ds-example-datepicker-form:hover .ds-example-datepicker-form__field:not(.ds-example-datepicker-form__field--send-date) {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-datepicker-form__field--send-date {
+  transition: box-shadow var(--duration-fast) ease;
+  border-radius: var(--radius-md);
+}
+
+.ds-example-datepicker-form:hover .ds-example-datepicker-form__field--send-date {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+/* ---- Variants > Example: Date-picker field — Shipping Method cards ----
+   Re-implementation of CheckboxDoc.css's .ds-checkbox-card block (lines 1-66) under
+   page-local class names, per the doc-page CSS independence precedent (each Doc.css is
+   self-contained rather than cross-importing another page's Doc.css). Same flagged-token
+   reuse as the Checkbox/Radio card precedents — no dedicated --interactive-*-card-*
+   tokens exist in tokens.css. */
+.ds-example-datepicker-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-component-gap-sm);
+  width: 280px;
+  padding: var(--space-component-padding-md);
+  background: var(--surface-card-surface-default); /* surface/card/surface/default */
+  border: var(--border-sm) solid var(--interactive-checkbox-border-default); /* interactive/checkbox/border/default */
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-fast) ease, background-color var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-datepicker-card--checked {
+  background: var(--brand-primary-50); /* brand/primary/50 */
+  border-color: var(--interactive-checkbox-border-checked); /* interactive/checkbox/border/checked */
+}
+
+.ds-example-datepicker-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs);
+  min-width: 0;
+}
+
+.ds-example-datepicker-card__title {
+  font-family: var(--typography-font-family-heading);
+  font-weight: var(--typography-font-weight-medium);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-primary-neutral);
+}
+
+.ds-example-datepicker-card__desc {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+  color: var(--text-body-tertiary-neutral);
+}
+
+.ds-example-datepicker-card-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-example-datepicker-option-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-md);
+}
+
+.ds-example-datepicker-form__apply-all {
+  margin-top: var(--space-component-gap-sm);
+}

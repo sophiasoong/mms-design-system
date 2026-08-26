@@ -5,5 +5,5 @@ export const CARD_SECTIONS: AnchorSection[] = [
   { id: 'anatomy', label: 'Anatomy' },
   { id: 'variants', label: 'Variants' },
   { id: 'layout-spacing', label: 'Layout & Spacing' },
-  { id: 'related-component', label: 'Related Component' },
+  { id: 'related-component', label: 'Related Components' },
 ];

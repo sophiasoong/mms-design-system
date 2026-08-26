@@ -14,7 +14,16 @@ import { ActionPanelField, ActionPanelValue } from './ActionPanel';
 import { Table, TableHeader, TableHeaderCell, TableRow, TableCell } from './Table';
 import Pagination from './Pagination';
 import { Tooltip } from './Tooltip';
-import { ButtonIcon, HeaderIcon, FooterIcon, ZoomInIcon, ZoomOutIcon } from './icons';
+import {
+  HeaderIcon,
+  FooterIcon,
+  UploadIcon,
+  TableIcon,
+  FormIcon,
+  AssetsIcon,
+  ZoomInIcon,
+  ZoomOutIcon,
+} from './icons';
 import './ButtonDoc.css';
 import './Table.css';
 import './UploadDoc.css';
@@ -747,8 +756,8 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Modal composes these components internally.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Modal.</p>
         <div className="ds-related-grid">
           <button
             type="button"
@@ -769,10 +778,34 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('button')}
+            onClick={() => onNavigate?.('upload')}
           >
-            <ButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Button</span>
+            <UploadIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Upload</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('table')}
+          >
+            <TableIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Table</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('form')}
+          >
+            <FormIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Form</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('assets')}
+          >
+            <AssetsIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Assets</span>
           </button>
         </div>
       </section>

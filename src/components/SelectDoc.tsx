@@ -1,9 +1,10 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Select } from './Select';
+import { Badge, type BadgeColor } from './Badge';
 import { ChevronDownIcon, InputChip } from './Chip';
 import { DropdownOption } from './Dropdown';
 import Button from './Button';
-import { ChipIcon, DropdownIcon } from './icons';
+import { ChipIcon, DropdownIcon, FormIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -11,7 +12,20 @@ const FIGMA_URL =
 
 const EXAMPLE_OPTIONS = ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5', 'Option 6'];
 
-const STYLE_TABS = ['Label', 'Chip (in-line)', 'Chip (wrap)'] as const;
+// Figma's reference (node 1762-34246) pairs each option with a distinct hue — lightblue,
+// lightgreen, purple, pink — none of which exist as Badge/tokens.css colors (Badge only
+// implements green/orange/red/blue/gray, see Badge.tsx's BadgeColor union). Substituted
+// with Badge's full 5-color set below rather than guessing new raw hex values; flagged to
+// the user in the completion report.
+const BADGE_EXAMPLE_OPTIONS: { label: string; color: BadgeColor }[] = [
+  { label: 'Orange', color: 'orange' },
+  { label: 'Green', color: 'green' },
+  { label: 'Red', color: 'red' },
+  { label: 'Blue', color: 'blue' },
+  { label: 'Gray', color: 'gray' },
+];
+
+const STYLE_TABS = ['Label', 'Chip', 'Chip (in-line)', 'Chip (wrap)'] as const;
 type StyleTab = (typeof STYLE_TABS)[number];
 
 const MULTI_CHIP_LABELS = ['Design', 'Engineering', 'Product', 'Marketing', 'Sales'];
@@ -87,6 +101,17 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
     setExampleSelected(label);
     setExampleOpen(false);
     setExampleQuery('');
+  };
+
+  // ---- Example: Single-select — "Badge" (Chip-style color swatch) trigger + dropdown ----
+  const [badgeExampleOpen, setBadgeExampleOpen] = useState(false);
+  const [badgeExampleSelected, setBadgeExampleSelected] = useState('Orange');
+  const badgeExampleColor =
+    BADGE_EXAMPLE_OPTIONS.find((option) => option.label === badgeExampleSelected)?.color ?? 'orange';
+  const toggleBadgeExampleOpen = () => setBadgeExampleOpen((open) => !open);
+  const selectBadgeExampleOption = (label: string) => {
+    setBadgeExampleSelected(label);
+    setBadgeExampleOpen(false);
   };
 
   const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Single-select');
@@ -185,7 +210,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
         <h2 className="ds-section__title">Overview</h2>
         <p className="ds-section__desc">
           Use a Select wherever a user needs to open a panel to pick one or more values from a
-          list. It pairs with a Dropdown panel (see Related Component) for the actual choices; the
+          list. It pairs with a Dropdown panel (see Related Components) for the actual choices; the
           Select itself only renders the closed-state trigger.
         </p>
         <div className="ds-preview">
@@ -281,6 +306,26 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
               <span className="ds-variant-note">
                 Filled state for a single chosen value; label color reads as solid text rather
                 than the lighter placeholder tone.
+              </span>
+            </div>
+          )}
+
+          {activeStyleTab === 'Chip' && (
+            <div className="ds-variant-group">
+              <div className="ds-preview">
+                <div className="ds-select" style={{ width: 320 }}>
+                  <div className="ds-select__content" style={{ gap: 'var(--space-component-gap-sm)' }}>
+                    <Badge size="lg" color="orange" />
+                    <span className="ds-select__label">Orange</span>
+                  </div>
+                  <span className="ds-select__chevron" aria-hidden="true">
+                    <ChevronDownIcon />
+                  </span>
+                </div>
+              </div>
+              <span className="ds-variant-note">
+                Pairs the chosen value with a color dot, useful when the option set itself
+                carries a color or status meaning.
               </span>
             </div>
           )}
@@ -433,56 +478,101 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
           </div>
 
           {activeExampleTab === 'Single-select' && (
-            <div className="ds-preview" style={{ marginTop: 'var(--space-component-gap-md)' }}>
-              <div className="ds-combo-figure" style={{ width: 320 }}>
-                {exampleOpen ? (
-                  <div className="ds-select-trigger">
-                    <input
-                      className="ds-select-trigger__input"
-                      type="text"
+            <div className="ds-variant-group" style={{ marginTop: 'var(--space-component-gap-md)' }}>
+              <div className="ds-preview ds-preview--stack">
+                <div className="ds-combo-figure" style={{ width: 320 }}>
+                  <span className="ds-variant-row__cell-label">Label</span>
+                  {exampleOpen ? (
+                    <div className="ds-select-trigger">
+                      <input
+                        className="ds-select-trigger__input"
+                        type="text"
+                        placeholder="Please select"
+                        value={exampleQuery}
+                        onChange={(e) => setExampleQuery(e.target.value)}
+                        autoFocus
+                      />
+                      <span
+                        className="icon"
+                        aria-hidden="true"
+                        onClick={toggleExampleOpen}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        search
+                      </span>
+                    </div>
+                  ) : (
+                    <Select
+                      label={exampleSelected ?? undefined}
                       placeholder="Please select"
-                      value={exampleQuery}
-                      onChange={(e) => setExampleQuery(e.target.value)}
-                      autoFocus
-                    />
-                    <span
-                      className="icon"
-                      aria-hidden="true"
+                      size="md"
                       onClick={toggleExampleOpen}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      search
-                    </span>
-                  </div>
-                ) : (
-                  <Select
-                    label={exampleSelected ?? undefined}
-                    placeholder="Please select"
-                    size="md"
-                    onClick={toggleExampleOpen}
-                  />
-                )}
-                {exampleOpen && (
-                  <div className="ds-dropdown ds-dropdown--lg" style={{ width: '100%' }}>
-                    <div className="ds-dropdown__panel">
-                      <div className="ds-dropdown__options">
-                        {filteredExampleOptions.length > 0 ? (
-                          filteredExampleOptions.map((label) => (
-                            <DropdownOption
-                              key={label}
-                              label={label}
-                              style="single"
-                              state={exampleSelected === label ? 'selected' : 'default'}
-                              onClick={() => selectExampleOption(label)}
-                            />
-                          ))
-                        ) : (
-                          <div className="ds-dropdown__empty">No results</div>
-                        )}
+                    />
+                  )}
+                  {exampleOpen && (
+                    <div className="ds-dropdown ds-dropdown--lg" style={{ width: '100%' }}>
+                      <div className="ds-dropdown__panel">
+                        <div className="ds-dropdown__options">
+                          {filteredExampleOptions.length > 0 ? (
+                            filteredExampleOptions.map((label) => (
+                              <DropdownOption
+                                key={label}
+                                label={label}
+                                style="single"
+                                state={exampleSelected === label ? 'selected' : 'default'}
+                                onClick={() => selectExampleOption(label)}
+                              />
+                            ))
+                          ) : (
+                            <div className="ds-dropdown__empty">No results</div>
+                          )}
+                        </div>
                       </div>
                     </div>
+                  )}
+                </div>
+
+                <div className="ds-combo-figure" style={{ width: 320 }}>
+                  <span className="ds-variant-row__cell-label">Badge</span>
+                  <div
+                    className={`ds-select ds-select--md${
+                      badgeExampleOpen ? ' ds-select--force-focus' : ''
+                    }`}
+                    onClick={toggleBadgeExampleOpen}
+                  >
+                    <div className="ds-select__content" style={{ gap: 'var(--space-component-gap-sm)' }}>
+                      <Badge size="lg" color={badgeExampleColor} />
+                      <span className="ds-select__label">{badgeExampleSelected}</span>
+                    </div>
+                    <span className="ds-select__chevron" aria-hidden="true">
+                      <ChevronDownIcon />
+                    </span>
                   </div>
-                )}
+                  {badgeExampleOpen && (
+                    <div className="ds-dropdown ds-dropdown--lg" style={{ width: '100%' }}>
+                      <div className="ds-dropdown__panel">
+                        <div className="ds-dropdown__options">
+                          {BADGE_EXAMPLE_OPTIONS.map(({ label, color }) => (
+                            <div
+                              key={label}
+                              className={`ds-dropdown-option ds-dropdown-option--single${
+                                badgeExampleSelected === label ? ' ds-dropdown-option--selected' : ''
+                              }`}
+                              role="option"
+                              aria-selected={badgeExampleSelected === label}
+                              onClick={() => selectBadgeExampleOption(label)}
+                            >
+                              <span className="ds-dropdown-option__badge" aria-hidden="true">
+                                <Badge size="lg" color={color} />
+                              </span>
+                              <span className="ds-dropdown-option__label">{label}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -847,7 +937,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
+        <h2 className="ds-section__title">Related Components</h2>
         <p className="ds-section__desc">Components that commonly appear alongside Select.</p>
         <div className="ds-related-grid">
           <button
@@ -857,6 +947,14 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
           >
             <DropdownIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Dropdown</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('form')}
+          >
+            <FormIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Form</span>
           </button>
           <button
             type="button"

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Searchbar } from './Searchbar';
 import { ActionChip } from './Chip';
 import { DropdownOption } from './Dropdown';
-import { DropdownIcon, InputIcon } from './icons';
+import { TableIcon, TopbarIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -417,24 +417,24 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
+        <h2 className="ds-section__title">Related Components</h2>
         <p className="ds-section__desc">Components that commonly appear alongside Searchbar.</p>
         <div className="ds-related-grid">
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('input')}
+            onClick={() => onNavigate?.('table')}
           >
-            <InputIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Input</span>
+            <TableIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Table</span>
           </button>
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('dropdown')}
+            onClick={() => onNavigate?.('topbar')}
           >
-            <DropdownIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Dropdown</span>
+            <TopbarIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Topbar</span>
           </button>
         </div>
       </section>

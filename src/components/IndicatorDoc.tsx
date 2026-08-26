@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ProgressBar, ProgressRing } from './Indicator';
-import { BadgeIcon, TableIcon } from './icons';
+import { UploadIcon, TableIcon, DialogIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -250,9 +250,19 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Components Indicator commonly appears alongside.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">
+          Components that commonly appear alongside Indicator.
+        </p>
         <div className="ds-related-grid">
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('upload')}
+          >
+            <UploadIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Upload</span>
+          </button>
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
@@ -264,10 +274,10 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('badge')}
+            onClick={() => onNavigate?.('dialog')}
           >
-            <BadgeIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Badge</span>
+            <DialogIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Dialog</span>
           </button>
         </div>
       </section>

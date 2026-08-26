@@ -24,7 +24,7 @@ import AppTopbar from './AppTopbar';
 import { Searchbar } from './Searchbar';
 import { FilterChip } from './Chip';
 import { CardTabItem } from './Tab';
-import { ButtonIcon, BadgeIcon, TagIcon } from './icons';
+import { ButtonIcon, BadgeIcon, TagIcon, ListIcon } from './icons';
 import './ButtonDoc.css';
 import './MessageDoc.css';
 
@@ -757,16 +757,26 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Message composes these components internally.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Message.</p>
         <div className="ds-related-grid">
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('button')}
+            onClick={() => onNavigate?.('assets')}
           >
-            <ButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Button</span>
+            <span className="icon ds-related-card__icon" aria-hidden="true">
+              image
+            </span>
+            <span className="ds-related-card__name">Thumbnail</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('list')}
+          >
+            <ListIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">List</span>
           </button>
           <button
             type="button"
@@ -783,6 +793,14 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
           >
             <TagIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Tag</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('button')}
+          >
+            <ButtonIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Button</span>
           </button>
         </div>
       </section>

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Anchor, { AnchorItem } from './Anchor';
-import { TabIcon } from './icons';
 import './ButtonDoc.css';
 import './AnchorDoc.css';
 
@@ -14,7 +13,7 @@ interface AnchorDocProps {
   onNavigate?: (componentId: string) => void;
 }
 
-export default function AnchorDoc({ onNavigate }: AnchorDocProps) {
+export default function AnchorDoc({ onNavigate: _onNavigate }: AnchorDocProps) {
   const [activeLevelTab, setActiveLevelTab] = useState<LevelTab>('Tab');
   const [activeSection, setActiveSection] = useState('overview');
 
@@ -319,21 +318,10 @@ export default function AnchorDoc({ onNavigate }: AnchorDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
+        <h2 className="ds-section__title">Related Components</h2>
         <p className="ds-section__desc">
-          Component that shares Anchor's indicator-line convention for marking the current
-          selection.
+          No related components have been identified for Anchor yet.
         </p>
-        <div className="ds-related-grid">
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('tab')}
-          >
-            <TabIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Tab</span>
-          </button>
-        </div>
       </section>
     </div>
   );

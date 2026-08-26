@@ -1,0 +1,51 @@
+/* ---- Variants > Example: Form + Table composition ----
+   Both demos are built from real, already-styled components (Form, FormRow, FormCol,
+   FormField, Table, TableHeader, TableHeaderCell, TableRow, TableCell, Input) — nothing
+   here redraws chrome. The active tab (Label/Number) picks which field type the hover
+   highlight targets. Each dim/highlight pair below targets sibling elements only, never
+   an ancestor/descendant pair — opacity compounds through nested layers, so a highlighted
+   (opacity:1) child still reads dimmed if any ancestor has opacity<1. That's why the two
+   table cells wrapping the highlightable Inputs carry their own marker classes and are
+   excluded from the generic cell-dim rule, dimming/ringing on the Input itself instead. */
+
+.ds-example-input-demo .ds-form__title,
+.ds-example-input-demo .ds-form-field__label,
+.ds-example-input-demo .ds-datatable__header-row,
+.ds-example-input-demo .ds-datatable__cell:not(.ds-example-input-demo__label-cell):not(.ds-example-input-demo__number-cell) {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-input-demo:hover .ds-form__title,
+.ds-example-input-demo:hover .ds-form-field__label,
+.ds-example-input-demo:hover .ds-datatable__header-row,
+.ds-example-input-demo:hover .ds-datatable__cell:not(.ds-example-input-demo__label-cell):not(.ds-example-input-demo__number-cell) {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-input-demo__label-field,
+.ds-example-input-demo__number-field {
+  transition: opacity var(--duration-fast) ease, box-shadow var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-input-demo--label:hover .ds-example-input-demo__number-field,
+.ds-example-input-demo--number:hover .ds-example-input-demo__label-field {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-input-demo--label:hover .ds-example-input-demo__label-field,
+.ds-example-input-demo--number:hover .ds-example-input-demo__number-field {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+/* The Table's Price column is right-aligned (see its plain-text rows), so the editable
+   row's Number Input — fixed-width per .ds-input--has-stepper — sits flush with that same
+   right edge instead of the cell's left edge, matching the column's reading direction. */
+.ds-example-input-demo__number-cell .ds-input {
+  margin-left: auto;
+}
+
+/* The default .ds-example-mock__name color reads at near-zero contrast on the Example
+   container's .ds-preview--scrim dark backdrop — same fix as ChipDoc's/IconButtonDoc's. */
+.ds-preview--scrim .ds-example-mock__name {
+  color: var(--brand-neutral-0);
+}

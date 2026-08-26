@@ -1,0 +1,48 @@
+/* ---- Variants > Example: Table / Action Panel ----
+   Both composite tabs are built from real, already-styled components (Table, Action
+   Panel, Select, Button) — nothing here redraws chrome. Each dim/highlight pair below
+   targets sibling elements only, never an ancestor/descendant pair: opacity compounds
+   through nested layers, so a highlighted (opacity:1) child stays visually dimmed if any
+   ancestor is opacity<1. :has() (precedented in Upload.css) picks out the Status cell/
+   field that wraps the Badge, since Table's cell and Action Panel's field render an
+   identical class for every column/row. */
+
+.ds-example-badge-table .ds-datatable__header-row,
+.ds-example-badge-table .ds-datatable__cell:not(:has(.ds-badge)) {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-badge-table:hover .ds-datatable__header-row,
+.ds-example-badge-table:hover .ds-datatable__cell:not(:has(.ds-badge)) {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-badge-table .ds-datatable__cell:has(.ds-badge) .ds-badge {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+  border-radius: var(--radius-sm); /* radius/sm — the plain badge has no radius of its own to follow */
+}
+
+.ds-example-badge-table:hover .ds-datatable__cell:has(.ds-badge) .ds-badge {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+.ds-example-badge-action-panel .ds-action-panel__header,
+.ds-example-badge-action-panel .ds-action-panel__field:not(:has(.ds-badge)),
+.ds-example-badge-action-panel .ds-action-panel__main > .ds-button {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-badge-action-panel:hover .ds-action-panel__header,
+.ds-example-badge-action-panel:hover .ds-action-panel__field:not(:has(.ds-badge)),
+.ds-example-badge-action-panel:hover .ds-action-panel__main > .ds-button {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-badge-action-panel .ds-action-panel__field:has(.ds-badge) .ds-badge {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+  border-radius: var(--radius-sm); /* radius/sm — the plain badge has no radius of its own to follow */
+}
+
+.ds-example-badge-action-panel:hover .ds-action-panel__field:has(.ds-badge) .ds-badge {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}

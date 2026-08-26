@@ -1,7 +1,16 @@
 import { useState } from 'react';
 import IconButton from './IconButton';
-import { ButtonIcon } from './icons';
+import Upload from './Upload';
+import Modal from './Modal';
+import Header from './Header';
+import Lightbox from './Lightbox';
+import Form, { FormRow, FormCol, FormField } from './Form';
+import { Input } from './Input';
+import { Table, TableHeader, TableHeaderCell, TableRow, TableCell } from './Table';
+import Pagination from './Pagination';
+import { ButtonIcon, HeaderIcon, PaginationIcon, UploadIcon } from './icons';
 import './ButtonDoc.css';
+import './IconButtonDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=511-2837';
@@ -9,12 +18,79 @@ const FIGMA_URL =
 const VARIANT_TABS = ['Primary', 'Danger', 'Feedback'] as const;
 type VariantTab = (typeof VARIANT_TABS)[number];
 
+const EXAMPLE_TABS = ['Ghost', 'Primary'] as const;
+type ExampleTab = (typeof EXAMPLE_TABS)[number];
+
+const SAMPLE_RESULTS = [
+  {
+    icon: 'check_circle',
+    tone: 'success' as const,
+    label: 'Pass',
+    value: '2,000',
+    detail: [
+      { tone: 'success' as const, label: 'Joined', value: '1,600' },
+      { tone: 'success' as const, label: 'Excluded', value: '400' },
+    ],
+  },
+  {
+    icon: 'cancel',
+    tone: 'danger' as const,
+    label: 'Error',
+    value: '400',
+    detail: [
+      { tone: 'danger' as const, label: 'Joined', value: '100' },
+      { tone: 'danger' as const, label: 'Excluded', value: '300' },
+    ],
+  },
+];
+
+const SAMPLE_FILES = [
+  { name: 'product-catalog.xls' },
+  { name: 'inventory-list.csv' },
+  { name: 'shipping-manifest.csv' },
+  { name: 'customer-records.xlsx' },
+];
+
+const SAMPLE_TABLE_ROWS = [
+  { sku: 'SKU-100234', name: 'Nescafé Gold Blend 200g', category: 'Beverages', price: '$138' },
+  { sku: 'SKU-100235', name: 'Dove Body Wash 500ml', category: 'Personal Care', price: '$79' },
+  { sku: 'SKU-100236', name: 'Pampers Diapers Size 3', category: 'Baby Care', price: '$195' },
+];
+
 interface IconButtonDocProps {
   onNavigate?: (componentId: string) => void;
 }
 
+// Variants > Example > Form List tab: one collapsible section per banner, built from the
+// shared Header (style="form-list") plus a small form body — mirrors FormDoc's own
+// banner-list item, kept local so this file doesn't need to import FormDoc.css.
+function ExampleBannerItem({ title }: { title: string }) {
+  return (
+    <div className="ds-example-banner">
+      <Header style="form-list" title={title} showInfo={false} />
+      <div className="ds-example-banner__body">
+        <FormRow>
+          <FormCol>
+            <FormField label="Banner Title">
+              <Input placeholder="Enter banner title" />
+            </FormField>
+          </FormCol>
+          <FormCol>
+            <FormField label="Banner Link">
+              <Input placeholder="Enter destination URL" />
+            </FormField>
+          </FormCol>
+        </FormRow>
+      </div>
+    </div>
+  );
+}
+
 export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
   const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Primary');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Ghost');
+  const exampleLightboxTotal = 9;
+  const [exampleLightboxIndex, setExampleLightboxIndex] = useState(1);
 
   return (
     <div className="ds-doc">
@@ -236,6 +312,149 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
             </div>
           </div>
         </div>
+
+        <div id="variants-example" className="ds-section__subsection">
+          <h3 className="ds-section__subtitle">Example</h3>
+          <p className="ds-section__desc">
+            Real compositions from elsewhere in the system, grouped by appearance — Ghost gathers
+            a batch-upload modal, a collapsible form list of banner sections, and a data table
+            with pagination; Primary duplicates Lightbox's own close/previous/next controls —
+            with the icon buttons worth calling out highlighted against the rest of the surface.
+          </p>
+
+          <div className="ds-line-tabs" role="tablist" aria-label="Example variants">
+            {EXAMPLE_TABS.map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activeExampleTab === tab}
+                className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
+                onClick={() => setActiveExampleTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          <div className="ds-variant-groups">
+            <div className="ds-variant-group">
+              <div
+                className={`ds-preview${activeExampleTab === 'Ghost' ? ' ds-preview--scrim' : ''}`}
+                style={activeExampleTab === 'Primary' ? { padding: 0 } : undefined}
+              >
+                {activeExampleTab === 'Ghost' && (
+                  <div className="ds-example-mocks" style={{ width: '100%' }}>
+                    <div className="ds-example-mock-item">
+                      <span className="ds-example-mock__name">Upload Modal</span>
+                      <div style={{ width: '100%', maxWidth: 432, margin: '0 auto' }}>
+                        <Modal
+                          title="Upload Batch File"
+                          className="ds-example-upload-modal"
+                          showInfo
+                        >
+                          <div className="ds-icon-button-doc__card">
+                            <Upload
+                              style="dropzone"
+                              dropzone={{ state: 'filled', results: SAMPLE_RESULTS }}
+                              files={SAMPLE_FILES}
+                              showButtons
+                            />
+                          </div>
+                        </Modal>
+                      </div>
+                    </div>
+                    <div className="ds-example-mock-item">
+                      <span className="ds-example-mock__name">Form List</span>
+                      <div style={{ width: '100%' }}>
+                        <Form title="Homepage Banners" className="ds-example-form-list">
+                          <ExampleBannerItem title="Homepage Banner" />
+                          <ExampleBannerItem title="Category Page Banner" />
+                        </Form>
+                      </div>
+                    </div>
+                    <div className="ds-example-mock-item">
+                      <span className="ds-example-mock__name">Table</span>
+                      <div className="ds-example-table" style={{ width: '100%' }}>
+                        <Table size="md">
+                          <TableHeader>
+                            <TableHeaderCell>SKU ID</TableHeaderCell>
+                            <TableHeaderCell>Product</TableHeaderCell>
+                            <TableHeaderCell>Category</TableHeaderCell>
+                            <TableHeaderCell align="right">Price</TableHeaderCell>
+                            <TableHeaderCell
+                              align="center"
+                              className="ds-example-table__action-cell"
+                            >
+                              Action
+                            </TableHeaderCell>
+                          </TableHeader>
+                          {SAMPLE_TABLE_ROWS.map((row) => (
+                            <TableRow key={row.sku}>
+                              <TableCell>{row.sku}</TableCell>
+                              <TableCell>{row.name}</TableCell>
+                              <TableCell>{row.category}</TableCell>
+                              <TableCell align="right">{row.price}</TableCell>
+                              <TableCell align="center" className="ds-example-table__action-cell">
+                                <div className="ds-table-example__action-buttons">
+                                  <IconButton
+                                    icon="edit"
+                                    appearance="ghost"
+                                    size="sm"
+                                    label="Edit"
+                                  />
+                                  <IconButton
+                                    icon="delete"
+                                    variant="danger"
+                                    appearance="ghost"
+                                    size="sm"
+                                    label="Remove"
+                                  />
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </Table>
+                        <div className="ds-example-table__pagination">
+                          <Pagination currentPage={3} totalPages={10} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {activeExampleTab === 'Primary' && (
+                  <div style={{ width: '100%', aspectRatio: '16 / 9' }} className="ds-example-lightbox">
+                    <Lightbox
+                      showPrevious={exampleLightboxIndex > 1}
+                      showNext={exampleLightboxIndex < exampleLightboxTotal}
+                      counterLabel={`${exampleLightboxIndex} / ${exampleLightboxTotal}`}
+                      onPrevious={() => setExampleLightboxIndex((index) => Math.max(1, index - 1))}
+                      onNext={() =>
+                        setExampleLightboxIndex((index) => Math.min(exampleLightboxTotal, index + 1))
+                      }
+                    />
+                  </div>
+                )}
+              </div>
+              {activeExampleTab === 'Ghost' && (
+                <span className="ds-variant-note">
+                  Each demo highlights its own focal points on hover — Upload Modal: header info
+                  + close and the file list's remove control. Form List: header info + expander
+                  and each section's drag, remove, and expander controls. Table: each row's Edit
+                  and Remove controls, plus Pagination's previous/next controls. Everything else
+                  recedes.
+                </span>
+              )}
+              {activeExampleTab === 'Primary' && (
+                <span className="ds-variant-note">
+                  {exampleLightboxIndex === 1
+                    ? 'Close and Next are the interactive focal points — Previous is hidden here since this is the first item in the set; the media, counter, and action bar recede on hover.'
+                    : `Close, Previous, and Next are the interactive focal points — click Next or Previous to browse the set (currently item ${exampleLightboxIndex} of ${exampleLightboxTotal}); the media, counter, and action bar recede on hover.`}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ---------------------------------------------------------------- */}
@@ -414,7 +633,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
+        <h2 className="ds-section__title">Related Components</h2>
         <p className="ds-section__desc">
           Components that commonly appear alongside Icon Button.
         </p>
@@ -427,27 +646,30 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
             <ButtonIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Button</span>
           </button>
-          <div className="ds-related-card ds-related-card--soon">
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              view_column_2
-            </span>
-            <span className="ds-related-card__name">Button Group</span>
-            <span className="ds-related-card__tag">Soon</span>
-          </div>
-          <div className="ds-related-card ds-related-card--soon">
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              link
-            </span>
-            <span className="ds-related-card__name">Link</span>
-            <span className="ds-related-card__tag">Soon</span>
-          </div>
-          <div className="ds-related-card ds-related-card--soon">
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              sell
-            </span>
-            <span className="ds-related-card__name">Tag</span>
-            <span className="ds-related-card__tag">Soon</span>
-          </div>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('header')}
+          >
+            <HeaderIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Header</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('pagination')}
+          >
+            <PaginationIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Pagination</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('upload')}
+          >
+            <UploadIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Upload</span>
+          </button>
         </div>
       </section>
     </div>

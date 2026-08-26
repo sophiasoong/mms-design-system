@@ -1,0 +1,145 @@
+/* Same white card shell as UploadDoc's own .ds-upload-doc__card (Card.css shell tokens) —
+   kept as its own class here since this page's CSS should stay scoped to Icon Button, not
+   reach into Upload's doc-only stylesheet. */
+.ds-icon-button-doc__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-sm); /* space/layout/section/gap/sm */
+  padding: var(--space-component-padding-lg); /* space/component/padding/lg */
+  background: var(--surface-card-surface-default); /* surface/card/surface/default */
+  border-radius: var(--radius-md); /* radius/md */
+}
+
+/* ---- Variants > Example ----
+   Both example tabs are built from real, already-styled components (Modal, Header, Upload,
+   List, Form) — nothing here redraws chrome. Each dim/highlight pair below targets sibling
+   elements only, never an ancestor/descendant pair: opacity compounds through nested layers,
+   so a highlighted (opacity:1) child stays visually dimmed if any ancestor is opacity<1. */
+
+.ds-example-banner {
+  display: flex;
+  flex-direction: column;
+  background: var(--brand-neutral-100); /* brand/neutral/100, matches FormDoc's banner-list item */
+  border-radius: var(--radius-md); /* radius/md */
+}
+
+.ds-example-banner__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
+  padding: 0 var(--space-layout-section-padding-md) var(--space-layout-section-padding-md); /* space/layout/section/padding/md */
+}
+
+/* Upload Modal: on hover, dim everything except the header's info/close buttons and the file
+   list's remove button — at rest the example reads as a normal modal. */
+.ds-example-upload-modal .ds-header__title,
+.ds-example-upload-modal .ds-upload-dropzone,
+.ds-example-upload-modal .ds-upload__buttons,
+.ds-example-upload-modal .ds-list__leading-icon,
+.ds-example-upload-modal .ds-list__label,
+.ds-example-upload-modal .ds-footer {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-upload-modal:hover .ds-header__title,
+.ds-example-upload-modal:hover .ds-upload-dropzone,
+.ds-example-upload-modal:hover .ds-upload__buttons,
+.ds-example-upload-modal:hover .ds-list__leading-icon,
+.ds-example-upload-modal:hover .ds-list__label,
+.ds-example-upload-modal:hover .ds-footer {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-upload-modal:hover .ds-header--modal .ds-icon-button,
+.ds-example-upload-modal:hover .ds-list__actions .ds-icon-button {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary, same ring as IconButton's own focus state */
+}
+
+/* Form List: on hover, dim everything except the form header's info/expander buttons and each
+   section's drag/remove/expander buttons — at rest the example reads as a normal form. */
+.ds-example-form-list .ds-form__title,
+.ds-example-form-list .ds-header--form-list .ds-header__thumbnail,
+.ds-example-form-list .ds-header--form-list .ds-header__title,
+.ds-example-form-list .ds-example-banner__body {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-form-list:hover .ds-form__title,
+.ds-example-form-list:hover .ds-header--form-list .ds-header__thumbnail,
+.ds-example-form-list:hover .ds-header--form-list .ds-header__title,
+.ds-example-form-list:hover .ds-example-banner__body {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-form-list:hover .ds-form__header .ds-icon-button,
+.ds-example-form-list:hover .ds-header--form-list .ds-icon-button {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary, follows each button's own shape radius */
+}
+
+.ds-example-form-list .ds-header--form-list .ds-header__drag {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+  border-radius: var(--radius-sm); /* radius/sm — the plain drag glyph has no radius of its own to follow */
+}
+
+.ds-example-form-list:hover .ds-header--form-list .ds-header__drag {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+/* Table: on hover, dim every header/body cell except the Action column and dim every
+   Pagination control except its prev/next nav buttons — at rest the example reads as a
+   normal table. The Action cell and the nav buttons are left undimmed (never opacity<1)
+   rather than ringed-while-dimmed, since a dimmed ancestor would compound its opacity onto
+   the IconButtons nested inside it regardless of their own opacity. */
+.ds-example-table .ds-datatable__header-row,
+.ds-example-table .ds-datatable__cell:not(.ds-example-table__action-cell),
+.ds-example-table .ds-pagination__item,
+.ds-example-table .ds-pagination__goto {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-table:hover .ds-datatable__header-row,
+.ds-example-table:hover .ds-datatable__cell:not(.ds-example-table__action-cell),
+.ds-example-table:hover .ds-pagination__item,
+.ds-example-table:hover .ds-pagination__goto {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-table:hover .ds-example-table__action-cell .ds-icon-button,
+.ds-example-table:hover .ds-pagination__nav {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary, follows each button's own shape radius */
+}
+
+.ds-example-table__pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-component-padding-lg); /* space/component/padding/lg */
+  background: var(--global-background-surface); /* global/background/surface, matches the table's own row background */
+}
+
+/* The default .ds-example-mock__name color reads at near-zero contrast on the Ghost tab's
+   .ds-preview--scrim backdrop — same fix as ButtonDoc's
+   .ds-variant-row--scrim .ds-variant-row__cell-label. */
+.ds-preview--scrim .ds-example-mock__name {
+  color: var(--brand-neutral-0);
+}
+
+/* Primary tab: Lightbox already renders its own dark overlay background, so it sits in a
+   plain (non-scrim) .ds-preview. On hover, dim the media/counter/action-bar and ring the
+   Close/Next controls — the only real IconButton instances Lightbox renders, both
+   variant="primary" appearance="outline". */
+.ds-example-lightbox .ds-lightbox__media,
+.ds-example-lightbox .ds-lightbox__counter,
+.ds-example-lightbox .ds-lightbox__actions {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-lightbox:hover .ds-lightbox__media,
+.ds-example-lightbox:hover .ds-lightbox__counter,
+.ds-example-lightbox:hover .ds-lightbox__actions {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-lightbox:hover .ds-lightbox__header .ds-icon-button,
+.ds-example-lightbox:hover .ds-lightbox__nav .ds-icon-button {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}

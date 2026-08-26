@@ -249,7 +249,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
                 />
               </div>
               <span className="ds-variant-note">
-                Reuses the existing Action chip (see Related Component) with a leading title label
+                Reuses the existing Action chip (see Related Components) with a leading title label
                 — best when the options read as filters rather than destinations.
               </span>
             </div>
@@ -728,7 +728,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
+        <h2 className="ds-section__title">Related Components</h2>
         <p className="ds-section__desc">Components that commonly appear alongside Tab.</p>
         <div className="ds-related-grid">
           <button
@@ -739,13 +739,6 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
             <ChipIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Chip</span>
           </button>
-          <div className="ds-related-card ds-related-card--soon">
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              signpost
-            </span>
-            <span className="ds-related-card__name">Anchor Nav</span>
-            <span className="ds-related-card__tag">Soon</span>
-          </div>
         </div>
       </section>
     </div>

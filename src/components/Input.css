@@ -16,14 +16,16 @@
     box-shadow var(--duration-fast) ease;
 }
 
-/* The stepper sits flush against the container's right edge (its own border/background
-   reach the rounded corner), so the container's own right padding is dropped in favor of
-   the stepper's internal button padding. Width is fixed at Figma's Number-input spec
-   (417:7550) — no --component-width-* token covers this value, so it's set directly here
-   rather than inheriting the full-width default other Input styles use. */
+/* The stepper only appears on hover/focus (see .ds-input__stepper below), so in its
+   default hidden state the field reads as a plain padded number field — hence the
+   container keeps its full left/right padding instead of dropping the right side for the
+   stepper. Width is fixed at Figma's Number-input spec (417:7550) — no --component-width-*
+   token covers this value, so it's set directly here rather than inheriting the full-width
+   default other Input styles use. position:relative anchors the stepper overlay. */
 .ds-input--has-stepper {
+  position: relative;
   width: 90px;
-  padding-right: 0;
+  padding-right: var(--space-component-padding-md); /* space/component/padding/md */
 }
 
 .ds-input--md {
@@ -85,11 +87,17 @@
 
 /* Figma's number-input stepper resolves to interactive/number-input/stepper/* tokens,
    which tokens.css doesn't define — brand-primary-50 and interactive-select-border-*
-   carry the same hex values, so reused here rather than hand-adding a parallel token set. */
+   carry the same hex values, so reused here rather than hand-adding a parallel token set.
+   Positioned as an overlay (rather than a normal flex sibling) pinned to the container's
+   padding edge, so it can fade in on hover/focus without shifting the field's text or its
+   reserved padding — see .ds-input--has-stepper above. */
 .ds-input__stepper {
   display: flex;
   flex-direction: column;
-  align-self: stretch;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
   flex-shrink: 0;
   width: 22px;
   border-left: var(--border-sm) solid var(--interactive-select-border-default);
@@ -97,6 +105,17 @@
   border-top-right-radius: calc(var(--radius-md) - var(--border-sm));
   border-bottom-right-radius: calc(var(--radius-md) - var(--border-sm));
   overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-input--has-stepper:hover:not(.ds-input--disabled) .ds-input__stepper,
+.ds-input--has-stepper.ds-input--force-hover .ds-input__stepper,
+.ds-input--has-stepper:focus-within:not(.ds-input--disabled) .ds-input__stepper,
+.ds-input--has-stepper.ds-input--force-focus .ds-input__stepper {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .ds-input__stepper-btn {

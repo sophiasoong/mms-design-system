@@ -6,5 +6,5 @@ export const SIDEBAR_SECTIONS: AnchorSection[] = [
   { id: 'variants', label: 'Variants' },
   { id: 'states', label: 'States' },
   { id: 'layout-spacing', label: 'Layout & Spacing' },
-  { id: 'related-component', label: 'Related Component' },
+  { id: 'related-component', label: 'Related Components' },
 ];

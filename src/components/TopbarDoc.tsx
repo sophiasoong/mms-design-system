@@ -4,7 +4,7 @@ import Button from './Button';
 import IconButton from './IconButton';
 import { Badge } from './Badge';
 import { Searchbar } from './Searchbar';
-import { ButtonIcon, IconButtonIcon, BadgeIcon, SearchbarIcon } from './icons';
+import { IconButtonIcon, SearchbarIcon, DropdownIcon, AssetsIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -425,17 +425,9 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Components that Topbar composes for its controls.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Topbar.</p>
         <div className="ds-related-grid">
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('button')}
-          >
-            <ButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Button</span>
-          </button>
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
@@ -447,18 +439,26 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('badge')}
-          >
-            <BadgeIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Badge</span>
-          </button>
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
             onClick={() => onNavigate?.('searchbar')}
           >
             <SearchbarIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Searchbar</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('dropdown')}
+          >
+            <DropdownIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Dropdown</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('assets')}
+          >
+            <AssetsIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Assets</span>
           </button>
         </div>
       </section>

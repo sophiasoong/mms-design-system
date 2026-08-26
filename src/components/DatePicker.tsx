@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import Button from './Button';
 import IconButton from './IconButton';
@@ -18,6 +18,8 @@ export interface DatePickerProps {
   /** Forces the trigger's visual state for doc-page demos — does not drive real open/close. */
   state?: DatePickerState;
   className?: string;
+  /** Overrides the trigger's trailing icon — defaults to the calendar glyph. */
+  icon?: ReactNode;
 }
 
 const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -70,6 +72,7 @@ export function DatePicker({
   size = 'lg',
   state = 'default',
   className,
+  icon = <CalendarIcon className="ds-date-picker__icon" />,
 }: DatePickerProps) {
   const isControlled = value !== undefined;
   const [internalValue, setInternalValue] = useState<Date | null>(defaultValue);
@@ -145,7 +148,7 @@ export function DatePicker({
         >
           {selected ? formatDate(selected) : placeholder}
         </span>
-        <CalendarIcon className="ds-date-picker__icon" />
+        {icon}
       </button>
 
       {showPanel &&

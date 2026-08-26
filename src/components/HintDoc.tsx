@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Hint, type HintSize } from './Hint';
-import { SelectIcon } from './icons';
+import { DropdownIcon, TableIcon, SearchbarIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -193,24 +193,35 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Components that commonly trigger a Hint.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">
+          Components that commonly appear alongside Hint.
+        </p>
         <div className="ds-related-grid">
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('select')}
+            onClick={() => onNavigate?.('dropdown')}
           >
-            <SelectIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Select</span>
+            <DropdownIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Dropdown</span>
           </button>
-          <div className="ds-related-card ds-related-card--soon">
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              check_box
-            </span>
-            <span className="ds-related-card__name">Modal</span>
-            <span className="ds-related-card__tag">Soon</span>
-          </div>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('table')}
+          >
+            <TableIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Table</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('searchbar')}
+          >
+            <SearchbarIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Searchbar</span>
+          </button>
         </div>
       </section>
     </div>

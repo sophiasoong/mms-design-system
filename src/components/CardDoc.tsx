@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card } from './Card';
 import Button from './Button';
-import { ListIcon, ButtonIcon } from './icons';
+import { ListIcon, ButtonIcon, TagIcon } from './icons';
 import './ButtonDoc.css';
 import './CardDoc.css';
 
@@ -382,8 +382,10 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Components a Card is built from.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">
+          Components that commonly appear alongside Card.
+        </p>
         <div className="ds-related-grid">
           <button
             type="button"
@@ -400,6 +402,14 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
           >
             <ButtonIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Button</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('tag')}
+          >
+            <TagIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Tag</span>
           </button>
         </div>
       </section>

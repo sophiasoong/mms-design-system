@@ -15,10 +15,8 @@ import {
   SelectIcon,
   TextareaIcon,
   DatepickerIcon,
-  ToggleIcon,
-  RadioIcon,
   TableIcon,
-  IconButtonIcon,
+  UploadIcon,
 } from './icons';
 import './ButtonDoc.css';
 import './FormDoc.css';
@@ -808,40 +806,32 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Form composes these components inside its fields.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Form.</p>
         <div className="ds-related-grid">
           <button type="button" className="ds-related-card ds-related-card--link" onClick={() => onNavigate?.('input')}>
             <InputIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Input</span>
           </button>
-          <button type="button" className="ds-related-card ds-related-card--link" onClick={() => onNavigate?.('select')}>
-            <SelectIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Select</span>
-          </button>
           <button type="button" className="ds-related-card ds-related-card--link" onClick={() => onNavigate?.('textarea')}>
             <TextareaIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Textarea</span>
+          </button>
+          <button type="button" className="ds-related-card ds-related-card--link" onClick={() => onNavigate?.('select')}>
+            <SelectIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Select</span>
           </button>
           <button type="button" className="ds-related-card ds-related-card--link" onClick={() => onNavigate?.('datepicker')}>
             <DatepickerIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Datepicker</span>
           </button>
-          <button type="button" className="ds-related-card ds-related-card--link" onClick={() => onNavigate?.('toggle')}>
-            <ToggleIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Toggle</span>
-          </button>
-          <button type="button" className="ds-related-card ds-related-card--link" onClick={() => onNavigate?.('radio')}>
-            <RadioIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Radio</span>
+          <button type="button" className="ds-related-card ds-related-card--link" onClick={() => onNavigate?.('upload')}>
+            <UploadIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Upload</span>
           </button>
           <button type="button" className="ds-related-card ds-related-card--link" onClick={() => onNavigate?.('table')}>
             <TableIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Table</span>
-          </button>
-          <button type="button" className="ds-related-card ds-related-card--link" onClick={() => onNavigate?.('icon-button')}>
-            <IconButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Icon Button</span>
           </button>
         </div>
       </section>

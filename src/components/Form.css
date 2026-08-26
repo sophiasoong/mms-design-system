@@ -90,8 +90,8 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-component-gap-xs); /* space/component/gap/xs */
-  font-size: var(--typography-md-font-size); /* typography/md/font-size */
-  line-height: var(--typography-md-line-height); /* typography/md/line-height */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size, 14px */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
   color: var(--text-label-primary); /* text/label/primary */
 }
 

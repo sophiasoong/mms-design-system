@@ -4,7 +4,7 @@ import { Searchbar } from './Searchbar';
 import { FilterChip } from './Chip';
 import { Tag } from './Tag';
 import Button from './Button';
-import { TagIcon, IconButtonIcon, SearchbarIcon } from './icons';
+import { IconButtonIcon, AssetsIcon } from './icons';
 import './ButtonDoc.css';
 import './ListDoc.css';
 
@@ -647,17 +647,11 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">List composes these components internally.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">
+          Components that commonly appear alongside List.
+        </p>
         <div className="ds-related-grid">
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('tag')}
-          >
-            <TagIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Tag</span>
-          </button>
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
@@ -669,10 +663,20 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('searchbar')}
+            onClick={() => onNavigate?.('assets')}
           >
-            <SearchbarIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Searchbar</span>
+            <AssetsIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Assets</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('assets')}
+          >
+            <span className="icon ds-related-card__icon" aria-hidden="true">
+              image
+            </span>
+            <span className="ds-related-card__name">Thumbnail</span>
           </button>
         </div>
       </section>

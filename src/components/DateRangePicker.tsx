@@ -3,8 +3,12 @@ import { createPortal } from 'react-dom';
 import Button from './Button';
 import IconButton from './IconButton';
 import { CalendarIcon } from './icons';
-import { useAnchoredPanelPosition } from '../useAnchoredPanel';
+import { useAnchoredArrowOffset, useAnchoredPanelPosition } from '../useAnchoredPanel';
 import './DatePicker.css';
+
+// Figma's arrow-head asset (node 564:22889) is a fixed 14.1421×7 triangle — half its
+// width is used below to center it under whichever trigger segment is active.
+const ARROW_HALF_WIDTH = 7;
 
 export type DateRangePickerSize = 'md' | 'lg';
 
@@ -234,7 +238,20 @@ export function DateRangePicker({
   const [rightViewDate, setRightViewDate] = useState(() => addMonths(leftViewDate, 1));
   const rootRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const startLabelRef = useRef<HTMLSpanElement>(null);
+  const endLabelRef = useRef<HTMLSpanElement>(null);
   const panelPosition = useAnchoredPanelPosition(rootRef, isOpen);
+
+  // Mirrors selectDay's own branching below: once a start is picked but no end yet, the
+  // next click sets the end; otherwise (nothing picked, or both already picked and about
+  // to restart) the next click sets the start. The arrow points at whichever is next.
+  const activeField: 'start' | 'end' = range.start && !range.end ? 'end' : 'start';
+  const arrowCenter = useAnchoredArrowOffset(
+    rootRef,
+    activeField === 'start' ? startLabelRef : endLabelRef,
+    isOpen,
+  );
+  const arrowOffset = Math.max(0, arrowCenter - ARROW_HALF_WIDTH);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -280,12 +297,6 @@ export function DateRangePicker({
   };
 
   const today = new Date();
-  const label =
-    range.start && range.end
-      ? `${formatDate(range.start)} — ${formatDate(range.end)}`
-      : range.start
-        ? `${formatDate(range.start)} — End Date`
-        : '';
 
   const classes = [
     'ds-date-picker',
@@ -303,48 +314,55 @@ export function DateRangePicker({
         className="ds-date-picker__trigger"
         onClick={() => (isOpen ? closePanel() : openPanel())}
       >
-        <span className={`ds-date-picker__value${label ? '' : ' ds-date-picker__value--placeholder'}`}>
-          {label || 'Start Date — End Date'}
+        <span className={`ds-date-picker__value${range.start ? '' : ' ds-date-picker__value--placeholder'}`}>
+          <span ref={startLabelRef}>{range.start ? formatDate(range.start) : 'Start Date'}</span>
+          {' — '}
+          <span ref={endLabelRef}>{range.end ? formatDate(range.end) : 'End Date'}</span>
         </span>
         <CalendarIcon className="ds-date-picker__icon" />
       </button>
 
       {isOpen &&
         createPortal(
-          <div
-            className="ds-date-picker__panel ds-date-picker__panel--range"
-            style={panelPosition}
-            ref={panelRef}
-          >
-            <div className="ds-date-picker__range-panels">
-              <Panel
-                viewDate={leftViewDate}
-                onNavigate={(delta) => setLeftViewDate((d) => addMonths(d, delta))}
-                range={range}
-                today={today}
-                onSelectDay={selectDay}
-              />
-              <Panel
-                viewDate={rightViewDate}
-                onNavigate={(delta) => setRightViewDate((d) => addMonths(d, delta))}
-                range={range}
-                today={today}
-                onSelectDay={selectDay}
-              />
-            </div>
+          <div className="ds-date-picker__popover--range" style={panelPosition} ref={panelRef}>
+            {/* Points at whichever of Start Date/End Date (above) is next to be picked —
+                see activeField and useAnchoredArrowOffset. */}
+            <div
+              className="ds-date-picker__arrow"
+              style={{ marginInlineStart: `${arrowOffset}px` }}
+              aria-hidden="true"
+            />
+            <div className="ds-date-picker__panel ds-date-picker__panel--range">
+              <div className="ds-date-picker__range-panels">
+                <Panel
+                  viewDate={leftViewDate}
+                  onNavigate={(delta) => setLeftViewDate((d) => addMonths(d, delta))}
+                  range={range}
+                  today={today}
+                  onSelectDay={selectDay}
+                />
+                <Panel
+                  viewDate={rightViewDate}
+                  onNavigate={(delta) => setRightViewDate((d) => addMonths(d, delta))}
+                  range={range}
+                  today={today}
+                  onSelectDay={selectDay}
+                />
+              </div>
 
-            <div className="ds-date-picker__footer">
-              <Button
-                variant="primary"
-                appearance="ghost"
-                size="sm"
-                onClick={() => commit({ start: null, end: null })}
-              >
-                Reset
-              </Button>
-              <Button variant="primary" appearance="solid" size="sm" onClick={closePanel}>
-                Apply
-              </Button>
+              <div className="ds-date-picker__footer">
+                <Button
+                  variant="primary"
+                  appearance="ghost"
+                  size="sm"
+                  onClick={() => commit({ start: null, end: null })}
+                >
+                  Reset
+                </Button>
+                <Button variant="primary" appearance="solid" size="sm" onClick={closePanel}>
+                  Apply
+                </Button>
+              </div>
             </div>
           </div>,
           document.body,

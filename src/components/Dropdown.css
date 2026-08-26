@@ -102,12 +102,17 @@
   background: var(--brand-danger-500);
 }
 
+/* No yellow token exists anywhere in tokens.css (brand families are limited to primary,
+   secondary, neutral, danger, green, blue) — brand-feedback-warning is the closest defined
+   token (amber, #ffa000) and is reused here as a flagged stand-in, same as Badge.css's
+   precedent for its orange dot. Swap this for a dedicated brand-yellow token if one is added. */
 .ds-dropdown-option__badge-dot--yellow {
-  background: var(--status-yellow-500);
+  background: var(--brand-feedback-warning);
 }
 
+/* brand-blue-600 (#1890ff) is an exact hex match to Figma's own brand/blue/600 variable. */
 .ds-dropdown-option__badge-dot--blue {
-  background: var(--status-blue-500);
+  background: var(--brand-blue-600);
 }
 
 .ds-dropdown-option__caption {

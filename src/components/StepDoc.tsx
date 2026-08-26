@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Step, type StepItemData } from './Step';
-import { BadgeIcon, TabIcon } from './icons';
+import { ListIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -368,24 +368,18 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Components that commonly appear alongside Step.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">
+          Components that commonly appear alongside Step.
+        </p>
         <div className="ds-related-grid">
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('badge')}
+            onClick={() => onNavigate?.('list')}
           >
-            <BadgeIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Badge</span>
-          </button>
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('tab')}
-          >
-            <TabIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Tab</span>
+            <ListIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">List</span>
           </button>
         </div>
       </section>

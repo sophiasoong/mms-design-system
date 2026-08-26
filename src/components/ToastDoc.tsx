@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Toast, { type ToastState } from './Toast';
 import Button from './Button';
 import IconButton from './IconButton';
-import { ButtonIcon, IconButtonIcon } from './icons';
+import { ButtonIcon, IconButtonIcon, FormIcon } from './icons';
 import './ButtonDoc.css';
 import './ToastDoc.css';
 
@@ -475,16 +475,16 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Toast composes these components internally.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Toast.</p>
         <div className="ds-related-grid">
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('button')}
+            onClick={() => onNavigate?.('form')}
           >
-            <ButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Button</span>
+            <FormIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Form</span>
           </button>
           <button
             type="button"
@@ -493,6 +493,14 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
           >
             <IconButtonIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Icon Button</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('button')}
+          >
+            <ButtonIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Button</span>
           </button>
         </div>
       </section>

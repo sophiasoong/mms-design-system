@@ -6,12 +6,8 @@
   height: 100%;
   background: var(--surface-lightbox-overlay-default); /* surface/lightbox/overlay/default */
   box-sizing: border-box;
-  /* flagged: no token models a component-level scale factor — 80% (0.8x) is a raw
-     value per the "flag instead of guessing" rule. transform (not a smaller width/
-     height) keeps every internal proportion — icon sizes, padding, gaps — identical,
-     just uniformly smaller, and scales descendants (including anatomy badges) as one
-     rigid unit so nothing drifts out of alignment with what it's pointing at. */
-  transform: scale(0.8);
+  border-radius: var(--radius-lg); /* radius/lg — matches .ds-preview's own section-container corners */
+  overflow: hidden;
   /* Reacts to the Lightbox's own rendered width (not the viewport), same @container
      precedent as AppTopbar/AppSidebar — so it collapses to the mobile nav layout
      whenever ITS box is narrow, not only when the whole page is. */
@@ -136,8 +132,8 @@
 .ds-lightbox__counter {
   margin: 0;
   font-family: var(--typography-font-family-body); /* typography/font/family/body */
-  font-size: var(--typography-lg-font-size); /* typography/lg/font-size */
-  line-height: var(--typography-lg-line-height); /* typography/lg/line-height */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size — caption scale */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height — caption scale */
   font-weight: var(--typography-font-weight-regular); /* typography/font-weight/regular */
   color: var(--text-caption-primary-dark); /* text/caption/primary/dark */
   white-space: nowrap;

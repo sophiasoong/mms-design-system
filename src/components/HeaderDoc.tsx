@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Header from './Header';
 import Button from './Button';
 import IconButton from './IconButton';
-import { ButtonIcon, IconButtonIcon, ToggleIcon, TagIcon } from './icons';
+import { IconButtonIcon, ToggleIcon, AssetsIcon } from './icons';
 import './ButtonDoc.css';
 import './HeaderDoc.css';
 
@@ -450,17 +450,9 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Components that Header composes for its trailing actions.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Header.</p>
         <div className="ds-related-grid">
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('button')}
-          >
-            <ButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Button</span>
-          </button>
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
@@ -480,10 +472,10 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('tag')}
+            onClick={() => onNavigate?.('assets')}
           >
-            <TagIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Tag</span>
+            <AssetsIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Assets</span>
           </button>
         </div>
       </section>

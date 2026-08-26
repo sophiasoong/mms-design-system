@@ -214,8 +214,66 @@
    unlike the reuse-with-comment cases above this is a real semantic hit, not a
    substitution — applied per-cell rather than as Figma's absolute-positioned per-row
    rect, which is visually equivalent for a fixed 24px row height and far simpler. */
+/* Wrapper takes over the plain panel's fixed-position anchoring (position/margin-top/
+   z-index, copied from .ds-date-picker__panel above) so the arrow below can sit above the
+   panel as a sibling, both moving as one positioned unit — the arrow can't live inside the
+   panel's own overflow:hidden box, since that would clip anything poking above its rounded
+   top edge. margin-top reproduces the same trigger-to-panel gap the plain panel used to
+   keep via its own margin-top.
+   The panel's own elevation (below) comes entirely from box-shadow — there's no border —
+   so a plain box-shadow on the arrow would be useless: box-shadow always follows the
+   element's own rectangle, and the arrow is a triangle poking out above that rectangle,
+   so it'd render invisible (a solid white shape with no rectangle to shadow) against a
+   white page. filter: drop-shadow() instead follows the alpha silhouette of everything
+   inside this wrapper — arrow + panel together — so the pair reads as one continuously
+   elevated shape, same interactive-dropdown-panel-shadow-default token, moved here from
+   .ds-date-picker__panel--range's box-shadow below (drop-shadow has no spread parameter,
+   but the original box-shadow's spread was already 0, so nothing is lost). */
+.ds-date-picker__popover--range {
+  position: fixed;
+  margin-top: var(--space-component-gap-xs);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  filter: drop-shadow(0 2px 8px var(--interactive-dropdown-panel-shadow-default));
+}
+
+/* Now nested inside .ds-date-picker__popover--range instead of being the fixed-position
+   element itself — neutralize the positioning properties it'd otherwise inherit from the
+   shared .ds-date-picker__panel rule above (DatePicker.tsx's single-date panel still needs
+   those, so they aren't removed there). box-shadow is neutralized too (superseded by the
+   wrapper's drop-shadow filter above) so the panel's rectangle doesn't additionally shadow
+   itself right at the seam where the arrow attaches, which would read as a stray line. */
 .ds-date-picker__panel--range {
+  position: static;
+  margin-top: 0;
+  z-index: auto;
   width: auto;
+  box-shadow: none;
+}
+
+/* Figma's arrow-head asset (node 564:22889) is a fixed 14.1421×7 triangle — a shape
+   dimension, not a spacing value, and tokens.css has no interactive/date-picker/* arrow
+   token to resolve it to (same gap already noted at the top of this file for the rest of
+   the date-picker's missing token namespace) — so it's drawn at the asset's own pixel size
+   via a CSS border-triangle rather than forced onto an unrelated token. Fill reuses
+   interactive-select-surface-default, the same token the panel below it uses for its own
+   background, so the triangle visually fuses with the panel's top edge with no seam.
+   Horizontal placement (margin-inline-start) is set inline per-render from the trigger's
+   live layout — see useAnchoredArrowOffset in useAnchoredPanel.ts. */
+.ds-date-picker__arrow {
+  width: 14px;
+  height: 7px;
+  flex-shrink: 0;
+}
+
+.ds-date-picker__arrow::before {
+  content: '';
+  display: block;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid var(--interactive-select-surface-default);
 }
 
 .ds-date-picker__range-panels {

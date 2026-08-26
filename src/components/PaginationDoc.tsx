@@ -2,7 +2,7 @@ import Pagination from './Pagination';
 import Button from './Button';
 import IconButton from './IconButton';
 import { Input } from './Input';
-import { ButtonIcon, IconButtonIcon, InputIcon } from './icons';
+import { IconButtonIcon, DropdownIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -351,8 +351,8 @@ export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Components that Pagination composes for its controls.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Pagination.</p>
         <div className="ds-related-grid">
           <button
             type="button"
@@ -365,18 +365,10 @@ export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('button')}
+            onClick={() => onNavigate?.('dropdown')}
           >
-            <ButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Button</span>
-          </button>
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('input')}
-          >
-            <InputIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Input</span>
+            <DropdownIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Dropdown</span>
           </button>
         </div>
       </section>

@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { Badge, type BadgeColor } from './Badge';
-import { TagIcon } from './icons';
+import { Table, TableHeader, TableHeaderCell, TableRow, TableCell } from './Table';
+import ActionPanel, { ActionPanelField } from './ActionPanel';
+import { Select } from './Select';
+import Button from './Button';
+import { TableIcon, FormIcon, ActionPanelIcon } from './icons';
 import './ButtonDoc.css';
+import './BadgeDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=278-8255';
@@ -34,13 +39,31 @@ const BADGE_EXAMPLES: BadgeExampleGroup[] = [
   { name: 'Blue', color: 'blue', labels: ['Scheduled'] },
 ];
 
+interface BadgeTableRow {
+  code: string;
+  status: string;
+  color: BadgeColor;
+}
+
+// Figma node 1718:35051 — a Storefront Code table with a Badge in its Status column.
+const BADGE_TABLE_ROWS: BadgeTableRow[] = [
+  { code: 'H0888001', status: 'Success', color: 'green' },
+  { code: 'H0891427', status: 'Rejected', color: 'red' },
+  { code: 'H0892003', status: 'Pending', color: 'orange' },
+];
+
+const EXAMPLE_COMPOSITE_TABS = ['Table', 'Action Panel'] as const;
+type ExampleTab = BadgeColor | (typeof EXAMPLE_COMPOSITE_TABS)[number];
+
 interface BadgeDocProps {
   onNavigate?: (componentId: string) => void;
 }
 
 export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
   const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Label');
-  const [activeExampleColor, setActiveExampleColor] = useState<BadgeColor>('green');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('green');
+  const activeColorGroup = BADGE_EXAMPLES.find((group) => group.color === activeExampleTab);
+  const isCompositeExampleTab = activeExampleTab === 'Table' || activeExampleTab === 'Action Panel';
 
   return (
     <div className="ds-doc">
@@ -185,7 +208,10 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
             <span className="ds-variant-group__label">Example</span>
-            <p className="ds-section__desc">Real-world status labels, grouped by color.</p>
+            <p className="ds-section__desc">
+              Real-world status labels grouped by color, plus two live compositions — a data
+              table and an Action Panel — showing Badge in context.
+            </p>
 
             <div className="ds-line-tabs" role="tablist" aria-label="Badge example colors">
               {BADGE_EXAMPLES.map((group) => (
@@ -193,23 +219,89 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
                   key={group.color}
                   type="button"
                   role="tab"
-                  aria-selected={activeExampleColor === group.color}
+                  aria-selected={activeExampleTab === group.color}
                   className={`ds-line-tab${
-                    activeExampleColor === group.color ? ' ds-line-tab--active' : ''
+                    activeExampleTab === group.color ? ' ds-line-tab--active' : ''
                   }`}
-                  onClick={() => setActiveExampleColor(group.color)}
+                  onClick={() => setActiveExampleTab(group.color)}
                 >
                   {group.name}
                 </button>
               ))}
+              {EXAMPLE_COMPOSITE_TABS.map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeExampleTab === tab}
+                  className={`ds-line-tab${
+                    activeExampleTab === tab ? ' ds-line-tab--active' : ''
+                  }`}
+                  onClick={() => setActiveExampleTab(tab)}
+                >
+                  {tab}
+                </button>
+              ))}
             </div>
 
-            <div className="ds-preview">
-              <div className="ds-badge-example-grid">
-                {BADGE_EXAMPLES.find((group) => group.color === activeExampleColor)?.labels.map(
-                  (label) => <Badge key={label} label={label} color={activeExampleColor} />,
-                )}
-              </div>
+            {isCompositeExampleTab && (
+              <span className="ds-variant-note">
+                Badge is the interactive focal point here; everything else recedes on hover.
+              </span>
+            )}
+
+            <div className={`ds-preview${isCompositeExampleTab ? ' ds-preview--scrim' : ''}`}>
+              {activeColorGroup && (
+                <div className="ds-badge-example-grid">
+                  {activeColorGroup.labels.map((label) => (
+                    <Badge key={label} label={label} color={activeColorGroup.color} />
+                  ))}
+                </div>
+              )}
+
+              {activeExampleTab === 'Table' && (
+                <div className="ds-example-badge-table" style={{ width: '100%' }}>
+                  <Table size="md">
+                    <TableHeader>
+                      <TableHeaderCell>Storefront Code</TableHeaderCell>
+                      <TableHeaderCell>Status</TableHeaderCell>
+                      <TableHeaderCell align="center">Action</TableHeaderCell>
+                    </TableHeader>
+                    {BADGE_TABLE_ROWS.map((row) => (
+                      <TableRow key={row.code}>
+                        <TableCell>{row.code}</TableCell>
+                        <TableCell>
+                          <Badge label={row.status} color={row.color} />
+                        </TableCell>
+                        <TableCell align="center">
+                          <Button variant="primary" appearance="ghost" size="sm">
+                            Review
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </Table>
+                </div>
+              )}
+
+              {activeExampleTab === 'Action Panel' && (
+                <div className="ds-example-badge-action-panel">
+                  <ActionPanel
+                    title="Action"
+                    main={
+                      <>
+                        <ActionPanelField label="Storefront Code">
+                          <Select label="H0888001" size="md" />
+                        </ActionPanelField>
+                        <ActionPanelField label="Status">
+                          <Badge color="green" label="Online" />
+                        </ActionPanelField>
+                        <Button>View Audit History</Button>
+                      </>
+                    }
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -381,24 +473,33 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
+        <h2 className="ds-section__title">Related Components</h2>
         <p className="ds-section__desc">Components that commonly appear alongside Badge.</p>
         <div className="ds-related-grid">
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('tag')}
+            onClick={() => onNavigate?.('table')}
           >
-            <TagIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Tag</span>
+            <TableIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Table</span>
           </button>
-          <div className="ds-related-card ds-related-card--soon">
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              notifications
-            </span>
-            <span className="ds-related-card__name">Notification</span>
-            <span className="ds-related-card__tag">Soon</span>
-          </div>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('form')}
+          >
+            <FormIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Form</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('action-panel')}
+          >
+            <ActionPanelIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Action Panel</span>
+          </button>
         </div>
       </section>
     </div>

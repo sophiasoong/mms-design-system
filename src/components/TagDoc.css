@@ -1,0 +1,156 @@
+/* ---- Variants > Example: Message / Searchbar ----
+   Both example tabs are built from real, already-styled components (AppTopbar, Message,
+   Button, Searchbar, List) — nothing here redraws chrome. Each dim/highlight pair below
+   targets sibling elements only, never an ancestor/descendant pair: opacity compounds
+   through nested layers, so a highlighted (opacity:1) child stays visually dimmed if any
+   ancestor is opacity<1 — that's why .ds-message__tags/.ds-list__title-row (the Tag's own
+   wrapper) are never dimmed as a whole, only the non-Tag content around it is. */
+
+.ds-tag-example-message {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ds-tag-example-message__dim,
+.ds-tag-example-message .ds-message__thumb,
+.ds-tag-example-message .ds-message__content,
+.ds-tag-example-message .ds-message__date {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-tag-example-message:hover .ds-tag-example-message__dim,
+.ds-tag-example-message:hover .ds-message__thumb,
+.ds-tag-example-message:hover .ds-message__content,
+.ds-tag-example-message:hover .ds-message__date {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-tag-example-message .ds-message__tag {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-tag-example-message:hover .ds-message__tag {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary — Tag already has its own radius/sm to follow */
+}
+
+/* Notification Panel layout — duplicated from MessageDoc.css's own
+   .ds-message-example__panel-row/__panel/__panel-footer/__view-all under page-scoped
+   names, since this page's CSS should stay scoped to Tag, not reach into Message's
+   doc-only stylesheet. */
+.ds-tag-example-message__panel-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-component-padding-xs) var(--space-component-padding-xs)
+    var(--space-component-padding-none) var(--space-component-padding-none);
+}
+
+.ds-tag-example-message__panel {
+  display: flex;
+  flex-direction: column;
+  width: var(--component-width-dropdown-lg);
+  max-width: 100%;
+  background: var(--brand-neutral-0);
+  border-radius: var(--radius-md);
+  box-shadow: 0 var(--space-component-overlap-sm) var(--space-layout-section-padding-sm)
+    var(--surface-card-shadow-default);
+  overflow: hidden;
+}
+
+.ds-tag-example-message__panel-footer {
+  padding: var(--space-layout-section-padding-sm);
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-tag-example-message__view-all {
+  width: 100%;
+}
+
+/* ---- Searchbar tab (Global Search results) ---- */
+.ds-tag-example-searchbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.ds-tag-example-searchbar__dim,
+.ds-tag-example-searchbar .ds-list__thumb,
+.ds-tag-example-searchbar .ds-list__title,
+.ds-tag-example-searchbar .ds-list__desc {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-tag-example-searchbar:hover .ds-tag-example-searchbar__dim,
+.ds-tag-example-searchbar:hover .ds-list__thumb,
+.ds-tag-example-searchbar:hover .ds-list__title,
+.ds-tag-example-searchbar:hover .ds-list__desc {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-tag-example-searchbar .ds-list__tag {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-tag-example-searchbar:hover .ds-list__tag {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary — Tag already has its own radius/sm to follow */
+}
+
+/* Global Search layout — duplicated from ListDoc.css's own
+   .ds-list-example__panel(--wide, --radius-xl)/__searchbar-row/__rows/__footer/__kbd/__hint
+   under page-scoped names, per the same doc-CSS-stays-scoped convention. */
+.ds-tag-example-searchbar__panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 560px; /* matches ds-list-example__panel--wide, so both docs' example cards line up */
+  background: var(--brand-neutral-0);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 var(--space-component-overlap-sm) var(--space-layout-section-padding-sm)
+    var(--surface-card-shadow-default);
+  overflow: hidden;
+}
+
+.ds-tag-example-searchbar__searchbar-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-md);
+  padding: var(--space-component-padding-md);
+}
+
+.ds-tag-example-searchbar__rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-tag-example-searchbar__rows > .ds-list--lg:last-child {
+  border-bottom: none;
+}
+
+.ds-tag-example-searchbar__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  padding: var(--space-component-padding-sm) var(--space-component-padding-md);
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-tag-example-searchbar__kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--space-component-padding-xs);
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+  color: var(--brand-neutral-700);
+  background: var(--brand-neutral-100);
+  border-radius: var(--radius-sm);
+}
+
+.ds-tag-example-searchbar__hint {
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+  color: var(--brand-neutral-700);
+}

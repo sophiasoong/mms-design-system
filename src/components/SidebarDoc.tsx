@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import AppSidebar, { DEFAULT_SIDEBAR_SECTIONS, type SidebarNavSection } from './AppSidebar';
-import { FooterIcon, HeaderIcon, TopbarIcon } from './icons';
+import { AssetsIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -429,32 +429,16 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Components Sidebar commonly appears alongside in the app shell.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Sidebar.</p>
         <div className="ds-related-grid">
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('topbar')}
+            onClick={() => onNavigate?.('assets')}
           >
-            <TopbarIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Topbar</span>
-          </button>
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('header')}
-          >
-            <HeaderIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Header</span>
-          </button>
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('footer')}
-          >
-            <FooterIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Footer</span>
+            <AssetsIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Assets</span>
           </button>
         </div>
       </section>

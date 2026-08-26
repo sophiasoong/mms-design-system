@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import type { UIEvent } from 'react';
 import Dropdown, { DropdownOption, ExpanderOption } from './Dropdown';
 import Button from './Button';
-import { ButtonIcon, IconButtonIcon } from './icons';
+import { SelectIcon, ChipIcon } from './icons';
 import './ButtonDoc.css';
 
 function syncScrollbarThumb(scrollEl: HTMLDivElement, thumb: HTMLDivElement | null) {
@@ -70,6 +70,8 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
       next.has(i) ? next.delete(i) : next.add(i);
       return next;
     });
+
+  const [singleBadgeSelected, setSingleBadgeSelected] = useState(1);
 
   const [captionPanelSelected, setCaptionPanelSelected] = useState<Set<number>>(new Set());
   const toggleCaptionPanelSelected = (i: number) =>
@@ -271,17 +273,52 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
         <div className="ds-variant-groups">
           {activeVariantTab === 'Single-select' && (
             <div className="ds-variant-group">
-              <div className="ds-preview">
-                <Dropdown
-                  style="single"
-                  options={SAMPLE_OPTIONS}
-                  selectedIndices={[singleSelected]}
-                  showFooter={false}
-                  onOptionClick={setSingleSelected}
-                />
+              <div className="ds-preview ds-preview--stack">
+                <div className="ds-variant-row__cell">
+                  <Dropdown
+                    style="single"
+                    options={SAMPLE_OPTIONS}
+                    selectedIndices={[singleSelected]}
+                    showFooter={false}
+                    onOptionClick={setSingleSelected}
+                  />
+                  <span className="ds-variant-row__cell-label">Label</span>
+                </div>
+                <div className="ds-variant-row__cell">
+                  <div className="ds-dropdown ds-dropdown--sm">
+                    <div className="ds-dropdown__options">
+                      <DropdownOption
+                        label="Red"
+                        style="single"
+                        showBadge
+                        badgeColor="red"
+                        state={singleBadgeSelected === 0 ? 'selected' : 'default'}
+                        onClick={() => setSingleBadgeSelected(0)}
+                      />
+                      <DropdownOption
+                        label="Yellow"
+                        style="single"
+                        showBadge
+                        badgeColor="yellow"
+                        state={singleBadgeSelected === 1 ? 'selected' : 'default'}
+                        onClick={() => setSingleBadgeSelected(1)}
+                      />
+                      <DropdownOption
+                        label="Blue"
+                        style="single"
+                        showBadge
+                        badgeColor="blue"
+                        state={singleBadgeSelected === 2 ? 'selected' : 'default'}
+                        onClick={() => setSingleBadgeSelected(2)}
+                      />
+                    </div>
+                  </div>
+                  <span className="ds-variant-row__cell-label">Badge</span>
+                </div>
               </div>
               <span className="ds-variant-note">
-                No footer — selecting an option applies it immediately and closes the panel.
+                No footer — selecting an option applies it immediately and closes the panel. Badge
+                pairs a value with a color dot, e.g. status or category.
               </span>
             </div>
           )}
@@ -297,7 +334,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
                     onOptionClick={toggleMultiSelected}
                     showFooter={false}
                   />
-                  <span className="ds-variant-row__cell-label">Default</span>
+                  <span className="ds-variant-row__cell-label">Label</span>
                 </div>
                 <div className="ds-variant-row__cell">
                   <div className="ds-dropdown ds-dropdown--sm">
@@ -935,39 +972,25 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
+        <h2 className="ds-section__title">Related Components</h2>
         <p className="ds-section__desc">Components that commonly appear alongside Dropdown.</p>
         <div className="ds-related-grid">
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('button')}
+            onClick={() => onNavigate?.('select')}
           >
-            <ButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Button</span>
+            <SelectIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Select</span>
           </button>
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('icon-button')}
+            onClick={() => onNavigate?.('chip')}
           >
-            <IconButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Icon Button</span>
+            <ChipIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Chip</span>
           </button>
-          <div className="ds-related-card ds-related-card--soon">
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              check_box
-            </span>
-            <span className="ds-related-card__name">Checkbox</span>
-            <span className="ds-related-card__tag">Soon</span>
-          </div>
-          <div className="ds-related-card ds-related-card--soon">
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              list
-            </span>
-            <span className="ds-related-card__name">Cascader</span>
-            <span className="ds-related-card__tag">Soon</span>
-          </div>
         </div>
       </section>
     </div>

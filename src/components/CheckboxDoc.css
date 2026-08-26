@@ -1,0 +1,146 @@
+/* ---- Variants > Style: Checkbox card ----
+   No --interactive-checkbox-card-* tokens exist in tokens.css (grepped — only the base
+   --interactive-checkbox-* set and generic --surface-card-* tokens are defined). Every
+   value below is a flagged reuse of an existing token that is an exact hex match to the
+   Figma Checkbox-card reference (node 816-34360), same convention as Dropdown.css's
+   unaliased-token comments. Swap these for dedicated --interactive-checkbox-card-* tokens
+   if/when they're added to tokens.css. */
+.ds-checkbox-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-component-gap-sm);
+  width: 280px;
+  padding: var(--space-component-padding-md);
+  background: var(--surface-card-surface-default); /* surface/card/surface/default */
+  border: var(--border-sm) solid var(--interactive-checkbox-border-default); /* interactive/checkbox/border/default */
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-fast) ease, background-color var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-checkbox-card--checked {
+  background: var(--brand-primary-50); /* brand/primary/50 — exact hex match to the Figma checked-surface color */
+  border-color: var(--interactive-checkbox-border-checked); /* interactive/checkbox/border/checked */
+}
+
+.ds-checkbox-card--disabled {
+  background: var(--interactive-checkbox-surface-disabled); /* interactive/checkbox/surface/disabled */
+  border-color: var(--interactive-checkbox-border-disabled); /* interactive/checkbox/border/disabled */
+}
+
+.ds-checkbox-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs);
+  min-width: 0;
+}
+
+.ds-checkbox-card__title {
+  font-family: var(--typography-font-family-heading);
+  font-weight: var(--typography-font-weight-medium);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-primary-neutral);
+}
+
+.ds-checkbox-card__desc {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+  color: var(--text-body-tertiary-neutral);
+}
+
+.ds-checkbox-card-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-checkbox-option-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-md);
+}
+
+.ds-example-checkbox-form__apply-all {
+  margin-top: var(--space-component-gap-sm);
+}
+
+/* ---- Variants > Example: Checkbox cell (Table row-selection demo) ----
+   Reuses TableDoc's own .ds-table-example/.ds-table-toolbar/.ds-table-results chrome
+   classes verbatim (see Table.css) for automatic visual parity — only the hover-dim
+   behavior below is new. Mirrors InputDoc.css's dim-siblings-not-ancestors pattern:
+   everything but the checkbox column dims on hover, and the checkbox column itself
+   gets a highlight ring. */
+.ds-example-checkbox-table {
+  /* Unlike TableDoc's own instance, this wrapper is an extra hover-scoping div between
+     .ds-preview and .ds-table-example — without an explicit width it shrinks to content
+     inside .ds-preview's flex layout instead of filling the container like the Table
+     page's instance does. */
+  width: 100%;
+}
+
+.ds-example-checkbox-table .ds-table-toolbar,
+.ds-example-checkbox-table .ds-table-results,
+.ds-example-checkbox-table .ds-table-example__pagination,
+.ds-example-checkbox-table .ds-datatable__header-row,
+.ds-example-checkbox-table .ds-datatable__cell:not(.ds-datatable__select-cell) {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-checkbox-table:hover .ds-table-toolbar,
+.ds-example-checkbox-table:hover .ds-table-results,
+.ds-example-checkbox-table:hover .ds-table-example__pagination,
+.ds-example-checkbox-table:hover .ds-datatable__header-row,
+.ds-example-checkbox-table:hover .ds-datatable__cell:not(.ds-datatable__select-cell) {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-checkbox-table .ds-datatable__select-cell {
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-example-checkbox-table:hover .ds-datatable__select-cell {
+  box-shadow: inset 0 0 0 2px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+/* ---- Variants > Example: Checkbox field / Checkbox card — Send Date width ----
+   DatePicker.css's own .ds-date-picker root has no explicit width, so it shrinks to
+   content inside a FormCol by default (same gap DatePickerDoc.css's own Send Date field
+   flags). Both the Checkbox field and Checkbox card tabs share this Form composition, and
+   the Send Date field is the only .ds-example-checkbox-form__field that contains a
+   .ds-date-picker, so this fixes both tab instances without a new modifier class. */
+.ds-example-checkbox-form__field .ds-date-picker {
+  width: 100%;
+}
+
+/* ---- Variants > Example: Checkbox field / Checkbox card ----
+   Both tabs share one "Sending Settings" Form composition; the container modifier
+   (--field / --card) picks which field's marker class is excluded from the dim rule,
+   same mechanism as InputDoc.css's --label/--number pair. */
+.ds-example-checkbox-form .ds-form__title,
+.ds-example-checkbox-form .ds-form-field__label,
+.ds-example-checkbox-form .ds-example-checkbox-form__field:not(.ds-example-checkbox-form__field--platform):not(.ds-example-checkbox-form__field--shipping) {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-checkbox-form:hover .ds-form__title,
+.ds-example-checkbox-form:hover .ds-form-field__label,
+.ds-example-checkbox-form:hover .ds-example-checkbox-form__field:not(.ds-example-checkbox-form__field--platform):not(.ds-example-checkbox-form__field--shipping) {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-checkbox-form__field--platform,
+.ds-example-checkbox-form__field--shipping {
+  transition: opacity var(--duration-fast) ease, box-shadow var(--duration-fast) ease; /* duration/fast */
+  border-radius: var(--radius-md);
+}
+
+.ds-example-checkbox-form--field:hover .ds-example-checkbox-form__field--shipping,
+.ds-example-checkbox-form--card:hover .ds-example-checkbox-form__field--platform {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-checkbox-form--field:hover .ds-example-checkbox-form__field--platform,
+.ds-example-checkbox-form--card:hover .ds-example-checkbox-form__field--shipping {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}

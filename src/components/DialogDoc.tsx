@@ -3,7 +3,7 @@ import Dialog from './Dialog';
 import Button from './Button';
 import { Checkbox } from './Checkbox';
 import { ProgressRing } from './Indicator';
-import { ButtonIcon, CheckboxIcon, IndicatorIcon } from './icons';
+import { ButtonIcon, IndicatorIcon } from './icons';
 import './ButtonDoc.css';
 import './DialogDoc.css';
 
@@ -379,8 +379,8 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Dialog composes these components internally.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Dialog.</p>
         <div className="ds-related-grid">
           <button
             type="button"
@@ -389,14 +389,6 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
           >
             <ButtonIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Button</span>
-          </button>
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('checkbox')}
-          >
-            <CheckboxIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Checkbox</span>
           </button>
           <button
             type="button"
@@ -413,6 +405,6 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
 }
 
 // Referenced above only via the Loading-layout ProgressRing preview inside Dialog itself —
-// kept imported so the "Related Component" Indicator link and this doc file both compile
+// kept imported so the "Related Components" Indicator link and this doc file both compile
 // against the same module used by Dialog.tsx.
 void ProgressRing;

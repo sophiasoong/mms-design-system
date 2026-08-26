@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from './Button';
 import IconButton from './IconButton';
-import { IconButtonIcon } from './icons';
+import { IconButtonIcon, FooterIcon, DropdownIcon, TableIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -831,10 +831,9 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
+        <h2 className="ds-section__title">Related Components</h2>
         <p className="ds-section__desc">
-          Components that commonly appear alongside Button. Only Button is documented in this
-          library today.
+          Components that commonly appear alongside Button.
         </p>
         <div className="ds-related-grid">
           <button
@@ -845,27 +844,30 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
             <IconButtonIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Icon Button</span>
           </button>
-          <div className="ds-related-card ds-related-card--soon">
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              view_column_2
-            </span>
-            <span className="ds-related-card__name">Button Group</span>
-            <span className="ds-related-card__tag">Soon</span>
-          </div>
-          <div className="ds-related-card ds-related-card--soon">
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              link
-            </span>
-            <span className="ds-related-card__name">Link</span>
-            <span className="ds-related-card__tag">Soon</span>
-          </div>
-          <div className="ds-related-card ds-related-card--soon">
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              sell
-            </span>
-            <span className="ds-related-card__name">Tag</span>
-            <span className="ds-related-card__tag">Soon</span>
-          </div>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('footer')}
+          >
+            <FooterIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Footer</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('dropdown')}
+          >
+            <DropdownIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Dropdown</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('table')}
+          >
+            <TableIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Table</span>
+          </button>
         </div>
       </section>
     </div>

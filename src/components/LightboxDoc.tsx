@@ -17,6 +17,19 @@ const VARIANT_TABS = [
 ] as const;
 type VariantTab = (typeof VARIANT_TABS)[number];
 
+// "Preview image (multiple)" demo, items 2-9 — Lego Bricks photos from Unsplash (item 1 keeps
+// the default placeholder). Indexed by previewImageIndex - 2.
+const PREVIEW_IMAGE_URLS = [
+  'https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1600&q=80',
+  'https://images.unsplash.com/photo-1646995477167-a344548ce6b9?auto=format&fit=crop&w=1600&q=80',
+  'https://images.unsplash.com/photo-1633469924738-52101af51d87?auto=format&fit=crop&w=1600&q=80',
+  'https://images.unsplash.com/photo-1631106256072-54c89defe828?auto=format&fit=crop&w=1600&q=80',
+  'https://images.unsplash.com/photo-1631106254201-ffbee2305c5b?auto=format&fit=crop&w=1600&q=80',
+  'https://images.unsplash.com/photo-1620309668391-26ac1c90f61b?auto=format&fit=crop&w=1600&q=80',
+  'https://images.unsplash.com/photo-1560961911-ba7ef651a56c?auto=format&fit=crop&w=1600&q=80',
+  'https://images.unsplash.com/photo-1575470522418-b88b692b8084?auto=format&fit=crop&w=1600&q=80',
+];
+
 interface LightboxDocProps {
   onNavigate?: (componentId: string) => void;
 }
@@ -24,6 +37,8 @@ interface LightboxDocProps {
 export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
   const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Preview image (multiple)');
   const goToPreviewImage = () => setActiveVariantTab('Preview image (multiple)');
+  const previewImageTotal = 9;
+  const [previewImageIndex, setPreviewImageIndex] = useState(1);
 
   return (
     <div className="ds-doc">
@@ -243,7 +258,24 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
                   raw value per the "flag instead of guessing" rule. */}
               <div style={{ width: '100%', aspectRatio: '16 / 9' }}>
                 {activeVariantTab === 'Preview image (multiple)' && (
-                  <Lightbox showPrevious={false} counterLabel="1 / 9" onNext={goToPreviewImage} />
+                  <Lightbox
+                    showPrevious={previewImageIndex > 1}
+                    showNext={previewImageIndex < previewImageTotal}
+                    counterLabel={`${previewImageIndex} / ${previewImageTotal}`}
+                    onPrevious={() => setPreviewImageIndex((index) => Math.max(1, index - 1))}
+                    onNext={() =>
+                      setPreviewImageIndex((index) => Math.min(previewImageTotal, index + 1))
+                    }
+                    media={
+                      previewImageIndex > 1 ? (
+                        <img
+                          src={PREVIEW_IMAGE_URLS[previewImageIndex - 2]}
+                          alt=""
+                          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                        />
+                      ) : undefined
+                    }
+                  />
                 )}
                 {activeVariantTab === 'Preview image (single)' && (
                   <Lightbox showPrevious={false} showNext={false} showCounter={false} />
@@ -287,7 +319,11 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
             </div>
             {activeVariantTab === 'Preview image (multiple)' && (
               <span className="ds-variant-note">
-                Previous is hidden on the first item in the set — there's nowhere for it to go.
+                {previewImageIndex === 1
+                  ? "Previous is hidden on the first item in the set — there's nowhere for it to go."
+                  : previewImageIndex === previewImageTotal
+                    ? "Next is hidden on the last item in the set — there's nowhere for it to go."
+                    : `Click Next or Previous to browse the set (currently item ${previewImageIndex} of ${previewImageTotal}).`}
               </span>
             )}
             {activeVariantTab === 'Preview image (single)' && (
@@ -459,9 +495,9 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
             <tr>
               <th scope="row">Counter type</th>
               <td>
-                <code>--typography-lg</code>
+                <code>--typography-sm</code>
               </td>
-              <td>20px / 28px, regular</td>
+              <td>14px / 20px, regular</td>
             </tr>
             <tr>
               <th scope="row">Action bar padding</th>
@@ -518,8 +554,8 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Lightbox composes this component internally.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">Components that commonly appear alongside Lightbox.</p>
         <div className="ds-related-grid">
           <button
             type="button"

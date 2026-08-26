@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Breadcrumb, { BackLink, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbSeparator } from './Breadcrumb';
 import Button from './Button';
-import { AnchorIcon } from './icons';
 import './ButtonDoc.css';
 import './BreadcrumbDoc.css';
 
@@ -20,7 +19,7 @@ interface BreadcrumbDocProps {
   onNavigate?: (componentId: string) => void;
 }
 
-export default function BreadcrumbDoc({ onNavigate }: BreadcrumbDocProps) {
+export default function BreadcrumbDoc({ onNavigate: _onNavigate }: BreadcrumbDocProps) {
   const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Trail');
   const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Breadcrumb');
 
@@ -429,21 +428,10 @@ export default function BreadcrumbDoc({ onNavigate }: BreadcrumbDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
+        <h2 className="ds-section__title">Related Components</h2>
         <p className="ds-section__desc">
-          Component that shares Breadcrumb's convention of marking the current position with a
-          distinct active state.
+          No related components have been identified for Breadcrumb yet.
         </p>
-        <div className="ds-related-grid">
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('anchor')}
-          >
-            <AnchorIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Anchor</span>
-          </button>
-        </div>
       </section>
     </div>
   );

@@ -1,15 +1,29 @@
 import { useState } from 'react';
 import { Tag, type TagColor } from './Tag';
-import { ChipIcon } from './icons';
+import Message from './Message';
+import { ContractIcon, ApprovalIcon, ThreePLIcon, PaymentIcon, OrderIcon } from './messageTypeIcons';
+import Button from './Button';
+import AppTopbar from './AppTopbar';
+import List from './List';
+import { Searchbar } from './Searchbar';
+import { SearchbarIcon, MessageIcon, TableIcon } from './icons';
 import './ButtonDoc.css';
+import './TagDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=135-94';
+const NOTIFICATION_PANEL_FIGMA_URL =
+  'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=676-5949';
+const GLOBAL_SEARCH_FIGMA_URL =
+  'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=681-19234';
 
 const OUTLINE_COLORS: TagColor[] = ['primary', 'green', 'orange', 'red', 'blue', 'gray'];
 
 const STYLE_TABS = ['Outline', 'Solid'] as const;
 type StyleTab = (typeof STYLE_TABS)[number];
+
+const EXAMPLE_TABS = ['Message', 'Searchbar'] as const;
+type ExampleTab = (typeof EXAMPLE_TABS)[number];
 
 interface TagDocProps {
   onNavigate?: (componentId: string) => void;
@@ -17,6 +31,7 @@ interface TagDocProps {
 
 export default function TagDoc({ onNavigate }: TagDocProps) {
   const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Outline');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Message');
 
   return (
     <div className="ds-doc">
@@ -153,6 +168,189 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
               </span>
             </div>
           )}
+        </div>
+
+        <div id="example" className="ds-section__subsection">
+          <h3 className="ds-section__subtitle">Example</h3>
+          <p className="ds-section__desc">
+            Two places Tag shows up in composition: the notification panel dropped from the
+            topbar's bell, and a global-search results panel.
+          </p>
+
+          <div className="ds-line-tabs" role="tablist" aria-label="Tag example groups">
+            {EXAMPLE_TABS.map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activeExampleTab === tab}
+                className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
+                onClick={() => setActiveExampleTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          <div className="ds-variant-groups">
+            {activeExampleTab === 'Message' && (
+              <div className="ds-variant-group">
+                <div className="ds-preview ds-preview--scrim ds-preview--scroll" style={{ padding: 0 }}>
+                  <div className="ds-tag-example-message">
+                    <div className="ds-tag-example-message__dim">
+                      <AppTopbar />
+                    </div>
+                    <div className="ds-tag-example-message__panel-row">
+                      <div className="ds-tag-example-message__panel">
+                        <Message
+                          title="Contract"
+                          description="A contract is ready for your signature — please review before the due date."
+                          icon={<ContractIcon />}
+                          tags={['Contract', 'Legal']}
+                          date="2026-08-02"
+                          showButton={false}
+                          showBadge={false}
+                        />
+                        <Message
+                          title="Approval"
+                          description="A new request is waiting for your review and approval."
+                          icon={<ApprovalIcon />}
+                          tags={['Approval', 'Review']}
+                          date="2026-07-30"
+                          showButton={false}
+                          showBadge={false}
+                        />
+                        <Message
+                          title="3PL"
+                          description="Your 3PL partner updated the shipment status for 3 pending orders."
+                          icon={<ThreePLIcon />}
+                          tags={['3PL', 'Logistics']}
+                          date="2026-07-31"
+                          showButton={false}
+                          showBadge={false}
+                        />
+                        <Message
+                          title="Payment"
+                          description="A payment of $1,240.00 was successfully processed for invoice #48213."
+                          icon={<PaymentIcon />}
+                          tags={['Payment', 'Finance']}
+                          date="2026-08-01"
+                          showButton={false}
+                          showBadge={false}
+                        />
+                        <Message
+                          title="Order"
+                          description="Order #10293 has shipped and is on its way to the customer."
+                          icon={<OrderIcon />}
+                          tags={['Order', 'Logistics']}
+                          date="2026-08-02"
+                          showButton={false}
+                          showBadge={false}
+                        />
+                        <div className="ds-tag-example-message__panel-footer ds-tag-example-message__dim">
+                          <Button
+                            variant="primary"
+                            appearance="outline"
+                            size="md"
+                            className="ds-tag-example-message__view-all"
+                          >
+                            View All
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <span className="ds-variant-note">
+                  Every row's tags stay highlighted on hover while the rest of the panel dims.{' '}
+                  <a
+                    className="ds-tag-example-message__ref"
+                    href={NOTIFICATION_PANEL_FIGMA_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span className="icon icon--xs" aria-hidden="true">
+                      draw
+                    </span>
+                    Reference in Figma
+                  </a>
+                </span>
+              </div>
+            )}
+
+            {activeExampleTab === 'Searchbar' && (
+              <div className="ds-variant-group">
+                <div className="ds-preview ds-preview--scrim">
+                  <div className="ds-tag-example-searchbar">
+                    <div className="ds-tag-example-searchbar__panel">
+                      <div className="ds-tag-example-searchbar__searchbar-row ds-tag-example-searchbar__dim">
+                        <Searchbar size="lg" state="focus" chipLabel="Label" defaultValue="Label" />
+                      </div>
+                      <div className="ds-tag-example-searchbar__rows">
+                        <List
+                          size="lg"
+                          label="Storefront Setup"
+                          showFilterChip={false}
+                          subtitle={
+                            <>
+                              Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
+                              Intent
+                            </>
+                          }
+                          caption="Online Store / Storefront / Setup / Marketing / Campaigns / Automation"
+                        />
+                        <List
+                          size="lg"
+                          label="Storefront Domain Settings"
+                          tag="Product"
+                          subtitle={
+                            <>
+                              Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
+                              Intent
+                            </>
+                          }
+                          caption="Online Store / Storefront / Domain / Settings / Advanced / Custom"
+                        />
+                        <List
+                          size="lg"
+                          label="Free Gift Promotion"
+                          tag="Promotion"
+                          subtitle={
+                            <>
+                              Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
+                              Intent
+                            </>
+                          }
+                          caption="Online Store / Promotions / Free Gift / Campaign / Rules / Eligibility"
+                        />
+                      </div>
+                      <div className="ds-tag-example-searchbar__footer ds-tag-example-searchbar__dim">
+                        <span className="ds-tag-example-searchbar__kbd">Esc</span>
+                        <span className="ds-tag-example-searchbar__hint">Close</span>
+                        <span className="ds-tag-example-searchbar__kbd">/</span>
+                        <span className="ds-tag-example-searchbar__hint">Open global search</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <span className="ds-variant-note">
+                  Each result's category tag stays highlighted on hover while the rest of the row
+                  dims.{' '}
+                  <a
+                    className="ds-tag-example-searchbar__ref"
+                    href={GLOBAL_SEARCH_FIGMA_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span className="icon icon--xs" aria-hidden="true">
+                      draw
+                    </span>
+                    Reference in Figma
+                  </a>
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
@@ -343,24 +541,33 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
+        <h2 className="ds-section__title">Related Components</h2>
         <p className="ds-section__desc">Components that commonly appear alongside Tag.</p>
         <div className="ds-related-grid">
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('chip')}
+            onClick={() => onNavigate?.('searchbar')}
           >
-            <ChipIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Chip</span>
+            <SearchbarIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Searchbar</span>
           </button>
-          <div className="ds-related-card ds-related-card--soon">
-            <span className="icon ds-related-card__icon" aria-hidden="true">
-              chat_bubble
-            </span>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('message')}
+          >
+            <MessageIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Message</span>
-            <span className="ds-related-card__tag">Soon</span>
-          </div>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('table')}
+          >
+            <TableIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Table</span>
+          </button>
         </div>
       </section>
     </div>

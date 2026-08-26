@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { Textarea } from './Textarea';
 import Button from './Button';
-import { InputIcon, SelectIcon } from './icons';
+import { FormIcon } from './icons';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -285,6 +285,8 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
                 </div>
                 <Textarea
                   placeholder="Autosize height based on content lines"
+                  state={fieldCharCount >= CHAR_LIMIT ? 'error' : 'default'}
+                  maxLength={CHAR_LIMIT}
                   onChange={(value) => setFieldCharCount(countCharacters(value))}
                 />
                 <div className="ds-textarea-example__hint">
@@ -575,24 +577,16 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
+        <h2 className="ds-section__title">Related Components</h2>
         <p className="ds-section__desc">Components that commonly appear alongside Textarea.</p>
         <div className="ds-related-grid">
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('input')}
+            onClick={() => onNavigate?.('form')}
           >
-            <InputIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Input</span>
-          </button>
-          <button
-            type="button"
-            className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('select')}
-          >
-            <SelectIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Select</span>
+            <FormIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Form</span>
           </button>
         </div>
       </section>

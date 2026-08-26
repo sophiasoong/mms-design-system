@@ -1,0 +1,80 @@
+/* ---- Variants > Example: Chip-tab / Table filter-chips ----
+   Both example tabs are built from real, already-styled components (Action Chip, Filter
+   Chip, Table) — nothing here redraws chrome. Each dim/highlight pair below targets
+   sibling elements only, never an ancestor/descendant pair: opacity compounds through
+   nested layers, so a highlighted (opacity:1) child stays visually dimmed if any ancestor
+   is opacity<1 — that's why each row's own chip group is never dimmed as a whole, only the
+   category label beside it dims. */
+
+.ds-example-chip-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-lg);
+  width: 100%;
+}
+
+.ds-example-chip-tabs__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-example-chip-tabs__label {
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-secondary-neutral);
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-chip-tabs:hover .ds-example-chip-tabs__label {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-chip-tabs__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-example-chip-tabs__chips .ds-chip {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-chip-tabs:hover .ds-example-chip-tabs__chips .ds-chip {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+/* ---- Table filter-chips tab — Filter chip is the highlight target; the search bar and
+   table (header + cells) are the sibling content that dims. Chips only ever live in the
+   toolbar's filters row here, so no :has() is needed to carve them out of a shared cell
+   class the way Badge's in-cell composite does.
+   The toolbar (scoped searchbar + two remaining filter chips) fits in Table.css's default
+   single unwrapped row at this example's width, matching the Figma "Toolbar" reference
+   (node 1720:61038), so no flex-wrap override is needed here. */
+
+.ds-example-chip-table .ds-table-toolbar__search-wrap,
+.ds-example-chip-table .ds-datatable__header-row,
+.ds-example-chip-table .ds-datatable__cell {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-chip-table:hover .ds-table-toolbar__search-wrap,
+.ds-example-chip-table:hover .ds-datatable__header-row,
+.ds-example-chip-table:hover .ds-datatable__cell {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-chip-table .ds-table-toolbar__filters .ds-chip {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-chip-table:hover .ds-table-toolbar__filters .ds-chip {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+/* The default .ds-example-mock__name color reads at near-zero contrast on the Filter chip
+   tab's .ds-preview--scrim backdrop — same fix as ButtonDoc's
+   .ds-variant-row--scrim .ds-variant-row__cell-label. */
+.ds-preview--scrim .ds-example-mock__name {
+  color: var(--brand-neutral-0);
+}

@@ -1,0 +1,114 @@
+/* ---- Variants > Style: Radio card ----
+   No --interactive-radio-card-* tokens exist in tokens.css (grepped — only the base
+   --interactive-checkbox-* set, --brand-primary-* shades, and generic --surface-card-*
+   tokens are defined; same gap already documented in Radio.css for the plain Radio
+   circle itself). Every value below is a flagged reuse of an existing token that is an
+   exact hex match to the Figma Radio-card reference (node 712-19627 for the Style tab's
+   preview-card anatomy, node 1762-23144 for the Example tab's compact card), same
+   convention as CheckboxDoc.css's Checkbox-card precedent. Swap these for dedicated
+   --interactive-radio-card-* tokens if/when they're added to tokens.css. */
+.ds-radio-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-component-gap-sm);
+  width: 250px; /* Figma's fixed card width — no matching --component-width-* token */
+  padding: var(--space-component-padding-md);
+  background: var(--surface-card-surface-default); /* surface/card/surface/default */
+  border: var(--border-sm) solid var(--interactive-checkbox-border-default); /* interactive/radio/card/border/default, #d9d9d9 exact match */
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-fast) ease, background-color var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-radio-card--checked {
+  background: var(--brand-primary-50); /* interactive/radio/card/surface/checked, #f7f6ff exact match */
+  border-color: var(--brand-primary-400); /* interactive/radio/card/border/checked, #5244ee exact match — a stronger purple than the Radio circle's own checked-border (--brand-primary-300), confirmed distinct in Figma */
+}
+
+.ds-radio-card--disabled {
+  background: var(--interactive-checkbox-surface-disabled); /* interactive/radio/card/surface/disabled, #f5f5f5 exact match */
+  border-color: var(--interactive-checkbox-border-disabled); /* interactive/radio/card/border/disabled, #d9d9d9 exact match */
+}
+
+.ds-radio-card-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-radio-option-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-md);
+}
+
+/* Preview slot — only present in the Style tab's full anatomy (node 712-19627); the
+   Example tab's Recipients cards (node 1762-23144) omit it entirely. */
+.ds-radio-card__preview {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 80px; /* Figma's fixed preview height (~91px incl. its own internal gap) — no matching token */
+  background: var(--brand-neutral-200); /* placeholder-thumbnail gray, same convention as Table.css's .ds-datatable__cell-thumbnail — shows while the image loads */
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.ds-radio-card__preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ds-radio-card__preview-action {
+  position: absolute;
+  right: var(--space-component-gap-sm);
+  bottom: var(--space-component-gap-sm);
+}
+
+.ds-example-radio-form__apply-all {
+  margin-top: var(--space-component-gap-sm);
+}
+
+/* ---- Variants > Example: Radio label / Radio card — Send Date width ----
+   Same fill-width fix as CheckboxDoc.css/DatePickerDoc.css's own Send Date field. Both
+   the Radio label and Radio card tabs share this Form composition, and the Send Date
+   field is the only .ds-example-radio-form__field that contains a .ds-date-picker, so
+   this fixes both tab instances without a new modifier class. */
+.ds-example-radio-form__field .ds-date-picker {
+  width: 100%;
+}
+
+/* ---- Variants > Example: Radio label / Radio card ----
+   Both tabs share one "Sending Settings" Form composition (Figma node 1762-23144); the
+   container modifier (--label / --card) picks which field's marker class is excluded
+   from the dim rule, same mechanism as CheckboxDoc.css's --field/--card pair. */
+.ds-example-radio-form .ds-form__title,
+.ds-example-radio-form .ds-form-field__label,
+.ds-example-radio-form .ds-example-radio-form__field:not(.ds-example-radio-form__field--send-mode):not(.ds-example-radio-form__field--recipients) {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-radio-form:hover .ds-form__title,
+.ds-example-radio-form:hover .ds-form-field__label,
+.ds-example-radio-form:hover .ds-example-radio-form__field:not(.ds-example-radio-form__field--send-mode):not(.ds-example-radio-form__field--recipients) {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-radio-form__field--send-mode,
+.ds-example-radio-form__field--recipients {
+  transition: opacity var(--duration-fast) ease, box-shadow var(--duration-fast) ease; /* duration/fast */
+  border-radius: var(--radius-md);
+}
+
+.ds-example-radio-form--label:hover .ds-example-radio-form__field--recipients,
+.ds-example-radio-form--card:hover .ds-example-radio-form__field--send-mode {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-example-radio-form--label:hover .ds-example-radio-form__field--send-mode,
+.ds-example-radio-form--card:hover .ds-example-radio-form__field--recipients {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}

@@ -1,4 +1,4 @@
-/* Figma-exported SVGs for the bespoke nav / Related Component glyphs — one per
+/* Figma-exported SVGs for the bespoke nav / Related Components glyphs — one per
    component whose Figma mark has no Material Symbols Rounded equivalent (see the
    comment in ../data/components.ts for the full list of which ids use these vs. the
    ligature fallback). All source files share one convention: two flat fills, #222222

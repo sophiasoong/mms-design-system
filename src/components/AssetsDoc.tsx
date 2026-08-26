@@ -2,7 +2,14 @@ import { useState, type ReactNode } from 'react';
 import { Icon, type IconName, type IconSize } from './Icon';
 import { Image, type ImageStyle } from './Image';
 import { Thumbnail, type ThumbnailMessageStyle } from './Thumbnail';
-import { UploadIcon, MessageIcon, DropzoneIcon } from './icons';
+import {
+  UploadIcon,
+  MessageIcon,
+  DropzoneIcon,
+  TopbarIcon,
+  TableIcon,
+  DropdownIcon,
+} from './icons';
 import {
   ChevronDown12Icon,
   ChevronUp12Icon,
@@ -490,16 +497,34 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Component</h2>
-        <p className="ds-section__desc">Components that commonly appear alongside Assets.</p>
+        <h2 className="ds-section__title">Related Components</h2>
+        <p className="ds-section__desc">
+          Components that commonly appear alongside Assets.
+        </p>
         <div className="ds-related-grid">
           <button
             type="button"
             className="ds-related-card ds-related-card--link"
-            onClick={() => onNavigate?.('upload')}
+            onClick={() => onNavigate?.('topbar')}
           >
-            <UploadIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Upload</span>
+            <TopbarIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Topbar</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('table')}
+          >
+            <TableIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Table</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('dropdown')}
+          >
+            <DropdownIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Dropdown</span>
           </button>
           <button
             type="button"
@@ -508,6 +533,14 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
           >
             <MessageIcon className="ds-related-card__icon" />
             <span className="ds-related-card__name">Message</span>
+          </button>
+          <button
+            type="button"
+            className="ds-related-card ds-related-card--link"
+            onClick={() => onNavigate?.('upload')}
+          >
+            <UploadIcon className="ds-related-card__icon" />
+            <span className="ds-related-card__name">Upload</span>
           </button>
         </div>
       </section>

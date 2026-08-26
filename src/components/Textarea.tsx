@@ -10,6 +10,11 @@ export interface TextareaProps {
   defaultValue?: string;
   size?: TextareaSize;
   state?: TextareaState;
+  /** Native character cap — the browser simply stops accepting keystrokes past this
+   * length (backspace/delete still work), so a caller pairing this with
+   * `state="error"` at the same threshold gets a field that blocks further typing
+   * and shows the error border, without needing a combined disabled+error state. */
+  maxLength?: number;
   chips?: string[];
   onRemoveChip?: (label: string) => void;
   onAddChip?: (value: string) => void;
@@ -22,6 +27,7 @@ export function Textarea({
   defaultValue,
   size = 'lg',
   state = 'default',
+  maxLength,
   chips,
   onRemoveChip,
   onAddChip,
@@ -88,6 +94,7 @@ export function Textarea({
         defaultValue={defaultValue}
         placeholder={placeholder}
         disabled={disabled}
+        maxLength={maxLength}
         onChange={onChange ? (event) => onChange(event.target.value) : undefined}
       />
     </div>
