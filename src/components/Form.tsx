@@ -96,15 +96,16 @@ export interface FormFieldProps {
   label: string;
   required?: boolean;
   info?: boolean;
+  className?: string;
   children: ReactNode;
 }
 
 /** A labeled field row (Figma's "Input-field" / "Select-field" / "Toggle-field" / etc.)
  * — a small label, optionally marked required or paired with an info glyph, above
  * arbitrary field content (Input, Select, Toggle, Radio, DateRangePicker, Textarea...). */
-export function FormField({ label, required, info, children }: FormFieldProps) {
+export function FormField({ label, required, info, className, children }: FormFieldProps) {
   return (
-    <div className="ds-form-field">
+    <div className={['ds-form-field', className].filter(Boolean).join(' ')}>
       <span className="ds-form-field__label">
         {label}
         {required && (

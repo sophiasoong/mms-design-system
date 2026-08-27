@@ -10,6 +10,10 @@ export interface DropdownOptionProps {
   label: string;
   style?: DropdownStyle;
   state?: DropdownOptionState;
+  /** Tri-state "Select All" row: some but not all of the options it summarizes are
+   * selected. Independent of `state` the same way Checkbox decouples `indeterminate`
+   * from `checked` — pass state="default" alongside it. */
+  indeterminate?: boolean;
   forceHover?: boolean;
   trailingIcon?: string;
   showBadge?: boolean;
@@ -22,6 +26,7 @@ export function DropdownOption({
   label,
   style = 'single',
   state = 'default',
+  indeterminate = false,
   forceHover = false,
   trailingIcon,
   showBadge = false,
@@ -51,7 +56,14 @@ export function DropdownOption({
       aria-disabled={disabled || undefined}
       onClick={disabled ? undefined : onClick}
     >
-      {hasCheckbox && <Checkbox checked={selected} state={disabled ? 'disabled' : forceHover ? 'hover' : 'default'} decorative />}
+      {hasCheckbox && (
+        <Checkbox
+          checked={selected}
+          indeterminate={indeterminate}
+          state={disabled ? 'disabled' : forceHover ? 'hover' : 'default'}
+          decorative
+        />
+      )}
       {showBadge && (
         <span className="ds-dropdown-option__badge" aria-hidden="true">
           <span

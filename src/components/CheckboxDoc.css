@@ -61,6 +61,12 @@
   gap: var(--space-component-gap-md);
 }
 
+/* Extra hover-scoping div between .ds-preview and .ds-form — same shrink-to-fit gap as
+   .ds-example-checkbox-table below. */
+.ds-example-checkbox-form {
+  width: 100%;
+}
+
 .ds-example-checkbox-form__apply-all {
   margin-top: var(--space-component-gap-sm);
 }

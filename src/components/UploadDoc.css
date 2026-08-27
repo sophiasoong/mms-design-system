@@ -33,6 +33,97 @@
   margin-bottom: var(--space-layout-section-gap-lg); /* space/layout/section/gap/lg */
 }
 
+/* Variants > Upload method > Dropzone — Default/Uploading/Uploaded shown stacked,
+   each captioned via ButtonDoc.css's shared .ds-variant-row__cell(-label) pair (already
+   imported by this page). Uses a plain flex column rather than the full .ds-variant-row
+   class, since that class bundles its own white card shell — redundant here as this row
+   sits directly on .ds-preview--scrim like the page's other method tabs, and the
+   Uploaded cell already supplies its own card via .ds-upload-doc__card. */
+.ds-upload-doc__method-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-layout-section-gap-lg); /* space/layout/section/gap/lg */
+}
+
+/* The shared .ds-variant-row__cell-label's default gray reads at near-zero contrast on
+   this row's .ds-preview--scrim backdrop — same fix as ButtonDoc's own
+   .ds-variant-row--scrim .ds-variant-row__cell-label (this row uses the plain flex column
+   above instead of .ds-variant-row, so it doesn't inherit that scrim variant automatically). */
+.ds-upload-doc__method-row .ds-variant-row__cell-label {
+  color: var(--brand-neutral-0); /* brand/neutral/0 */
+}
+
+/* "Uploading" cell reuses the hover state's progress bar (the only state that renders one)
+   but the dashed hover border is a drag-over affordance, not an in-progress upload state —
+   override back to the default state's solid border/surface tokens. */
+.ds-upload-doc__dropzone--uploading.ds-upload-dropzone--hover {
+  border: var(--border-sm) solid var(--interactive-dropzone-border-default);
+  background: var(--interactive-dropzone-surface-default);
+}
+
+/* Variants > Example — same scrim-contrast fix as .ds-upload-doc__method-row above, scoped
+   to the new Modal/Form composition tabs instead. */
+.ds-upload-doc__example-preview .ds-variant-row__cell-label {
+  color: var(--brand-neutral-0); /* brand/neutral/0 */
+}
+
+/* Example > Image grid — hovering anywhere within a Banner card spotlights its Upload
+   instance: the image-grid tiles gain the shared focus-ring token while the rest of that
+   card's content (header, the Banner field's own label/caption, the Banner URL field, and
+   the Display Schedule row) dims — same disabled-opacity token used sitewide for dimmed
+   content. Scoped per .ds-form-list-item (not the whole Form) since the doc page renders
+   two Banner cards and each should spotlight independently. Each dimmable region is listed
+   individually rather than dimming the shared .ds-form-list-item__body wrapper, since CSS
+   opacity composites a dimmed ancestor's whole subtree — a nested Upload can't "undo" its
+   ancestor's opacity by setting its own back to 1. */
+.ds-upload-doc__example-form .ds-form-list-item:hover .ds-upload-image-item {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+.ds-upload-doc__example-form .ds-form-list-item__header,
+.ds-upload-doc__example-form .ds-form-row > .ds-form-col:first-child .ds-form-field__label,
+.ds-upload-doc__example-form .ds-form-row > .ds-form-col:first-child .ds-form-doc__field-caption,
+.ds-upload-doc__example-form .ds-form-row > .ds-form-col:nth-child(2),
+.ds-upload-doc__example-form .ds-form-doc__schedule-row {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-upload-doc__example-form .ds-form-list-item:hover .ds-form-list-item__header,
+.ds-upload-doc__example-form .ds-form-list-item:hover .ds-form-row > .ds-form-col:first-child .ds-form-field__label,
+.ds-upload-doc__example-form .ds-form-list-item:hover .ds-form-row > .ds-form-col:first-child .ds-form-doc__field-caption,
+.ds-upload-doc__example-form .ds-form-list-item:hover .ds-form-row > .ds-form-col:nth-child(2),
+.ds-upload-doc__example-form .ds-form-list-item:hover .ds-form-doc__schedule-row {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+/* Example > Dropzone — same spotlight/dim treatment as the Image grid example above,
+   applied to the "Upload Products" modal: hovering anywhere in it highlights step 3's
+   Dropzone while the rest (header, steps 1-2, step 3's own title, footer) dims. Steps have
+   no distinguishing class from one another, so nth-child picks out step 3 specifically;
+   its own .ds-upload-doc__step-body (the Dropzone's direct parent) is left out of the dim
+   list — same opacity-compositing reason as the Image grid rules, since dimming it would
+   dim the nested Dropzone too. */
+.ds-upload-doc__example-modal:hover .ds-upload-dropzone {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+.ds-upload-doc__example-modal .ds-header,
+.ds-upload-doc__example-modal .ds-upload-doc__step:nth-child(1),
+.ds-upload-doc__example-modal .ds-upload-doc__step:nth-child(2),
+.ds-upload-doc__example-modal .ds-upload-doc__step:nth-child(3) > .ds-upload-doc__step-title,
+.ds-upload-doc__example-modal .ds-footer {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-upload-doc__example-modal:hover .ds-header,
+.ds-upload-doc__example-modal:hover .ds-upload-doc__step:nth-child(1),
+.ds-upload-doc__example-modal:hover .ds-upload-doc__step:nth-child(2),
+.ds-upload-doc__example-modal:hover .ds-upload-doc__step:nth-child(3) > .ds-upload-doc__step-title,
+.ds-upload-doc__example-modal:hover .ds-footer {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
 /* Groups the dropzone + file list + buttons trio (Anatomy figure and Variants > Dropzone
    preview) onto one shared white surface instead of each piece floating separately on the
    dark scrim backdrop — same shell tokens as Card's own card (Card.css). */

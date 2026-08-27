@@ -68,6 +68,13 @@
   bottom: var(--space-component-gap-sm);
 }
 
+/* Extra hover-scoping div between .ds-preview and .ds-form — without an explicit width
+   it shrinks to content inside .ds-preview's flex layout instead of filling the
+   container, same gap documented for .ds-example-checkbox-table in CheckboxDoc.css. */
+.ds-example-radio-form {
+  width: 100%;
+}
+
 .ds-example-radio-form__apply-all {
   margin-top: var(--space-component-gap-sm);
 }

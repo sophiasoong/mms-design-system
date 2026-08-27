@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { Toggle, type ToggleSize } from './Toggle';
+import { Badge } from './Badge';
+import { Input } from './Input';
+import Form, { FormCol, FormField, FormRow } from './Form';
+import Header from './Header';
+import { Table, TableCell, TableHeader, TableHeaderCell, TableRow } from './Table';
 import { FormIcon, HeaderIcon, TableIcon } from './icons';
 import './ButtonDoc.css';
+import './ToggleDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=637-5049';
@@ -15,7 +21,11 @@ interface ToggleDocProps {
 export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
   const [activeSizeTab, setActiveSizeTab] = useState<ToggleSize>('md');
   const [overviewChecked, setOverviewChecked] = useState(true);
-  const [labelChecked, setLabelChecked] = useState(true);
+  const [tableStatusChecked, setTableStatusChecked] = useState(true);
+  const [formToggleChecked, setFormToggleChecked] = useState(true);
+  const [landmarksChecked, setLandmarksChecked] = useState(true);
+  const [customerChatChecked, setCustomerChatChecked] = useState(false);
+  const [headerToggleChecked, setHeaderToggleChecked] = useState(true);
 
   return (
     <div className="ds-doc">
@@ -132,9 +142,153 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">With label</span>
-            <div className="ds-preview">
-              <Toggle label="Notifications" checked={labelChecked} onChange={setLabelChecked} />
+            <span className="ds-variant-group__label">Example</span>
+            <div className="ds-preview ds-preview--scrim ds-toggle-doc__example-container">
+              <div className="ds-toggle-doc__example-row">
+                <div className="ds-toggle-doc__example-item ds-toggle-doc__example">
+                  <div className="ds-table-example">
+                  <Table size="sm">
+                    <TableHeader className="ds-toggle-doc__example-dim">
+                      <TableHeaderCell>SKU ID</TableHeaderCell>
+                      <TableHeaderCell>Product</TableHeaderCell>
+                      <TableHeaderCell>Price</TableHeaderCell>
+                      <TableHeaderCell>Status</TableHeaderCell>
+                    </TableHeader>
+                    <TableRow>
+                      <TableCell className="ds-toggle-doc__example-dim">H0888001</TableCell>
+                      <TableCell className="ds-toggle-doc__example-dim">
+                        Nescafé Gold Blend 200g
+                      </TableCell>
+                      <TableCell className="ds-toggle-doc__example-dim">$138</TableCell>
+                      <TableCell className="ds-toggle-doc__example-target">
+                        <Toggle
+                          size="sm"
+                          checked={tableStatusChecked}
+                          onChange={setTableStatusChecked}
+                          label={tableStatusChecked ? 'Online' : 'Offline'}
+                        />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="ds-toggle-doc__example-dim">
+                      <TableCell>H0888002</TableCell>
+                      <TableCell>Dove Body Wash 500ml</TableCell>
+                      <TableCell>$79</TableCell>
+                      <TableCell>
+                        <Toggle size="sm" checked={false} label="Offline" />
+                      </TableCell>
+                    </TableRow>
+                  </Table>
+                  </div>
+                  <span className="ds-variant-row__cell-label">Table</span>
+                </div>
+
+                <div className="ds-toggle-doc__example-item ds-toggle-doc__example">
+                  <Form
+                    title="Store Base Information"
+                    showInfo={false}
+                    collapsible={false}
+                    className="ds-toggle-doc__example-form-card"
+                  >
+                    <FormRow>
+                      <FormCol>
+                        <FormField label="Business Unit" className="ds-toggle-doc__example-dim">
+                          <span className="ds-form-field__value">HKTV</span>
+                        </FormField>
+                        <FormField label="MMS Store Code" className="ds-toggle-doc__example-dim">
+                          <span className="ds-form-field__value">H8224002</span>
+                        </FormField>
+                        <FormField label="Store Status" className="ds-toggle-doc__example-dim">
+                          <Badge label="Active" color="green" />
+                        </FormField>
+                        <FormField label="Year Joined" className="ds-toggle-doc__example-dim">
+                          <span className="ds-form-field__value">2025</span>
+                        </FormField>
+                        <FormField
+                          label="Store Name (in English)"
+                          required
+                          className="ds-toggle-doc__example-dim"
+                        >
+                          <Input size="lg" defaultValue="Fresh Mart Central" />
+                        </FormField>
+                      </FormCol>
+                      <FormCol>
+                        <FormField label="Merchant Name" className="ds-toggle-doc__example-dim">
+                          <span className="ds-form-field__value">H8224002</span>
+                        </FormField>
+                        <FormField label="Storefront Code" className="ds-toggle-doc__example-dim">
+                          <span className="ds-toggle-doc__example-link">
+                            <span className="ds-toggle-doc__example-link-text">H0888001</span>
+                            <span className="icon icon--sm" aria-hidden="true">
+                              open_in_new
+                            </span>
+                          </span>
+                        </FormField>
+                        <FormField label="Online Status" className="ds-toggle-doc__example-dim">
+                          <Badge label="Online" color="blue" />
+                        </FormField>
+                        <FormField
+                          label="Allow choosing 13Landmarks categories"
+                          className="ds-toggle-doc__example-target"
+                        >
+                          <Toggle
+                            checked={landmarksChecked}
+                            onChange={setLandmarksChecked}
+                            label={landmarksChecked ? 'Yes' : 'No'}
+                          />
+                        </FormField>
+                        <FormField
+                          label="Store Name (in Traditional Chinese)"
+                          required
+                          className="ds-toggle-doc__example-dim"
+                        >
+                          <Input size="lg" defaultValue="生鮮市場中環店" />
+                        </FormField>
+                      </FormCol>
+                      <FormCol>
+                        <FormField label="Merchant ID" className="ds-toggle-doc__example-dim">
+                          <span className="ds-form-field__value">88883333</span>
+                        </FormField>
+                        <FormField label="Hybris Avenue Status" className="ds-toggle-doc__example-dim">
+                          <span className="ds-form-field__value">Yes</span>
+                        </FormField>
+                        <FormField label="Direct-Operated Store" className="ds-toggle-doc__example-target">
+                          <Toggle
+                            checked={formToggleChecked}
+                            onChange={setFormToggleChecked}
+                            label={formToggleChecked ? 'Yes' : 'No'}
+                          />
+                        </FormField>
+                        <FormField label="Customer Chat" className="ds-toggle-doc__example-target">
+                          <Toggle
+                            checked={customerChatChecked}
+                            onChange={setCustomerChatChecked}
+                            label={customerChatChecked ? 'Enabled' : 'Disabled'}
+                          />
+                        </FormField>
+                        <FormField
+                          label="Store Name (in Simplified Chinese)"
+                          required
+                          className="ds-toggle-doc__example-dim"
+                        >
+                          <Input size="lg" defaultValue="生鲜市场中环店" />
+                        </FormField>
+                      </FormCol>
+                    </FormRow>
+                  </Form>
+                  <span className="ds-variant-row__cell-label">Form</span>
+                </div>
+
+                <div className="ds-toggle-doc__example-item ds-toggle-doc__example">
+                  <Header
+                    title="Store Base Information"
+                    showToggle
+                    toggleChecked={headerToggleChecked}
+                    onToggleChange={setHeaderToggleChecked}
+                    className="ds-toggle-doc__example-header ds-toggle-doc__example-target"
+                  />
+                  <span className="ds-variant-row__cell-label">Header</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -223,7 +377,7 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
                 <Toggle checked={true} state="hover" />
               </td>
               <td>
-                <code>brand-primary-200</code>
+                <code>brand-primary-100</code>
               </td>
               <td>
                 <code>brand-neutral-0</code>

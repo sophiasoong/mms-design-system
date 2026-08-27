@@ -657,6 +657,10 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
                                 ? 'selected'
                                 : 'default'
                             }
+                            indeterminate={
+                              inlineExampleSelected.length > 0 &&
+                              inlineExampleSelected.length < MULTI_CHIP_LABELS.length
+                            }
                             onClick={toggleAllInlineExampleOptions}
                           />
                           {MULTI_CHIP_LABELS.map((label) => (
@@ -739,6 +743,10 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
                               wrapExampleSelected.length === MULTI_CHIP_LABELS.length
                                 ? 'selected'
                                 : 'default'
+                            }
+                            indeterminate={
+                              wrapExampleSelected.length > 0 &&
+                              wrapExampleSelected.length < MULTI_CHIP_LABELS.length
                             }
                             onClick={toggleAllWrapExampleOptions}
                           />

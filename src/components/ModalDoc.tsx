@@ -244,8 +244,13 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
                   then has no definite parent height to resolve against, so it computes to
                   auto per spec — the Table example (the only 'full' example) hugs its own
                   content instead of being clipped/scrolled inside an arbitrary box height. */}
-              <div style={{ width: '100%' }}>
-                <Modal size={activeExample.size} title={activeExample.title} showInfo>
+              <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                <Modal
+                  size={activeExample.size}
+                  title={activeExample.title}
+                  showInfo
+                  className={activeExampleId === 'table' ? 'ds-modal--table-example' : undefined}
+                >
                   {/* Mirrors the Upload doc's own Overview demo exactly (same step-title/body/
                       detail/danger classes from UploadDoc.css) — Modal's sm width (432px) was
                       already an exact match for that demo's card width, so this modal is the
@@ -499,7 +504,7 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
                       </Table>
 
                       <div className="ds-table-example__pagination">
-                        <Pagination currentPage={1} totalPages={1} />
+                        <Pagination size="sm" currentPage={1} totalPages={1} />
                       </div>
                     </div>
                   )}

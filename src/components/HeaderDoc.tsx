@@ -1,9 +1,18 @@
 import { useState } from 'react';
 import Header from './Header';
+import ActionPanel, { ActionPanelField, ActionPanelValue } from './ActionPanel';
+import Modal from './Modal';
+import Upload from './Upload';
+import Form, { FormRow, FormCol, FormField } from './Form';
+import { Input } from './Input';
+import { Select } from './Select';
+import { Textarea } from './Textarea';
+import { DateRangePicker } from './DateRangePicker';
 import Button from './Button';
 import IconButton from './IconButton';
 import { IconButtonIcon, ToggleIcon, AssetsIcon } from './icons';
 import './ButtonDoc.css';
+import './UploadDoc.css';
 import './HeaderDoc.css';
 
 const FIGMA_URL =
@@ -12,12 +21,195 @@ const FIGMA_URL =
 const STYLE_TABS = ['Modal', 'Form', 'Sub-form', 'Section', 'Form-list'] as const;
 type StyleTab = (typeof STYLE_TABS)[number];
 
+const EXAMPLE_TABS = ['Action Panel', 'Modal', 'Form'] as const;
+type ExampleTab = (typeof EXAMPLE_TABS)[number];
+
+/** Example tab: Form — duplicated from FormDoc's own RichTextField, since it isn't
+ * exported; per this codebase's doc-page convention of duplicating markup instead of
+ * sharing components across doc pages (see ToggleDoc.css). */
+function HeaderExampleRichTextField({ defaultValue }: { defaultValue?: string } = {}) {
+  return (
+    <FormField label="Description" info>
+      <div className="ds-richtext">
+        <div className="ds-richtext__toolbar">
+          <span className="ds-richtext__toolbar-select">
+            Normal
+            <span className="icon icon--xs" aria-hidden="true">
+              expand_more
+            </span>
+          </span>
+          <span className="ds-richtext__divider" aria-hidden="true" />
+          <IconButton icon="format_bold" label="Bold" variant="neutral" appearance="ghost" size="sm" />
+          <IconButton icon="format_italic" label="Italic" variant="neutral" appearance="ghost" size="sm" />
+          <IconButton
+            icon="format_underlined"
+            label="Underline"
+            variant="neutral"
+            appearance="ghost"
+            size="sm"
+          />
+          <IconButton
+            icon="strikethrough_s"
+            label="Strikethrough"
+            variant="neutral"
+            appearance="ghost"
+            size="sm"
+          />
+          <IconButton
+            icon="format_color_text"
+            label="Text color"
+            variant="neutral"
+            appearance="ghost"
+            size="sm"
+          />
+          <span className="ds-richtext__divider" aria-hidden="true" />
+          <IconButton
+            icon="format_list_numbered"
+            label="Numbered list"
+            variant="neutral"
+            appearance="ghost"
+            size="sm"
+          />
+          <IconButton
+            icon="format_list_bulleted"
+            label="Bulleted list"
+            variant="neutral"
+            appearance="ghost"
+            size="sm"
+          />
+          <IconButton
+            icon="format_align_left"
+            label="Align left"
+            variant="neutral"
+            appearance="ghost"
+            size="sm"
+          />
+          <IconButton
+            icon="format_align_center"
+            label="Align center"
+            variant="neutral"
+            appearance="ghost"
+            size="sm"
+          />
+          <IconButton
+            icon="format_align_right"
+            label="Align right"
+            variant="neutral"
+            appearance="ghost"
+            size="sm"
+          />
+          <IconButton
+            icon="format_indent_decrease"
+            label="Decrease indent"
+            variant="neutral"
+            appearance="ghost"
+            size="sm"
+          />
+          <IconButton
+            icon="format_indent_increase"
+            label="Increase indent"
+            variant="neutral"
+            appearance="ghost"
+            size="sm"
+          />
+          <span className="ds-richtext__divider" aria-hidden="true" />
+          <IconButton icon="link" label="Insert link" variant="neutral" appearance="ghost" size="sm" />
+          <IconButton icon="image" label="Insert image" variant="neutral" appearance="ghost" size="sm" />
+          <IconButton
+            icon="format_quote"
+            label="Insert quote"
+            variant="neutral"
+            appearance="ghost"
+            size="sm"
+          />
+          <IconButton
+            icon="table_chart"
+            label="Insert table"
+            variant="neutral"
+            appearance="ghost"
+            size="sm"
+          />
+          <span className="ds-richtext__spacer" />
+          <button type="button" className="ds-richtext__preview">
+            Preview
+          </button>
+        </div>
+        <Textarea
+          className="ds-richtext__field"
+          placeholder="Placeholder"
+          defaultValue={defaultValue}
+          size="lg"
+        />
+      </div>
+      <div className="ds-richtext__hint">
+        <span className="ds-richtext__hint-count">{defaultValue?.length ?? 0}/200</span>
+      </div>
+    </FormField>
+  );
+}
+
+/** Example tab: Form — duplicated from FormDoc's own FormExample (Figma 789:56940), so
+ * hovering spotlights Header's role inside a real, fully-populated Form instead of a bare
+ * Header instance. */
+function HeaderExampleForm() {
+  return (
+    <Form title="General Information">
+      <FormRow>
+        <FormCol>
+          <FormField label="Product Name">
+            <Input defaultValue="Wireless Bluetooth Headphones" size="lg" />
+          </FormField>
+        </FormCol>
+        <FormCol>
+          <FormField label="Brand">
+            <Input defaultValue="SoundWave Audio" size="lg" />
+          </FormField>
+        </FormCol>
+      </FormRow>
+      <FormRow>
+        <FormCol>
+          <FormField label="Promotion Period" required>
+            <DateRangePicker
+              defaultValue={{ start: new Date(2026, 0, 15), end: new Date(2026, 1, 15) }}
+            />
+          </FormField>
+        </FormCol>
+        <FormCol>
+          <FormField label="Availability Period" required>
+            <DateRangePicker
+              defaultValue={{ start: new Date(2026, 2, 1), end: new Date(2026, 2, 31) }}
+            />
+          </FormField>
+        </FormCol>
+      </FormRow>
+      <FormRow>
+        <FormCol>
+          <FormField label="Category">
+            <Select label="Electronics" size="lg" />
+          </FormField>
+        </FormCol>
+        <FormCol>
+          <FormField label="Shipping Method">
+            <Select label="Standard Shipping" size="lg" />
+          </FormField>
+        </FormCol>
+      </FormRow>
+      <FormRow>
+        <FormCol>
+          <HeaderExampleRichTextField defaultValue="Premium over-ear headphones with active noise cancellation and 30-hour battery life." />
+        </FormCol>
+      </FormRow>
+    </Form>
+  );
+}
+
 interface HeaderDocProps {
   onNavigate?: (componentId: string) => void;
 }
 
 export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
   const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Form');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Action Panel');
 
   return (
     <div className="ds-doc">
@@ -236,30 +428,81 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
           </div>
 
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Example</span>
-            <div className="ds-variant-row ds-variant-row--scrim">
-              <div className="ds-variant-row__cell">
-                <Header style="form" title="Enable notifications" showToggle />
-                <span className="ds-variant-row__cell-label">Toggle</span>
-              </div>
-              <div className="ds-variant-row__cell">
-                <Header style="form" title="Payment method" showButton buttonLabel="Change" />
-                <span className="ds-variant-row__cell-label">Button</span>
-              </div>
-              <div className="ds-variant-row__cell">
-                <Header style="form" title="Basic information" />
-                <span className="ds-variant-row__cell-label">Action-panel</span>
-              </div>
-              <div className="ds-variant-row__cell">
-                <Header
-                  style="form"
-                  title="Shipping address"
-                  showDescription
-                  description="Used for delivery and calculating tax."
-                />
-                <span className="ds-variant-row__cell-label">Description</span>
-              </div>
+            <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
+            <div className="ds-line-tabs" role="tablist" aria-label="Header example compositions">
+              {EXAMPLE_TABS.map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeExampleTab === tab}
+                  className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
+                  onClick={() => setActiveExampleTab(tab)}
+                >
+                  {tab}
+                </button>
+              ))}
             </div>
+            <div className="ds-preview ds-preview--scrim ds-header-doc__example">
+              {activeExampleTab === 'Action Panel' && (
+                <ActionPanel
+                  title="Promotion Details"
+                  main={
+                    <>
+                      <ActionPanelField label="Storefront Code">
+                        <ActionPanelValue>H0888001</ActionPanelValue>
+                      </ActionPanelField>
+                      <ActionPanelField label="Status">
+                        <ActionPanelValue>Active</ActionPanelValue>
+                      </ActionPanelField>
+                      <ActionPanelField label="Promotion Date">
+                        <ActionPanelValue>2026-09-01 – 2026-09-30</ActionPanelValue>
+                      </ActionPanelField>
+                    </>
+                  }
+                />
+              )}
+              {activeExampleTab === 'Modal' && (
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                  <Modal size="sm" title="Upload Products" showInfo>
+                    <div className="ds-upload-doc__steps">
+                      <div className="ds-upload-doc__step">
+                        <p className="ds-upload-doc__step-title">
+                          1. Download Template File or Upload Batch File
+                        </p>
+                        <div className="ds-upload-doc__step-body">
+                          <Button>Download Template</Button>
+                        </div>
+                      </div>
+                      <div className="ds-upload-doc__step">
+                        <p className="ds-upload-doc__step-title">2. Add your data to template file</p>
+                        <div className="ds-upload-doc__step-body ds-upload-doc__step-detail">
+                          <p>If using Excel, make sure to export or save as .xls or xlsx</p>
+                          <p className="ds-upload-doc__step-danger">
+                            Reminder: Do not modify template title fields, or error may occur
+                          </p>
+                        </div>
+                      </div>
+                      <div className="ds-upload-doc__step">
+                        <p className="ds-upload-doc__step-title">3. Upload Batch File</p>
+                        <div className="ds-upload-doc__step-body">
+                          <Upload
+                            style="dropzone"
+                            showFileList={false}
+                            className="ds-upload-doc__step-upload"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </Modal>
+                </div>
+              )}
+              {activeExampleTab === 'Form' && <HeaderExampleForm />}
+            </div>
+            <span className="ds-variant-note">
+              Each tab is a real composition duplicated from that component's own doc page —
+              hover to spotlight Header's role inside it.
+            </span>
           </div>
         </div>
       </section>

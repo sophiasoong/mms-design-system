@@ -2,8 +2,15 @@ import { useState } from 'react';
 import Upload, { UploadDropzone, UploadImageItem } from './Upload';
 import List from './List';
 import Button from './Button';
+import IconButton from './IconButton';
+import Modal from './Modal';
+import Form, { FormRow, FormCol, FormField } from './Form';
+import { Input } from './Input';
+import { Radio } from './Radio';
+import { DatePicker } from './DatePicker';
 import { ListIcon, FormIcon } from './icons';
 import './ButtonDoc.css';
+import './FormDoc.css';
 import './UploadDoc.css';
 
 const FIGMA_URL =
@@ -11,6 +18,9 @@ const FIGMA_URL =
 
 const METHOD_TABS = ['Dropzone', 'Image grid', 'Button'] as const;
 type MethodTab = (typeof METHOD_TABS)[number];
+
+const EXAMPLE_TABS = ['Dropzone', 'Image grid'] as const;
+type ExampleTab = (typeof EXAMPLE_TABS)[number];
 
 const IMAGE_ITEM_TABS = ['Circular (sm)', 'Square (sm)', 'Square (lg)'] as const;
 type ImageItemTab = (typeof IMAGE_ITEM_TABS)[number];
@@ -55,12 +65,127 @@ const SAMPLE_FILES = [
   { name: 'customer-records.xlsx' },
 ];
 
+/** One repeatable "Banner" card within the Example > Image grid tab's Form composition
+ * (Figma node 1782:24362, "Direct to Merchant Page Banner") — duplicates FormDoc's own
+ * BannerListItem exactly (drag handle, thumbnail, title, delete/collapse actions, then
+ * an image-grid + URL row and a schedule row whose date fields only appear once
+ * "Schedule display period" is selected), matching this page's duplicate-not-abstract
+ * convention rather than importing FormDoc's page-scoped component. */
+function BannerListItem({ scheduled, index }: { scheduled: boolean; index: number }) {
+  const [isScheduled, setIsScheduled] = useState(scheduled);
+  const scheduleGroup = `upload-banner-schedule-${index}`;
+  return (
+    <div className="ds-form-list-item">
+      <div className="ds-form-list-item__header">
+        <span className="icon icon--sm ds-form-list-item__drag" aria-hidden="true">
+          drag_indicator
+        </span>
+        <span className="ds-form-list-item__thumb" aria-hidden="true">
+          <span className="icon icon--sm" aria-hidden="true">
+            image
+          </span>
+        </span>
+        <span className="ds-form-list-item__title">
+          Banner
+          <span className="icon icon--sm ds-form-field__info" aria-hidden="true">
+            info
+          </span>
+        </span>
+        <div className="ds-form-list-item__actions">
+          <IconButton
+            icon="delete"
+            label="Delete banner"
+            variant="primary"
+            appearance="ghost"
+            size="sm"
+          />
+          <IconButton
+            icon="expand_less"
+            label="Collapse banner"
+            variant="primary"
+            appearance="ghost"
+            size="sm"
+          />
+        </div>
+      </div>
+      <div className="ds-form-list-item__body">
+        <FormRow>
+          <FormCol>
+            <FormField label="Banner">
+              <p className="ds-form-doc__field-caption">
+                Max size: 2MB; dimensions: 1920 x 360px; supported formats: .jpg / png / webp
+              </p>
+              <Upload
+                style="image-grid"
+                showAddTile={false}
+                images={
+                  <>
+                    {index === 1 && (
+                      <UploadImageItem
+                        size="sm"
+                        shape="square"
+                        state="filled"
+                        thumbnail={<img src="/assets/lightbox-lego-stack-cutout.png" alt="" />}
+                      />
+                    )}
+                    <UploadImageItem size="sm" shape="square" state="default" />
+                  </>
+                }
+              />
+            </FormField>
+          </FormCol>
+          <FormCol>
+            <FormField label="Banner URL">
+              <Input placeholder="Please enter Direct to Merchant Page Banner URL" size="lg" />
+            </FormField>
+          </FormCol>
+        </FormRow>
+        <div className="ds-form-doc__schedule-row">
+          <div className="ds-form-doc__schedule-cell ds-form-doc__schedule-cell--wide">
+            <FormField label="Display Schedule">
+              <div className="ds-form-doc__radio-row">
+                <Radio
+                  name={scheduleGroup}
+                  label="Always display"
+                  checked={!isScheduled}
+                  onChange={() => setIsScheduled(false)}
+                />
+                <Radio
+                  name={scheduleGroup}
+                  label="Schedule display period"
+                  checked={isScheduled}
+                  onChange={() => setIsScheduled(true)}
+                />
+              </div>
+            </FormField>
+          </div>
+          <div
+            className={`ds-form-doc__schedule-cell${isScheduled ? '' : ' ds-form-doc__schedule-cell--hidden'}`}
+          >
+            <FormField label="Start Date & Hour" required>
+              <DatePicker placeholder="YYYY-MM-DD" size="lg" />
+            </FormField>
+          </div>
+          <div
+            className={`ds-form-doc__schedule-cell${isScheduled ? '' : ' ds-form-doc__schedule-cell--hidden'}`}
+          >
+            <FormField label="End Date & Hour" required>
+              <DatePicker placeholder="YYYY-MM-DD" size="lg" />
+            </FormField>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface UploadDocProps {
   onNavigate?: (componentId: string) => void;
 }
 
 export default function UploadDoc({ onNavigate }: UploadDocProps) {
   const [activeMethodTab, setActiveMethodTab] = useState<MethodTab>('Dropzone');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Dropzone');
   const [activeImageItemTab, setActiveImageItemTab] = useState<ImageItemTab>('Circular (sm)');
 
   return (
@@ -257,7 +382,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
         </p>
 
         <div id="variants-method" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Upload method</h3>
+          <h3 className="ds-section__subtitle">Style</h3>
           <p className="ds-section__desc">
             Three field styles: a drag-and-drop dropzone, a grid of image tiles, and a plain
             trigger button — all three pair with the same reusable file list.
@@ -282,13 +407,30 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
             <div className="ds-variant-group">
               <div className="ds-preview ds-preview--scrim">
                 {activeMethodTab === 'Dropzone' && (
-                  <div className="ds-upload-doc__card" style={{ width: '100%', maxWidth: 395 }}>
-                    <Upload
-                      style="dropzone"
-                      dropzone={{ state: 'filled', results: SAMPLE_RESULTS }}
-                      files={SAMPLE_FILES}
-                      showButtons
-                    />
+                  <div className="ds-upload-doc__method-row">
+                    <div className="ds-variant-row__cell">
+                      <div style={{ width: 395 }}>
+                        <UploadDropzone state="default" />
+                      </div>
+                      <span className="ds-variant-row__cell-label">Default</span>
+                    </div>
+                    <div className="ds-variant-row__cell">
+                      <div style={{ width: 395 }}>
+                        <UploadDropzone state="hover" className="ds-upload-doc__dropzone--uploading" />
+                      </div>
+                      <span className="ds-variant-row__cell-label">Uploading</span>
+                    </div>
+                    <div className="ds-variant-row__cell">
+                      <div className="ds-upload-doc__card" style={{ width: 395 }}>
+                        <Upload
+                          style="dropzone"
+                          dropzone={{ state: 'filled', results: SAMPLE_RESULTS }}
+                          files={SAMPLE_FILES}
+                          showButtons
+                        />
+                      </div>
+                      <span className="ds-variant-row__cell-label">Uploaded</span>
+                    </div>
                   </div>
                 )}
                 {activeMethodTab === 'Image grid' && (
@@ -313,7 +455,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
                   </div>
                 )}
                 {activeMethodTab === 'Button' && (
-                  <div className="ds-upload-doc__card">
+                  <div className="ds-upload-doc__card" style={{ width: 320 }}>
                     <Upload style="button" files={SAMPLE_FILES} />
                   </div>
                 )}
@@ -335,6 +477,99 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
                   A plain outline button trigger, for forms where a dropzone would be overkill.
                 </span>
               )}
+            </div>
+          </div>
+        </div>
+
+        <div id="variants-example" className="ds-section__subsection">
+          <h3 className="ds-section__subtitle">Example</h3>
+          <p className="ds-section__desc">
+            Each upload style staged in a realistic composition — the dropzone inside a batch
+            upload Modal, and the image grid inside a Form field.
+          </p>
+
+          <div className="ds-line-tabs" role="tablist" aria-label="Upload composition examples">
+            {EXAMPLE_TABS.map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activeExampleTab === tab}
+                className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
+                onClick={() => setActiveExampleTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          <div className="ds-variant-groups">
+            <div className="ds-variant-group">
+              <div className="ds-preview ds-preview--scrim ds-upload-doc__example-preview">
+                {activeExampleTab === 'Dropzone' && (
+                  <div className="ds-variant-row__cell">
+                    <div className="ds-upload-doc__example-modal" style={{ width: '100%' }}>
+                      {/* Duplicates ModalDoc's own "Upload Products" example instance
+                          (same size/title/steps markup) rather than importing it, matching
+                          this page's existing duplicate-not-abstract convention. */}
+                      <Modal size="sm" title="Upload Products" showInfo>
+                        <div className="ds-upload-doc__steps">
+                          <div className="ds-upload-doc__step">
+                            <p className="ds-upload-doc__step-title">
+                              1. Download Template File or Upload Batch File
+                            </p>
+                            <div className="ds-upload-doc__step-body">
+                              <Button>Download Template</Button>
+                            </div>
+                          </div>
+                          <div className="ds-upload-doc__step">
+                            <p className="ds-upload-doc__step-title">
+                              2. Add your data to template file
+                            </p>
+                            <div className="ds-upload-doc__step-body ds-upload-doc__step-detail">
+                              <p>If using Excel, make sure to export or save as .xls or xlsx</p>
+                              <p className="ds-upload-doc__step-danger">
+                                Reminder: Do not modify template title fields, or error may occur
+                              </p>
+                            </div>
+                          </div>
+                          <div className="ds-upload-doc__step">
+                            <p className="ds-upload-doc__step-title">3. Upload Batch File</p>
+                            <div className="ds-upload-doc__step-body">
+                              <Upload
+                                style="dropzone"
+                                showFileList={false}
+                                className="ds-upload-doc__step-upload"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </Modal>
+                    </div>
+                    <span className="ds-variant-row__cell-label">Modal</span>
+                  </div>
+                )}
+                {activeExampleTab === 'Image grid' && (
+                  <div className="ds-variant-row__cell">
+                    <div className="ds-upload-doc__example-form" style={{ width: '100%' }}>
+                      <Form title="Direct to Merchant Page Banner">
+                        <BannerListItem scheduled index={1} />
+                        <BannerListItem scheduled={false} index={2} />
+                        <Button
+                          variant="primary"
+                          appearance="outline"
+                          size="md"
+                          leadingIcon="add"
+                          className="ds-form-doc__add-banner"
+                        >
+                          Add Direct to Merchant Page Banner 2/10
+                        </Button>
+                      </Form>
+                    </div>
+                    <span className="ds-variant-row__cell-label">Form</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

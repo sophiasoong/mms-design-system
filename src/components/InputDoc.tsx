@@ -265,7 +265,7 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
                   </div>
                   <div className="ds-example-mock-item">
                     <span className="ds-example-mock__name">Table</span>
-                    <div style={{ width: '100%' }}>
+                    <div className="ds-table-example">
                       <Table size="md">
                         <TableHeader>
                           <TableHeaderCell width={72}>Image</TableHeaderCell>

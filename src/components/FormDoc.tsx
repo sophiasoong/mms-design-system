@@ -10,6 +10,9 @@ import { DatePicker } from './DatePicker';
 import Upload, { UploadImageItem } from './Upload';
 import Button from './Button';
 import IconButton from './IconButton';
+import { Badge } from './Badge';
+import { InputChip } from './Chip';
+import { Tag } from './Tag';
 import {
   InputIcon,
   SelectIcon,
@@ -58,9 +61,9 @@ const EXAMPLE_TABS: { id: ExampleId; label: string }[] = [
 /** The rich-text Textarea field shared by the Form and Sub-form examples (Figma's
  * "Textarea (Rich text)" field) — a formatting toolbar above the field, and a
  * character-count / error hint row below it. */
-function RichTextField() {
+function RichTextField({ defaultValue }: { defaultValue?: string } = {}) {
   return (
-    <FormField label="Title" info>
+    <FormField label="Description" info>
       <div className="ds-richtext">
         <div className="ds-richtext__toolbar">
           <span className="ds-richtext__toolbar-select">
@@ -165,60 +168,70 @@ function RichTextField() {
             Preview
           </button>
         </div>
-        <Textarea className="ds-richtext__field" placeholder="Placeholder" size="lg" />
+        <Textarea
+          className="ds-richtext__field"
+          placeholder="Placeholder"
+          defaultValue={defaultValue}
+          size="lg"
+        />
       </div>
       <div className="ds-richtext__hint">
-        <span className="ds-richtext__hint-error">Error Message</span>
-        <span className="ds-richtext__hint-count">0/200</span>
+        <span className="ds-richtext__hint-count">{defaultValue?.length ?? 0}/200</span>
       </div>
     </FormField>
   );
 }
 
 /** Example tab: Form (Figma 789:56940) — a plain Form composite: paired rows of
- * Input / DateRangePicker / Select fields, plus the shared rich-text Textarea field. */
-function FormExample() {
+ * Input / DateRangePicker / Select fields, plus the shared rich-text Textarea field.
+ * Fields carry sample filled-in data (rather than empty placeholders) so the example
+ * reads as a real, in-progress form — also reused by the States section below. */
+function FormExample({ defaultCollapsed }: { defaultCollapsed?: boolean } = {}) {
   return (
-    <Form title="General Information">
+    <Form title="General Information" defaultCollapsed={defaultCollapsed}>
       <FormRow>
         <FormCol>
-          <FormField label="Title">
-            <Input placeholder="Placeholder" size="lg" />
+          <FormField label="Product Name">
+            <Input defaultValue="Wireless Bluetooth Headphones" size="lg" />
           </FormField>
         </FormCol>
         <FormCol>
-          <FormField label="Title">
-            <Input placeholder="Placeholder" size="lg" />
+          <FormField label="Brand">
+            <Input defaultValue="SoundWave Audio" size="lg" />
           </FormField>
         </FormCol>
       </FormRow>
       <FormRow>
         <FormCol>
-          <FormField label="Title" required>
-            <DateRangePicker />
+          <FormField label="Promotion Period" required>
+            <DateRangePicker
+              defaultValue={{ start: new Date(2026, 0, 15), end: new Date(2026, 1, 15) }}
+            />
           </FormField>
         </FormCol>
         <FormCol>
-          <FormField label="Title" required>
-            <DateRangePicker />
-          </FormField>
-        </FormCol>
-      </FormRow>
-      <FormRow>
-        <FormCol>
-          <FormField label="Title">
-            <Select placeholder="Placeholder" size="lg" />
-          </FormField>
-        </FormCol>
-        <FormCol>
-          <FormField label="Title">
-            <Select placeholder="Placeholder" size="lg" />
+          <FormField label="Availability Period" required>
+            <DateRangePicker
+              defaultValue={{ start: new Date(2026, 2, 1), end: new Date(2026, 2, 31) }}
+            />
           </FormField>
         </FormCol>
       </FormRow>
       <FormRow>
         <FormCol>
-          <RichTextField />
+          <FormField label="Category">
+            <Select label="Electronics" size="lg" />
+          </FormField>
+        </FormCol>
+        <FormCol>
+          <FormField label="Shipping Method">
+            <Select label="Standard Shipping" size="lg" />
+          </FormField>
+        </FormCol>
+      </FormRow>
+      <FormRow>
+        <FormCol>
+          <RichTextField defaultValue="Premium over-ear headphones with active noise cancellation and 30-hour battery life." />
         </FormCol>
       </FormRow>
     </Form>
@@ -233,13 +246,13 @@ function SubFormExample() {
     <div className="ds-subform">
       <div className="ds-subform__header">
         <span className="ds-subform__title">
-          Sub-form Header
+          Product Variants
           <IconButton
             icon="info"
             variant="pending"
             appearance="ghost"
             size="sm"
-            label="About Sub-form Header"
+            label="About Product Variants"
           />
         </span>
         <IconButton
@@ -248,38 +261,40 @@ function SubFormExample() {
           appearance="ghost"
           size="sm"
           className="ds-icon-button--icon-scale-lg"
-          label="Collapse Sub-form Header"
+          label="Collapse Product Variants"
         />
       </div>
       <div className="ds-subform__body">
-        <Form title="Form Header">
+        <Form title="Variant Details">
           <FormRow>
             <FormCol>
-              <FormField label="Title">
-                <Input placeholder="Placeholder" size="lg" />
+              <FormField label="Variant Name">
+                <Input defaultValue="Wireless Bluetooth Headphones - Black" size="lg" />
               </FormField>
-              <FormField label="Title" required>
-                <Input placeholder="0" size="lg" type="number" />
+              <FormField label="Price" required>
+                <Input defaultValue="129" size="lg" type="number" />
               </FormField>
-              <FormField label="Title">
+              <FormField label="Active">
                 <Toggle label="Yes" defaultChecked />
               </FormField>
             </FormCol>
             <FormCol>
-              <FormField label="Title">
-                <Input placeholder="Placeholder" size="lg" />
+              <FormField label="SKU">
+                <Input defaultValue="WBH-BLK-001" size="lg" />
               </FormField>
-              <FormField label="Title" required>
-                <DateRangePicker />
+              <FormField label="Availability Period" required>
+                <DateRangePicker
+                  defaultValue={{ start: new Date(2026, 0, 1), end: new Date(2026, 5, 30) }}
+                />
               </FormField>
-              <FormField label="Title">
-                <Select placeholder="Placeholder" size="lg" />
+              <FormField label="Color">
+                <Select label="Black" size="lg" />
               </FormField>
             </FormCol>
           </FormRow>
           <FormRow>
             <FormCol>
-              <RichTextField />
+              <RichTextField defaultValue="Includes charging cable, carrying case, and 1-year warranty." />
             </FormCol>
           </FormRow>
         </Form>
@@ -293,6 +308,7 @@ function SubFormExample() {
  * a schedule row whose date fields only appear once "Schedule display period" is
  * selected. */
 function BannerListItem({ scheduled, index }: { scheduled: boolean; index: number }) {
+  const [isScheduled, setIsScheduled] = useState(scheduled);
   const scheduleGroup = `banner-schedule-${index}`;
   return (
     <div className="ds-form-list-item">
@@ -335,7 +351,11 @@ function BannerListItem({ scheduled, index }: { scheduled: boolean; index: numbe
               <p className="ds-form-doc__field-caption">
                 Max size: 2MB; dimensions: 1920 x 360px; supported formats: .jpg / png / webp
               </p>
-              <Upload style="image-grid" />
+              <Upload
+                style="image-grid"
+                showAddTile={false}
+                images={<UploadImageItem size="sm" shape="square" state="default" />}
+              />
             </FormField>
           </FormCol>
           <FormCol>
@@ -348,16 +368,22 @@ function BannerListItem({ scheduled, index }: { scheduled: boolean; index: numbe
           <div className="ds-form-doc__schedule-cell ds-form-doc__schedule-cell--wide">
             <FormField label="Display Schedule">
               <div className="ds-form-doc__radio-row">
-                <Radio name={scheduleGroup} label="Always display" defaultChecked={!scheduled} />
+                <Radio
+                  name={scheduleGroup}
+                  label="Always display"
+                  checked={!isScheduled}
+                  onChange={() => setIsScheduled(false)}
+                />
                 <Radio
                   name={scheduleGroup}
                   label="Schedule display period"
-                  defaultChecked={scheduled}
+                  checked={isScheduled}
+                  onChange={() => setIsScheduled(true)}
                 />
               </div>
             </FormField>
           </div>
-          {scheduled && (
+          {isScheduled && (
             <>
               <div className="ds-form-doc__schedule-cell">
                 <FormField label="Start Date & Hour" required>
@@ -406,6 +432,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
   const [collapsedDemo, setCollapsedDemo] = useState(false);
   const [activeFieldTypeId, setActiveFieldTypeId] = useState<FieldTypeId>('input');
   const [activeExampleId, setActiveExampleId] = useState<ExampleId>('form');
+  const [fulfillment, setFulfillment] = useState<'warehouse' | 'dropship'>('warehouse');
 
   return (
     <div className="ds-doc">
@@ -453,7 +480,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
                   <DateRangePicker />
                 </FormField>
                 <FormField label="Active">
-                  <Toggle defaultChecked />
+                  <Toggle label="Yes" defaultChecked />
                 </FormField>
               </FormCol>
             </FormRow>
@@ -476,7 +503,14 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
                   <span className="ds-form__title">General Information</span>
                   <IconButton icon="info" variant="pending" appearance="ghost" size="sm" label="About" />
                 </div>
-                <IconButton icon="expand_less" variant="pending" appearance="ghost" size="sm" label="Collapse" />
+                <IconButton
+                  icon="expand_less"
+                  variant="neutral"
+                  appearance="ghost"
+                  size="sm"
+                  className="ds-icon-button--icon-scale-lg"
+                  label="Collapse"
+                />
                 <span className="ds-anatomy__badge ds-anatomy__badge--side-left">1</span>
               </div>
               <div className="ds-form__main ds-anatomy__part-relative">
@@ -486,7 +520,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
                       <FormField label="Product Name" required>
                         <Input placeholder="Enter product name" size="lg" />
                       </FormField>
-                      <span className="ds-anatomy__badge ds-anatomy__badge--side-left">3</span>
+                      <span className="ds-anatomy__badge ds-anatomy__badge--side-left ds-form-anatomy__badge--field">3</span>
                     </div>
                     <FormField label="Category" info>
                       <Select placeholder="Select category" size="lg" />
@@ -497,7 +531,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
                       <DateRangePicker />
                     </FormField>
                     <FormField label="Active">
-                      <Toggle defaultChecked />
+                      <Toggle label="Yes" defaultChecked />
                     </FormField>
                   </FormCol>
                 </div>
@@ -556,7 +590,15 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
         </div>
 
         <div className="ds-preview">
-          <Form title="All Field Types" showHeader={false}>
+          <Form
+            title="All Field Types"
+            showHeader={false}
+            className={
+              activeFieldTypeId === 'readonly'
+                ? 'ds-form-doc__readonly-demo'
+                : 'ds-form-doc__field-type-demo'
+            }
+          >
             {activeFieldTypeId === 'input' && (
               <FormField label="Product Name" required>
                 <Input placeholder="Enter product name" size="lg" />
@@ -568,7 +610,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
               </FormField>
             )}
             {activeFieldTypeId === 'select' && (
-              <FormField label="Category" info>
+              <FormField label="Category">
                 <Select placeholder="Select category" size="lg" />
               </FormField>
             )}
@@ -584,33 +626,114 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
             )}
             {activeFieldTypeId === 'toggle' && (
               <FormField label="Active">
-                <Toggle defaultChecked />
+                <Toggle label="Yes" defaultChecked />
               </FormField>
             )}
             {activeFieldTypeId === 'radio' && (
               <FormField label="Fulfillment">
                 <div className="ds-form-doc__radio-row">
-                  <Radio name="fulfillment-variant" label="Warehouse" defaultChecked />
-                  <Radio name="fulfillment-variant" label="Dropship" />
+                  <Radio
+                    name="fulfillment-variant"
+                    label="Warehouse"
+                    checked={fulfillment === 'warehouse'}
+                    onChange={() => setFulfillment('warehouse')}
+                  />
+                  <Radio
+                    name="fulfillment-variant"
+                    label="Dropship"
+                    checked={fulfillment === 'dropship'}
+                    onChange={() => setFulfillment('dropship')}
+                  />
                 </div>
               </FormField>
             )}
             {activeFieldTypeId === 'readonly' && (
-              <FormField label="Order ID">
-                <span className="ds-form-field__value">ORD-2024-00842</span>
-              </FormField>
+              <div className="ds-form-doc__readonly-grid">
+                <div className="ds-form-doc__readonly-row">
+                  <div className="ds-variant-row__cell">
+                    <FormField label="Order ID">
+                      <span className="ds-form-field__value">ORD-2024-00842</span>
+                    </FormField>
+                    <span className="ds-variant-row__cell-label">Label</span>
+                  </div>
+                  <div className="ds-variant-row__cell">
+                    <FormField label="Tracking Number">
+                      <span className="ds-form-doc__readonly-link">
+                        <span className="ds-form-doc__readonly-link-text">TRK-88213</span>
+                        <span className="icon icon--sm" aria-hidden="true">
+                          open_in_new
+                        </span>
+                      </span>
+                    </FormField>
+                    <span className="ds-variant-row__cell-label">Text button</span>
+                  </div>
+                  <div className="ds-variant-row__cell">
+                    <FormField label="Order Status">
+                      <Badge label="Pending" color="orange" />
+                    </FormField>
+                    <span className="ds-variant-row__cell-label">Badge</span>
+                  </div>
+                </div>
+                <div className="ds-form-doc__readonly-row">
+                  <div className="ds-variant-row__cell">
+                    <FormField label="Delivery Dates">
+                      <div className="ds-form-doc__readonly-chip-row">
+                        <InputChip label="2026-01-01" size="sm" showTrailingIcon={false} />
+                        <InputChip label="2026-01-02" size="sm" showTrailingIcon={false} />
+                        <InputChip label="2026-01-02" size="sm" showTrailingIcon={false} />
+                        <Button variant="primary" appearance="ghost" size="sm">
+                          View All (100)
+                        </Button>
+                      </div>
+                    </FormField>
+                    <span className="ds-variant-row__cell-label">Chip</span>
+                  </div>
+                  <div className="ds-variant-row__cell">
+                    <FormField label="Categories">
+                      <div className="ds-form-doc__readonly-tag-row">
+                        <Tag label="Apparel" />
+                        <Tag label="Footwear" />
+                        <Tag label="Accessories" />
+                      </div>
+                    </FormField>
+                    <span className="ds-variant-row__cell-label">Tag</span>
+                  </div>
+                </div>
+              </div>
             )}
             {activeFieldTypeId === 'image-grid' && (
               <FormField label="Product Images">
                 <Upload
                   style="image-grid"
+                  showAddTile={false}
                   images={
-                    <UploadImageItem
-                      size="lg"
-                      shape="square"
-                      state="filled"
-                      thumbnail={<img src="/assets/lightbox-lego-stack-cutout.png" alt="" />}
-                    />
+                    <>
+                      <UploadImageItem
+                        size="sm"
+                        shape="square"
+                        state="filled"
+                        thumbnail={<img src="/assets/lightbox-lego-stack-cutout.png" alt="" />}
+                      />
+                      <UploadImageItem
+                        size="sm"
+                        shape="square"
+                        state="filled"
+                        thumbnail={<img src="/assets/lightbox-lego-stack-cutout.png" alt="" />}
+                      />
+                      <UploadImageItem
+                        size="sm"
+                        shape="square"
+                        state="filled"
+                        thumbnail={<img src="/assets/lightbox-lego-stack-cutout.png" alt="" />}
+                      />
+                      <UploadImageItem
+                        size="sm"
+                        shape="square"
+                        state="filled"
+                        thumbnail={<img src="/assets/lightbox-lego-stack-cutout.png" alt="" />}
+                      />
+                      <UploadImageItem size="sm" shape="square" state="default" />
+                    </>
                   }
                 />
               </FormField>
@@ -649,19 +772,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
           default / hover / focus / error / disabled states, documented on their own pages.
         </p>
         <div className="ds-preview ds-preview--scrim">
-          <Form
-            title="General Information"
-            defaultCollapsed={collapsedDemo}
-            key={String(collapsedDemo)}
-          >
-            <FormRow>
-              <FormCol>
-                <FormField label="Product Name" required>
-                  <Input placeholder="Enter product name" size="lg" />
-                </FormField>
-              </FormCol>
-            </FormRow>
-          </Form>
+          <FormExample defaultCollapsed={collapsedDemo} key={String(collapsedDemo)} />
         </div>
         <table className="ds-table">
           <thead>

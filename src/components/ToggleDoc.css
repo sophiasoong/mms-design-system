@@ -1,0 +1,94 @@
+/* Variants > Example — hovering anywhere in the Table, Form, or Header composition
+   spotlights its Toggle with the shared focus-ring token while the rest of the
+   composition dims to the sitewide disabled-opacity token — same pattern as UploadDoc's
+   Image-grid/Dropzone examples (UploadDoc.css). All three examples share one
+   marker-class pair instead of UploadDoc's per-region nth-child list, since each example
+   here has exactly one target Toggle and no other component reuses these classes.
+   The ring applies to .ds-toggle itself (not just .ds-toggle__track) so the highlight
+   wraps the Toggle's own inline label text too, not just the track. */
+.ds-toggle-doc__example-target .ds-toggle {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+  border-radius: var(--radius-md);
+}
+
+.ds-toggle-doc__example:hover .ds-toggle-doc__example-target .ds-toggle {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+.ds-toggle-doc__example-dim {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-toggle-doc__example:hover .ds-toggle-doc__example-dim {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+/* Form's header (title) isn't reachable via FormCol's className the way the field columns
+   above are, so it needs its own explicit selector rather than the shared marker class. */
+.ds-toggle-doc__example-form-card .ds-form__header {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-toggle-doc__example:hover .ds-toggle-doc__example-form-card .ds-form__header {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+/* Header's title and expander aren't reachable via a className prop the way FormField's
+   are above, so — same as the Form header case just above — they need their own explicit
+   selectors rather than the shared .ds-toggle-doc__example-dim marker class. */
+.ds-toggle-doc__example-header .ds-header__content,
+.ds-toggle-doc__example-header .ds-icon-button {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-toggle-doc__example:hover .ds-toggle-doc__example-header .ds-header__content,
+.ds-toggle-doc__example:hover .ds-toggle-doc__example-header .ds-icon-button {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+/* The shared .ds-variant-row__cell-label's default gray reads at near-zero contrast on
+   .ds-preview--scrim's dark backdrop — same fix as UploadDoc's own
+   .ds-upload-doc__example-preview .ds-variant-row__cell-label. */
+.ds-toggle-doc__example-container .ds-variant-row__cell-label {
+  color: var(--brand-neutral-0); /* brand/neutral/0 */
+}
+
+/* Stacks the Table/Form examples full-width rather than side by side — unlike the bare
+   Off/On row above, these are full compositions too wide to sit side by side at the doc
+   column's width. Explicit width:100% is needed because .ds-preview's own
+   align-items:center (ButtonDoc.css) otherwise shrinks this row to its content's width
+   before either child ever gets a chance to fill it. */
+.ds-toggle-doc__example-row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--space-layout-section-gap-lg); /* space/layout/section/gap/lg */
+}
+
+/* align-items:stretch (rather than the centering default a bare .ds-preview cell would
+   use) so the Table/Form instances fill the row's full width instead of shrinking to
+   their own content width — the caption span still renders centered via its own
+   text-align:center (ButtonDoc.css .ds-variant-row__cell-label). */
+.ds-toggle-doc__example-item {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+}
+
+/* Storefront Code's readonly link+outlink-icon field — no dedicated link component
+   exists yet, so this mirrors Table.css's own .ds-datatable__cell-link token usage
+   (text/link/default) scoped locally, per this file's doc-page convention of
+   duplicating markup instead of adding new shared components for a single usage. */
+.ds-toggle-doc__example-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  color: var(--text-link-default); /* text/link/default */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+}
+
+.ds-toggle-doc__example-link-text {
+  text-decoration: underline;
+}

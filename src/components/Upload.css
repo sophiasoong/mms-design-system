@@ -16,6 +16,13 @@
   align-items: flex-start;
 }
 
+/* The button style's own align-items: flex-start above keeps the trigger button
+   content-width, but it also shrinks the file list to content-width as a side effect —
+   stretch just the list back to the field's full container width. */
+.ds-upload--button .ds-upload__file-list {
+  align-self: stretch;
+}
+
 .ds-upload__file-list {
   display: flex;
   flex-direction: column;

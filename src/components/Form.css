@@ -12,6 +12,11 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  /* Every doc-page preview places Form as a flex child of .ds-preview (align-items:center,
+     ButtonDoc.css), which shrinks any child with no explicit width to its own content size
+     — width:100% here forces Form to fill that flex container regardless, same fix as
+     Table.css's own pre-existing .ds-datatable { width: 100% }. */
+  width: 100%;
   border-radius: var(--radius-md); /* radius/md */
   overflow: hidden;
 }

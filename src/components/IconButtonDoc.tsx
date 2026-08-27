@@ -375,7 +375,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
                     </div>
                     <div className="ds-example-mock-item">
                       <span className="ds-example-mock__name">Table</span>
-                      <div className="ds-example-table" style={{ width: '100%' }}>
+                      <div className="ds-example-table ds-table-example" style={{ width: '100%' }}>
                         <Table size="md">
                           <TableHeader>
                             <TableHeaderCell>SKU ID</TableHeaderCell>

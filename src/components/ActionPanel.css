@@ -47,7 +47,7 @@
 }
 
 .ds-action-panel__main {
-  gap: var(--space-layout-section-gap-xs); /* space/layout/section/gap/xs */
+  gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
 }
 
 .ds-action-panel__main--divided {

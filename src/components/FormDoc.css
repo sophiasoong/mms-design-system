@@ -8,6 +8,44 @@
 .ds-form-anatomy.ds-form-anatomy {
   background: var(--global-overlay-dark);
   border-color: transparent;
+  /* .ds-form fills 100% of the figure's content box (Form.css), unlike Modal's/Dialog's
+     fixed-width panels which leave natural clearance — so badges 1/2's --side-left
+     offset (padding-lg 16 + gap-sm 8 + badge 20 = 44px) overflows the base figure's
+     36px horizontal padding by 8px. flagged: no anatomy/figure/padding/wide token
+     exists; space-component-padding-4xl (48px) is the next real token past the 44px
+     minimum, reused here for a small clearance buffer. */
+  padding-inline: var(--space-component-padding-4xl);
+}
+
+/* Badge 3's positioned parent (the Product Name field wrapper) sits inboard of
+   .ds-form__main's own padding (space-layout-section-padding-md, 24px), unlike
+   badges 1/2 whose parents (.ds-form__header/.ds-form__main) are flush with .ds-form's
+   edge — without compensating, badge 3 lands 24px right of 1/2's shared vertical line.
+   Extends both the offset and the connector dash by that same 24px so the badge
+   rejoins the line and the dash still reaches the field's edge. */
+.ds-form-anatomy__badge--field {
+  transform: translate(
+    calc(-1 * (var(--space-component-padding-lg) + var(--space-component-gap-sm) + var(--space-layout-section-padding-md))),
+    -50%
+  );
+}
+
+.ds-form-anatomy__badge--field::before {
+  width: calc(var(--space-component-padding-lg) + var(--space-layout-section-padding-md));
+}
+
+/* .ds-anatomy__demo.ds-anatomy__demo forces overflow:visible (ButtonDoc.css) so badges
+   positioned outside .ds-form's own box aren't clipped — but that also disables the
+   clipping that normally rounds .ds-form's opaque-white header/main to its own 8px
+   corners, leaving them square while Overview's/Example's real (non-anatomy) Form
+   instances still clip normally and look rounded. Restores the same radius directly on
+   each opaque section, split top/bottom since together they make up the full card. */
+.ds-form-anatomy .ds-form__header {
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.ds-form-anatomy .ds-form__main {
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
 }
 
 /* Badges 1/2/3 all use .ds-anatomy__badge--side-left (aligned on one vertical line) — same
@@ -45,6 +83,98 @@
    fixed identically on Modal's, Dialog's, and Action Panel's doc pages). */
 .ds-form-anatomy .ds-anatomy__legend-num {
   color: var(--brand-primary-600);
+}
+
+/* ---- Variants > Field Type ----
+   Each Field Type tab renders one FormField directly in this Form (no FormRow/FormCol),
+   so tabs whose control fills width:100% itself (Input, Select, Textarea, Date Picker...)
+   stretch the whole white card edge-to-edge, while tabs whose control sizes to its own
+   content (Toggle, Radio, Readonly, Image Grid) leave it small and pinned to the top-left
+   of that same full-width card — an inconsistent, unbalanced preview from tab to tab.
+   Fixing the card to one width lets .ds-preview's own centering (ButtonDoc.css) place it
+   in the middle for every tab alike. flagged: no dedicated field-demo/width token exists;
+   component-width-dropdown-lg (320px) is reused here as the nearest form-adjacent token
+   at the intended width. */
+.ds-form-doc__field-type-demo {
+  width: var(--component-width-dropdown-lg);
+}
+
+/* ---- Variants > Field Type > Readonly ----
+   Readonly has 5 distinct visual styles (Label, Text button, Badge, Chip, Tag) rather
+   than one control, so it can't fit the fixed 320px width the other Field Type tabs
+   share (.ds-form-doc__field-type-demo) — this Form instead grows to fit a grid of
+   all 5, captioned via ButtonDoc.css's shared .ds-variant-row__cell(-label) pair.
+   flagged: no dedicated width token exists for this grid; component-width-modal-lg
+   (1104px) is reused as the nearest token close to the Figma reference frame's own
+   content width (node 781-23564). */
+.ds-form-doc__readonly-demo {
+  width: 100%;
+  max-width: var(--component-width-modal-lg);
+}
+
+.ds-form-doc__readonly-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-md);
+  width: 100%;
+}
+
+/* One explicit row per line (Label/Text button/Badge, then Chip/Tag) rather than an
+   auto-fit grid — the prior auto-fit column count depended on container width, which
+   didn't reliably keep Chip and Tag on their own second line. */
+.ds-form-doc__readonly-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-layout-section-gap-md);
+}
+
+/* Left-align each cell's instance and caption with each other, overriding
+   .ds-variant-row__cell(-label)'s shared centered layout (ButtonDoc.css) — scoped to
+   this page only since other Doc pages rely on the centered default. */
+.ds-form-doc__readonly-row .ds-variant-row__cell {
+  flex: 1 1 220px;
+  min-width: 0;
+  align-items: flex-start;
+}
+
+.ds-form-doc__readonly-row .ds-variant-row__cell-label {
+  text-align: left;
+}
+
+/* Text button style — no dedicated link component exists yet (ToggleDoc.css's own
+   Storefront Code field flags the same gap); mirrors that field's markup here. */
+.ds-form-doc__readonly-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  color: var(--text-link-default);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+}
+
+.ds-form-doc__readonly-link-text {
+  text-decoration: underline;
+}
+
+/* Kept to one line rather than wrapping (per ButtonDoc.css's .ds-preview--scroll /
+   .ds-anatomy__demo-scroll precedent) — the grid column can't grow to fit an unwrapped
+   row without widening every other column in .ds-form-doc__readonly-grid alongside it,
+   so overflow scrolls within this cell instead. */
+.ds-form-doc__readonly-chip-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--space-component-gap-xs);
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brand-neutral-600) var(--brand-neutral-200);
+}
+
+.ds-form-doc__readonly-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-xs);
 }
 
 /* Form doc page only — inline pair of Radio controls for the Shipping Details example's
@@ -110,18 +240,17 @@
   border-radius: 0;
 }
 
+/* justify-content:flex-end (not space-between) — the error hint span this row used to
+   pair with is gone, so the count is this row's only child; right-aligning keeps it
+   under the field's trailing edge instead of jumping to the left. */
 .ds-richtext__hint {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: var(--space-component-gap-lg); /* space/component/gap/lg */
   padding-top: var(--space-component-gap-xs); /* space/component/gap/xs */
   font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
   line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
-}
-
-.ds-richtext__hint-error {
-  color: var(--text-helper-error); /* text/helper/error */
 }
 
 .ds-richtext__hint-count {
@@ -132,6 +261,10 @@
 .ds-subform {
   display: flex;
   flex-direction: column;
+  /* Direct flex child of .ds-preview--scrim (align-items:center) — without an explicit
+     width it shrinks to content instead of filling the container, same gap documented
+     for .ds-example-checkbox-table in CheckboxDoc.css. */
+  width: 100%;
   background: var(--brand-primary-75); /* flagged: no surface/sub-form/background/default
     token exists in the raw source data; brand/primary/75 (#f1ecff) is an exact color
     match for the Figma lavender tint. */
@@ -243,6 +376,20 @@
 
 .ds-form-doc__schedule-cell--wide {
   grid-column: span 2;
+}
+
+/* Toggling Display Schedule to "Always display" used to unmount the Start/End Date &
+   Hour cells outright, leaving only the --wide cell's 2 columns with any content — since
+   an empty 1fr grid track contributes 0 to the grid's own max-content width, this shrank
+   .ds-form-doc__schedule-row's intrinsic width to roughly half of the scheduled state,
+   which then propagated up through .ds-form's shrink-to-fit sizing (no explicit width;
+   see the analogous fix on .ds-form__main--collapsed above) and made the whole Form
+   visibly narrow on toggle. Keeping both cells mounted and hiding them via visibility
+   (not unmounting, not opacity) preserves their track width unconditionally — same
+   "stays mounted for width-stability" approach as --collapsed — while still removing
+   them from the accessibility tree and tab order like a real hide. */
+.ds-form-doc__schedule-cell--hidden {
+  visibility: hidden;
 }
 
 .ds-form-doc__add-banner {

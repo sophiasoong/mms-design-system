@@ -59,6 +59,23 @@
 
 /* Variants — Style examples ------------------------------------------------ */
 
+/* Table example only: .ds-modal--full is square/edge-to-edge by design (Modal.css), but
+   here the modal IS the table's card — round it back and drop the body's section padding
+   plus the inner .ds-table-example's own border/radius so the table sits flush inside a
+   single rounded boundary instead of a rounded table card nested in a square modal. */
+.ds-modal--table-example {
+  border-radius: var(--radius-md);
+}
+
+.ds-modal--table-example .ds-modal__body {
+  padding: 0;
+}
+
+.ds-modal--table-example .ds-table-example {
+  border: none;
+  border-radius: 0;
+}
+
 .ds-modal-example__ref {
   display: inline-flex;
   align-items: center;

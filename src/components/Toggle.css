@@ -102,7 +102,12 @@
 
 .ds-toggle--checked:not(.ds-toggle--disabled):hover .ds-toggle__track,
 .ds-toggle--checked.ds-toggle--force-hover .ds-toggle__track {
-  background: var(--brand-primary-200);
+  background: var(--brand-primary-100); /* flagged: no brand-primary-200 token exists — the
+    scale jumps from -100 straight to -300, so this var() was undefined and silently dropped
+    the whole declaration (an invalid var() with no fallback drops its declaration rather
+    than resetting it), leaving this row visually identical to the unhovered checked color.
+    brand-primary-100 (#d4d0fb) is the nearest lighter defined step above -300, matching the
+    unchecked track's same one-step-lighter hover direction (neutral-600 -> neutral-500). */
 }
 
 /* ---- Focus ---- */

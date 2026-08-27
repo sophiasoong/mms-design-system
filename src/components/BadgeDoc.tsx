@@ -260,7 +260,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
               )}
 
               {activeExampleTab === 'Table' && (
-                <div className="ds-example-badge-table" style={{ width: '100%' }}>
+                <div className="ds-example-badge-table ds-table-example" style={{ width: '100%' }}>
                   <Table size="md">
                     <TableHeader>
                       <TableHeaderCell>Storefront Code</TableHeaderCell>

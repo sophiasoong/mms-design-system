@@ -81,3 +81,48 @@
 .ds-header-anatomy .ds-anatomy__legend-num {
   color: var(--brand-primary-600);
 }
+
+/* ---- Variants > Example: hover-dim/highlight ----
+   Each tab renders one full composition (duplicated verbatim from that component's own
+   doc page — Action Panel's "Info only", Modal's "Upload", Form's "General Information"),
+   so hovering spotlights Header's own bespoke or shared header markup inside a real
+   composition instead of a bare Header instance. Only one composition renders at a time
+   (tabs, not ToggleDoc's stacked list), so plain component-class selectors scoped under
+   the wrapper are enough — no per-composition marker classes needed. Action Panel's and
+   Form's headers carry no radius of their own (it lives on their root, clipped via
+   overflow:hidden — see ActionPanel.css/Form.css), so the ring needs an explicit
+   border-radius here; Modal's embedded Header already has its own top-corner radius
+   (Header.css .ds-header--modal) and must NOT get a full-radius override, or the ring
+   would round corners that sit flush against the modal body below. */
+.ds-header-doc__example .ds-action-panel__header,
+.ds-header-doc__example .ds-form__header {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.ds-header-doc__example:hover .ds-action-panel__header,
+.ds-header-doc__example:hover .ds-form__header {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+.ds-header-doc__example .ds-header--modal {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-header-doc__example:hover .ds-header--modal {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+.ds-header-doc__example .ds-action-panel__main,
+.ds-header-doc__example .ds-modal__body,
+.ds-header-doc__example .ds-footer,
+.ds-header-doc__example .ds-form__main {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-header-doc__example:hover .ds-action-panel__main,
+.ds-header-doc__example:hover .ds-modal__body,
+.ds-header-doc__example:hover .ds-footer,
+.ds-header-doc__example:hover .ds-form__main {
+  opacity: var(--opacity-40); /* opacity/40 */
+}

@@ -84,7 +84,14 @@
 }
 
 /* ---- Variants > Example: Date-picker field ----
-   Fill-width fix scoped to this page's Send Date field only — DatePicker.css's own
+   .ds-example-datepicker-form is a direct flex child of .ds-preview with no explicit
+   width, so it shrinks to content instead of filling the container — same gap
+   documented for .ds-example-checkbox-table in CheckboxDoc.css. */
+.ds-example-datepicker-form {
+  width: 100%;
+}
+
+/* Fill-width fix scoped to this page's Send Date field only — DatePicker.css's own
    .ds-date-picker root has no explicit width (unlike Select.css's .ds-select, which is
    display:flex + width:100%), so it shrinks to content inside a FormCol by default. */
 .ds-example-datepicker-form__field--send-date .ds-date-picker {
