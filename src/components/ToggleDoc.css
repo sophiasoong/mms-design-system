@@ -46,6 +46,14 @@
   opacity: var(--opacity-40); /* opacity/40 */
 }
 
+/* Header's built-in toggle reads track-then-label by default (Toggle.css's .ds-toggle has
+   no flex-direction, so DOM order = visual order) — reversed just for this composition so
+   "Visible" reads as a label in front of its switch, without changing Toggle's own
+   track-then-label default used everywhere else. */
+.ds-toggle-doc__example-header .ds-toggle {
+  flex-direction: row-reverse;
+}
+
 /* The shared .ds-variant-row__cell-label's default gray reads at near-zero contrast on
    .ds-preview--scrim's dark backdrop — same fix as UploadDoc's own
    .ds-upload-doc__example-preview .ds-variant-row__cell-label. */

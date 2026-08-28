@@ -7,6 +7,7 @@ export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
 export interface ModalProps extends Pick<
   FooterProps,
+  | 'showLeading'
   | 'leadingLabel'
   | 'leadingIcon'
   | 'secondaryLabel'

@@ -10,6 +10,8 @@ export interface AppTopbarProps {
   language?: string;
   notificationCount?: number;
   showBackButton?: boolean;
+  showLogo?: boolean;
+  sidebarExpanded?: boolean;
   onMenuClick?: () => void;
   onStoreClick?: () => void;
   onSearch?: (value: string) => void;
@@ -27,6 +29,8 @@ export default function AppTopbar({
   language = 'English',
   notificationCount = 99,
   showBackButton = true,
+  showLogo = false,
+  sidebarExpanded = true,
   onMenuClick,
   onStoreClick,
   onSearch,
@@ -42,6 +46,13 @@ export default function AppTopbar({
 
   return (
     <header className={classes}>
+      {showLogo && (
+        <img
+          className="ds-app-topbar__logo"
+          src={sidebarExpanded ? '/assets/logo_mms_default.png' : '/assets/logo_mms_collapsed.png'}
+          alt="Merchant Management System"
+        />
+      )}
       <div className="ds-app-topbar__leading">
         <IconButton
           icon="menu"

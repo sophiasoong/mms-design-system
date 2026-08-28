@@ -7,6 +7,7 @@ export type FooterStyle = 'divider' | 'shadow';
 export interface FooterProps {
   size?: FooterSize;
   style?: FooterStyle;
+  showLeading?: boolean;
   leadingLabel?: string;
   leadingIcon?: string;
   secondaryLabel?: string;
@@ -21,6 +22,7 @@ export interface FooterProps {
 export default function Footer({
   size = 'lg',
   style = 'divider',
+  showLeading = true,
   leadingLabel = 'Back',
   leadingIcon = 'chevron_left',
   secondaryLabel = 'Confirm',
@@ -40,15 +42,17 @@ export default function Footer({
 
   return (
     <div className={classes}>
-      <Button
-        variant="primary"
-        appearance="ghost"
-        size={buttonSize}
-        leadingIcon={leadingIcon || undefined}
-        onClick={onLeadingClick}
-      >
-        {leadingLabel}
-      </Button>
+      {showLeading && (
+        <Button
+          variant="primary"
+          appearance="ghost"
+          size={buttonSize}
+          leadingIcon={leadingIcon || undefined}
+          onClick={onLeadingClick}
+        >
+          {leadingLabel}
+        </Button>
+      )}
       <div className="ds-footer__trailing">
         {isLg && showSecondary && (
           <Button variant="primary" appearance="outline" size={buttonSize} onClick={onSecondaryClick}>

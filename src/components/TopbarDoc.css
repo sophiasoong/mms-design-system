@@ -1,0 +1,168 @@
+/* ---- TopbarDoc ----
+   Doc-only classes for the Variants section (Figma nodes 1804:68744 "Overview_default" and
+   1804:69031 "Overview_collapsed", MMS-Web-AI-Design-System file) — pairs AppTopbar with
+   AppSidebar in a mini page-layout mockup so the menu toggle's effect on the Sidebar rail is
+   visible alongside the Topbar's own logo swap, and merges the Notification tab's two AppTopbar
+   instances into one shared preview card. None of these classes map to a Figma layer of their
+   own — they're this doc page's demo scaffolding only. */
+
+.ds-topbar-page-preview {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ds-topbar-page-preview__body {
+  display: flex;
+  align-items: stretch;
+  background: var(--global-background-page);
+}
+
+/* Sidebar stays mounted across the menu toggle (no unmount/remount) so its width can animate
+   between the doc's own 260px and 0 instead of popping in and out; overflow: hidden clips
+   AppSidebar's fixed-width content during the transition. --duration-normal matches the
+   token already used for this codebase's other interactive-surface transitions. */
+.ds-topbar-page-preview__sidebar {
+  flex-shrink: 0;
+  width: 260px;
+  overflow: hidden;
+  transition: width var(--duration-normal) ease, opacity var(--duration-normal) ease;
+}
+
+.ds-topbar-page-preview__sidebar--collapsed {
+  width: 0;
+  opacity: 0;
+}
+
+.ds-topbar-page-preview__content {
+  flex: 1 1 auto;
+}
+
+/* Notification tab: Unread/Read instances share one scrim card (ds-preview--stack), each
+   keeping its own caption instead of a group label + note pair per instance. Padding-inline
+   lives on the container (not the caption alone) so the AppTopbar instances below each caption
+   share the exact same left/right inset instead of running edge-to-edge past it. */
+.ds-topbar-notification-preview {
+  padding-block: var(--space-layout-section-padding-lg);
+  padding-inline: var(--space-layout-section-padding-lg);
+}
+
+.ds-topbar-notification-preview__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm);
+  width: 100%;
+}
+
+.ds-topbar-notification-preview__caption {
+  color: var(--brand-neutral-0);
+  font-size: var(--typography-sm-font-size);
+  font-weight: var(--typography-font-weight-medium);
+}
+
+/* ---- Topbar Overview usage screenshot ----
+   Reuses the exact same full app-shell screenshot as Sidebar's own Overview section
+   (public/assets/sidebar-overview-usage.png, see ButtonDoc.css's .ds-sidebar-usage
+   comment for the box-shadow dimming technique) — that frame already shows the Topbar
+   bar running across the top, so no separate export is needed; only the highlight
+   cutout's position changes (a top strip here vs. Sidebar's left rail there).
+   No Figma node for this exact crop was found under the source file's current node
+   IDs, so the boundary is measured directly from the PNG's own pixels instead of a
+   node's dimensions: the white Topbar band ends and the flat gray page background
+   begins at y=64 of the image's 893px height (64/893 = 7.17%, hence the 92.83%
+   bottom inset below). */
+.ds-topbar-usage {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+}
+
+.ds-topbar-usage__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ds-topbar-usage__highlight {
+  position: absolute;
+  inset: 0 0 92.83% 0;
+  box-shadow: 0 0 0 9999px var(--global-overlay-dark);
+  pointer-events: none;
+}
+
+/* ---- Topbar Anatomy figure overrides ----
+   .ds-anatomy__figure (ButtonDoc.css) is shared by every component doc's Anatomy section,
+   so these two changes are scoped here rather than edited globally:
+   (1) align-items: stretch (overriding the shared rule's "center") lets the full-bleed bar
+       actually grow to the card's full width, like Overview's demo does, instead of hugging
+       its own natural size while unused white space sits to its right — paired with the demo
+       itself switching from a fixed pixel width to width:100%/minWidth (see PREVIEW_WIDTH's
+       own comment, which already documented this as the intended behavior).
+   (2) A dark scrim background instead of the shared white one, matching the same
+       ds-preview--scrim treatment already used for this component's Overview and Variants
+       sections, so all three read as one consistent dark canvas instead of Anatomy alone
+       standing out in white.
+   Legend text recolors to --brand-neutral-0 (plain white) for both the heading and body
+   tiers — tokens.css has only one dark-background text token (text-caption-primary-dark,
+   itself just #ffffff) and no secondary/tertiary counterpart, so the light-mode two-tier
+   gray hierarchy (text-heading-primary-neutral / text-body-secondary-neutral) is flagged
+   here as having no dark equivalent rather than guessed at with a raw rgba value. */
+.ds-topbar-anatomy__figure {
+  align-items: stretch;
+  background: var(--global-overlay-dark);
+  border-color: transparent;
+}
+
+.ds-topbar-anatomy__figure .ds-anatomy__demo-scroll {
+  width: 100%;
+}
+
+.ds-topbar-anatomy__legend li,
+.ds-topbar-anatomy__legend strong,
+.ds-topbar-anatomy__legend span {
+  color: var(--brand-neutral-0);
+}
+
+/* .ds-anatomy__legend-num is itself a <span>, so the blanket white recolor above would
+   otherwise catch it too — it keeps its original light-lavender-circle/primary-dark-text
+   styling instead (unaffected by the dark-theme swap), since that pairing already has
+   its own built-in contrast regardless of what background it sits on. Higher specificity
+   (two classes) than the plain "span" rule above wins this back without needing !important. */
+.ds-topbar-anatomy__legend .ds-anatomy__legend-num {
+  color: var(--brand-primary-600);
+}
+
+/* ---- Topbar Variants: hover-highlight the part each Style tab demonstrates ----
+   Trigger is :hover on the shared .ds-app-topbar instance itself (not a :has() keyed
+   off just the one icon button) — hovering ANYWHERE over that bar highlights its
+   demonstrated part, rather than requiring the pointer to land precisely on the
+   small icon. This still self-scopes per instance with no extra selector work: the
+   :hover pseudo-class already matches an ancestor whenever the pointer is over any
+   of its descendants, so the Notification tab's three stacked AppTopbar instances
+   each light up independently based on which one is actually under the pointer.
+   Scoped through the .ds-topbar-page-preview / .ds-topbar-notification-preview
+   wrapper classes so this only ever applies within these two doc demos, never the
+   live/functional AppTopbar used elsewhere in the app.
+   The demonstrated part itself is left alone — IconButton's own background-tint
+   :hover state already reads as "highlighted" once its siblings dim around it, so
+   no extra ring/glow is added. --opacity-40 is the token scale's closest "dimmed
+   but still visible" step (0/20/40/60 are the only stops; --global-overlay-dark's
+   near-black scrim, used for Overview's static-screenshot dimming, would fully
+   obscure these live interactive parts instead of just fading them). */
+.ds-topbar-page-preview .ds-app-topbar:hover .ds-app-topbar__logo,
+.ds-topbar-page-preview .ds-app-topbar:hover .ds-app-topbar__store-trigger,
+.ds-topbar-page-preview .ds-app-topbar:hover .ds-app-topbar__search,
+.ds-topbar-page-preview .ds-app-topbar:hover .ds-app-topbar__trailing {
+  opacity: var(--opacity-40);
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-topbar-notification-preview .ds-app-topbar:hover .ds-app-topbar__logo,
+.ds-topbar-notification-preview .ds-app-topbar:hover .ds-app-topbar__leading,
+.ds-topbar-notification-preview .ds-app-topbar:hover .ds-app-topbar__search,
+.ds-topbar-notification-preview .ds-app-topbar:hover .ds-app-topbar__faq,
+.ds-topbar-notification-preview .ds-app-topbar:hover .ds-app-topbar__divider,
+.ds-topbar-notification-preview .ds-app-topbar:hover .ds-app-topbar__menu-trigger {
+  opacity: var(--opacity-40);
+  transition: opacity var(--duration-fast) ease;
+}

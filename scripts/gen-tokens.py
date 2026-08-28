@@ -110,6 +110,12 @@ USED = [
     # Tabs (line variant)
     'interactive-tab-indicator-line-active','interactive-tab-label-line-active',
     'interactive-tab-label-line-default','interactive-tab-label-line-hover',
+    # Tabs (segment variant)
+    'interactive-tab-surface-segment-default','interactive-tab-surface-segment-hover',
+    'interactive-tab-surface-segment-active','interactive-tab-surface-segment-disabled',
+    'interactive-tab-label-segment-default','interactive-tab-label-segment-hover',
+    'interactive-tab-label-segment-active','interactive-tab-label-segment-disabled',
+    'interactive-tab-border-segment-default','interactive-tab-border-segment-disabled',
     # Icon button — primary solid/outline/ghost
     'interactive-icon-button-surface-primary-solid-default','interactive-icon-button-surface-primary-solid-hover',
     'interactive-icon-button-surface-primary-solid-focus','interactive-icon-button-surface-primary-solid-disabled',

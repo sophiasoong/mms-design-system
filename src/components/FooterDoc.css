@@ -52,3 +52,64 @@
 .ds-footer-anatomy .ds-anatomy__legend-num {
   color: var(--brand-primary-600);
 }
+
+/* ---- Variants > Example: hover-dim/highlight ----
+   Each tab renders one full composition (Modal's own footer, a page-level Form footer, or
+   a Dropdown panel's own footer), so hovering spotlights Footer's role inside a real
+   composition instead of a bare Footer instance — inverse of HeaderDoc.css's own
+   Header-spotlight treatment on the same three tab shapes. Every tab renders the real
+   Footer component, so one selector covers all three. */
+.ds-footer-doc__example .ds-footer {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-footer-doc__example:hover .ds-footer {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+/* Modal tab — dim the modal's Header and body, leaving its Footer lit. */
+.ds-footer-doc__example .ds-header--modal,
+.ds-footer-doc__example .ds-modal__body {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-footer-doc__example:hover .ds-header--modal,
+.ds-footer-doc__example:hover .ds-modal__body {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+/* Form tab — dim both stacked Form cards, leaving the page-level Footer below them lit. */
+.ds-footer-doc__example .ds-form__header,
+.ds-footer-doc__example .ds-form__main {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-footer-doc__example:hover .ds-form__header,
+.ds-footer-doc__example:hover .ds-form__main {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+/* Dropdown tab — dim the filter-chip trigger, searchbar, and option list, leaving the
+   panel's own Footer lit. */
+.ds-footer-doc__example .ds-filter-chip,
+.ds-footer-doc__example .ds-dropdown__searchbar-row,
+.ds-footer-doc__example .ds-dropdown__options {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-footer-doc__example:hover .ds-filter-chip,
+.ds-footer-doc__example:hover .ds-dropdown__searchbar-row,
+.ds-footer-doc__example:hover .ds-dropdown__options {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+/* Stacks the Form tab's two cards and page-level Footer full-width rather than shrinking
+   to content width — same fix as ToggleDoc's own .ds-toggle-doc__example-row, needed
+   because .ds-preview's align-items:center (ButtonDoc.css) otherwise shrinks this column
+   to its content's width before any child gets a chance to fill it. */
+.ds-footer-doc__example-forms {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: var(--space-layout-section-gap-lg); /* space/layout/section/gap/lg */
+}

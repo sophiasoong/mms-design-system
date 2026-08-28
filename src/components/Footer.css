@@ -29,6 +29,12 @@
   display: flex;
   align-items: center;
   gap: var(--space-component-gap-md);
+  /* Keeps trailing actions flush right even when showLeading={false} removes the only
+     other flex child — space-between (above) has no second item left to push against
+     in that case, per spec falling back to flex-start and stranding this group on the
+     left. margin-left:auto is a no-op alongside a present leading button (space-between
+     already pushes this flush right) but takes over correctly when that button is gone. */
+  margin-left: auto;
 }
 
 /* ---- Size ---- */
@@ -43,8 +49,11 @@
 }
 
 /* ---- Style ---- */
+/* Bottom corners only — Footer always sits flush under another surface (a Modal body,
+   a form), so only the bottom corners are ever visually exposed; matches .ds-footer--shadow
+   below. */
 .ds-footer--divider.ds-footer--lg {
-  border-radius: var(--radius-md);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
   border-top: var(--border-sm) solid var(--global-divider-neutral-light);
 }
 

@@ -1,17 +1,19 @@
 import { useState } from 'react';
 import AppTopbar from './AppTopbar';
+import AppSidebar from './AppSidebar';
 import Button from './Button';
 import IconButton from './IconButton';
 import { Badge } from './Badge';
 import { Searchbar } from './Searchbar';
 import { IconButtonIcon, SearchbarIcon, DropdownIcon, AssetsIcon } from './icons';
 import './ButtonDoc.css';
+import './TopbarDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=263-5472';
 
-const BACK_BUTTON_TABS = ['Shown', 'Hidden'] as const;
-type BackButtonTab = (typeof BACK_BUTTON_TABS)[number];
+const STYLE_TABS = ['Menu toggle', 'Notification'] as const;
+type StyleTab = (typeof STYLE_TABS)[number];
 
 // Topbar's natural min-content width: leading (~166) + search's min-width floor (320)
 // + trailing (~446) + 2 bar gaps (32) + left/right edge padding (64) = 1028. Used as a
@@ -25,7 +27,8 @@ interface TopbarDocProps {
 }
 
 export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
-  const [activeBackTab, setActiveBackTab] = useState<BackButtonTab>('Shown');
+  const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Menu toggle');
+  const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
   return (
     <div className="ds-doc">
@@ -56,10 +59,13 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
           Use Topbar once, at the root of the application shell — it stays fixed while the
           sidebar and page content scroll beneath it.
         </p>
-        <div className="ds-preview ds-preview--scrim ds-preview--scroll" style={{ padding: 0 }}>
-          <div style={{ width: '100%' }}>
-            <AppTopbar />
-          </div>
+        <div className="ds-preview ds-topbar-usage">
+          <img
+            className="ds-topbar-usage__img"
+            src="/assets/sidebar-overview-usage.png"
+            alt="Topbar shown in place within the app shell, above the page content (Figma reference)"
+          />
+          <span className="ds-topbar-usage__highlight" aria-hidden="true" />
         </div>
       </section>
 
@@ -71,13 +77,26 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
           group of account controls stays flexible based on which actions apply.
         </p>
         <div className="ds-anatomy">
-          <div className="ds-anatomy__figure">
+          <div className="ds-anatomy__figure ds-topbar-anatomy__figure">
             <div className="ds-anatomy__demo-scroll">
-            <div className="ds-app-topbar ds-anatomy__demo" aria-hidden="true" style={{ width: PREVIEW_WIDTH }}>
+              <div
+                className="ds-app-topbar ds-anatomy__demo"
+                aria-hidden="true"
+                style={{ width: '100%', minWidth: PREVIEW_WIDTH }}
+              >
+              <span className="ds-anatomy__part-relative">
+                <img
+                  className="ds-app-topbar__logo"
+                  src="/assets/logo_mms_default.png"
+                  alt="Merchant Management System"
+                />
+                <span className="ds-anatomy__badge">1</span>
+              </span>
+
               <div className="ds-app-topbar__leading">
                 <span className="ds-anatomy__part-relative">
                   <IconButton icon="menu" variant="primary" appearance="outline" size="md" label="Toggle menu" />
-                  <span className="ds-anatomy__badge">1</span>
+                  <span className="ds-anatomy__badge">2</span>
                 </span>
                 <span className="ds-anatomy__part-relative">
                   <span className="ds-app-topbar__store-trigger">
@@ -87,13 +106,13 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
                       expand_more
                     </span>
                   </span>
-                  <span className="ds-anatomy__badge">2</span>
+                  <span className="ds-anatomy__badge">3</span>
                 </span>
               </div>
 
               <span className="ds-anatomy__part-relative ds-app-topbar__search">
                 <Searchbar size="lg" placeholder="Search" />
-                <span className="ds-anatomy__badge">3</span>
+                <span className="ds-anatomy__badge">4</span>
               </span>
 
               <div className="ds-app-topbar__trailing">
@@ -101,7 +120,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
                   <Button variant="secondary" appearance="solid" size="sm">
                     Back to MMS 1.0
                   </Button>
-                  <span className="ds-anatomy__badge">4</span>
+                  <span className="ds-anatomy__badge">5</span>
                 </span>
                 <span className="ds-anatomy__part-relative">
                   <IconButton
@@ -113,7 +132,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
                     label="FAQ"
                     className="ds-app-topbar__faq"
                   />
-                  <span className="ds-anatomy__badge">5</span>
+                  <span className="ds-anatomy__badge">6</span>
                 </span>
                 <span className="ds-anatomy__part-relative">
                   <span className="ds-app-topbar__notification-wrap">
@@ -127,7 +146,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
                     />
                     <span className="ds-app-topbar__notification-badge">99+</span>
                   </span>
-                  <span className="ds-anatomy__badge">6</span>
+                  <span className="ds-anatomy__badge">7</span>
                 </span>
                 <span className="ds-anatomy__part-relative">
                   <span className="ds-app-topbar__menu-trigger">
@@ -136,7 +155,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
                       expand_more
                     </span>
                   </span>
-                  <span className="ds-anatomy__badge">7</span>
+                  <span className="ds-anatomy__badge">8</span>
                 </span>
                 <span className="ds-anatomy__part-relative">
                   <span className="ds-app-topbar__menu-trigger">
@@ -150,57 +169,63 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
                       expand_more
                     </span>
                   </span>
-                  <span className="ds-anatomy__badge">8</span>
+                  <span className="ds-anatomy__badge">9</span>
                 </span>
               </div>
             </div>
             </div>
-            <ul className="ds-anatomy__legend">
+            <ul className="ds-anatomy__legend ds-topbar-anatomy__legend">
               <li>
                 <span className="ds-anatomy__legend-num">1</span>
+                <span>
+                  <strong>Logo</strong> — <span>identifies the product and doubles as the sidebar's expanded/collapsed cue</span>
+                </span>
+              </li>
+              <li>
+                <span className="ds-anatomy__legend-num">2</span>
                 <span>
                   <strong>Menu toggle</strong> — <span>expands or collapses the product's side navigation</span>
                 </span>
               </li>
               <li>
-                <span className="ds-anatomy__legend-num">2</span>
+                <span className="ds-anatomy__legend-num">3</span>
                 <span>
                   <strong>Store trigger</strong> —{' '}
                   <span>opens the store switcher; the green dot marks the store as online</span>
                 </span>
               </li>
               <li>
-                <span className="ds-anatomy__legend-num">3</span>
+                <span className="ds-anatomy__legend-num">4</span>
                 <span>
                   <strong>Search field</strong> — <span>searches across the current product context</span>
                 </span>
               </li>
               <li>
-                <span className="ds-anatomy__legend-num">4</span>
+                <span className="ds-anatomy__legend-num">5</span>
                 <span>
                   <strong>Back-to-MMS 1.0</strong> — <span>optional escape hatch back to the legacy product; hidden once migration is complete</span>
                 </span>
               </li>
               <li>
-                <span className="ds-anatomy__legend-num">5</span>
+                <span className="ds-anatomy__legend-num">6</span>
                 <span>
                   <strong>FAQ</strong> — <span>opens contextual help</span>
                 </span>
               </li>
               <li>
-                <span className="ds-anatomy__legend-num">6</span>
+                <span className="ds-anatomy__legend-num">7</span>
                 <span>
                   <strong>Notifications</strong> — <span>opens the notification list; the badge caps its count display at 99+</span>
                 </span>
               </li>
               <li>
-                <span className="ds-anatomy__legend-num">7</span>
+                <span className="ds-anatomy__legend-num">8</span>
                 <span>
                   <strong>Language trigger</strong> — <span>opens the locale switcher</span>
                 </span>
               </li>
               <li>
-                <span className="ds-anatomy__legend-num">8</span>
+                <span className="ds-anatomy__legend-num">9</span>
                 <span>
                   <strong>User trigger</strong> — <span>opens the account menu</span>
                 </span>
@@ -214,62 +239,87 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
       <section id="variants" className="ds-section">
         <h2 className="ds-section__title">Variants</h2>
         <p className="ds-section__desc">
-          The back-to-legacy button is the one leading/trailing part meant to be temporary —
-          every other control stays present across contexts.
+          The logo and menu toggle mirror the product sidebar's own expanded/collapsed state, and
+          the notification badge reflects whether there's anything new to see.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Back-to-MMS 1.0 button</span>
-        <div className="ds-line-tabs" role="tablist" aria-label="Topbar back-button groups">
-          {BACK_BUTTON_TABS.map((tab) => (
+        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <div className="ds-line-tabs" role="tablist" aria-label="Topbar style groups">
+          {STYLE_TABS.map((tab) => (
             <button
               key={tab}
               type="button"
               role="tab"
-              aria-selected={activeBackTab === tab}
-              className={`ds-line-tab${activeBackTab === tab ? ' ds-line-tab--active' : ''}`}
-              onClick={() => setActiveBackTab(tab)}
+              aria-selected={activeStyleTab === tab}
+              className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
+              onClick={() => setActiveStyleTab(tab)}
             >
               {tab}
             </button>
           ))}
         </div>
 
-        <div className="ds-variant-groups">
-          <div className="ds-variant-group">
-            <div className="ds-preview ds-preview--scrim ds-preview--scroll" style={{ padding: 0 }}>
-              <div style={{ width: '100%' }}>
-                <AppTopbar showBackButton={activeBackTab === 'Shown'} />
+        {activeStyleTab === 'Menu toggle' && (
+          <div className="ds-variant-groups">
+            <div className="ds-variant-group">
+              <div className="ds-preview ds-preview--scrim ds-preview--scroll" style={{ padding: 0 }}>
+                <div className="ds-topbar-page-preview">
+                  <AppTopbar
+                    showLogo
+                    sidebarExpanded={sidebarExpanded}
+                    onMenuClick={() => setSidebarExpanded((expanded) => !expanded)}
+                  />
+                  <div className="ds-topbar-page-preview__body">
+                    <div
+                      className={`ds-topbar-page-preview__sidebar${
+                        sidebarExpanded ? '' : ' ds-topbar-page-preview__sidebar--collapsed'
+                      }`}
+                    >
+                      <AppSidebar />
+                    </div>
+                    <div className="ds-topbar-page-preview__content" />
+                  </div>
+                </div>
               </div>
+              <span className="ds-variant-note">
+                {sidebarExpanded
+                  ? 'Sidebar expanded (default) — click the menu toggle to collapse it.'
+                  : 'Sidebar collapsed — the reference layout hides it entirely; click the menu toggle to bring it back.'}
+              </span>
             </div>
-            <span className="ds-variant-note">
-              {activeBackTab === 'Shown'
-                ? 'Shown while the legacy product is still reachable, so users can jump back at any time.'
-                : 'Hidden once a store has fully migrated off the legacy product.'}
-            </span>
           </div>
-        </div>
+        )}
 
-        {/* Stacked rather than side-by-side: a full-bleed bar doesn't suit the two-column
-            ds-variant-row layout used for compact components elsewhere in the app. */}
-        <div className="ds-variant-groups">
-          <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Notification count</span>
-            <div className="ds-preview ds-preview--scrim ds-preview--scroll" style={{ padding: 0 }}>
-              <div style={{ width: '100%' }}>
-                <AppTopbar notificationCount={3} showBackButton={false} />
+        {/* Both instances share one scrim card (ds-preview--stack) rather than two separate
+            ones — a full-bleed bar doesn't suit the two-column ds-variant-row layout used for
+            compact components elsewhere in the app, so each instance keeps its own caption
+            inline instead. */}
+        {activeStyleTab === 'Notification' && (
+          <div className="ds-variant-groups">
+            <div className="ds-variant-group">
+              <div className="ds-preview ds-preview--scrim ds-preview--scroll ds-preview--stack ds-topbar-notification-preview">
+                <div className="ds-topbar-notification-preview__item">
+                  <span className="ds-topbar-notification-preview__caption">
+                    Unread — under 100 · shows the exact count
+                  </span>
+                  <AppTopbar showLogo notificationCount={3} showBackButton={false} />
+                </div>
+                <div className="ds-topbar-notification-preview__item">
+                  <span className="ds-topbar-notification-preview__caption">
+                    Unread — above 100 · caps the badge at 99+
+                  </span>
+                  <AppTopbar showLogo notificationCount={128} showBackButton={false} />
+                </div>
+                <div className="ds-topbar-notification-preview__item">
+                  <span className="ds-topbar-notification-preview__caption">
+                    Read — zero · badge is hidden entirely
+                  </span>
+                  <AppTopbar showLogo notificationCount={0} showBackButton={false} />
+                </div>
               </div>
             </div>
-            <span className="ds-variant-note">Under 100 · shows the exact count</span>
           </div>
-          <div className="ds-variant-group">
-            <div className="ds-preview ds-preview--scrim ds-preview--scroll" style={{ padding: 0 }}>
-              <div style={{ width: '100%' }}>
-                <AppTopbar notificationCount={0} showBackButton={false} />
-              </div>
-            </div>
-            <span className="ds-variant-note">Zero · badge is hidden entirely</span>
-          </div>
-        </div>
+        )}
       </section>
 
       {/* ---------------------------------------------------------------- */}

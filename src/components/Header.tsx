@@ -20,6 +20,7 @@ export interface HeaderProps {
   showButton?: boolean;
   showToggle?: boolean;
   toggleChecked?: boolean;
+  toggleLabel?: string;
   showExpander?: boolean;
   showDrag?: boolean;
   showThumbnail?: boolean;
@@ -46,6 +47,7 @@ export default function Header({
   showButton = false,
   showToggle = false,
   toggleChecked = true,
+  toggleLabel = 'Yes',
   showExpander = true,
   showDrag = true,
   showThumbnail = true,
@@ -119,7 +121,7 @@ export default function Header({
       )}
 
       {(isForm || isSubForm) && showToggle && (
-        <Toggle label="Yes" checked={toggleChecked} onChange={onToggleChange} />
+        <Toggle label={toggleLabel} checked={toggleChecked} onChange={onToggleChange} />
       )}
 
       {isFormList && showDelete && (

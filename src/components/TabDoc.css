@@ -1,0 +1,45 @@
+/* ---- TabDoc ----
+   Doc-only classes for the Variants section's Example sub-section — a 4-tab switcher (Card
+   Tab / Line Tab / Segment Tab / Chip Tab, mirroring the Style sub-section's .ds-line-tabs
+   pattern) staging each style with its real content from the reference frame (Figma node
+   1813:83686, MMS-Web-AI-Design-System file): Card tab's "HKTVmall"/"ThePlace" BU switcher,
+   Line tab's "Standard/Merchant/Non-Standard Delivery" sub-nav, and both Chip tab rows nested
+   in its "Controller" frame — "Order Status" and "Product Ready Methods", stacked together
+   under the Chip Tab panel. The reference frame has no Segment tab instance, so that panel
+   reuses the Day/Week/Month example already shown in Variants above. None of these classes
+   map to a Figma layer of their own — they're this doc page's demo scaffolding only. */
+
+.ds-tab-example {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs);
+  width: 100%;
+}
+
+.ds-tab-example__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-md);
+  padding: var(--space-component-padding-md);
+  border-radius: var(--radius-md);
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-tab-example:hover .ds-tab-example__row:not(:hover) {
+  opacity: var(--opacity-40);
+}
+
+/* Per-item highlight within a row: hovering one tab/chip dims its own siblings (in addition
+   to the cross-row dim above, which keeps the hovered row itself at full opacity while other
+   rows fade). .ds-tab-line-group is shared by both the Card and Line tab groups, so this one
+   selector covers both; .ds-tab-chip-group is ChipTab's own wrapper (Tab.tsx), whose children
+   are ActionChip instances (Chip.tsx) carrying the plain .ds-chip class, not .ds-tab. Scoped
+   under .ds-tab-example__row so it never reaches the live/functional Tab or Chip components
+   used elsewhere in the app — same convention as TopbarDoc.css's hover-highlight rules. */
+.ds-tab-example__row .ds-tab-line-group:hover .ds-tab:not(:hover),
+.ds-tab-example__row .ds-tab-chip-group:hover .ds-chip:not(:hover) {
+  opacity: var(--opacity-40);
+  transition: opacity var(--duration-fast) ease;
+}

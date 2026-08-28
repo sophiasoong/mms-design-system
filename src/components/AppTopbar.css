@@ -28,7 +28,14 @@
          matches; the two menu triggers (language, user) and the search field are given no
          dedicated trigger component in this codebase (Dropdown.tsx exports only option/panel
          parts), so they're hand-rolled buttons here, following the same precedent used by
-         Header/Footer/Pagination for one-off composite sub-parts. */
+         Header/Footer/Pagination for one-off composite sub-parts.
+
+   Optional leading logo (showLogo/sidebarExpanded props, Figma nodes 1804:68744 "expanded" and
+   1804:69031 "collapsed" — MMS-Web-AI-Design-System file): both states render the same 260px
+   Figma "Topbar-logo" panel, swapping only its artwork (full navy lockup vs. compact white one)
+   between the two named PNG assets already in public/assets rather than hand-rebuilding Figma's
+   masked vector group. 260px reuses the same flagged value as AppSidebar.css's own width (Figma's
+   size/component/width/sm token has no tokens.css equivalent — see that file's header). */
 
 .ds-app-topbar {
   display: flex;
@@ -38,13 +45,30 @@
   box-sizing: border-box;
   height: var(--component-height-3xl);
   padding-inline: var(--space-component-padding-2xl);
-  gap: var(--space-component-gap-lg);
+  /* Confirmed via get_design_context on node 1804:68744 — Figma's outer Topbar frame gaps its
+     logo/leading/search/trailing groups at space/component/gap/md (12px), not gap/lg (16px);
+     this doc page's own Layout & Spacing table already documented 12px before the CSS did. */
+  gap: var(--space-component-gap-md);
   background: var(--global-background-surface);
   border-bottom: var(--border-sm) solid var(--brand-neutral-500);
   /* Queries below react to the bar's own rendered width, not the browser viewport — so it
      collapses correctly whenever ITS box is narrow (a doc preview column, a constrained
      embed), not only when the whole page is. */
   container-type: inline-size;
+}
+
+/* Pulled flush to the bar's true left edge (cancelling .ds-app-topbar's own left padding) to
+   match Figma, where the logo panel sits flush against the sidebar below it with no rail gap.
+   object-fit: cover (not contain) — the source asset's 520:136 ratio is narrower than this
+   260px-wide/64px-tall box, so "contain" fit to height and left empty strips of the bar's own
+   white background down each side, breaking alignment with the full-bleed 260px Sidebar below.
+   "cover" fills the full 260px width, cropping ~2px off the asset's top/bottom padding only. */
+.ds-app-topbar__logo {
+  flex-shrink: 0;
+  width: 260px;
+  height: 100%;
+  margin-left: calc(-1 * var(--space-component-padding-2xl));
+  object-fit: cover;
 }
 
 .ds-app-topbar__leading {

@@ -291,6 +291,16 @@
   --interactive-tab-label-line-active: #5244ee;
   --interactive-tab-label-line-default: #1e1e1e;
   --interactive-tab-label-line-hover: #5244ee;
+  --interactive-tab-surface-segment-default: #ffffff;
+  --interactive-tab-surface-segment-hover: #a9a1f7;
+  --interactive-tab-surface-segment-active: #5244ee;
+  --interactive-tab-surface-segment-disabled: #f5f5f5;
+  --interactive-tab-label-segment-default: #1e1e1e;
+  --interactive-tab-label-segment-hover: #ffffff;
+  --interactive-tab-label-segment-active: #ffffff;
+  --interactive-tab-label-segment-disabled: #a6a6a6;
+  --interactive-tab-border-segment-default: #d9d9d9;
+  --interactive-tab-border-segment-disabled: #d9d9d9;
   --interactive-icon-button-surface-primary-solid-default: #5244ee;
   --interactive-icon-button-surface-primary-solid-hover: #a9a1f7;
   --interactive-icon-button-surface-primary-solid-focus: #1f11bb;

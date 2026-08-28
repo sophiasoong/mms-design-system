@@ -1,8 +1,9 @@
 /* ---- Tab: shared base ----
-   Figma node 194:2845. Only interactive/tab/label/line/* and .../indicator/line/active
-   resolve to real tokens.css entries — every other card/segment/chip-tab surface, border,
-   and badge value below is the closest brand-primitive/text-* match (commented per
-   group), same reuse-with-comment approach as Chip.css and DatePicker.css. */
+   Figma node 194:2845. interactive/tab/label|indicator/line/* and .../label|surface|
+   border/segment/* resolve to real tokens.css entries — every other card/chip-tab
+   surface, border, and badge value below is the closest brand-primitive/text-* match
+   (commented per group), same reuse-with-comment approach as Chip.css and
+   DatePicker.css. */
 .ds-tab {
   display: inline-flex;
   align-items: center;
@@ -177,9 +178,9 @@
    border instead of being cut by it. */
 .ds-tab--segment {
   gap: var(--space-component-gap-xs);
-  border: var(--border-sm) solid var(--brand-neutral-500);
-  background: var(--global-background-surface);
-  color: var(--text-body-primary-neutral);
+  border: var(--border-sm) solid var(--interactive-tab-border-segment-default);
+  background: var(--interactive-tab-surface-segment-default);
+  color: var(--interactive-tab-label-segment-default);
   position: relative;
 }
 
@@ -218,25 +219,25 @@
 
 .ds-tab--segment:hover:not(.ds-tab--disabled):not(.ds-tab--active),
 .ds-tab--segment.ds-tab--force-hover {
-  background: var(--brand-primary-200);
-  border-color: var(--brand-primary-200);
-  color: var(--global-background-surface);
+  background: var(--interactive-tab-surface-segment-hover);
+  border-color: var(--interactive-tab-surface-segment-hover);
+  color: var(--interactive-tab-label-segment-hover);
   z-index: 1;
 }
 
 .ds-tab--segment.ds-tab--active {
-  background: var(--brand-primary-400);
-  border-color: var(--brand-primary-400);
-  color: var(--global-background-surface);
+  background: var(--interactive-tab-surface-segment-active);
+  border-color: var(--interactive-tab-surface-segment-active);
+  color: var(--interactive-tab-label-segment-active);
   font-family: var(--typography-font-family-heading);
   font-weight: var(--typography-font-weight-medium);
   z-index: 1;
 }
 
 .ds-tab--segment.ds-tab--disabled {
-  background: var(--brand-neutral-200);
-  border-color: var(--brand-neutral-500);
-  color: var(--brand-neutral-700);
+  background: var(--interactive-tab-surface-segment-disabled);
+  border-color: var(--interactive-tab-border-segment-disabled);
+  color: var(--interactive-tab-label-segment-disabled);
 }
 
 /* ---- Chip tab ---- */

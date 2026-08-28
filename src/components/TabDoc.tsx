@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CardTabItem, LineTabItem, SegmentTabItem, ChipTab } from './Tab';
 import { ChipIcon } from './icons';
 import './ButtonDoc.css';
+import './TabDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=194-2845';
@@ -11,6 +12,9 @@ type StyleTab = (typeof STYLE_TABS)[number];
 
 const STATE_TABS = ['Card Tab', 'Line Tab', 'Segment Tab', 'Chip Tab'] as const;
 type StateTab = (typeof STATE_TABS)[number];
+
+const EXAMPLE_TABS = ['Card Tab', 'Line Tab', 'Segment Tab', 'Chip Tab'] as const;
+type ExampleTab = (typeof EXAMPLE_TABS)[number];
 
 const CARD_LABELS = ['Overview', 'Details', 'History'];
 const LINE_LABELS = ['Overview', 'Comments', 'Activity'];
@@ -24,6 +28,7 @@ interface TabDocProps {
 export default function TabDoc({ onNavigate }: TabDocProps) {
   const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Line Tab');
   const [activeStateTab, setActiveStateTab] = useState<StateTab>('Line Tab');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Line Tab');
 
   // ---- Variants: interactive demo state ----
   const [cardActive, setCardActive] = useState(CARD_LABELS[0]);
@@ -295,6 +300,126 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
             </div>
           </div>
         </div>
+
+        <div id="example" className="ds-section__subsection">
+          <h3 className="ds-section__subtitle">Example</h3>
+          <p className="ds-section__desc">
+            Each style staged with its real content from the reference frame: Card tab as a
+            top-level store switcher, Line tab as the sub-nav beneath it, and Chip tab as the
+            Order Status and Product Ready Methods filter rows. The reference has no Segment tab
+            instance, so that one reuses the Day/Week/Month toggle from Variants above. Hover an
+            item to isolate it from its neighbors.
+          </p>
+
+          <div className="ds-line-tabs" role="tablist" aria-label="Tab example groups">
+            {EXAMPLE_TABS.map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activeExampleTab === tab}
+                className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
+                onClick={() => setActiveExampleTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          <div className="ds-variant-groups">
+            {activeExampleTab === 'Card Tab' && (
+              <div className="ds-variant-group">
+                <div className="ds-preview">
+                  <div className="ds-tab-example">
+                    <div className="ds-tab-example__row">
+                      <div
+                        className="ds-tab-line-group ds-tab-line-group--card"
+                        role="tablist"
+                        aria-label="Card tab example"
+                      >
+                        <CardTabItem label="HKTVmall" state="active" />
+                        <CardTabItem label="ThePlace" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <span className="ds-variant-note">Store switcher, staged above its panel.</span>
+              </div>
+            )}
+
+            {activeExampleTab === 'Line Tab' && (
+              <div className="ds-variant-group">
+                <div className="ds-preview">
+                  <div className="ds-tab-example">
+                    <div className="ds-tab-example__row">
+                      <div
+                        className="ds-tab-line-group"
+                        role="tablist"
+                        aria-label="Line tab example"
+                      >
+                        <LineTabItem label="Standard Delivery" state="active" />
+                        <LineTabItem label="Merchant Delivery" />
+                        <LineTabItem label="Non-Standard Delivery" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <span className="ds-variant-note">Delivery-type sub-nav beneath the store switcher.</span>
+              </div>
+            )}
+
+            {activeExampleTab === 'Segment Tab' && (
+              <div className="ds-variant-group">
+                <div className="ds-preview">
+                  <div className="ds-tab-example">
+                    <div className="ds-tab-example__row">
+                      <div role="tablist" aria-label="Segment tab example">
+                        <SegmentTabItem label="Day" position="start" state="active" />
+                        <SegmentTabItem label="Week" position="middle" />
+                        <SegmentTabItem label="Month" position="end" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <span className="ds-variant-note">
+                  Date-range toggle — the reference frame has no Segment tab instance of its own,
+                  so this reuses the Day/Week/Month example from Variants above.
+                </span>
+              </div>
+            )}
+
+            {activeExampleTab === 'Chip Tab' && (
+              <div className="ds-variant-group">
+                <div className="ds-preview ds-preview--stack">
+                  <div className="ds-tab-example">
+                    <div className="ds-tab-example__row">
+                      <ChipTab
+                        title="Order Status"
+                        options={['To-Ship', 'Shipping', 'Completed', 'Cancelled', 'All']}
+                        selected="All"
+                      />
+                    </div>
+                    <div className="ds-tab-example__row">
+                      <ChipTab
+                        title="Product Ready Methods"
+                        options={[
+                          'Standard Delivery',
+                          'Same Day In-hub',
+                          '3PL',
+                          'Consignment',
+                          'Hybrid Delivery Consolidated',
+                          'All',
+                        ]}
+                        selected="Same Day In-hub"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <span className="ds-variant-note">Status and ready-method filter rows, stacked as they appear in the reference.</span>
+              </div>
+            )}
+          </div>
+        </div>
       </section>
 
       {/* ---------------------------------------------------------------- */}
@@ -468,8 +593,8 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
                     </td>
                     <td>
                       <span className="ds-swatch">
-                        <span className="ds-swatch__dot" style={{ background: 'var(--global-background-surface)', border: '1px solid var(--brand-neutral-500)' }} />
-                        <code>global-background-surface</code>
+                        <span className="ds-swatch__dot" style={{ background: 'var(--interactive-tab-surface-segment-default)', border: '1px solid var(--interactive-tab-border-segment-default)' }} />
+                        <code>interactive-tab-surface-segment-default</code>
                       </span>
                     </td>
                   </tr>
@@ -482,8 +607,8 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
                     </td>
                     <td>
                       <span className="ds-swatch">
-                        <span className="ds-swatch__dot" style={{ background: 'var(--brand-primary-200)' }} />
-                        <code>brand-primary-200</code>
+                        <span className="ds-swatch__dot" style={{ background: 'var(--interactive-tab-surface-segment-hover)' }} />
+                        <code>interactive-tab-surface-segment-hover</code>
                       </span>
                     </td>
                   </tr>
@@ -496,8 +621,8 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
                     </td>
                     <td>
                       <span className="ds-swatch">
-                        <span className="ds-swatch__dot" style={{ background: 'var(--brand-primary-400)' }} />
-                        <code>brand-primary-400</code>
+                        <span className="ds-swatch__dot" style={{ background: 'var(--interactive-tab-surface-segment-active)' }} />
+                        <code>interactive-tab-surface-segment-active</code>
                       </span>
                     </td>
                   </tr>
@@ -510,8 +635,8 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
                     </td>
                     <td>
                       <span className="ds-swatch">
-                        <span className="ds-swatch__dot" style={{ background: 'var(--brand-neutral-200)' }} />
-                        <code>brand-neutral-200</code>
+                        <span className="ds-swatch__dot" style={{ background: 'var(--interactive-tab-surface-segment-disabled)' }} />
+                        <code>interactive-tab-surface-segment-disabled</code>
                       </span>
                     </td>
                   </tr>

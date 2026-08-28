@@ -136,7 +136,7 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
                             chevron_right
                           </span>
                         </button>
-                        <span className="ds-anatomy__badge ds-anatomy__badge--side-left">4</span>
+                        <span className="ds-anatomy__badge ds-anatomy__badge--side">4</span>
                       </div>
                     </li>
                   </ul>

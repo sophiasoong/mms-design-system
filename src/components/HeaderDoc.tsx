@@ -464,7 +464,13 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
               )}
               {activeExampleTab === 'Modal' && (
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                  <Modal size="sm" title="Upload Products" showInfo>
+                  <Modal
+                    size="sm"
+                    title="Upload Products"
+                    showInfo
+                    showLeading={false}
+                    secondaryLabel="Cancel"
+                  >
                     <div className="ds-upload-doc__steps">
                       <div className="ds-upload-doc__step">
                         <p className="ds-upload-doc__step-title">

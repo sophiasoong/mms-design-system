@@ -19,6 +19,16 @@
   width: 100%;
   border-radius: var(--radius-md); /* radius/md */
   overflow: hidden;
+  /* Unlike Action Panel/Modal (whose root owns the card's background — see
+     ActionPanel.css/Modal.css), Form previously left this root transparent and let
+     __header/__main each paint their own opaque white instead. That's invisible in the
+     normal state (the two children tile together to cover the root exactly) but breaks
+     any opacity-based dim effect on __main: __main's own white fades along with it,
+     revealing whatever sits behind the (transparent) root — e.g. a doc page's dark
+     scrim — instead of staying white like Action Panel's dimmed main, which fades over
+     its own root's still-opaque background. Adding the background here too means white
+     is now blending over white at any opacity, matching the other two components. */
+  background: var(--surface-form-background-default);
 }
 
 .ds-form__header {

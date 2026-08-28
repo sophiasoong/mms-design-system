@@ -250,6 +250,8 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
                   title={activeExample.title}
                   showInfo
                   className={activeExampleId === 'table' ? 'ds-modal--table-example' : undefined}
+                  showLeading={activeExampleId !== 'upload'}
+                  secondaryLabel={activeExampleId === 'upload' ? 'Cancel' : undefined}
                 >
                   {/* Mirrors the Upload doc's own Overview demo exactly (same step-title/body/
                       detail/danger classes from UploadDoc.css) — Modal's sm width (432px) was

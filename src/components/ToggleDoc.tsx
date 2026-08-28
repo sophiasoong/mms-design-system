@@ -283,6 +283,7 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
                     title="Store Base Information"
                     showToggle
                     toggleChecked={headerToggleChecked}
+                    toggleLabel="Visible"
                     onToggleChange={setHeaderToggleChecked}
                     className="ds-toggle-doc__example-header ds-toggle-doc__example-target"
                   />
