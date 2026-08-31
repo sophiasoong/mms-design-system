@@ -11,3 +11,82 @@
   display: block;
   width: 100%;
 }
+
+/* Variants > Example — a lightweight "Edit Store"-style form page (Figma node
+   1827:89961): Form sections stacked in a column with an Anchor beside them, one item
+   per section. The form column is its own bounded, internally scrolling area (like
+   AnchorNav.css's real max-height:100vh, just capped lower since this is a nested doc
+   preview, not the actual page nav) — that keeps the Anchor pinned to the top of the
+   composition instead of the whole thing relying on the outer doc page's scroll,
+   where a sticky nav would drift past the card into unrelated sections below it.
+   align-items:flex-start keeps the nav sized to its own short content instead of
+   stretching to match the (taller) form column. */
+.ds-anchor-example {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-layout-section-gap-lg); /* space/layout/section/gap/lg */
+  width: 100%;
+}
+
+/* background/padding/radius mirror MessageDoc.css's .ds-message-example__body — a
+   light page canvas (global/background/page) behind white Form cards, same as the
+   product's own real form pages. */
+.ds-anchor-example__forms {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
+  flex: 1 1 auto;
+  min-width: 0;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: var(--space-layout-section-padding-md); /* space/layout/section/padding/md */
+  background: var(--global-background-page); /* global/background/page */
+  border-radius: var(--radius-md); /* radius/md */
+  /* offset parent for scrollToExampleSection's target.offsetTop calculation */
+  position: relative;
+  /* Scrollbar hidden at rest, revealed on hover/focus so it only shows while scrolling */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.ds-anchor-example__forms:hover,
+.ds-anchor-example__forms:focus-within {
+  scrollbar-color: var(--brand-neutral-600) transparent;
+}
+
+.ds-anchor-example__forms::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ds-anchor-example__forms::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ds-anchor-example__forms::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: var(--radius-md); /* radius/md */
+}
+
+.ds-anchor-example__forms:hover::-webkit-scrollbar-thumb,
+.ds-anchor-example__forms:focus-within::-webkit-scrollbar-thumb {
+  background: var(--brand-neutral-600);
+}
+
+.ds-anchor-example__nav {
+  flex: 0 0 auto;
+}
+
+/* ExampleProductTable is a shared reference composition (Figma nodes 178282/178375, both
+   Contract Information and Warehouse & Logistics) that reuses .ds-table-example's own
+   bordered-panel chrome (Table.css) everywhere else it's used across the doc site. Here it
+   sits inside a Form section instead of standing alone, so per feedback it should read as
+   part of the card rather than a boxed sub-panel: bleeds past .ds-form__main's own left/right
+   padding (space/layout/section/padding/md) to sit flush with the Form card's edges, and
+   drops the outer border/radius that would otherwise double up against the card's own edge. */
+.ds-anchor-example__product-table {
+  margin-left: calc(-1 * var(--space-layout-section-padding-md)); /* space/layout/section/padding/md */
+  margin-right: calc(-1 * var(--space-layout-section-padding-md)); /* space/layout/section/padding/md */
+  width: calc(100% + (var(--space-layout-section-padding-md) * 2)); /* space/layout/section/padding/md */
+  border: none;
+  border-radius: var(--radius-none); /* radius/none */
+}

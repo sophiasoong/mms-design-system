@@ -1,10 +1,19 @@
 import { useState } from 'react';
 import { Step, type StepItemData } from './Step';
+import Modal from './Modal';
+import { ActionPanelField } from './ActionPanel';
+import { Input } from './Input';
+import { Table, TableHeader, TableHeaderCell, TableRow, TableCell } from './Table';
 import { ListIcon } from './icons';
 import './ButtonDoc.css';
+import './ModalDoc.css';
+import './StepDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=680-5825';
+
+const EXAMPLE_FIGMA_URL =
+  'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=789-30169&t=ZupQf9myTWU8iKm1-11';
 
 const STYLE_TABS = ['Horizontal', 'Vertical'] as const;
 type StyleTab = (typeof STYLE_TABS)[number];
@@ -206,6 +215,76 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
               </span>
             </div>
           )}
+        </div>
+
+        <div id="example" className="ds-section__subsection">
+          <h3 className="ds-section__subtitle">Example</h3>
+          <p className="ds-section__desc">
+            Step's most common home is a multi-step Modal flow — here it tracks an Add Product
+            form across Basic Info, Pricing, and Review.{' '}
+            <a
+              className="ds-modal-example__ref"
+              href={EXAMPLE_FIGMA_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className="icon icon--xs" aria-hidden="true">
+                draw
+              </span>
+              Reference in Figma
+            </a>
+          </p>
+
+          <div className="ds-preview ds-preview--scrim ds-preview--scroll">
+            <div
+              className="ds-step-example"
+              style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+            >
+              <Modal size="xl" title="Add Product" showInfo secondaryLabel="Cancel">
+                <div className="ds-modal-example__step-wrap">
+                  <Step
+                    className="ds-step-example__focus"
+                    orientation="horizontal"
+                    items={[
+                      { title: 'Basic Info', status: 'finished', stepNumber: 1 },
+                      { title: 'Pricing', status: 'current', stepNumber: 2 },
+                      { title: 'Review', status: 'default', stepNumber: 3 },
+                    ]}
+                  />
+                  <div className="ds-modal-example__form-grid ds-modal-example__form-grid--price ds-step-example__dim">
+                    <ActionPanelField label="Original Price">
+                      <Input placeholder="0.00" size="lg" type="number" />
+                    </ActionPanelField>
+                    <ActionPanelField label="Selling Price">
+                      <Input placeholder="0.00" size="lg" type="number" />
+                    </ActionPanelField>
+                  </div>
+                  <Table size="md" className="ds-modal-example__step-table ds-step-example__dim">
+                    <TableHeader>
+                      <TableHeaderCell>Tier</TableHeaderCell>
+                      <TableHeaderCell>Min Quantity</TableHeaderCell>
+                      <TableHeaderCell>Price</TableHeaderCell>
+                    </TableHeader>
+                    <TableRow>
+                      <TableCell>Tier 1</TableCell>
+                      <TableCell>1</TableCell>
+                      <TableCell>$49.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Tier 2</TableCell>
+                      <TableCell>50</TableCell>
+                      <TableCell>$45.00</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Tier 3</TableCell>
+                      <TableCell>200</TableCell>
+                      <TableCell>$40.00</TableCell>
+                    </TableRow>
+                  </Table>
+                </div>
+              </Modal>
+            </div>
+          </div>
         </div>
       </section>
 

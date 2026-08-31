@@ -5,6 +5,7 @@ import Footer from './Footer';
 import Button from './Button';
 import Upload from './Upload';
 import { Input } from './Input';
+import { Searchbar } from './Searchbar';
 import { Select } from './Select';
 import { Toggle } from './Toggle';
 import { DateRangePicker } from './DateRangePicker';
@@ -251,7 +252,9 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
                   showInfo
                   className={activeExampleId === 'table' ? 'ds-modal--table-example' : undefined}
                   showLeading={activeExampleId !== 'upload'}
-                  secondaryLabel={activeExampleId === 'upload' ? 'Cancel' : undefined}
+                  secondaryLabel={
+                    activeExampleId === 'upload' || activeExampleId === 'step' ? 'Cancel' : undefined
+                  }
                 >
                   {/* Mirrors the Upload doc's own Overview demo exactly (same step-title/body/
                       detail/danger classes from UploadDoc.css) — Modal's sm width (432px) was
@@ -409,51 +412,45 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
                           { title: 'Review', status: 'default', stepNumber: 3 },
                         ]}
                       />
-                      <div className="ds-modal-example__form-grid">
+                      <div className="ds-modal-example__form-grid ds-modal-example__form-grid--price">
                         <ActionPanelField label="Original Price">
-                          <Input placeholder="0.00" size="lg" />
+                          <Input placeholder="0.00" size="lg" type="number" />
                         </ActionPanelField>
                         <ActionPanelField label="Selling Price">
-                          <Input placeholder="0.00" size="lg" />
+                          <Input placeholder="0.00" size="lg" type="number" />
                         </ActionPanelField>
                       </div>
-                      <table className="ds-table ds-modal-example__step-table">
-                        <thead>
-                          <tr>
-                            <th>Tier</th>
-                            <th>Min Quantity</th>
-                            <th>Price</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">Tier 1</th>
-                            <td>1</td>
-                            <td>$49.00</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">Tier 2</th>
-                            <td>50</td>
-                            <td>$45.00</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">Tier 3</th>
-                            <td>200</td>
-                            <td>$40.00</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                      <Table size="md" className="ds-modal-example__step-table">
+                        <TableHeader>
+                          <TableHeaderCell>Tier</TableHeaderCell>
+                          <TableHeaderCell>Min Quantity</TableHeaderCell>
+                          <TableHeaderCell>Price</TableHeaderCell>
+                        </TableHeader>
+                        <TableRow>
+                          <TableCell>Tier 1</TableCell>
+                          <TableCell>1</TableCell>
+                          <TableCell>$49.00</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Tier 2</TableCell>
+                          <TableCell>50</TableCell>
+                          <TableCell>$45.00</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Tier 3</TableCell>
+                          <TableCell>200</TableCell>
+                          <TableCell>$40.00</TableCell>
+                        </TableRow>
+                      </Table>
                     </div>
                   )}
 
                   {activeExampleId === 'table' && (
                     <div className="ds-table-example">
                       <div className="ds-table-toolbar">
-                        <Input
-                          className="ds-table-toolbar__search"
-                          size="md"
-                          placeholder="Search SKU ID or product name"
-                        />
+                        <div className="ds-table-toolbar__search-wrap">
+                          <Searchbar size="md" placeholder="Search" scopeLabel="SKU ID" />
+                        </div>
                         <div className="ds-table-toolbar__filters">
                           <FilterChip label="Category" />
                           <FilterChip label="In Stock" />

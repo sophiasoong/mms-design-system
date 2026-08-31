@@ -96,6 +96,15 @@
   --opacity-40: 0.4;
   --opacity-60: 0.6;
 
+  /* ---- shadow ---- */
+  --shadow-dropdown-blur: 8px;
+  --shadow-dropdown-y: 2px;
+  --shadow-lg: 8px;
+  --shadow-md: 2px;
+  --shadow-none: 0px;
+  --shadow-sm: 1px;
+  --shadow-xl: 16px;
+
   /* ---- typography ---- */
   --typography-font-family-body: "Roboto", sans-serif;
   --typography-font-family-heading: "Roboto", sans-serif;

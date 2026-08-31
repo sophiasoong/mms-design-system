@@ -132,14 +132,18 @@
 }
 
 .ds-tab-line-group {
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
-  max-width: 100%;
+  width: 100%;
   border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
 }
 
+/* Card tab's pills are self-contained (own background/radius per .ds-tab--card above),
+   unlike Line tab's flush underline row — the shared group divider above is Line tab's
+   own baseline and reads as a stray line under Card tab's pills, so it's removed here. */
 .ds-tab-line-group--card {
   gap: 4px;
+  border-bottom: none;
 }
 
 .ds-preview__group {

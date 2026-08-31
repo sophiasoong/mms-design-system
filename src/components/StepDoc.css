@@ -1,0 +1,25 @@
+/* Example subsection (Variants) — the composition wraps Step inside a full Modal (Header,
+   price fields, Tier table, Footer chrome), so hovering it follows the same dim/focus
+   convention as List's/Message's/Breadcrumb's Example: dim everything that isn't Step, ring
+   Step itself. Header/Footer come from Modal's own internal Header+body+Footer composition
+   (not exposed as JSX here — Modal is self-contained), so they're dimmed via a structural
+   selector instead of a wrapper class like the other pieces. */
+.ds-step-example__dim,
+.ds-step-example .ds-modal > *:not(.ds-modal__body) {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-step-example:hover .ds-step-example__dim,
+.ds-step-example:hover .ds-modal > *:not(.ds-modal__body) {
+  opacity: var(--opacity-40);
+}
+
+/* focus = the actual Step component */
+.ds-step-example__focus {
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-step-example:hover .ds-step-example__focus {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}

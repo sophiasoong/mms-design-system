@@ -26,6 +26,12 @@
   color: var(--text-heading-primary-neutral);
 }
 
+.ds-topbar__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+}
+
 .ds-topbar__mode-toggle {
   display: flex;
   align-items: center;

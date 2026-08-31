@@ -9,6 +9,16 @@
   border-color: transparent;
 }
 
+/* Overview's 3-card pricing comparison (Customize Space / Based on sales / Dedicated
+   Space) — .ds-preview's own align-items:center would otherwise leave the two shorter
+   cards vertically centered against the taller "Most Popular" card instead of matching
+   its height. Stretch restores equal-height cards; Card.css's flex:1 1 auto on
+   __body/__header does the rest, growing to absorb the extra height so each card's
+   footer button lands flush with the row's shared bottom edge. */
+.ds-card-overview {
+  align-items: stretch;
+}
+
 /* Badges 1/3/5/7 (--side-left) and 2/4/6 (--side) each clear the card's own padding via
    their ::before connector (defined once in ButtonDoc.css, gray, left un-overridden here,
    since it runs inside the card over the card's own white surface) plus an added gap-sm

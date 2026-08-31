@@ -6,6 +6,7 @@ with open('/Users/sophiasoong/Documents/AI Playground/MD/tokens.json') as f:
 size = data['size']
 motion = data['motion']
 opacity = data['opacity']
+shadow = data['shadow']
 mms = data['color']['m-m-s']
 mma = data['color']['m-m-a']
 
@@ -227,6 +228,10 @@ lines.append('  /* ---- opacity ---- */')
 for k in sorted(opacity):
     label = k.rstrip('-')
     lines.append(f'  --opacity-{label}: {int(opacity[k])/100};')
+lines.append('')
+lines.append('  /* ---- shadow ---- */')
+for k in sorted(shadow):
+    lines.append(f'  --shadow-{k}: {shadow[k]}px;')
 lines.append('')
 lines.append('  /* ---- typography ---- */')
 eng = data['font']['english']

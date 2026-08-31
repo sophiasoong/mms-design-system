@@ -1,18 +1,271 @@
+import { useState } from 'react';
 import Pagination from './Pagination';
 import Button from './Button';
 import IconButton from './IconButton';
 import { Input } from './Input';
+import { Searchbar } from './Searchbar';
+import { FilterChip } from './Chip';
+import {
+  Table,
+  TableHeader,
+  TableHeaderCell,
+  TableSelectHeaderCell,
+  TableRow,
+  TableCell,
+  TableSelectCell,
+} from './Table';
+import Modal from './Modal';
 import { IconButtonIcon, DropdownIcon } from './icons';
 import './ButtonDoc.css';
+import './Table.css';
+import './ModalDoc.css';
+import './PaginationDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=174-27843';
+
+type ExampleTab = 'page-table' | 'modal-table';
+const EXAMPLE_TABS: { id: ExampleTab; label: string }[] = [
+  { id: 'page-table', label: 'Page table (Md)' },
+  { id: 'modal-table', label: 'Modal table (Sm)' },
+];
+
+interface PageTableRow {
+  sku: string;
+  brand: string;
+  name: string;
+  category: string;
+  originalPrice: string;
+  sellingPrice: string;
+  merchant: string;
+  discount: string;
+}
+
+/** Same 10 rows as Table doc's own Default table Example (TableDoc.tsx EXAMPLE_ROWS) —
+ * this panel duplicates that exact instance, just re-staged to spotlight Pagination. */
+const PAGE_TABLE_ROWS: PageTableRow[] = [
+  { sku: 'SKU-100234', brand: 'Nestlé', name: 'Nescafé Gold Blend 200g', category: 'Beverages', originalPrice: '$144', sellingPrice: '$138', merchant: 'Merchant A', discount: '8%' },
+  { sku: 'SKU-100235', brand: 'Unilever', name: 'Dove Body Wash 500ml', category: 'Personal Care', originalPrice: '$89', sellingPrice: '$79', merchant: 'Merchant A', discount: '12%' },
+  { sku: 'SKU-100236', brand: 'P&G', name: 'Pampers Diapers Size 3', category: 'Baby Care', originalPrice: '$210', sellingPrice: '$195', merchant: 'Merchant B', discount: '5%' },
+  { sku: 'SKU-100237', brand: 'Nestlé', name: 'KitKat 4 Finger 41.5g', category: 'Snacks', originalPrice: '$18', sellingPrice: '$16', merchant: 'Merchant B', discount: '15%' },
+  { sku: 'SKU-100238', brand: 'Colgate', name: 'Colgate Total Toothpaste 150g', category: 'Oral Care', originalPrice: '$32', sellingPrice: '$28', merchant: 'Merchant A', discount: '10%' },
+  { sku: 'SKU-100239', brand: 'Kellogg’s', name: 'Corn Flakes Original 500g', category: 'Breakfast & Cereal', originalPrice: '$45', sellingPrice: '$40', merchant: 'Merchant C', discount: '11%' },
+  { sku: 'SKU-100240', brand: 'Johnson & Johnson', name: 'Baby Shampoo No More Tears 300ml', category: 'Health & Wellness', originalPrice: '$56', sellingPrice: '$52', merchant: 'Merchant B', discount: '7%' },
+  { sku: 'SKU-100241', brand: 'Coca-Cola', name: 'Coca-Cola Classic 1.5L', category: 'Soft Drinks', originalPrice: '$28', sellingPrice: '$25', merchant: 'Merchant C', discount: '11%' },
+  { sku: 'SKU-100242', brand: 'L’Oréal', name: 'Elvive Shampoo 400ml', category: 'Beauty & Care', originalPrice: '$68', sellingPrice: '$59', merchant: 'Merchant A', discount: '13%' },
+  { sku: 'SKU-100243', brand: 'Nestlé', name: 'Milo Chocolate Malt Drink 400g', category: 'Dairy & Nutrition', originalPrice: '$52', sellingPrice: '$47', merchant: 'Merchant B', discount: '10%' },
+];
+
+interface ModalTableRow {
+  sku: string;
+  name: string;
+  category: string;
+  price: string;
+  stock: number;
+}
+
+/** Same 10 rows as Modal doc's own Table-size Example (ModalDoc.tsx EXAMPLE_TABLE_ROWS). */
+const MODAL_TABLE_ROWS: ModalTableRow[] = [
+  { sku: 'SKU-1001', name: 'Wireless Keyboard', category: 'Electronics', price: '$49.00', stock: 120 },
+  { sku: 'SKU-1002', name: 'Bluetooth Speaker', category: 'Electronics', price: '$79.00', stock: 64 },
+  { sku: 'SKU-1003', name: 'Ceramic Mug', category: 'Home', price: '$12.00', stock: 340 },
+  { sku: 'SKU-1004', name: 'Yoga Mat', category: 'Sports', price: '$25.00', stock: 95 },
+  { sku: 'SKU-1005', name: 'Stainless Water Bottle', category: 'Home', price: '$18.00', stock: 210 },
+  { sku: 'SKU-1006', name: 'Desk Lamp', category: 'Home', price: '$34.00', stock: 58 },
+  { sku: 'SKU-1007', name: 'Running Shoes', category: 'Sports', price: '$89.00', stock: 42 },
+  { sku: 'SKU-1008', name: 'Phone Case', category: 'Electronics', price: '$15.00', stock: 500 },
+  { sku: 'SKU-1009', name: 'Notebook Set', category: 'Office', price: '$9.00', stock: 275 },
+  { sku: 'SKU-1010', name: 'Wireless Mouse', category: 'Electronics', price: '$29.00', stock: 150 },
+];
+
+/** Duplicates Table doc's own Default table Example (search + filters + results bar + a
+ * full data table + Pagination). ds-pagination-example (PaginationDoc.css) is an added
+ * class, not a replacement — it opts this one instance into the hover-gated spotlight
+ * that brings Pagination forward and dims every other zone, without touching Table doc's
+ * own live use of the same ds-table-example/-toolbar/-results classes. */
+function PaginationPageTableExample() {
+  const [checkedRows, setCheckedRows] = useState<Record<string, boolean>>({});
+  const toggleRow = (sku: string) => setCheckedRows((prev) => ({ ...prev, [sku]: !prev[sku] }));
+  const allChecked = PAGE_TABLE_ROWS.every((row) => checkedRows[row.sku]);
+  const someChecked = PAGE_TABLE_ROWS.some((row) => checkedRows[row.sku]);
+
+  return (
+    <div className="ds-table-example ds-pagination-example">
+      <div className="ds-table-toolbar">
+        <Searchbar size="md" placeholder="Search" scopeLabel="SKU ID" />
+        <div className="ds-table-toolbar__filters">
+          <FilterChip label="Category" />
+          <FilterChip label="Status" />
+        </div>
+        <div className="ds-table-toolbar__actions">
+          <Button variant="primary" appearance="ghost" size="md">
+            Reset
+          </Button>
+        </div>
+      </div>
+
+      <div className="ds-table-results">
+        <span className="ds-table-results__count">
+          1–{PAGE_TABLE_ROWS.length} of {PAGE_TABLE_ROWS.length} results
+        </span>
+        <div className="ds-table-results__actions">
+          <span className="ds-table-results__updated">Last Updated 2026-04-28 09:15</span>
+          <Button variant="primary" appearance="outline" size="md">
+            Refresh
+          </Button>
+          <Button variant="primary" appearance="outline" size="md">
+            Export
+          </Button>
+        </div>
+      </div>
+
+      <div className="ds-table-example__scroll">
+        <div className="ds-table-example__frame">
+          <Table size="md">
+            <TableHeader>
+              <TableSelectHeaderCell
+                checked={allChecked}
+                indeterminate={someChecked && !allChecked}
+                onChange={(checked) =>
+                  setCheckedRows(Object.fromEntries(PAGE_TABLE_ROWS.map((row) => [row.sku, checked])))
+                }
+              />
+              <TableHeaderCell width={88}>Image</TableHeaderCell>
+              <TableHeaderCell width={140} info>SKU ID</TableHeaderCell>
+              <TableHeaderCell width={140} info>Brand</TableHeaderCell>
+              <TableHeaderCell width={320}>SKU Name</TableHeaderCell>
+              <TableHeaderCell width={140}>Category</TableHeaderCell>
+              <TableHeaderCell width={100} align="right">Original Price</TableHeaderCell>
+              <TableHeaderCell width={100} align="right">Selling Price</TableHeaderCell>
+              <TableHeaderCell width={110}>Merchant</TableHeaderCell>
+              <TableHeaderCell width={90} align="right">Discount</TableHeaderCell>
+              <TableHeaderCell align="center" className="ds-table-example__action-cell">
+                Action
+              </TableHeaderCell>
+            </TableHeader>
+            {PAGE_TABLE_ROWS.map((row) => (
+              <TableRow key={row.sku} state={checkedRows[row.sku] ? 'selected' : 'default'}>
+                <TableSelectCell checked={!!checkedRows[row.sku]} onChange={() => toggleRow(row.sku)} />
+                <TableCell>
+                  <span className="ds-datatable__cell-thumbnail">
+                    <span className="icon icon--sm" aria-hidden="true">
+                      image
+                    </span>
+                  </span>
+                </TableCell>
+                <TableCell>{row.sku}</TableCell>
+                <TableCell>{row.brand}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.category}</TableCell>
+                <TableCell align="right">{row.originalPrice}</TableCell>
+                <TableCell align="right">{row.sellingPrice}</TableCell>
+                <TableCell>{row.merchant}</TableCell>
+                <TableCell align="right">{row.discount}</TableCell>
+                <TableCell align="center" className="ds-table-example__action-cell">
+                  <div className="ds-table-example__action-buttons">
+                    <Button variant="primary" appearance="ghost" size="sm">
+                      Edit
+                    </Button>
+                    <Button variant="danger" appearance="ghost" size="sm">
+                      Delete
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </Table>
+        </div>
+      </div>
+
+      <div className="ds-table-example__pagination">
+        <Pagination currentPage={1} totalPages={10} />
+      </div>
+    </div>
+  );
+}
+
+/** Duplicates Modal doc's own Table-size Example (a Full modal whose body IS the table
+ * card). Same ds-pagination-example opt-in as the Page table panel above, applied via
+ * Modal's own className prop instead of a wrapping div, since Modal renders its Header/
+ * Footer internally — the class still needs to land on the outermost .ds-modal element
+ * for the hover-gated spotlight to reach them. */
+function PaginationModalTableExample() {
+  return (
+    <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <Modal
+        size="full"
+        title="Product Catalog"
+        showInfo
+        showLeading
+        className="ds-modal--table-example ds-pagination-example"
+      >
+        <div className="ds-table-example">
+          <div className="ds-table-toolbar">
+            <Input className="ds-table-toolbar__search" size="md" placeholder="Search SKU ID or product name" />
+            <div className="ds-table-toolbar__filters">
+              <FilterChip label="Category" />
+              <FilterChip label="In Stock" />
+            </div>
+            <div className="ds-table-toolbar__actions">
+              <Button variant="primary" appearance="ghost" size="md">
+                Reset
+              </Button>
+            </div>
+          </div>
+
+          <div className="ds-table-results">
+            <span className="ds-table-results__count">
+              1–{MODAL_TABLE_ROWS.length} of {MODAL_TABLE_ROWS.length} results
+            </span>
+            <div className="ds-table-results__actions">
+              <span className="ds-table-results__updated">Last Updated 2026-08-11 09:15</span>
+              <Button variant="primary" appearance="outline" size="md">
+                Refresh
+              </Button>
+              <Button variant="primary" appearance="outline" size="md">
+                Export
+              </Button>
+            </div>
+          </div>
+
+          <Table size="md">
+            <TableHeader>
+              <TableHeaderCell width={140}>SKU ID</TableHeaderCell>
+              <TableHeaderCell width={240}>Product Name</TableHeaderCell>
+              <TableHeaderCell width={140}>Category</TableHeaderCell>
+              <TableHeaderCell width={110} align="center">
+                Price
+              </TableHeaderCell>
+              <TableHeaderCell width={100} align="center">
+                Stock
+              </TableHeaderCell>
+            </TableHeader>
+            {MODAL_TABLE_ROWS.map((row) => (
+              <TableRow key={row.sku}>
+                <TableCell>{row.sku}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.category}</TableCell>
+                <TableCell align="center">{row.price}</TableCell>
+                <TableCell align="center">{row.stock}</TableCell>
+              </TableRow>
+            ))}
+          </Table>
+
+          <div className="ds-table-example__pagination">
+            <Pagination size="sm" currentPage={1} totalPages={1} />
+          </div>
+        </div>
+      </Modal>
+    </div>
+  );
+}
 
 interface PaginationDocProps {
   onNavigate?: (componentId: string) => void;
 }
 
 export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('page-table');
   return (
     <div className="ds-doc">
       <header className="ds-doc__header">
@@ -191,6 +444,40 @@ export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
                 <Pagination size="sm" currentPage={3} totalPages={8} />
                 <span className="ds-variant-row__cell-label">Sm · 24px items</span>
               </div>
+            </div>
+          </div>
+
+          <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
+          <div className="ds-line-tabs" role="tablist" aria-label="Pagination example contexts">
+            {EXAMPLE_TABS.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                role="tab"
+                aria-selected={activeExampleTab === tab.id}
+                className={`ds-line-tab${activeExampleTab === tab.id ? ' ds-line-tab--active' : ''}`}
+                onClick={() => setActiveExampleTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+          <div className="ds-variant-groups">
+            <div className="ds-variant-group">
+              <p className="ds-section__desc">
+                Two full compositions — a page-level product table and a Full-size Modal table —
+                built entirely from existing components; hover either to bring Pagination forward
+                and dim the rest.
+              </p>
+              {activeExampleTab === 'page-table' ? (
+                <div className="ds-preview">
+                  <PaginationPageTableExample />
+                </div>
+              ) : (
+                <div className="ds-preview ds-preview--scrim ds-preview--scroll">
+                  <PaginationModalTableExample />
+                </div>
+              )}
             </div>
           </div>
         </div>

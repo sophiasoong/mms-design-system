@@ -42,6 +42,7 @@ import ModalDoc from './components/ModalDoc';
 import FormDoc from './components/FormDoc';
 import AssetsDoc from './components/AssetsDoc';
 import { getStoredBrandMode, applyBrandMode, type BrandMode } from './brandMode';
+import { getStoredLocale, applyLocale, type Locale } from './locale';
 import { BUTTON_SECTIONS } from './data/buttonSections';
 import { ICON_BUTTON_SECTIONS } from './data/iconButtonSections';
 import { DROPDOWN_SECTIONS } from './data/dropdownSections';
@@ -128,17 +129,23 @@ const SECTIONS_BY_COMPONENT: Record<string, AnchorSection[]> = {
 
 function App() {
   const [mode, setMode] = useState<BrandMode>(getStoredBrandMode());
+  const [locale, setLocale] = useState<Locale>(getStoredLocale());
   const [activeComponentId, setActiveComponentId] = useState('button');
 
   useEffect(() => {
     applyBrandMode(mode);
   }, [mode]);
 
+  useEffect(() => {
+    applyLocale(locale);
+  }, [locale]);
+
   const toggleMode = () => setMode((prev) => (prev === 'mms' ? 'mma' : 'mms'));
+  const toggleLocale = () => setLocale((prev) => (prev === 'en' ? 'zh' : 'en'));
 
   return (
     <div className="ds-app">
-      <Topbar mode={mode} onToggleMode={toggleMode} />
+      <Topbar mode={mode} onToggleMode={toggleMode} locale={locale} onToggleLocale={toggleLocale} />
       <div className="ds-app__body">
         <Sidebar activeComponentId={activeComponentId} onSelectComponent={setActiveComponentId} />
         <main className="ds-main">

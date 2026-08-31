@@ -113,3 +113,14 @@
   width: 100%;
   gap: var(--space-layout-section-gap-lg); /* space/layout/section/gap/lg */
 }
+
+/* Footer.css's divider/shadow rules round only the bottom corners, on the assumption
+   Footer always sits flush under another surface with no gap (true for Modal/Dropdown,
+   which render Footer as a direct sibling of the body immediately above it). This
+   example's page-level Footer sits a full section-gap below the last Form card instead
+   (matching the Figma Form reference, see FooterExampleForm's own comment), so it reads
+   as its own standalone card and needs all four corners rounded, not just the bottom two.
+   Scoped to this example only — Modal/Dropdown's flush usage is untouched. */
+.ds-footer-doc__example-forms .ds-footer--divider.ds-footer--lg {
+  border-radius: var(--radius-md); /* radius/md */
+}

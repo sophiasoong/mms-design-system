@@ -100,14 +100,27 @@
   gap: var(--space-component-gap-lg);
 }
 
+/* Step tab's Price fields — 4-col grid so Original/Selling Price sit in the first two
+   columns at half their previous width, leaving columns 3-4 open, instead of splitting
+   the full row width in two. */
+.ds-modal-example__form-grid--price {
+  grid-template-columns: repeat(4, 1fr);
+}
+
 .ds-modal-example__step-wrap {
   display: flex;
   flex-direction: column;
   gap: var(--space-component-gap-lg);
 }
 
+/* Bleeds past .ds-modal__body's own left/right padding (space/layout/section/padding/sm)
+   so the table's edges meet the modal's edges, matching the Table tab example's frame
+   which is edge-to-edge by construction rather than inset like the form fields above it. */
 .ds-modal-example__step-table {
   margin-top: 0;
+  margin-left: calc(-1 * var(--space-layout-section-padding-sm)); /* space/layout/section/padding/sm */
+  margin-right: calc(-1 * var(--space-layout-section-padding-sm)); /* space/layout/section/padding/sm */
+  width: calc(100% + (var(--space-layout-section-padding-sm) * 2)); /* space/layout/section/padding/sm */
 }
 
 .ds-modal-example__crop-canvas {

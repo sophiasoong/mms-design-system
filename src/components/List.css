@@ -62,11 +62,17 @@
 }
 
 .ds-list__title {
+  flex: 1 1 auto;
+  min-width: 0;
   font-family: var(--typography-font-family-heading);
   font-size: var(--typography-sm-font-size);
   line-height: var(--typography-sm-line-height);
   font-weight: var(--typography-font-weight-medium);
   color: var(--interactive-list-label-title);
+}
+
+.ds-list__tag {
+  flex-shrink: 0;
 }
 
 .ds-list__desc {

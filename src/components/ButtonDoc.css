@@ -355,10 +355,17 @@
   margin-bottom: var(--space-component-gap-md);
 }
 
+/* global/divider/neutral/light (#f4f4f4) reads fine on the white surface Line tab
+   itself sits on (Tab.css's own .ds-tab-line-group uses it), but every "Example"
+   switcher sits directly on the page canvas instead (global/background/page,
+   #f5f5f5) — 1 value apart, so that token is invisible here. brand/neutral/500
+   (#d9d9d9) is the same "visible border on page background" token AppTopbar.css's
+   own bottom divider uses, reused here for the same reason: a divider needs more
+   contrast against page gray than it does against a white card. */
 .ds-line-tabs {
   display: flex;
   gap: var(--space-component-gap-lg);
-  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-bottom: var(--border-sm) solid var(--brand-neutral-500); /* brand/neutral/500 */
 }
 
 .ds-line-tabs--no-label {

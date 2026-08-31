@@ -1,0 +1,26 @@
+/* ---- PaginationDoc ----
+   Doc-only classes for the Variants section's Example sub-section — two compositions
+   (Page table duplicates Table doc's own Default table Example, Modal table duplicates
+   Modal doc's own Table-size Example) that put Pagination itself in the spotlight instead
+   of the table it sits under. ds-pagination-example is an ADDED class alongside each
+   composition's normal classes (.ds-table-example, .ds-modal), never a replacement — so
+   these rules never reach Table doc's / Modal doc's own live instances of the same shared
+   classes. None of this maps to a Figma layer of its own — doc scaffolding only, same
+   hover-gated "nothing dims by default, hovering anywhere dims every other zone" convention
+   as TabDoc.css's own per-panel spotlight. */
+
+.ds-pagination-example .ds-table-toolbar,
+.ds-pagination-example .ds-table-results,
+.ds-pagination-example .ds-datatable,
+.ds-pagination-example .ds-header,
+.ds-pagination-example .ds-footer {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-pagination-example:hover .ds-table-toolbar,
+.ds-pagination-example:hover .ds-table-results,
+.ds-pagination-example:hover .ds-datatable,
+.ds-pagination-example:hover .ds-header,
+.ds-pagination-example:hover .ds-footer {
+  opacity: var(--opacity-40); /* opacity/40 */
+}

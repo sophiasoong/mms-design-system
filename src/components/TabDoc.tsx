@@ -1,5 +1,9 @@
 import { useState } from 'react';
 import { CardTabItem, LineTabItem, SegmentTabItem, ChipTab } from './Tab';
+import { Table, TableHeader, TableHeaderCell, TableRow, TableCell } from './Table';
+import Pagination from './Pagination';
+import { Searchbar } from './Searchbar';
+import { FilterChip } from './Chip';
 import { ChipIcon } from './icons';
 import './ButtonDoc.css';
 import './TabDoc.css';
@@ -20,6 +24,164 @@ const CARD_LABELS = ['Overview', 'Details', 'History'];
 const LINE_LABELS = ['Overview', 'Comments', 'Activity'];
 const SEGMENT_LABELS = ['Day', 'Week', 'Month'];
 const CHIP_OPTIONS = ['All', 'Open', 'Closed', 'Archived'];
+
+// ---- Example composition (Variants > Example) ----
+// Shared by all four Example panels — Figma nodes 1813:83686 (Chip tab reference) and
+// 1813:85759 (Card/Line/Segment tab reference), both a Card tab row + Line tab row +
+// Controller row + Filters row + Table — differing only in the Controller row's content
+// (the connected Segment-tab instance for Card/Line/Segment, the stacked Order Status/
+// Product Ready Methods Chip-style rows for Chip alone).
+const EXAMPLE_ORDER_STATUS_OPTIONS = ['To-Ship', 'Shipping', 'Completed', 'Cancelled', 'All'];
+const EXAMPLE_READY_METHOD_OPTIONS = [
+  'Standard Delivery',
+  'Same Day In-hub',
+  '3PL',
+  'Consignment',
+  'Hybrid Delivery Consolidated',
+  'All',
+];
+const EXAMPLE_SEGMENT_LABELS = ['To-Ship', 'Shipping', 'Completed', 'Cancelled', 'All'];
+
+interface ExampleTableRow {
+  sku: string;
+  brand: string;
+  name: string;
+  category: string;
+  originalPrice: string;
+  sellingPrice: string;
+  avgPsp: string;
+  pppPrice: string;
+  costBearer: string;
+  discountRate: string;
+}
+
+const EXAMPLE_TABLE_ROWS: ExampleTableRow[] = [
+  { sku: 'SKU-100001', brand: 'Nestlé', name: 'Nescafé Gold Blend 200g', category: 'Beverages', originalPrice: '$144', sellingPrice: '$138', avgPsp: '$127', pppPrice: '$121', costBearer: 'Merchant', discountRate: '8%' },
+  { sku: 'SKU-100002', brand: 'Unilever', name: 'Dove Body Wash 400ml', category: 'Personal Care', originalPrice: '$89', sellingPrice: '$82', avgPsp: '$76', pppPrice: '$71', costBearer: 'Platform', discountRate: '12%' },
+  { sku: 'SKU-100003', brand: 'P&G', name: 'Pampers Diapers Size 4', category: 'Baby Care', originalPrice: '$215', sellingPrice: '$199', avgPsp: '$182', pppPrice: '$175', costBearer: 'Merchant', discountRate: '7%' },
+  { sku: 'SKU-100004', brand: 'Colgate', name: 'Colgate Total Toothpaste 150g', category: 'Personal Care', originalPrice: '$46', sellingPrice: '$42', avgPsp: '$39', pppPrice: '$36', costBearer: 'Merchant', discountRate: '9%' },
+  { sku: 'SKU-100005', brand: 'Kellogg’s', name: 'Kellogg’s Corn Flakes 500g', category: 'Groceries', originalPrice: '$62', sellingPrice: '$57', avgPsp: '$53', pppPrice: '$49', costBearer: 'Platform', discountRate: '8%' },
+  { sku: 'SKU-100006', brand: 'Johnson & Johnson', name: 'J&J Baby Shampoo 300ml', category: 'Baby Care', originalPrice: '$58', sellingPrice: '$53', avgPsp: '$49', pppPrice: '$46', costBearer: 'Merchant', discountRate: '9%' },
+  { sku: 'SKU-100007', brand: 'Coca-Cola', name: 'Coca-Cola Original 24×330ml', category: 'Beverages', originalPrice: '$168', sellingPrice: '$155', avgPsp: '$144', pppPrice: '$137', costBearer: 'Merchant', discountRate: '8%' },
+  { sku: 'SKU-100008', brand: 'L’Oréal', name: 'L’Oréal Revitalift Serum 30ml', category: 'Personal Care', originalPrice: '$248', sellingPrice: '$229', avgPsp: '$211', pppPrice: '$202', costBearer: 'Platform', discountRate: '8%' },
+  { sku: 'SKU-100009', brand: 'Nestlé', name: 'Nestlé KitKat 12-pack', category: 'Snacks', originalPrice: '$54', sellingPrice: '$49', avgPsp: '$46', pppPrice: '$43', costBearer: 'Merchant', discountRate: '9%' },
+  { sku: 'SKU-100010', brand: 'Unilever', name: 'Lipton Yellow Label Tea 100s', category: 'Beverages', originalPrice: '$72', sellingPrice: '$66', avgPsp: '$61', pppPrice: '$58', costBearer: 'Merchant', discountRate: '8%' },
+];
+
+type ExampleController = 'chip' | 'segment';
+type ExampleSpotlight = 'card' | 'line' | 'controller';
+
+function TabExampleComposition({
+  controller,
+  spotlight,
+}: {
+  controller: ExampleController;
+  spotlight: ExampleSpotlight;
+}) {
+  return (
+    <div className={`ds-tab-example ds-tab-example--spotlight-${spotlight}`}>
+      <div className="ds-tab-example__row ds-tab-example__row--card">
+        <div className="ds-tab-line-group ds-tab-line-group--card" role="tablist" aria-label="Card tab example">
+          <CardTabItem label="HKTVmall" state="active" />
+          <CardTabItem label="ThePlace" />
+        </div>
+      </div>
+
+      <div className="ds-tab-example__row ds-tab-example__row--line">
+        <div className="ds-tab-line-group" role="tablist" aria-label="Line tab example">
+          <LineTabItem label="Standard Delivery" state="active" />
+          <LineTabItem label="Merchant Delivery" />
+          <LineTabItem label="Non-Standard Delivery" />
+        </div>
+      </div>
+
+      <div className="ds-tab-example__row ds-tab-example__row--controller">
+        {controller === 'chip' ? (
+          <div className="ds-tab-example__controller-stack">
+            <ChipTab title="Order Status" options={EXAMPLE_ORDER_STATUS_OPTIONS} selected="All" />
+            <ChipTab title="Product Ready Methods" options={EXAMPLE_READY_METHOD_OPTIONS} selected="Same Day In-hub" />
+          </div>
+        ) : (
+          <div role="tablist" aria-label="Order status segment example">
+            {EXAMPLE_SEGMENT_LABELS.map((label, i) => (
+              <SegmentTabItem
+                key={label}
+                label={label}
+                position={i === 0 ? 'start' : i === EXAMPLE_SEGMENT_LABELS.length - 1 ? 'end' : 'middle'}
+                state={i === 0 ? 'active' : 'default'}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="ds-table-example">
+        <div className="ds-table-toolbar ds-tab-example__filters">
+          <div className="ds-table-toolbar__search-wrap">
+            <Searchbar size="md" placeholder="Search Order No." scopeLabel="Order No." />
+          </div>
+          <div className="ds-table-toolbar__filters">
+            <FilterChip label="Storefront Code" />
+            <FilterChip label="Warehouse" />
+            <FilterChip label="Waybill States" />
+            <FilterChip label="Order Date: 2025-03-18 → 2025-03-18" />
+          </div>
+          <div className="ds-table-toolbar__actions">
+            <button type="button" className="ds-tab-example__reset">
+              Reset All
+            </button>
+          </div>
+        </div>
+
+        <div className="ds-tab-example__table">
+          <div className="ds-table-example__scroll">
+            <div className="ds-table-example__frame">
+              <Table size="md">
+                <TableHeader>
+                  <TableHeaderCell width={88} info>Image</TableHeaderCell>
+                  <TableHeaderCell width={140}>SKU ID</TableHeaderCell>
+                  <TableHeaderCell width={140}>Brand</TableHeaderCell>
+                  <TableHeaderCell>SKU Name</TableHeaderCell>
+                  <TableHeaderCell width={140}>Category</TableHeaderCell>
+                  <TableHeaderCell width={100} align="right">Original Price</TableHeaderCell>
+                  <TableHeaderCell width={100} align="right">Selling Price</TableHeaderCell>
+                  <TableHeaderCell width={90} align="right" info>Avg PSP</TableHeaderCell>
+                  <TableHeaderCell width={90} align="right" info>PPP Price</TableHeaderCell>
+                  <TableHeaderCell width={100}>Cost Bearer</TableHeaderCell>
+                  <TableHeaderCell width={130} align="right">Promotion Discount Rate</TableHeaderCell>
+                </TableHeader>
+                {EXAMPLE_TABLE_ROWS.map((row) => (
+                  <TableRow key={row.sku}>
+                    <TableCell>
+                      <span className="ds-datatable__cell-thumbnail">
+                        <span className="icon icon--sm" aria-hidden="true">
+                          image
+                        </span>
+                      </span>
+                    </TableCell>
+                    <TableCell>{row.sku}</TableCell>
+                    <TableCell>{row.brand}</TableCell>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.category}</TableCell>
+                    <TableCell align="right">{row.originalPrice}</TableCell>
+                    <TableCell align="right">{row.sellingPrice}</TableCell>
+                    <TableCell align="right">{row.avgPsp}</TableCell>
+                    <TableCell align="right">{row.pppPrice}</TableCell>
+                    <TableCell>{row.costBearer}</TableCell>
+                    <TableCell align="right">{row.discountRate}</TableCell>
+                  </TableRow>
+                ))}
+              </Table>
+            </div>
+          </div>
+          <div className="ds-table-example__pagination">
+            <Pagination currentPage={1} totalPages={10} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 interface TabDocProps {
   onNavigate?: (componentId: string) => void;
@@ -304,11 +466,10 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
         <div id="example" className="ds-section__subsection">
           <h3 className="ds-section__subtitle">Example</h3>
           <p className="ds-section__desc">
-            Each style staged with its real content from the reference frame: Card tab as a
-            top-level store switcher, Line tab as the sub-nav beneath it, and Chip tab as the
-            Order Status and Product Ready Methods filter rows. The reference has no Segment tab
-            instance, so that one reuses the Day/Week/Month toggle from Variants above. Hover an
-            item to isolate it from its neighbors.
+            Each style staged inside the full reference page it actually ships in: a store
+            switcher (Card tab), delivery sub-nav (Line tab), an Order Status controller (Segment
+            or Chip tab, per reference frame), a Filters row, and a data Table. Hover the
+            composition to bring that panel's own tab style forward and dim the rest.
           </p>
 
           <div className="ds-line-tabs" role="tablist" aria-label="Tab example groups">
@@ -329,40 +490,17 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
           <div className="ds-variant-groups">
             {activeExampleTab === 'Card Tab' && (
               <div className="ds-variant-group">
-                <div className="ds-preview">
-                  <div className="ds-tab-example">
-                    <div className="ds-tab-example__row">
-                      <div
-                        className="ds-tab-line-group ds-tab-line-group--card"
-                        role="tablist"
-                        aria-label="Card tab example"
-                      >
-                        <CardTabItem label="HKTVmall" state="active" />
-                        <CardTabItem label="ThePlace" />
-                      </div>
-                    </div>
-                  </div>
+                <div className="ds-preview ds-preview--scrim">
+                  <TabExampleComposition controller="segment" spotlight="card" />
                 </div>
-                <span className="ds-variant-note">Store switcher, staged above its panel.</span>
+                <span className="ds-variant-note">Store switcher, lifted above the rest of the page.</span>
               </div>
             )}
 
             {activeExampleTab === 'Line Tab' && (
               <div className="ds-variant-group">
-                <div className="ds-preview">
-                  <div className="ds-tab-example">
-                    <div className="ds-tab-example__row">
-                      <div
-                        className="ds-tab-line-group"
-                        role="tablist"
-                        aria-label="Line tab example"
-                      >
-                        <LineTabItem label="Standard Delivery" state="active" />
-                        <LineTabItem label="Merchant Delivery" />
-                        <LineTabItem label="Non-Standard Delivery" />
-                      </div>
-                    </div>
-                  </div>
+                <div className="ds-preview ds-preview--scrim">
+                  <TabExampleComposition controller="segment" spotlight="line" />
                 </div>
                 <span className="ds-variant-note">Delivery-type sub-nav beneath the store switcher.</span>
               </div>
@@ -370,52 +508,25 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
 
             {activeExampleTab === 'Segment Tab' && (
               <div className="ds-variant-group">
-                <div className="ds-preview">
-                  <div className="ds-tab-example">
-                    <div className="ds-tab-example__row">
-                      <div role="tablist" aria-label="Segment tab example">
-                        <SegmentTabItem label="Day" position="start" state="active" />
-                        <SegmentTabItem label="Week" position="middle" />
-                        <SegmentTabItem label="Month" position="end" />
-                      </div>
-                    </div>
-                  </div>
+                <div className="ds-preview ds-preview--scrim">
+                  <TabExampleComposition controller="segment" spotlight="controller" />
                 </div>
                 <span className="ds-variant-note">
-                  Date-range toggle — the reference frame has no Segment tab instance of its own,
-                  so this reuses the Day/Week/Month example from Variants above.
+                  Order Status controller, staged as the connected Segment-tab instance from its
+                  own reference frame (Figma node 1813:85759).
                 </span>
               </div>
             )}
 
             {activeExampleTab === 'Chip Tab' && (
               <div className="ds-variant-group">
-                <div className="ds-preview ds-preview--stack">
-                  <div className="ds-tab-example">
-                    <div className="ds-tab-example__row">
-                      <ChipTab
-                        title="Order Status"
-                        options={['To-Ship', 'Shipping', 'Completed', 'Cancelled', 'All']}
-                        selected="All"
-                      />
-                    </div>
-                    <div className="ds-tab-example__row">
-                      <ChipTab
-                        title="Product Ready Methods"
-                        options={[
-                          'Standard Delivery',
-                          'Same Day In-hub',
-                          '3PL',
-                          'Consignment',
-                          'Hybrid Delivery Consolidated',
-                          'All',
-                        ]}
-                        selected="Same Day In-hub"
-                      />
-                    </div>
-                  </div>
+                <div className="ds-preview ds-preview--scrim">
+                  <TabExampleComposition controller="chip" spotlight="controller" />
                 </div>
-                <span className="ds-variant-note">Status and ready-method filter rows, stacked as they appear in the reference.</span>
+                <span className="ds-variant-note">
+                  Order Status controller, staged as the stacked Order Status / Product Ready
+                  Methods Chip-tab rows from the Card/Line/Chip reference frame.
+                </span>
               </div>
             )}
           </div>

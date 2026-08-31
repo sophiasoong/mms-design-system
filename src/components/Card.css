@@ -41,6 +41,12 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-layout-section-gap-lg);
+  /* Only matters when .ds-card itself is stretched taller than its content (e.g. an
+     equal-height row of Cards, see CardDoc's Overview example) — grows to fill that
+     extra height so __footer still lands at the card's true bottom edge. No effect on
+     a standalone Card, where .ds-card's height is content-driven and there's no extra
+     space to absorb. */
+  flex: 1 1 auto;
 }
 
 .ds-card__header {
@@ -52,6 +58,9 @@
      header's top padding is constant rather than conditional on `badge`. */
   padding-top: var(--space-component-padding-4xl);
   gap: var(--space-component-gap-lg);
+  /* See __body's flex:1 1 auto — same reasoning, one level down, so it's this box
+     (not __body) absorbing the extra height above __footer. */
+  flex: 1 1 auto;
 }
 
 .ds-card__title {

@@ -8,7 +8,7 @@ import './CardDoc.css';
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=829-45366';
 
-const VARIANT_TABS = ['Basic', 'Subscription date field', 'Highlighted / Most Popular'] as const;
+const VARIANT_TABS = ['Default', 'Highlighted', 'Datepicker'] as const;
 type VariantTab = (typeof VARIANT_TABS)[number];
 
 interface CardDocProps {
@@ -16,7 +16,7 @@ interface CardDocProps {
 }
 
 export default function CardDoc({ onNavigate }: CardDocProps) {
-  const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Basic');
+  const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Default');
 
   return (
     <div className="ds-doc">
@@ -49,7 +49,7 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
           (badge, title, a Subscription date field, the footer button) is optional and only shows
           up on plans that need it.
         </p>
-        <div className="ds-preview ds-preview--scrim">
+        <div className="ds-preview ds-preview--scrim ds-card-overview">
           <Card
             title="Customize Space"
             priceLabel="Starts at"
@@ -61,6 +61,53 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
               { label: 'Pick pack', value: '40' },
               { label: 'Stock-in frequency', value: '4' },
             ]}
+            footer={
+              <Button variant="primary" appearance="solid" size="lg">
+                Apply Now
+              </Button>
+            }
+          />
+          <Card
+            badge="Most Popular"
+            title={
+              <>
+                Based on sales
+                <br />
+                within 1 month
+              </>
+            }
+            priceLabel="Starts at"
+            price="$4,999"
+            priceUnit="HKD per month"
+            items={[
+              { label: 'Storage', value: '60' },
+              { label: 'Tote quota', value: '80' },
+              { label: 'Pick pack', value: '40' },
+              { label: 'Stock-in frequency', value: '4' },
+            ]}
+            footer={
+              <Button variant="primary" appearance="solid" size="lg">
+                Apply Now
+              </Button>
+            }
+            highlighted
+          />
+          <Card
+            title="Dedicated Space"
+            priceLabel="Starts at"
+            price="$9,999 +"
+            priceUnit="HKD per month"
+            items={[
+              { label: 'Storage', value: '200' },
+              { label: 'Tote quota', value: '240' },
+              { label: 'Pick pack', value: '120' },
+              { label: 'Stock-in frequency', value: '12' },
+            ]}
+            footer={
+              <Button variant="primary" appearance="solid" size="lg">
+                Apply Now
+              </Button>
+            }
           />
         </div>
       </section>
@@ -192,8 +239,8 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
         <h2 className="ds-section__title">Variants</h2>
         <p className="ds-section__desc">
           Three ways the same Card shows up in the source Figma spec — a plain plan, a
-          subscription plan with a date field and a mid-list divider, and a highlighted plan with
-          a badge and an elevated shadow.
+          highlighted plan with a badge and an elevated shadow, and a subscription plan with a
+          date field and a mid-list divider.
         </p>
 
         <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
@@ -215,7 +262,7 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
             <div className="ds-preview ds-preview--scrim">
-              {activeVariantTab === 'Basic' && (
+              {activeVariantTab === 'Default' && (
                 <Card
                   title="Customize Space"
                   priceLabel="Starts at"
@@ -227,22 +274,6 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
                     { label: 'Pick pack', value: '40' },
                     { label: 'Stock-in frequency', value: '4' },
                   ]}
-                />
-              )}
-              {activeVariantTab === 'Subscription date field' && (
-                <Card
-                  priceLabel="Subtotal"
-                  price="$5,999"
-                  priceUnit="per month"
-                  dateField={{ label: 'Subscription' }}
-                  showDivider={false}
-                  items={[
-                    { label: 'Storage', value: '100' },
-                    { label: 'Tote(s)', value: '120' },
-                    { label: 'Storage Fee', value: '$3,999', dividerBefore: true },
-                    { label: 'Pick & pack', value: '$1,000' },
-                    { label: 'Totes Deposit Fee', value: '$1,000' },
-                  ]}
                   footer={
                     <Button variant="primary" appearance="solid" size="lg">
                       Apply Now
@@ -250,7 +281,7 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
                   }
                 />
               )}
-              {activeVariantTab === 'Highlighted / Most Popular' && (
+              {activeVariantTab === 'Highlighted' && (
                 <Card
                   badge="Most Popular"
                   title={
@@ -277,18 +308,39 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
                   highlighted
                 />
               )}
+              {activeVariantTab === 'Datepicker' && (
+                <Card
+                  priceLabel="Subtotal"
+                  price="$5,999"
+                  priceUnit="per month"
+                  dateField={{ label: 'Subscription' }}
+                  showDivider={false}
+                  items={[
+                    { label: 'Storage', value: '100' },
+                    { label: 'Tote(s)', value: '120' },
+                    { label: 'Storage Fee', value: '$3,999', dividerBefore: true },
+                    { label: 'Pick & pack', value: '$1,000' },
+                    { label: 'Totes Deposit Fee', value: '$1,000' },
+                  ]}
+                  footer={
+                    <Button variant="primary" appearance="solid" size="lg">
+                      Apply Now
+                    </Button>
+                  }
+                />
+              )}
             </div>
-            {activeVariantTab === 'Basic' && (
-              <span className="ds-variant-note">A plain plan — price block, list, no extras.</span>
+            {activeVariantTab === 'Default' && (
+              <span className="ds-variant-note">A plain plan — price block, list, and a footer button.</span>
             )}
-            {activeVariantTab === 'Subscription date field' && (
-              <span className="ds-variant-note">
-                A subscription plan with a date field and a mid-list divider.
-              </span>
-            )}
-            {activeVariantTab === 'Highlighted / Most Popular' && (
+            {activeVariantTab === 'Highlighted' && (
               <span className="ds-variant-note">
                 A highlighted plan with a badge and an elevated shadow.
+              </span>
+            )}
+            {activeVariantTab === 'Datepicker' && (
+              <span className="ds-variant-note">
+                A subscription plan with a date field and a mid-list divider.
               </span>
             )}
           </div>

@@ -175,86 +175,6 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
           compact, adding preview/remove actions for a file-row use case.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Size</span>
-        <div className="ds-line-tabs" role="tablist" aria-label="List size groups">
-          {SIZE_TABS.map((tab) => (
-            <button
-              key={tab}
-              type="button"
-              role="tab"
-              aria-selected={activeSizeTab === tab}
-              className={`ds-line-tab${activeSizeTab === tab ? ' ds-line-tab--active' : ''}`}
-              onClick={() => setActiveSizeTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-
-        <div className="ds-variant-groups">
-          <div className="ds-variant-group">
-            <div className="ds-preview ds-preview--scrim">
-              <div style={{ width: '100%', maxWidth: 432 }}>
-                {activeSizeTab === 'Lg' ? (
-                  <List size="lg" />
-                ) : activeSizeTab === 'Md' ? (
-                  <List size="md" label="Wireless Keyboard" />
-                ) : (
-                  <List size="sm" label="product-photo.jpg" showValue={false} />
-                )}
-              </div>
-            </div>
-            {activeSizeTab === 'Lg' && (
-              <span className="ds-variant-note">
-                Search result — thumbnail, title, filter chip, subtitle, and caption.
-              </span>
-            )}
-            {activeSizeTab === 'Md' && (
-              <span className="ds-variant-note">
-                Recent-search entry — a leading icon, an optional filter chip, a label, and a
-                trailing value.
-              </span>
-            )}
-            {activeSizeTab === 'Sm' && (
-              <span className="ds-variant-note">
-                Uploaded-file row — a leading icon, a label, and trailing preview/remove actions.
-              </span>
-            )}
-            <table className="ds-table">
-              <thead>
-                <tr>
-                  <th>Size</th>
-                  <th>Token</th>
-                  <th>Height</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">Lg</th>
-                  <td>
-                    <code>--space-component-padding-sm</code>
-                  </td>
-                  <td>Auto (content-driven, 8px vertical padding)</td>
-                </tr>
-                <tr>
-                  <th scope="row">Md</th>
-                  <td>
-                    <code>--component-height-md</code>
-                  </td>
-                  <td>32px</td>
-                </tr>
-                <tr>
-                  <th scope="row">Sm</th>
-                  <td>
-                    <code>--component-height-xs</code>
-                  </td>
-                  <td>24px</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
         <div id="example" className="ds-section__subsection">
           <h3 className="ds-section__subtitle">Example</h3>
           <p className="ds-section__desc">
@@ -344,13 +264,13 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
               {activeExampleTab === 'Search Results' && (
                 <div className="ds-list-example__panel ds-list-example__panel--wide ds-list-example__panel--radius-xl">
                   <div className="ds-list-example__searchbar-row ds-list-example__dim">
-                    <Searchbar size="lg" state="focus" chipLabel="Label" defaultValue="Something" />
+                    <Searchbar size="lg" state="focus" chipLabel="Product" defaultValue="Something" />
                   </div>
                   <div className="ds-list-example__rows ds-list-example__rows--lg ds-list-example__focus">
                     <List
                       size="lg"
                       label="Storefront Setup"
-                      tag="Label"
+                      tag="Product"
                       subtitle={
                         <>
                           Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
@@ -363,7 +283,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
                     <List
                       size="lg"
                       label="Storefront Domain Settings"
-                      tag="Label"
+                      tag="Product"
                       subtitle={
                         <>
                           Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
@@ -500,6 +420,86 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
               value, and action props change.
             </span>
           )}
+        </div>
+
+        <span className="ds-variant-group__label ds-variant-tabs-label">Size</span>
+        <div className="ds-line-tabs" role="tablist" aria-label="List size groups">
+          {SIZE_TABS.map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              role="tab"
+              aria-selected={activeSizeTab === tab}
+              className={`ds-line-tab${activeSizeTab === tab ? ' ds-line-tab--active' : ''}`}
+              onClick={() => setActiveSizeTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        <div className="ds-variant-groups">
+          <div className="ds-variant-group">
+            <div className="ds-preview ds-preview--scrim">
+              <div style={{ width: '100%', maxWidth: 432 }}>
+                {activeSizeTab === 'Lg' ? (
+                  <List size="lg" />
+                ) : activeSizeTab === 'Md' ? (
+                  <List size="md" label="Wireless Keyboard" />
+                ) : (
+                  <List size="sm" label="product-photo.jpg" showValue={false} />
+                )}
+              </div>
+            </div>
+            {activeSizeTab === 'Lg' && (
+              <span className="ds-variant-note">
+                Search result — thumbnail, title, filter chip, subtitle, and caption.
+              </span>
+            )}
+            {activeSizeTab === 'Md' && (
+              <span className="ds-variant-note">
+                Recent-search entry — a leading icon, an optional filter chip, a label, and a
+                trailing value.
+              </span>
+            )}
+            {activeSizeTab === 'Sm' && (
+              <span className="ds-variant-note">
+                Uploaded-file row — a leading icon, a label, and trailing preview/remove actions.
+              </span>
+            )}
+            <table className="ds-table">
+              <thead>
+                <tr>
+                  <th>Size</th>
+                  <th>Token</th>
+                  <th>Height</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Lg</th>
+                  <td>
+                    <code>--space-component-padding-sm</code>
+                  </td>
+                  <td>Auto (content-driven, 8px vertical padding)</td>
+                </tr>
+                <tr>
+                  <th scope="row">Md</th>
+                  <td>
+                    <code>--component-height-md</code>
+                  </td>
+                  <td>32px</td>
+                </tr>
+                <tr>
+                  <th scope="row">Sm</th>
+                  <td>
+                    <code>--component-height-xs</code>
+                  </td>
+                  <td>24px</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 

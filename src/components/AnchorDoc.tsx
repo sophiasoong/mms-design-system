@@ -1,6 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Anchor, { AnchorItem } from './Anchor';
+import Form, { FormRow, FormCol, FormField } from './Form';
+import { Input } from './Input';
+import { Select } from './Select';
+import { Toggle } from './Toggle';
+import { Badge } from './Badge';
+import Button from './Button';
+import { Table, TableHeader, TableHeaderCell, TableRow, TableCell } from './Table';
+import Pagination from './Pagination';
+import { Searchbar } from './Searchbar';
+import { FilterChip } from './Chip';
 import './ButtonDoc.css';
+import './FormDoc.css';
 import './AnchorDoc.css';
 
 const FIGMA_URL =
@@ -9,6 +20,119 @@ const FIGMA_URL =
 const LEVEL_TABS = ['Tab', 'Sub-tab'] as const;
 type LevelTab = (typeof LEVEL_TABS)[number];
 
+/** Figma node 1827:89961 ("Edit Store") — a real form page with a sticky Anchor beside
+ * it, one item per Form section. Section count/content is trimmed down from the
+ * reference (which also has data tables and pagination) to keep this demo focused on
+ * the Anchor-to-section navigation the task calls for, reusing FormDoc's own
+ * Form/FormRow/FormCol/FormField composition style. */
+const EXAMPLE_SECTIONS = [
+  { id: 'store-base', label: 'Store Base Information' },
+  { id: 'contract', label: 'Contract Information' },
+  { id: 'warehouse', label: 'Warehouse & Logistics' },
+  { id: 'delivery', label: 'Merchant Delivery Information' },
+] as const;
+
+interface ExampleProductRow {
+  sku: string;
+  brand: string;
+  name: string;
+  category: string;
+  originalPrice: string;
+  sellingPrice: string;
+  avgPsp: string;
+  pppPrice: string;
+  costBearer: string;
+  discountRate: string;
+}
+
+const EXAMPLE_PRODUCT_ROWS: ExampleProductRow[] = [
+  { sku: 'SKU-200001', brand: 'Nestlé', name: 'Nescafé Gold Blend 200g', category: 'Beverages', originalPrice: '$144', sellingPrice: '$138', avgPsp: '$127', pppPrice: '$121', costBearer: 'Merchant', discountRate: '8%' },
+  { sku: 'SKU-200002', brand: 'Unilever', name: 'Dove Body Wash 400ml', category: 'Personal Care', originalPrice: '$89', sellingPrice: '$82', avgPsp: '$76', pppPrice: '$71', costBearer: 'Platform', discountRate: '12%' },
+  { sku: 'SKU-200003', brand: 'Colgate', name: 'Colgate Total Toothpaste 150g', category: 'Personal Care', originalPrice: '$46', sellingPrice: '$42', avgPsp: '$39', pppPrice: '$36', costBearer: 'Merchant', discountRate: '9%' },
+];
+
+/** Figma nodes 178282 ("Contract Information") and 178375 ("Warehouse & Logistics") both
+ * end in this same product/promotion table + toolbar — a shared reference component, not
+ * unique content per section, so both Form sections below reuse this one composition. */
+function ExampleProductTable({ scopeLabel }: { scopeLabel: string }) {
+  return (
+    <div className="ds-table-example ds-anchor-example__product-table">
+      <div className="ds-table-toolbar">
+        <div className="ds-table-toolbar__search-wrap">
+          <Searchbar size="md" placeholder="Search" scopeLabel={scopeLabel} />
+        </div>
+        <div className="ds-table-toolbar__filters">
+          <FilterChip label="Category" />
+          <FilterChip label="Status" />
+        </div>
+        <div className="ds-table-toolbar__actions">
+          <Button variant="primary" appearance="ghost" size="md">
+            Reset
+          </Button>
+        </div>
+      </div>
+
+      <div className="ds-table-results">
+        <span className="ds-table-results__count">1–3 of 3 results</span>
+        <div className="ds-table-results__actions">
+          <span className="ds-table-results__updated">Last Updated 2026-08-31 09:15</span>
+          <Button variant="primary" appearance="outline" size="md">
+            Refresh
+          </Button>
+          <Button variant="primary" appearance="outline" size="md">
+            Export
+          </Button>
+        </div>
+      </div>
+
+      <div className="ds-table-example__scroll">
+        <div className="ds-table-example__frame">
+          <Table size="md">
+            <TableHeader>
+              <TableHeaderCell width={72}>Image</TableHeaderCell>
+              <TableHeaderCell width={110}>SKU ID</TableHeaderCell>
+              <TableHeaderCell width={110}>Brand</TableHeaderCell>
+              <TableHeaderCell width={220}>SKU Name</TableHeaderCell>
+              <TableHeaderCell width={110}>Category</TableHeaderCell>
+              <TableHeaderCell width={90} align="right">Original Price</TableHeaderCell>
+              <TableHeaderCell width={90} align="right">Selling Price</TableHeaderCell>
+              <TableHeaderCell width={80} align="right" info>Avg PSP</TableHeaderCell>
+              <TableHeaderCell width={80} align="right" info>PPP Price</TableHeaderCell>
+              <TableHeaderCell width={100}>Cost Bearer</TableHeaderCell>
+              <TableHeaderCell width={120} align="right">Promotion Discount Rate</TableHeaderCell>
+            </TableHeader>
+            {EXAMPLE_PRODUCT_ROWS.map((row) => (
+              <TableRow key={row.sku}>
+                <TableCell>
+                  <span className="ds-datatable__cell-thumbnail">
+                    <span className="icon icon--sm" aria-hidden="true">
+                      image
+                    </span>
+                  </span>
+                </TableCell>
+                <TableCell>{row.sku}</TableCell>
+                <TableCell>{row.brand}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.category}</TableCell>
+                <TableCell align="right">{row.originalPrice}</TableCell>
+                <TableCell align="right">{row.sellingPrice}</TableCell>
+                <TableCell align="right">{row.avgPsp}</TableCell>
+                <TableCell align="right">{row.pppPrice}</TableCell>
+                <TableCell>{row.costBearer}</TableCell>
+                <TableCell align="right">{row.discountRate}</TableCell>
+              </TableRow>
+            ))}
+          </Table>
+        </div>
+      </div>
+
+      <div className="ds-table-example__pagination">
+        <Pagination currentPage={1} totalPages={1} />
+      </div>
+    </div>
+  );
+}
+
 interface AnchorDocProps {
   onNavigate?: (componentId: string) => void;
 }
@@ -16,6 +140,54 @@ interface AnchorDocProps {
 export default function AnchorDoc({ onNavigate: _onNavigate }: AnchorDocProps) {
   const [activeLevelTab, setActiveLevelTab] = useState<LevelTab>('Tab');
   const [activeSection, setActiveSection] = useState('overview');
+  const [activeExampleSection, setActiveExampleSection] = useState<string>(
+    EXAMPLE_SECTIONS[0].id
+  );
+
+  // Same scroll-spy idiom as the app's own AnchorNav (AnchorNav.tsx) — reimplemented
+  // here against Anchor/AnchorItem (the component this page documents) instead of
+  // importing AnchorNav, so this doc page's CSS/behavior stays scoped to Anchor.
+  useEffect(() => {
+    const container = document.getElementById('anchor-example-forms');
+    if (!container) return;
+
+    // root: container (rather than the default viewport) — sections scroll inside
+    // their own bounded box now, not the outer doc page, so visibility has to be
+    // measured against that box.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) {
+          setActiveExampleSection(visible[0].target.id.replace('anchor-example-', ''));
+        }
+      },
+      { root: container, rootMargin: '-15% 0px -70% 0px', threshold: 0 }
+    );
+
+    EXAMPLE_SECTIONS.forEach((section) => {
+      const el = document.getElementById(`anchor-example-${section.id}`);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToExampleSection = (id: string) => {
+    setActiveExampleSection(id);
+    const container = document.getElementById('anchor-example-forms');
+    const target = document.getElementById(`anchor-example-${id}`);
+    if (!container || !target) return;
+    // Scrolls the bounded forms container directly instead of target.scrollIntoView(),
+    // which would otherwise also drag the outer doc page along with it — the Anchor
+    // should stay fixed while only this container moves. offsetTop is relative to the
+    // container (its nearest positioned ancestor) but still includes the container's own
+    // padding-top, so subtract it — otherwise the first section stops a few pixels short
+    // of scrollTop 0 instead of reaching the very top.
+    const containerPaddingTop = parseFloat(getComputedStyle(container).paddingTop) || 0;
+    container.scrollTo({ top: Math.max(0, target.offsetTop - containerPaddingTop), behavior: 'smooth' });
+  };
 
   return (
     <div className="ds-doc">
@@ -176,6 +348,181 @@ export default function AnchorDoc({ onNavigate: _onNavigate }: AnchorDocProps) {
               </span>
             </div>
           )}
+        </div>
+
+        <div className="ds-variant-groups">
+          <div className="ds-variant-group">
+            <span className="ds-variant-group__label">Example</span>
+            <p className="ds-section__desc">
+              A form page with several sections, each with a matching Anchor item — click one
+              to scroll the page to that section and highlight it, the same in-page
+              navigation as the app's own AnchorNav.
+            </p>
+            <div className="ds-preview">
+              <div className="ds-anchor-example">
+                <div className="ds-anchor-example__forms" id="anchor-example-forms">
+                  <div id="anchor-example-store-base">
+                    <Form title="Store Base Information" showInfo={false}>
+                      <FormRow>
+                        <FormCol>
+                          <FormField label="Business Unit">
+                            <span className="ds-form-field__value">HKTV</span>
+                          </FormField>
+                          <FormField label="MMS Store Code">
+                            <span className="ds-form-field__value">H8224002</span>
+                          </FormField>
+                          <FormField label="Store Status">
+                            <Badge label="Active" color="green" />
+                          </FormField>
+                          <FormField label="Year Joined">
+                            <span className="ds-form-field__value">2025</span>
+                          </FormField>
+                          <FormField label="Store Name (in English)" required>
+                            <Input defaultValue="Chic Living HK" size="lg" />
+                          </FormField>
+                          <FormField label="Linked ThePlace Store ID">
+                            <span className="ds-form-field__value">100014261S</span>
+                          </FormField>
+                        </FormCol>
+                        <FormCol>
+                          <FormField label="Merchant Name">
+                            <span className="ds-form-field__value">H8224002</span>
+                          </FormField>
+                          <FormField label="Storefront Code">
+                            <span className="ds-form-doc__readonly-link">
+                              <span className="ds-form-doc__readonly-link-text">H0888001</span>
+                              <span className="icon icon--sm" aria-hidden="true">
+                                open_in_new
+                              </span>
+                            </span>
+                          </FormField>
+                          <FormField label="Online Status">
+                            <Badge label="Online" color="green" />
+                          </FormField>
+                          <FormField label="Allow choosing 13Landmarks categories">
+                            <Toggle label="No" />
+                          </FormField>
+                          <FormField label="Store Name (in Traditional Chinese)" required>
+                            <Input defaultValue="馥麗生活館" size="lg" />
+                          </FormField>
+                          <FormField label="Link Store" info>
+                            <span className="ds-form-field__value">Link</span>
+                          </FormField>
+                        </FormCol>
+                        <FormCol>
+                          <FormField label="Merchant ID">
+                            <span className="ds-form-field__value">88883333</span>
+                          </FormField>
+                          <FormField label="Hybris Avenue Status">
+                            <span className="ds-form-field__value">Yes</span>
+                          </FormField>
+                          <FormField label="Direct-Operated Store">
+                            <Toggle label="No" />
+                          </FormField>
+                          <FormField label="Customer Chat">
+                            <Toggle label="Disabled" />
+                          </FormField>
+                          <FormField label="Store Name (in Simplified Chinese)" required>
+                            <Input defaultValue="馥丽生活馆" size="lg" />
+                          </FormField>
+                        </FormCol>
+                      </FormRow>
+                    </Form>
+                  </div>
+
+                  <div id="anchor-example-contract">
+                    <Form title="Contract Information" showInfo={false}>
+                      <FormRow>
+                        <FormCol>
+                          <FormField label="Contract Type" required>
+                            <Select placeholder="Please select" size="lg" />
+                          </FormField>
+                        </FormCol>
+                        <FormCol>
+                          <FormField label="Payment Group" required>
+                            <Select placeholder="Please select" size="lg" />
+                          </FormField>
+                        </FormCol>
+                      </FormRow>
+                      <FormRow>
+                        <FormCol>
+                          <FormField label="Renewal Plan" required>
+                            <Select placeholder="Please select" size="lg" />
+                          </FormField>
+                        </FormCol>
+                        <FormCol>
+                          <FormField label="To Be Terminated">
+                            <Toggle label="No" />
+                          </FormField>
+                        </FormCol>
+                      </FormRow>
+                      <ExampleProductTable scopeLabel="Promotion ID" />
+                    </Form>
+                  </div>
+
+                  <div id="anchor-example-warehouse">
+                    <Form title="Warehouse & Logistics" showInfo={false}>
+                      <FormRow>
+                        <FormCol>
+                          <FormField label="Warehouse Package Color" required>
+                            <Select label="Orange" size="lg" />
+                          </FormField>
+                        </FormCol>
+                        <FormCol>
+                          <FormField label="Pickup Days" required>
+                            <Select placeholder="Please select" size="lg" chips={['Mon-Fri']} />
+                          </FormField>
+                        </FormCol>
+                      </FormRow>
+                      <ExampleProductTable scopeLabel="Promotion ID" />
+                    </Form>
+                  </div>
+
+                  <div id="anchor-example-delivery">
+                    <Form title="Merchant Delivery Information" showInfo={false}>
+                      <FormRow>
+                        <FormCol>
+                          <FormField label="Contact Name" required info>
+                            <Input placeholder="Please type" size="lg" />
+                          </FormField>
+                        </FormCol>
+                        <FormCol>
+                          <FormField label="Contact Info" required info>
+                            <Input placeholder="Please type" size="lg" />
+                          </FormField>
+                        </FormCol>
+                      </FormRow>
+                      <FormRow>
+                        <FormCol>
+                          <FormField label="HK Delivery Fee">
+                            <Input defaultValue="3" size="lg" type="number" />
+                          </FormField>
+                        </FormCol>
+                        <FormCol>
+                          <FormField label="HK Free Delivery Threshold">
+                            <Input defaultValue="100" size="lg" type="number" />
+                          </FormField>
+                        </FormCol>
+                      </FormRow>
+                    </Form>
+                  </div>
+                </div>
+
+                <div className="ds-anchor-example__nav" style={{ width: 220 }}>
+                  <Anchor>
+                    {EXAMPLE_SECTIONS.map((section) => (
+                      <AnchorItem
+                        key={section.id}
+                        label={section.label}
+                        state={activeExampleSection === section.id ? 'active' : 'default'}
+                        onClick={() => scrollToExampleSection(section.id)}
+                      />
+                    ))}
+                  </Anchor>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

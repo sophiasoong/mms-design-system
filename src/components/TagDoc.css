@@ -52,8 +52,8 @@
   max-width: 100%;
   background: var(--brand-neutral-0);
   border-radius: var(--radius-md);
-  box-shadow: 0 var(--space-component-overlap-sm) var(--space-layout-section-padding-sm)
-    var(--surface-card-shadow-default);
+  box-shadow: 0 var(--shadow-dropdown-y) var(--shadow-dropdown-blur) 0
+    var(--brand-neutral-400); /* shadow/dropdown-y, shadow/dropdown-blur, brand/neutral/400 */
   overflow: hidden;
 }
 
@@ -106,8 +106,8 @@
   max-width: 560px; /* matches ds-list-example__panel--wide, so both docs' example cards line up */
   background: var(--brand-neutral-0);
   border-radius: var(--radius-xl);
-  box-shadow: 0 var(--space-component-overlap-sm) var(--space-layout-section-padding-sm)
-    var(--surface-card-shadow-default);
+  box-shadow: 0 var(--shadow-dropdown-y) var(--shadow-dropdown-blur) 0
+    var(--brand-neutral-400); /* shadow/dropdown-y, shadow/dropdown-blur, brand/neutral/400 */
   overflow: hidden;
 }
 
