@@ -15,6 +15,12 @@ export interface InputProps {
   chips?: string[];
   onRemoveChip?: (label: string) => void;
   onAddChip?: (value: string) => void;
+  /** Caption shown before the value, e.g. a currency symbol. Number inputs only. */
+  prefix?: string;
+  /** Caption shown after the value, e.g. a unit of measure. Number inputs only. */
+  unit?: string;
+  /** Trailing note after the value, e.g. a converted-currency equivalent. Number inputs only. */
+  caption?: string;
   className?: string;
 }
 
@@ -27,6 +33,9 @@ export function Input({
   chips,
   onRemoveChip,
   onAddChip,
+  prefix,
+  unit,
+  caption,
   className,
 }: InputProps) {
   const [chipDraft, setChipDraft] = useState('');
@@ -38,6 +47,8 @@ export function Input({
   const hasChips = !!chips && chips.length > 0;
   const chipMode = !!onAddChip;
   const showStepper = type === 'number' && !chipMode;
+  const hasAffix = type === 'number' && !chipMode && (!!prefix || !!unit || !!caption);
+  const hasCaption = type === 'number' && !chipMode && !!caption;
   const showClear =
     !chipMode && type !== 'number' && type !== 'password' && isFocused && hasValue && !disabled;
   const classes = [
@@ -48,6 +59,7 @@ export function Input({
     state === 'focus' ? 'ds-input--force-focus' : '',
     state === 'error' ? 'ds-input--error' : '',
     showStepper ? 'ds-input--has-stepper' : '',
+    hasCaption ? 'ds-input--auto-width' : '',
     className,
   ]
     .filter(Boolean)
@@ -112,6 +124,38 @@ export function Input({
             placeholder={hasChips ? '' : placeholder}
             disabled={disabled}
           />
+        ) : hasAffix ? (
+          <div className="ds-input__number-group">
+            {prefix && (
+              <span className="ds-input__prefix" aria-hidden="true">
+                {prefix}
+              </span>
+            )}
+            <input
+              ref={fieldRef}
+              className="ds-input__field"
+              type="number"
+              defaultValue={defaultValue}
+              placeholder={placeholder}
+              disabled={disabled}
+              min={0}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              onChange={(event) => setHasValue(!!event.target.value)}
+              onKeyDown={handleNumberKeyDown}
+              onInput={handleNumberInput}
+            />
+            {unit && (
+              <span className="ds-input__unit" aria-hidden="true">
+                {unit}
+              </span>
+            )}
+            {caption && (
+              <span className="ds-input__caption" aria-hidden="true">
+                {caption}
+              </span>
+            )}
+          </div>
         ) : (
           <input
             ref={fieldRef}

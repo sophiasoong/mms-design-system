@@ -2,6 +2,10 @@ import { useState, type ReactNode } from 'react';
 import { Icon, type IconName, type IconSize } from './Icon';
 import { Image, type ImageStyle } from './Image';
 import { Thumbnail, type ThumbnailMessageStyle } from './Thumbnail';
+import Button from './Button';
+import { FilterChip } from './Chip';
+import { Searchbar } from './Searchbar';
+import { Table, TableHeader, TableHeaderCell, type TableAlign } from './Table';
 import {
   UploadIcon,
   MessageIcon,
@@ -71,6 +75,13 @@ const ICON_SIZES: { size: IconSize; label: string }[] = [
 // happen to match 1:1; the rest are new, tier-specific traces in iconSizeGroups.tsx.
 const ICON_SIZE_TABS = ['12px', '16px', '20px', '24px', '48px'] as const;
 type IconSizeTab = (typeof ICON_SIZE_TABS)[number];
+
+// Sparse tiers (12px: 3 icons, 48px: 1 icon) don't fill the grid's full width — see
+// .ds-assets__icon-grid--center in AssetsDoc.css.
+const ICON_GRID_CENTER_TABS: IconSizeTab[] = ['12px', '48px'];
+
+const IMAGE_EXAMPLE_TABS = ['Table empty data', 'Dropdown empty data'] as const;
+type ImageExampleTab = (typeof IMAGE_EXAMPLE_TABS)[number];
 
 interface SizeTabIconEntry {
   key: string;
@@ -191,6 +202,22 @@ const IMAGE_STYLES: { style: ImageStyle; label: string }[] = [
   { style: 'search', label: 'Search' },
 ];
 
+// Column set for the "Table empty data" Example instance (Figma 948:27207) — only
+// header cells render since the point is the empty body, so the full 10-column set
+// costs nothing extra to match faithfully.
+const TABLE_EMPTY_COLUMNS: { label: string; width: number; align?: TableAlign; info?: boolean }[] = [
+  { label: 'Image', width: 88 },
+  { label: 'SKU ID', width: 140, info: true },
+  { label: 'Brand', width: 140, info: true },
+  { label: 'Category', width: 140 },
+  { label: 'Original Price', width: 110, align: 'right' },
+  { label: 'Selling Price', width: 110, align: 'right' },
+  { label: 'Avg PSP', width: 110, align: 'right', info: true },
+  { label: 'PPP Price', width: 110, align: 'right', info: true },
+  { label: 'Cost Bearer', width: 120 },
+  { label: 'Promotion Discount Rate', width: 160 },
+];
+
 const THUMBNAIL_TABS = ['Grid', 'Search', 'Table', 'Message'] as const;
 type ThumbnailTab = (typeof THUMBNAIL_TABS)[number];
 
@@ -239,6 +266,9 @@ interface AssetsDocProps {
 export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
   const [activeThumbnailTab, setActiveThumbnailTab] = useState<ThumbnailTab>('Grid');
   const [activeIconSizeTab, setActiveIconSizeTab] = useState<IconSizeTab>(ICON_SIZE_TABS[0]);
+  const [activeImageExampleTab, setActiveImageExampleTab] = useState<ImageExampleTab>(
+    IMAGE_EXAMPLE_TABS[0],
+  );
 
   return (
     <div className="ds-doc">
@@ -275,9 +305,12 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      <section id="icon" className="ds-section">
+      <section id="variants" className="ds-section">
+        <h2 className="ds-section__title">Variants</h2>
+
+        <div id="variants-icon" className="ds-section__subsection">
         <div className="ds-assets__section-head">
-          <h2 className="ds-section__title">Icon</h2>
+          <h3 className="ds-section__subtitle">Icon</h3>
           <FigmaRef href={ICON_FIGMA_URL} />
         </div>
         <p className="ds-section__desc">
@@ -303,7 +336,13 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <div className="ds-assets__icon-grid">
+            <div
+              className={`ds-assets__icon-grid${
+                ICON_GRID_CENTER_TABS.includes(activeIconSizeTab)
+                  ? ' ds-assets__icon-grid--center'
+                  : ''
+              }`}
+            >
               {activeIconSizeTab === '12px' &&
                 ICON_TAB_12.map(({ key, label, glyph }) => (
                   <div className="ds-variant-row__cell" key={key}>
@@ -367,12 +406,11 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
             </div>
           </div>
         </div>
-      </section>
+        </div>
 
-      {/* ---------------------------------------------------------------- */}
-      <section id="image" className="ds-section">
+        <div id="variants-image" className="ds-section__subsection">
         <div className="ds-assets__section-head">
-          <h2 className="ds-section__title">Image</h2>
+          <h3 className="ds-section__subtitle">Image</h3>
           <FigmaRef href={IMAGE_FIGMA_URL} />
         </div>
         <p className="ds-section__desc">
@@ -396,12 +434,140 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
           width (<code>--component-height-6xl</code>) is token-driven, height follows
           each export's own intrinsic size.
         </span>
-      </section>
 
-      {/* ---------------------------------------------------------------- */}
-      <section id="thumbnail" className="ds-section">
+        <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
+        <p className="ds-section__desc">
+          The Empty style composed into two real contexts that show it in place of a
+          Table's rows or a Dropdown's option list.
+        </p>
+
+        <div className="ds-line-tabs" role="tablist" aria-label="Image example groups">
+          {IMAGE_EXAMPLE_TABS.map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              role="tab"
+              aria-selected={activeImageExampleTab === tab}
+              className={`ds-line-tab${activeImageExampleTab === tab ? ' ds-line-tab--active' : ''}`}
+              onClick={() => setActiveImageExampleTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        <div className="ds-variant-groups">
+          {activeImageExampleTab === 'Table empty data' && (
+            <div className="ds-variant-group">
+              <div className="ds-preview ds-preview--scroll">
+                <div className="ds-table-example">
+                  <div className="ds-table-toolbar">
+                    <div className="ds-table-toolbar__search-wrap">
+                      <Searchbar size="md" placeholder="Placeholder" scopeLabel="Promotion ID" />
+                    </div>
+                    <div className="ds-table-toolbar__filters">
+                      <FilterChip label="Category" />
+                      <FilterChip label="Status" />
+                    </div>
+                    <div className="ds-table-toolbar__actions">
+                      <Button variant="primary" appearance="ghost" size="md">
+                        Reset
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="ds-table-results">
+                    <span className="ds-table-results__count">0 results</span>
+                    <div className="ds-table-results__actions">
+                      <span className="ds-table-results__updated">Last Updated 2026-04-28 09:15</span>
+                      <Button variant="primary" appearance="outline" size="md">
+                        Refresh
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="ds-table-example__scroll">
+                    <div className="ds-table-example__frame">
+                      <Table size="md">
+                        <TableHeader>
+                          {TABLE_EMPTY_COLUMNS.map(({ label, width, align, info }) => (
+                            <TableHeaderCell key={label} width={width} align={align} info={info}>
+                              {label}
+                            </TableHeaderCell>
+                          ))}
+                        </TableHeader>
+                      </Table>
+                    </div>
+
+                    <div className="ds-table-empty">
+                      <Image style="empty" />
+                      <p className="ds-table-empty__title">No Record</p>
+                      <p className="ds-table-empty__desc">
+                        No results match your search or filters. Try adjusting them to
+                        find what you're looking for.
+                      </p>
+                      <Button variant="primary" appearance="solid" size="sm">
+                        Reset filters
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span className="ds-variant-note">
+                Table's empty state when no rows match the current search or filters.
+              </span>
+            </div>
+          )}
+
+          {activeImageExampleTab === 'Dropdown empty data' && (
+            <div className="ds-variant-group">
+              <div className="ds-preview">
+                <div className="ds-assets__dropdown-demo">
+                  <FilterChip label="Label" />
+                  <div className="ds-dropdown" role="listbox">
+                    <div className="ds-dropdown__searchbar-row">
+                      <div className="ds-dropdown__searchbar ds-dropdown__searchbar--force-focus">
+                        <span className="icon icon--sm" aria-hidden="true">
+                          search
+                        </span>
+                        <input
+                          className="ds-dropdown__searchbar-input"
+                          type="text"
+                          readOnly
+                          value="Label"
+                          aria-label="Search"
+                        />
+                        <span className="icon icon--sm icon--filled" aria-hidden="true">
+                          cancel
+                        </span>
+                      </div>
+                    </div>
+                    <div className="ds-dropdown__empty-block">
+                      <Image style="empty" />
+                      <p className="ds-dropdown__empty-title">No Result</p>
+                    </div>
+                    <div className="ds-dropdown__footer">
+                      <Button variant="primary" appearance="ghost" size="sm">
+                        Reset
+                      </Button>
+                      <Button variant="primary" appearance="solid" size="sm">
+                        Apply
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span className="ds-variant-note">
+                Dropdown's empty state when no options match the current search.
+              </span>
+            </div>
+          )}
+        </div>
+        </div>
+
+        <div id="variants-thumbnail" className="ds-section__subsection">
         <div className="ds-assets__section-head">
-          <h2 className="ds-section__title">Thumbnail</h2>
+          <h3 className="ds-section__subtitle">Thumbnail</h3>
           <FigmaRef href={THUMBNAIL_FIGMA_URL} />
         </div>
         <p className="ds-section__desc">
@@ -492,6 +658,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
               </div>
             </div>
           )}
+        </div>
         </div>
       </section>
 

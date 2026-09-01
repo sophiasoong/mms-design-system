@@ -162,10 +162,28 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
 
           {activeStyleTab === 'Number' && (
             <div className="ds-variant-group">
-              <div className="ds-preview">
-                <Input type="number" placeholder="0" />
+              <div className="ds-variant-row">
+                <div className="ds-variant-row__cell">
+                  <Input type="number" placeholder="0" />
+                  <span className="ds-variant-row__cell-label">Value only</span>
+                </div>
+                <div className="ds-variant-row__cell">
+                  <Input type="number" placeholder="0" prefix="$" />
+                  <span className="ds-variant-row__cell-label">Prefix + Value</span>
+                </div>
+                <div className="ds-variant-row__cell">
+                  <Input type="number" placeholder="0" unit="%" />
+                  <span className="ds-variant-row__cell-label">Value + Unit</span>
+                </div>
+                <div className="ds-variant-row__cell">
+                  <Input type="number" placeholder="0" prefix="¥" caption="≒ 000.00000 HKD" />
+                  <span className="ds-variant-row__cell-label">Caption</span>
+                </div>
               </div>
-              <span className="ds-variant-note">Restricts entry to numeric characters.</span>
+              <span className="ds-variant-note">
+                Restricts entry to numeric characters. A prefix or unit caption can be added for
+                context, such as a currency symbol or percentage sign.
+              </span>
             </div>
           )}
         </div>
@@ -173,7 +191,7 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
             <span className="ds-variant-group__label">Size</span>
-            <div className="ds-variant-row" style={{ flexDirection: 'column', alignItems: 'center' }}>
+            <div className="ds-variant-row">
               <div className="ds-variant-row__cell">
                 <div style={{ width: 240 }}>
                   <Input placeholder="Please type" size="lg" />

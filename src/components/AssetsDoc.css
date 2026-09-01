@@ -45,6 +45,16 @@
   white-space: nowrap;
 }
 
+/* Sparse tiers (12px: 3 icons, 48px: 1 icon) don't fill the grid's row — auto-fill's 1fr
+   stretch spreads that leftover width across every track anyway, leaving the few real
+   items bunched at the left. auto-fit collapses tracks with no item in them to 0 width,
+   and a fixed (non-1fr) column size stops the remaining tracks from stretching to fill
+   it, so justify-content can center the resulting narrower block of columns instead. */
+.ds-assets__icon-grid--center {
+  grid-template-columns: repeat(auto-fit, 120px);
+  justify-content: center;
+}
+
 /* FLAGGED: no design token covers a 20px icon box — tokens.css only defines
    --component-icon-xs/sm/md/lg (12/16/24/36), same gap already documented in
    Icon.css for why the Icon component's size prop excludes this Figma tier.
@@ -64,4 +74,15 @@
 .ds-assets__icon-tile--20 svg {
   max-width: 100%;
   max-height: 100%;
+}
+
+/* The Dropdown example (Image > Example) renders its panel always-open — a static
+   demo, not real filter state — stacked under its trigger chip. Unlike Table's own
+   filter dropdowns, no absolute positioning is needed since nothing else in the layout
+   needs to sit where the panel would otherwise float. */
+.ds-assets__dropdown-demo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
 }

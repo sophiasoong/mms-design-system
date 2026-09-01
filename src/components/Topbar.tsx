@@ -14,12 +14,8 @@ export default function Topbar({ mode, onToggleMode, locale, onToggleLocale }: T
     <header className="ds-topbar">
       <div className="ds-topbar__left">
         <div className="ds-topbar__brand">
-          <span className="icon ds-topbar__brand-icon" aria-hidden="true">
-            palette
-          </span>
-          <span className="ds-topbar__brand-name">
-            {mode === 'mma' ? 'MMA Design System' : 'MMS Design System'}
-          </span>
+          <img className="ds-topbar__brand-icon" src="/assets/logo-mark.svg" alt="" aria-hidden="true" />
+          <span className="ds-topbar__brand-name">Shoalter Design System</span>
         </div>
 
         <button

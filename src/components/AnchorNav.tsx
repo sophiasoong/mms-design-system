@@ -34,7 +34,6 @@ export default function AnchorNav({ sections }: AnchorNavProps) {
 
   return (
     <nav className="ds-anchor-nav" aria-label="On this page">
-      <p className="ds-anchor-nav__title">On this page</p>
       <ul className="ds-anchor-nav__list" role="list">
         {sections.map((section) => (
           <li key={section.id}>

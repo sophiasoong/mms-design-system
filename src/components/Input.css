@@ -28,6 +28,15 @@
   padding-right: var(--space-component-padding-md); /* space/component/padding/md */
 }
 
+/* Figma's caption variant (417:7550, instance 1846:94770) hugs its content instead of
+   holding the plain Number-input's fixed 90px — no --component-width-* token covers a
+   hug-width box, so the fixed width is overridden directly rather than guessing a fixed
+   px value of its own. Compound selector so it wins over .ds-input--has-stepper's width
+   regardless of class order. */
+.ds-input--has-stepper.ds-input--auto-width {
+  width: auto;
+}
+
 .ds-input--md {
   height: var(--component-height-md);
 }
@@ -69,6 +78,53 @@
 .ds-input__field::placeholder,
 .ds-input__chip-field::placeholder {
   color: var(--interactive-select-placeholder-default);
+}
+
+/* Figma's Number-input prefix/unit affix (417:7456) groups prefix + value + unit with a
+   tighter 4px gap than the sm gap .ds-input__content uses for chip spacing — kept as its
+   own wrapper instead of changing that shared gap, so chip layouts elsewhere are untouched. */
+.ds-input__number-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  flex: 1 0 0;
+  min-width: 0;
+  transition: padding-right var(--duration-fast) ease; /* duration/fast */
+}
+
+/* The stepper (22px) overlays past the container's existing 12px padding-right (see
+   .ds-input--has-stepper above), so on hover/focus it would sit on top of a trailing
+   Unit/Caption. The first 10px (22px - 12px) clears that overlap; space/component/gap/sm
+   adds a visible gap on top so Unit/Caption don't just touch the stepper's edge. */
+.ds-input--has-stepper:hover:not(.ds-input--disabled) .ds-input__number-group,
+.ds-input--has-stepper.ds-input--force-hover .ds-input__number-group,
+.ds-input--has-stepper:focus-within:not(.ds-input--disabled) .ds-input__number-group,
+.ds-input--has-stepper.ds-input--force-focus .ds-input__number-group {
+  padding-right: calc(10px + var(--space-component-gap-sm)); /* space/component/gap/sm */
+}
+
+/* Figma resolves both affixes to interactive/number-input placeholder-default tokens,
+   which tokens.css doesn't define — interactive/select/placeholder/default carries the
+   same #bfbfbf hex, so reused here per this file's existing token-substitution convention. */
+.ds-input__prefix,
+.ds-input__unit {
+  flex-shrink: 0;
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  color: var(--interactive-select-placeholder-default); /* interactive/select/placeholder/default */
+}
+
+/* Figma resolves this to interactive/number-input/caption/default, which tokens.css
+   doesn't define — text/heading/primary/brand carries the same #110964 hex, so reused
+   here per this file's existing token-substitution convention. */
+.ds-input__caption {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-family: var(--typography-font-family-body); /* typography/font/family/body */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  color: var(--text-heading-primary-brand); /* text/heading/primary/brand */
 }
 
 /* Native number spinner arrows aren't part of the Figma number-input mark, so they're

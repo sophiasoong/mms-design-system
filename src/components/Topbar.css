@@ -9,14 +9,18 @@
   flex-shrink: 0;
 }
 
+/* FLAGGED: no token covers this width. */
 .ds-topbar__brand {
+  width: 236px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: var(--space-component-gap-sm);
 }
 
 .ds-topbar__brand-icon {
-  color: var(--brand-primary-400);
+  width: var(--component-icon-md); /* component/icon/md */
+  height: var(--component-icon-md); /* component/icon/md */
 }
 
 .ds-topbar__brand-name {
@@ -29,7 +33,7 @@
 .ds-topbar__left {
   display: flex;
   align-items: center;
-  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+  gap: var(--space-layout-section-gap-lg); /* space/layout/section/gap/lg */
 }
 
 .ds-topbar__mode-toggle {
