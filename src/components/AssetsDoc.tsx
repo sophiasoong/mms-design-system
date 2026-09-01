@@ -6,6 +6,10 @@ import Button from './Button';
 import { FilterChip } from './Chip';
 import { Searchbar } from './Searchbar';
 import { Table, TableHeader, TableHeaderCell, type TableAlign } from './Table';
+import List from './List';
+import Message from './Message';
+import { ContractIcon, ApprovalIcon, ThreePLIcon, PaymentIcon, OrderIcon } from './messageTypeIcons';
+import { ProductIcon, PromotionIcon } from './assetIcons';
 import {
   UploadIcon,
   MessageIcon,
@@ -79,9 +83,6 @@ type IconSizeTab = (typeof ICON_SIZE_TABS)[number];
 // Sparse tiers (12px: 3 icons, 48px: 1 icon) don't fill the grid's full width — see
 // .ds-assets__icon-grid--center in AssetsDoc.css.
 const ICON_GRID_CENTER_TABS: IconSizeTab[] = ['12px', '48px'];
-
-const IMAGE_EXAMPLE_TABS = ['Table empty data', 'Dropdown empty data'] as const;
-type ImageExampleTab = (typeof IMAGE_EXAMPLE_TABS)[number];
 
 interface SizeTabIconEntry {
   key: string;
@@ -203,8 +204,8 @@ const IMAGE_STYLES: { style: ImageStyle; label: string }[] = [
 ];
 
 // Column set for the "Table empty data" Example instance (Figma 948:27207) — only
-// header cells render since the point is the empty body, so the full 10-column set
-// costs nothing extra to match faithfully.
+// header cells render since the point is the empty body. Trimmed to Figma's 6 core
+// columns, dropping the 4 supplementary pricing/promotion columns from its full set.
 const TABLE_EMPTY_COLUMNS: { label: string; width: number; align?: TableAlign; info?: boolean }[] = [
   { label: 'Image', width: 88 },
   { label: 'SKU ID', width: 140, info: true },
@@ -212,14 +213,13 @@ const TABLE_EMPTY_COLUMNS: { label: string; width: number; align?: TableAlign; i
   { label: 'Category', width: 140 },
   { label: 'Original Price', width: 110, align: 'right' },
   { label: 'Selling Price', width: 110, align: 'right' },
-  { label: 'Avg PSP', width: 110, align: 'right', info: true },
-  { label: 'PPP Price', width: 110, align: 'right', info: true },
-  { label: 'Cost Bearer', width: 120 },
-  { label: 'Promotion Discount Rate', width: 160 },
 ];
 
 const THUMBNAIL_TABS = ['Grid', 'Search', 'Table', 'Message'] as const;
 type ThumbnailTab = (typeof THUMBNAIL_TABS)[number];
+
+const EXAMPLE_TABS = ['Image', 'Thumbnail'] as const;
+type ExampleTab = (typeof EXAMPLE_TABS)[number];
 
 // Same 15 categories as Message's notification thumb (Figma Thumbnail-message, node
 // 673:27774) — labels match the titles MessageDoc.tsx already uses for these types.
@@ -266,9 +266,7 @@ interface AssetsDocProps {
 export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
   const [activeThumbnailTab, setActiveThumbnailTab] = useState<ThumbnailTab>('Grid');
   const [activeIconSizeTab, setActiveIconSizeTab] = useState<IconSizeTab>(ICON_SIZE_TABS[0]);
-  const [activeImageExampleTab, setActiveImageExampleTab] = useState<ImageExampleTab>(
-    IMAGE_EXAMPLE_TABS[0],
-  );
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Image');
 
   return (
     <div className="ds-doc">
@@ -434,135 +432,6 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
           width (<code>--component-height-6xl</code>) is token-driven, height follows
           each export's own intrinsic size.
         </span>
-
-        <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
-        <p className="ds-section__desc">
-          The Empty style composed into two real contexts that show it in place of a
-          Table's rows or a Dropdown's option list.
-        </p>
-
-        <div className="ds-line-tabs" role="tablist" aria-label="Image example groups">
-          {IMAGE_EXAMPLE_TABS.map((tab) => (
-            <button
-              key={tab}
-              type="button"
-              role="tab"
-              aria-selected={activeImageExampleTab === tab}
-              className={`ds-line-tab${activeImageExampleTab === tab ? ' ds-line-tab--active' : ''}`}
-              onClick={() => setActiveImageExampleTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-
-        <div className="ds-variant-groups">
-          {activeImageExampleTab === 'Table empty data' && (
-            <div className="ds-variant-group">
-              <div className="ds-preview ds-preview--scroll">
-                <div className="ds-table-example">
-                  <div className="ds-table-toolbar">
-                    <div className="ds-table-toolbar__search-wrap">
-                      <Searchbar size="md" placeholder="Placeholder" scopeLabel="Promotion ID" />
-                    </div>
-                    <div className="ds-table-toolbar__filters">
-                      <FilterChip label="Category" />
-                      <FilterChip label="Status" />
-                    </div>
-                    <div className="ds-table-toolbar__actions">
-                      <Button variant="primary" appearance="ghost" size="md">
-                        Reset
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className="ds-table-results">
-                    <span className="ds-table-results__count">0 results</span>
-                    <div className="ds-table-results__actions">
-                      <span className="ds-table-results__updated">Last Updated 2026-04-28 09:15</span>
-                      <Button variant="primary" appearance="outline" size="md">
-                        Refresh
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className="ds-table-example__scroll">
-                    <div className="ds-table-example__frame">
-                      <Table size="md">
-                        <TableHeader>
-                          {TABLE_EMPTY_COLUMNS.map(({ label, width, align, info }) => (
-                            <TableHeaderCell key={label} width={width} align={align} info={info}>
-                              {label}
-                            </TableHeaderCell>
-                          ))}
-                        </TableHeader>
-                      </Table>
-                    </div>
-
-                    <div className="ds-table-empty">
-                      <Image style="empty" />
-                      <p className="ds-table-empty__title">No Record</p>
-                      <p className="ds-table-empty__desc">
-                        No results match your search or filters. Try adjusting them to
-                        find what you're looking for.
-                      </p>
-                      <Button variant="primary" appearance="solid" size="sm">
-                        Reset filters
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <span className="ds-variant-note">
-                Table's empty state when no rows match the current search or filters.
-              </span>
-            </div>
-          )}
-
-          {activeImageExampleTab === 'Dropdown empty data' && (
-            <div className="ds-variant-group">
-              <div className="ds-preview">
-                <div className="ds-assets__dropdown-demo">
-                  <FilterChip label="Label" />
-                  <div className="ds-dropdown" role="listbox">
-                    <div className="ds-dropdown__searchbar-row">
-                      <div className="ds-dropdown__searchbar ds-dropdown__searchbar--force-focus">
-                        <span className="icon icon--sm" aria-hidden="true">
-                          search
-                        </span>
-                        <input
-                          className="ds-dropdown__searchbar-input"
-                          type="text"
-                          readOnly
-                          value="Label"
-                          aria-label="Search"
-                        />
-                        <span className="icon icon--sm icon--filled" aria-hidden="true">
-                          cancel
-                        </span>
-                      </div>
-                    </div>
-                    <div className="ds-dropdown__empty-block">
-                      <Image style="empty" />
-                      <p className="ds-dropdown__empty-title">No Result</p>
-                    </div>
-                    <div className="ds-dropdown__footer">
-                      <Button variant="primary" appearance="ghost" size="sm">
-                        Reset
-                      </Button>
-                      <Button variant="primary" appearance="solid" size="sm">
-                        Apply
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <span className="ds-variant-note">
-                Dropdown's empty state when no options match the current search.
-              </span>
-            </div>
-          )}
-        </div>
         </div>
 
         <div id="variants-thumbnail" className="ds-section__subsection">
@@ -659,6 +528,251 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
             </div>
           )}
         </div>
+        </div>
+
+        <div id="variants-example" className="ds-section__subsection">
+        <h3 className="ds-section__subtitle">Example</h3>
+        <p className="ds-section__desc">
+          Two real compositions built from these assets: the Empty Image style standing in
+          for a Table's rows or a Dropdown's option list, and the Product/Promotion
+          Thumbnail glyphs swapped into a List row's icon.
+        </p>
+
+        <div className="ds-line-tabs" role="tablist" aria-label="Example asset group">
+          {EXAMPLE_TABS.map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              role="tab"
+              aria-selected={activeExampleTab === tab}
+              className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
+              onClick={() => setActiveExampleTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        {activeExampleTab === 'Image' && (
+        <div className="ds-variant-groups">
+          <div className="ds-variant-group">
+            <div className="ds-preview ds-preview--scroll ds-preview--scrim">
+              <div className="ds-assets__image-example">
+                <div className="ds-assets__image-example__item">
+                  <div className="ds-assets__dropdown-demo">
+                    <FilterChip label="Label" />
+                    <div className="ds-dropdown" role="listbox">
+                      <div className="ds-dropdown__searchbar-row">
+                        <div className="ds-dropdown__searchbar ds-dropdown__searchbar--force-focus">
+                          <span className="icon icon--sm" aria-hidden="true">
+                            search
+                          </span>
+                          <input
+                            className="ds-dropdown__searchbar-input"
+                            type="text"
+                            readOnly
+                            value="Label"
+                            aria-label="Search"
+                          />
+                          <span className="icon icon--sm icon--filled" aria-hidden="true">
+                            cancel
+                          </span>
+                        </div>
+                      </div>
+                      <div className="ds-dropdown__empty-block">
+                        <Image style="empty" />
+                        <p className="ds-dropdown__empty-title">No Result</p>
+                      </div>
+                      <div className="ds-dropdown__footer">
+                        <Button variant="primary" appearance="ghost" size="sm">
+                          Reset
+                        </Button>
+                        <Button variant="primary" appearance="solid" size="sm">
+                          Apply
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  <span className="ds-variant-note">Empty search result</span>
+                </div>
+
+                <div className="ds-assets__image-example__item">
+                  <div className="ds-table-example">
+                    <div className="ds-table-toolbar">
+                      <div className="ds-table-toolbar__search-wrap">
+                        <Searchbar size="md" placeholder="Placeholder" scopeLabel="Promotion ID" />
+                      </div>
+                      <div className="ds-table-toolbar__filters">
+                        <FilterChip label="Category" />
+                        <FilterChip label="Status" />
+                      </div>
+                      <div className="ds-table-toolbar__actions">
+                        <Button variant="primary" appearance="ghost" size="md">
+                          Reset
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="ds-table-results">
+                      <span className="ds-table-results__count">0 results</span>
+                    </div>
+
+                    <div className="ds-table-example__scroll">
+                      <div className="ds-table-example__frame">
+                        <Table size="md">
+                          <TableHeader>
+                            {TABLE_EMPTY_COLUMNS.map(({ label, width, align, info }) => (
+                              <TableHeaderCell key={label} width={width} align={align} info={info}>
+                                {label}
+                              </TableHeaderCell>
+                            ))}
+                          </TableHeader>
+                        </Table>
+                      </div>
+
+                      <div className="ds-table-empty">
+                        <Image style="empty" />
+                        <p className="ds-table-empty__title">No Record</p>
+                        <p className="ds-table-empty__desc">
+                          No results match your search or filters. Try adjusting them to
+                          find what you're looking for.
+                        </p>
+                        <Button variant="primary" appearance="solid" size="sm">
+                          Reset filters
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  <span className="ds-variant-note">Empty table data</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        )}
+
+        {activeExampleTab === 'Thumbnail' && (
+        <div className="ds-variant-groups">
+          <div className="ds-variant-group">
+            <div className="ds-preview ds-preview--scroll ds-preview--scrim">
+              <div className="ds-assets__thumbnail-example">
+                <div className="ds-assets__thumbnail-example__item">
+                  <div className="ds-assets__thumbnail-demo">
+                    <div className="ds-assets__thumbnail-demo__panel">
+                      <div className="ds-assets__thumbnail-demo__searchbar-row ds-assets__thumbnail-demo__dim">
+                        <Searchbar size="lg" state="focus" chipLabel="Product" defaultValue="Something" />
+                      </div>
+                      <div className="ds-assets__thumbnail-demo__rows">
+                        <List
+                          size="lg"
+                          icon={
+                            <ProductIcon className="ds-assets__thumbnail-demo__glyph ds-assets__thumbnail-demo__glyph--product" />
+                          }
+                          label="Storefront Setup"
+                          tag="Product"
+                          subtitle={
+                            <>
+                              Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
+                              Intent
+                            </>
+                          }
+                          caption="Online Store / Storefront / Setup / Marketing / Campaigns / Automation"
+                          forceState="hover"
+                        />
+                        <List
+                          size="lg"
+                          icon={
+                            <PromotionIcon className="ds-assets__thumbnail-demo__glyph ds-assets__thumbnail-demo__glyph--promotion" />
+                          }
+                          label="Free Gift Promotion"
+                          tag="Promotion"
+                          subtitle={
+                            <>
+                              Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
+                              Intent
+                            </>
+                          }
+                          caption="Online Store / Promotions / Free Gift / Campaign / Rules / Eligibility"
+                        />
+                      </div>
+                      <div className="ds-assets__thumbnail-demo__footer ds-assets__thumbnail-demo__dim">
+                        <span className="ds-assets__thumbnail-demo__kbd">Esc</span>
+                        <span className="ds-assets__thumbnail-demo__hint">Close</span>
+                        <span className="ds-assets__thumbnail-demo__kbd">/</span>
+                        <span className="ds-assets__thumbnail-demo__hint">Open global search</span>
+                      </div>
+                    </div>
+                  </div>
+                  <span className="ds-variant-note">Search results</span>
+                </div>
+
+                <div className="ds-assets__thumbnail-example__item">
+                  <div className="ds-assets__message-demo">
+                    <div className="ds-assets__message-demo__panel">
+                      <Message
+                        title="Contract"
+                        description="A contract is ready for your signature — please review before the due date."
+                        icon={<ContractIcon />}
+                        tags={['Contract', 'Legal']}
+                        date="2026-08-02"
+                        showButton={false}
+                        showBadge={false}
+                      />
+                      <Message
+                        title="Approval"
+                        description="A new request is waiting for your review and approval."
+                        icon={<ApprovalIcon />}
+                        tags={['Approval', 'Review']}
+                        date="2026-07-30"
+                        showButton={false}
+                        showBadge={false}
+                      />
+                      <Message
+                        title="3PL"
+                        description="Your 3PL partner updated the shipment status for 3 pending orders."
+                        icon={<ThreePLIcon />}
+                        tags={['3PL', 'Logistics']}
+                        date="2026-07-31"
+                        showButton={false}
+                        showBadge={false}
+                      />
+                      <Message
+                        title="Payment"
+                        description="A payment of $1,240.00 was successfully processed for invoice #48213."
+                        icon={<PaymentIcon />}
+                        tags={['Payment', 'Finance']}
+                        date="2026-08-01"
+                        showButton={false}
+                        showBadge={false}
+                      />
+                      <Message
+                        title="Order"
+                        description="Order #10293 has shipped and is on its way to the customer."
+                        icon={<OrderIcon />}
+                        tags={['Order', 'Logistics']}
+                        date="2026-08-02"
+                        showButton={false}
+                        showBadge={false}
+                      />
+                      <div className="ds-assets__message-demo__footer">
+                        <Button
+                          variant="primary"
+                          appearance="outline"
+                          size="md"
+                          className="ds-assets__message-demo__view-all"
+                        >
+                          View All
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  <span className="ds-variant-note">Message</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        )}
         </div>
       </section>
 

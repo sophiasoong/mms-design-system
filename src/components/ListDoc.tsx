@@ -5,6 +5,7 @@ import { FilterChip } from './Chip';
 import { Tag } from './Tag';
 import Button from './Button';
 import { IconButtonIcon, AssetsIcon } from './icons';
+import { ProductIcon, PromotionIcon } from './assetIcons';
 import './ButtonDoc.css';
 import './ListDoc.css';
 
@@ -271,6 +272,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
                       size="lg"
                       label="Storefront Setup"
                       tag="Product"
+                      icon={<ProductIcon className="ds-list-example__thumb-glyph--product" />}
                       subtitle={
                         <>
                           Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
@@ -284,6 +286,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
                       size="lg"
                       label="Storefront Domain Settings"
                       tag="Product"
+                      icon={<ProductIcon className="ds-list-example__thumb-glyph--product" />}
                       subtitle={
                         <>
                           Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
@@ -296,6 +299,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
                       size="lg"
                       label="Free Gift Promotion"
                       tag="Promotion"
+                      icon={<PromotionIcon className="ds-list-example__thumb-glyph--promotion" />}
                       subtitle={
                         <>
                           Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •

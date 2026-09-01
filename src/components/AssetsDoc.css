@@ -76,7 +76,35 @@
   max-height: 100%;
 }
 
-/* The Dropdown example (Image > Example) renders its panel always-open — a static
+/* Example subsection's Image tab — Table's and Dropdown's empty states share one card
+   (per the merged-container request) instead of each getting its own .ds-preview, so this
+   wrapper restacks them vertically with their own caption directly beneath each. */
+.ds-assets__image-example {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-layout-section-gap-lg); /* space/layout/section/gap/lg */
+  width: 100%;
+}
+
+.ds-assets__image-example__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+  width: 100%;
+}
+
+/* .ds-variant-note's default light-gray (--text-caption-primary-light) reads at near-zero
+   contrast on this item's dark .ds-preview--scrim backdrop — flipped to white, same fix as
+   the Card-tab/Line-tab captions elsewhere on a scrim (see ButtonDoc.css's own comment on
+   .ds-preview--scrim), scoped to this wrapper so other pages' white-background captions
+   are unaffected. */
+.ds-assets__image-example__item .ds-variant-note {
+  color: var(--brand-neutral-0);
+}
+
+/* The Dropdown example (Example subsection) renders its panel always-open — a static
    demo, not real filter state — stacked under its trigger chip. Unlike Table's own
    filter dropdowns, no absolute positioning is needed since nothing else in the layout
    needs to sit where the panel would otherwise float. */
@@ -85,4 +113,214 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+}
+
+/* Image tab's Dropdown-demo item — hover dims the trigger chip (context) and rings only
+   the Image asset itself (the thing this tab is actually demoing), not the whole Dropdown
+   panel. */
+.ds-assets__dropdown-demo .ds-chip--filter {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-assets__dropdown-demo:hover .ds-chip--filter {
+  opacity: var(--opacity-40);
+}
+
+.ds-assets__dropdown-demo .ds-image__illustration {
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-assets__dropdown-demo:hover .ds-image__illustration {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+
+/* Image tab's Table-demo item — same convention, scoped off the shared .ds-table-example/
+   .ds-table-empty (reused by many other doc pages) so only this Example instance gets it.
+   Dims the toolbar/results-count chrome; rings only the Image asset inside the empty state,
+   not the whole table card. */
+.ds-assets__image-example__item .ds-table-toolbar,
+.ds-assets__image-example__item .ds-table-results {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-assets__image-example__item .ds-table-example:hover .ds-table-toolbar,
+.ds-assets__image-example__item .ds-table-example:hover .ds-table-results {
+  opacity: var(--opacity-40);
+}
+
+.ds-assets__image-example__item .ds-table-empty .ds-image__illustration {
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-assets__image-example__item .ds-table-example:hover .ds-table-empty .ds-image__illustration {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+
+/* Example subsection's Thumbnail tab — the Search-dropdown demo and the duplicated Message
+   Panel demo share one card, same merged-instance treatment as the Image tab's own wrapper
+   above, so this restacks them vertically with their own caption directly beneath each. */
+.ds-assets__thumbnail-example {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-layout-section-gap-lg); /* space/layout/section/gap/lg */
+  width: 100%;
+}
+
+.ds-assets__thumbnail-example__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+  width: 100%;
+}
+
+/* Same contrast fix as .ds-assets__image-example__item's own override, above. */
+.ds-assets__thumbnail-example__item .ds-variant-note {
+  color: var(--brand-neutral-0);
+}
+
+/* Example subsection's Thumbnail tab — a List Lg search-result row reused as-is with its
+   icon prop swapped. Hover dims the surrounding chrome and rings only each row's Thumbnail
+   glyph (the asset this tab demos), not the whole row/rows block. */
+.ds-assets__thumbnail-demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.ds-assets__thumbnail-demo__dim {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-assets__thumbnail-demo:hover .ds-assets__thumbnail-demo__dim {
+  opacity: var(--opacity-40);
+}
+
+.ds-assets__thumbnail-demo .ds-list__thumb {
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-assets__thumbnail-demo:hover .ds-list__thumb {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+
+/* Same panel treatment as List's own Search Results instance (dropdown-panel shadow, xl
+   radius) — this is a one-off composition, so the width/radius modifiers List keeps for
+   its other Example tabs are inlined here instead. */
+.ds-assets__thumbnail-demo__panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 560px;
+  background: var(--brand-neutral-0);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 var(--shadow-dropdown-y) var(--shadow-dropdown-blur) 0
+    var(--interactive-dropdown-panel-shadow-default);
+  overflow: hidden;
+}
+
+.ds-assets__thumbnail-demo__searchbar-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-md);
+  padding: var(--space-component-padding-md);
+}
+
+.ds-assets__thumbnail-demo__rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-assets__thumbnail-demo__rows > .ds-list--lg:last-child {
+  border-bottom: none;
+}
+
+.ds-assets__thumbnail-demo__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+  padding: var(--space-component-padding-sm) var(--space-component-padding-md);
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-assets__thumbnail-demo__kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--space-component-padding-xs);
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+  color: var(--brand-neutral-700);
+  background: var(--brand-neutral-100);
+  border-radius: var(--radius-sm);
+}
+
+.ds-assets__thumbnail-demo__hint {
+  font-size: var(--typography-xs-font-size);
+  line-height: var(--typography-xs-line-height);
+  color: var(--brand-neutral-700);
+}
+
+/* Figma's Union (Product) glyph has no matching icon-size token (20px, between sm/16 and
+   md/24) — same gap already documented in Thumbnail.css for its own copy of this glyph. */
+.ds-assets__thumbnail-demo__glyph--product {
+  width: 20px;
+  height: 20px;
+}
+
+/* Figma names this glyph "component/icon/sm" but renders it at 24px — this project's own
+   --component-icon-sm is 16px, so it's mapped here by actual pixel value
+   (--component-icon-md) rather than Figma's variable name, matching Thumbnail.css. */
+.ds-assets__thumbnail-demo__glyph--promotion {
+  width: var(--component-icon-md); /* component/icon/md */
+  height: var(--component-icon-md);
+}
+
+/* Example subsection's Thumbnail tab — a duplicate of MessageDoc's own Notification Panel
+   composition, showing just the message-list panel itself (no Topbar/background chrome
+   around it) to demonstrate the Message category Thumbnail glyphs from the tab above.
+   This page defines its own copy rather than importing MessageDoc.css, matching how the
+   Search-dropdown demo above already reuses List without importing ListDoc.css. Static (no
+   click-to-navigate) since there's no Message Center tab here to link to. Hover rings only
+   each row's Thumbnail glyph, not the whole panel. */
+.ds-assets__message-demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.ds-assets__message-demo .ds-message__thumb {
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-assets__message-demo:hover .ds-message__thumb {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+
+.ds-assets__message-demo__panel {
+  display: flex;
+  flex-direction: column;
+  width: var(--component-width-dropdown-lg);
+  max-width: 100%;
+  background: var(--brand-neutral-0);
+  border-radius: var(--radius-md);
+  box-shadow: 0 var(--shadow-dropdown-y) var(--shadow-dropdown-blur) 0
+    var(--brand-neutral-400); /* shadow/dropdown-y, shadow/dropdown-blur, brand/neutral/400 */
+  overflow: hidden;
+}
+
+.ds-assets__message-demo__footer {
+  padding: var(--space-layout-section-padding-sm);
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light);
+}
+
+.ds-assets__message-demo__view-all {
+  width: 100%;
 }

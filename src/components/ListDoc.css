@@ -210,6 +210,21 @@
   border-bottom: none;
 }
 
+/* Figma's Union (Product) glyph has no matching icon-size token (20px, between sm/16 and
+   md/24) — same gap already documented in Thumbnail.css for its own copy of this glyph. */
+.ds-list-example__thumb-glyph--product {
+  width: 20px;
+  height: 20px;
+}
+
+/* Figma names this glyph "component/icon/sm" but renders it at 24px — this project's own
+   --component-icon-sm is 16px, so it's mapped here by actual pixel value
+   (--component-icon-md) rather than Figma's variable name, matching Thumbnail.css. */
+.ds-list-example__thumb-glyph--promotion {
+  width: var(--component-icon-md); /* component/icon/md */
+  height: var(--component-icon-md);
+}
+
 /* Uploaded Files tab — a dropzone-style import summary above a compact file list. Figma
    (714:18194) doesn't map to any existing panel styling, and none of its raw values match a
    dedicated "dropzone" token (none exist), so each is resolved to the closest generic token. */
