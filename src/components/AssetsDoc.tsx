@@ -5,9 +5,11 @@ import { Thumbnail, type ThumbnailMessageStyle } from './Thumbnail';
 import Button from './Button';
 import { FilterChip } from './Chip';
 import { Searchbar } from './Searchbar';
-import { Table, TableHeader, TableHeaderCell, type TableAlign } from './Table';
+import { Table, TableHeader, TableHeaderCell, TableRow, TableCell, type TableAlign } from './Table';
 import List from './List';
 import Message from './Message';
+import { UploadImageItem } from './Upload';
+import Form, { FormRow, FormCol, FormField } from './Form';
 import { ContractIcon, ApprovalIcon, ThreePLIcon, PaymentIcon, OrderIcon } from './messageTypeIcons';
 import { ProductIcon, PromotionIcon } from './assetIcons';
 import {
@@ -218,7 +220,7 @@ const TABLE_EMPTY_COLUMNS: { label: string; width: number; align?: TableAlign; i
 const THUMBNAIL_TABS = ['Grid', 'Search', 'Table', 'Message'] as const;
 type ThumbnailTab = (typeof THUMBNAIL_TABS)[number];
 
-const EXAMPLE_TABS = ['Image', 'Thumbnail'] as const;
+const EXAMPLE_TABS = ['Illustration', 'Thumbnail'] as const;
 type ExampleTab = (typeof EXAMPLE_TABS)[number];
 
 // Same 15 categories as Message's notification thumb (Figma Thumbnail-message, node
@@ -266,7 +268,7 @@ interface AssetsDocProps {
 export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
   const [activeThumbnailTab, setActiveThumbnailTab] = useState<ThumbnailTab>('Grid');
   const [activeIconSizeTab, setActiveIconSizeTab] = useState<IconSizeTab>(ICON_SIZE_TABS[0]);
-  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Image');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Illustration');
 
   return (
     <div className="ds-doc">
@@ -390,6 +392,11 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
                   </div>
                 ))}
             </div>
+            {activeIconSizeTab === '20px' && (
+              <span className="ds-variant-note">
+                20px is a Sidebar-only tier — these glyphs appear nowhere else in the system.
+              </span>
+            )}
           </div>
 
           <div className="ds-variant-group">
@@ -408,7 +415,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
 
         <div id="variants-image" className="ds-section__subsection">
         <div className="ds-assets__section-head">
-          <h3 className="ds-section__subtitle">Image</h3>
+          <h3 className="ds-section__subtitle">Illustration</h3>
           <FigmaRef href={IMAGE_FIGMA_URL} />
         </div>
         <p className="ds-section__desc">
@@ -553,7 +560,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
           ))}
         </div>
 
-        {activeExampleTab === 'Image' && (
+        {activeExampleTab === 'Illustration' && (
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
             <div className="ds-preview ds-preview--scroll ds-preview--scrim">
@@ -657,56 +664,6 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
             <div className="ds-preview ds-preview--scroll ds-preview--scrim">
               <div className="ds-assets__thumbnail-example">
                 <div className="ds-assets__thumbnail-example__item">
-                  <div className="ds-assets__thumbnail-demo">
-                    <div className="ds-assets__thumbnail-demo__panel">
-                      <div className="ds-assets__thumbnail-demo__searchbar-row ds-assets__thumbnail-demo__dim">
-                        <Searchbar size="lg" state="focus" chipLabel="Product" defaultValue="Something" />
-                      </div>
-                      <div className="ds-assets__thumbnail-demo__rows">
-                        <List
-                          size="lg"
-                          icon={
-                            <ProductIcon className="ds-assets__thumbnail-demo__glyph ds-assets__thumbnail-demo__glyph--product" />
-                          }
-                          label="Storefront Setup"
-                          tag="Product"
-                          subtitle={
-                            <>
-                              Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
-                              Intent
-                            </>
-                          }
-                          caption="Online Store / Storefront / Setup / Marketing / Campaigns / Automation"
-                          forceState="hover"
-                        />
-                        <List
-                          size="lg"
-                          icon={
-                            <PromotionIcon className="ds-assets__thumbnail-demo__glyph ds-assets__thumbnail-demo__glyph--promotion" />
-                          }
-                          label="Free Gift Promotion"
-                          tag="Promotion"
-                          subtitle={
-                            <>
-                              Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
-                              Intent
-                            </>
-                          }
-                          caption="Online Store / Promotions / Free Gift / Campaign / Rules / Eligibility"
-                        />
-                      </div>
-                      <div className="ds-assets__thumbnail-demo__footer ds-assets__thumbnail-demo__dim">
-                        <span className="ds-assets__thumbnail-demo__kbd">Esc</span>
-                        <span className="ds-assets__thumbnail-demo__hint">Close</span>
-                        <span className="ds-assets__thumbnail-demo__kbd">/</span>
-                        <span className="ds-assets__thumbnail-demo__hint">Open global search</span>
-                      </div>
-                    </div>
-                  </div>
-                  <span className="ds-variant-note">Search results</span>
-                </div>
-
-                <div className="ds-assets__thumbnail-example__item">
                   <div className="ds-assets__message-demo">
                     <div className="ds-assets__message-demo__panel">
                       <Message
@@ -767,6 +724,255 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
                     </div>
                   </div>
                   <span className="ds-variant-note">Message</span>
+                </div>
+
+                <div className="ds-assets__thumbnail-example__item">
+                  <div className="ds-assets__thumbnail-demo">
+                    <div className="ds-assets__thumbnail-demo__panel">
+                      <div className="ds-assets__thumbnail-demo__searchbar-row ds-assets__thumbnail-demo__dim">
+                        <Searchbar size="lg" state="focus" chipLabel="Product" defaultValue="Something" />
+                      </div>
+                      <div className="ds-assets__thumbnail-demo__rows">
+                        <List
+                          size="lg"
+                          icon={
+                            <ProductIcon className="ds-assets__thumbnail-demo__glyph ds-assets__thumbnail-demo__glyph--product" />
+                          }
+                          label="Storefront Setup"
+                          tag="Product"
+                          subtitle={
+                            <>
+                              Store<mark className="ds-list__mark">front</mark> theme • Setup
+                              wizard • Launch checklist • Automation
+                            </>
+                          }
+                          caption="Online Store / Storefront / Setup / Marketing / Campaigns / Automation"
+                          forceState="hover"
+                        />
+                        <List
+                          size="lg"
+                          icon={
+                            <PromotionIcon className="ds-assets__thumbnail-demo__glyph ds-assets__thumbnail-demo__glyph--promotion" />
+                          }
+                          label="Free Gift Promotion"
+                          tag="Promotion"
+                          subtitle={
+                            <>
+                              Gift <mark className="ds-list__mark">threshold</mark> • Eligible
+                              SKUs • Campaign dates • Auto-apply
+                            </>
+                          }
+                          caption="Online Store / Promotions / Free Gift / Campaign / Rules / Eligibility"
+                        />
+                      </div>
+                      <div className="ds-assets__thumbnail-demo__footer ds-assets__thumbnail-demo__dim">
+                        <span className="ds-assets__thumbnail-demo__kbd">Esc</span>
+                        <span className="ds-assets__thumbnail-demo__hint">Close</span>
+                        <span className="ds-assets__thumbnail-demo__kbd">/</span>
+                        <span className="ds-assets__thumbnail-demo__hint">Open global search</span>
+                      </div>
+                    </div>
+                  </div>
+                  <span className="ds-variant-note">Search results</span>
+                </div>
+
+                <div className="ds-assets__thumbnail-example__item">
+                  <div className="ds-assets__table-image-demo">
+                    <Table size="md">
+                      <TableHeader>
+                        <TableHeaderCell width={88}>Image</TableHeaderCell>
+                        <TableHeaderCell width={140} className="ds-assets__table-image-demo__dim">
+                          SKU ID
+                        </TableHeaderCell>
+                        <TableHeaderCell
+                          width={110}
+                          align="right"
+                          className="ds-assets__table-image-demo__dim"
+                        >
+                          Price
+                        </TableHeaderCell>
+                      </TableHeader>
+                      <TableRow>
+                        <TableCell>
+                          <Thumbnail variant="table" tableStyle="wireflow" />
+                        </TableCell>
+                        <TableCell className="ds-assets__table-image-demo__dim">SKU00128491</TableCell>
+                        <TableCell align="right" className="ds-assets__table-image-demo__dim">
+                          $128.00
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <Thumbnail variant="table" tableStyle="mockup" />
+                        </TableCell>
+                        <TableCell className="ds-assets__table-image-demo__dim">SKU00128492</TableCell>
+                        <TableCell align="right" className="ds-assets__table-image-demo__dim">
+                          $256.00
+                        </TableCell>
+                      </TableRow>
+                    </Table>
+                  </div>
+                  <span className="ds-variant-note">Table image</span>
+                </div>
+
+                <div className="ds-assets__thumbnail-example__item">
+                  <div className="ds-assets__table-upload-demo">
+                    <Table size="xl" headerSize="md">
+                      <TableHeader>
+                        <TableHeaderCell width={96}>Image</TableHeaderCell>
+                        <TableHeaderCell
+                          width={100}
+                          align="right"
+                          className="ds-assets__table-upload-demo__dim"
+                        >
+                          Price
+                        </TableHeaderCell>
+                        <TableHeaderCell
+                          width={100}
+                          align="center"
+                          className="ds-assets__table-upload-demo__dim"
+                        >
+                          Visibility
+                        </TableHeaderCell>
+                        <TableHeaderCell
+                          width={120}
+                          align="center"
+                          className="ds-assets__table-upload-demo__dim"
+                        >
+                          Online Status
+                        </TableHeaderCell>
+                      </TableHeader>
+                      <TableRow>
+                        <TableCell>
+                          <UploadImageItem size="sm" shape="square" state="default" />
+                        </TableCell>
+                        <TableCell align="right" className="ds-assets__table-upload-demo__dim">
+                          —
+                        </TableCell>
+                        <TableCell align="center" className="ds-assets__table-upload-demo__dim">
+                          —
+                        </TableCell>
+                        <TableCell align="center" className="ds-assets__table-upload-demo__dim">
+                          —
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <UploadImageItem size="sm" shape="square" state="loading" progressValue={55} />
+                        </TableCell>
+                        <TableCell align="right" className="ds-assets__table-upload-demo__dim">
+                          $88.00
+                        </TableCell>
+                        <TableCell align="center" className="ds-assets__table-upload-demo__dim">
+                          On
+                        </TableCell>
+                        <TableCell align="center" className="ds-assets__table-upload-demo__dim">
+                          Uploading
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          <UploadImageItem
+                            size="sm"
+                            shape="square"
+                            state="filled"
+                            thumbnail={<img src="/assets/lightbox-lego-stack-cutout.png" alt="" />}
+                          />
+                        </TableCell>
+                        <TableCell align="right" className="ds-assets__table-upload-demo__dim">
+                          $88.00
+                        </TableCell>
+                        <TableCell align="center" className="ds-assets__table-upload-demo__dim">
+                          On
+                        </TableCell>
+                        <TableCell align="center" className="ds-assets__table-upload-demo__dim">
+                          Online
+                        </TableCell>
+                      </TableRow>
+                    </Table>
+                  </div>
+                  <span className="ds-variant-note">Table upload</span>
+                </div>
+
+                <div className="ds-assets__thumbnail-example__item">
+                  <div className="ds-assets__form-upload-demo">
+                    <Form title="Display Store" showInfo={false}>
+                      <FormRow>
+                        <FormCol>
+                          <FormField label="Display Store Logo" info>
+                            <UploadImageItem
+                              size="sm"
+                              shape="square"
+                              state="filled"
+                              thumbnail={<img src="/assets/lightbox-lego-stack-cutout.png" alt="" />}
+                            />
+                          </FormField>
+                        </FormCol>
+                        <FormCol>
+                          <FormField
+                            label="Official Website Landing Affiliate Url"
+                            className="ds-assets__form-upload-demo__dim"
+                          >
+                            <span className="ds-form-field__value">
+                              https://www.youtube.com/watch?v=SYQ3-1txKDk
+                            </span>
+                          </FormField>
+                        </FormCol>
+                      </FormRow>
+                      <div className="ds-assets__form-upload-demo__section-title ds-assets__form-upload-demo__dim">
+                        <span>Direct to Merchant Page Banner</span>
+                        <span className="icon icon--sm" aria-hidden="true">
+                          info
+                        </span>
+                      </div>
+                      <FormRow>
+                        <FormCol>
+                          <FormField label="Banner">
+                            <UploadImageItem
+                              size="sm"
+                              shape="square"
+                              state="filled"
+                              thumbnail={<img src="/assets/lightbox-lego-stack-cutout.png" alt="" />}
+                            />
+                          </FormField>
+                        </FormCol>
+                        <FormCol>
+                          <FormField label="Banner URL" className="ds-assets__form-upload-demo__dim">
+                            <span className="ds-form-field__value">
+                              https://www.youtube.com/watch?v=SYQ3-1txKDk
+                            </span>
+                          </FormField>
+                        </FormCol>
+                      </FormRow>
+                      <FormRow>
+                        <FormCol>
+                          <FormField
+                            label="Affiliate Free Text (in English)"
+                            info
+                            className="ds-assets__form-upload-demo__dim"
+                          >
+                            <span className="ds-form-field__value">
+                              Browse over 1000 Snack products of Cindylittlemall ✓500,000+
+                              products ✓Real reviews ✓ Free delivery upon $500 ✓Over 130 pick up
+                              points
+                            </span>
+                          </FormField>
+                        </FormCol>
+                        <FormCol>
+                          <FormField
+                            label="Affiliate Free Text (in Traditional Chinese)"
+                            className="ds-assets__form-upload-demo__dim"
+                          >
+                            <span className="ds-form-field__value">
+                              瀏覽心地小商店 超過1000件的點心產品，包括蛋糕、飲料和糖果！✓500,000+件商品
+                              ✓真實客戶評論 ✓買滿$500免費7日貨上門 ✓超過130個自取點
+                            </span>
+                          </FormField>
+                        </FormCol>
+                      </FormRow>
+                    </Form>
+                  </div>
+                  <span className="ds-variant-note">Form upload image</span>
                 </div>
               </div>
             </div>

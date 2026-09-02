@@ -70,7 +70,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
           they're pointing at.
         </p>
         <div className="ds-preview ds-preview--scrim">
-          <div style={{ width: '100%', maxWidth: 432 }}>
+          <div style={{ width: '100%', maxWidth: 432 }} className="ds-list-demo--rounded">
             <List />
           </div>
         </div>
@@ -87,7 +87,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
         <div className="ds-anatomy">
           <div className="ds-anatomy__figure ds-preview--scrim ds-list-anatomy">
             <div
-              className="ds-list ds-list--lg ds-anatomy__demo ds-anatomy__part-relative"
+              className="ds-list ds-list--lg ds-anatomy__demo ds-anatomy__part-relative ds-list-demo--rounded"
               style={{ width: 432 }}
               aria-hidden="true"
             >
@@ -275,8 +275,8 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
                       icon={<ProductIcon className="ds-list-example__thumb-glyph--product" />}
                       subtitle={
                         <>
-                          Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
-                          Intent
+                          Store<mark className="ds-list__mark">front</mark> theme • Setup wizard •
+                          Launch checklist • Automation
                         </>
                       }
                       caption="Online Store / Storefront / Setup / Marketing / Campaigns / Automation"
@@ -289,8 +289,8 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
                       icon={<ProductIcon className="ds-list-example__thumb-glyph--product" />}
                       subtitle={
                         <>
-                          Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
-                          Intent
+                          Custom <mark className="ds-list__mark">domain</mark> • DNS records • SSL
+                          certificate • Redirect rules
                         </>
                       }
                       caption="Online Store / Storefront / Domain / Settings / Advanced / Custom"
@@ -302,8 +302,8 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
                       icon={<PromotionIcon className="ds-list-example__thumb-glyph--promotion" />}
                       subtitle={
                         <>
-                          Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
-                          Intent
+                          Gift <mark className="ds-list__mark">threshold</mark> • Eligible SKUs •
+                          Campaign dates • Auto-apply
                         </>
                       }
                       caption="Online Store / Promotions / Free Gift / Campaign / Rules / Eligibility"
@@ -445,7 +445,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
             <div className="ds-preview ds-preview--scrim">
-              <div style={{ width: '100%', maxWidth: 432 }}>
+              <div style={{ width: '100%', maxWidth: 432 }} className="ds-list-demo--rounded">
                 {activeSizeTab === 'Lg' ? (
                   <List size="lg" />
                 ) : activeSizeTab === 'Md' ? (

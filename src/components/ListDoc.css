@@ -86,11 +86,23 @@
   border-color: var(--text-caption-primary-light);
 }
 
+/* Overview, Anatomy, and Variants > Size each show a single List row standalone on the
+   scrim backdrop with no wrapping panel to round its corners — List itself carries none
+   by design (it normally sits flush inside a Card/Dropdown panel that already owns the
+   radius, e.g. .ds-list-example__panel below). Added directly to just these three
+   standalone instances so they don't render with hard square corners on the gray scrim.
+   List paints its own opaque background (List.css) right to its square edge, so the
+   radius alone here doesn't show — overflow: hidden clips it to this wrapper's rounded
+   corner. */
+.ds-list-demo--rounded {
+  border-radius: var(--radius-md); /* radius/md, matching .ds-list-example__panel's own */
+  overflow: hidden;
+}
+
 /* Search Dropdown tab — a recent-searches panel as it drops from a focused Searchbar:
    filter chips, a "Search History" header with a ghost Clear-All action, Md-size List
-   rows, and a keyboard-hint footer. Both this and Search Results are themselves dropdown
-   surfaces, so the elevation reuses Dropdown's own panel shadow (shadow/dropdown-y,
-   shadow/dropdown-blur, interactive/dropdown/panel/shadow/default) rather than Card's. */
+   rows, and a keyboard-hint footer. Shared with Search Results below (no elevation shadow
+   on either — flat, matching Card's own default treatment rather than Dropdown's). */
 .ds-list-example__panel {
   display: flex;
   flex-direction: column;
@@ -98,8 +110,6 @@
   max-width: 100%;
   background: var(--brand-neutral-0);
   border-radius: var(--radius-md);
-  box-shadow: 0 var(--shadow-dropdown-y) var(--shadow-dropdown-blur) 0
-    var(--interactive-dropdown-panel-shadow-default);
   overflow: hidden;
 }
 
@@ -194,10 +204,10 @@
   color: var(--brand-neutral-700);
 }
 
-/* Shared by all three Example tabs so their panels/cards line up at one width. */
+/* Shared by Search History and Search Results so their panels line up at one width. */
 .ds-list-example__panel--wide {
   width: 100%;
-  max-width: 560px;
+  max-width: 640px;
 }
 
 /* Search Results' own Figma frame (639:5409) specifies a larger corner radius than the

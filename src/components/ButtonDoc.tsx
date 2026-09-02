@@ -263,6 +263,11 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
                     <span className="ds-example-mock__name">Topbar</span>
                     <div className="ds-example-mock ds-example-mock--topbar">
                       <div className="ds-example-mock__group">
+                        <img
+                          className="ds-example-mock__logo ds-example-mock__dim"
+                          src="/assets/logo_mms_default.png"
+                          alt="Merchant Management System"
+                        />
                         <IconButton
                           icon="menu"
                           label="Menu"

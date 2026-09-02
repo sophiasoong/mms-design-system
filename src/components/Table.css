@@ -136,6 +136,26 @@
   height: var(--component-height-5xl); /* Figma "Xl" = 96px */
 }
 
+/* Optional `headerSize` prop overrides just the header-cell height, independent of the
+   body-cell height set by `size` above — same specificity as those rules (one ancestor
+   class + the cell class), so source order here is what makes this win when the table
+   carries both classes (i.e. headerSize is actually set). */
+.ds-datatable--header-sm .ds-datatable__header-cell {
+  height: var(--component-height-lg); /* Figma "Sm" = 40px */
+}
+
+.ds-datatable--header-md .ds-datatable__header-cell {
+  height: var(--component-height-xl); /* Figma "Md" = 48px */
+}
+
+.ds-datatable--header-lg .ds-datatable__header-cell {
+  height: var(--component-height-3xl); /* Figma "Lg" = 64px */
+}
+
+.ds-datatable--header-xl .ds-datatable__header-cell {
+  height: var(--component-height-5xl); /* Figma "Xl" = 96px */
+}
+
 /* ---- Row states ---- */
 .ds-datatable__row--hover,
 .ds-datatable__row:not(.ds-datatable__row--selected):not(.ds-datatable__row--highlighted):not(.ds-datatable__row--disabled):hover {

@@ -526,8 +526,29 @@
   gap: var(--space-component-gap-md);
 }
 
+/* Topbar mock's logo — matches the real AppTopbar instance's own edge-to-edge treatment
+   (AppTopbar.css .ds-app-topbar__logo) rather than sitting as an inline icon: 260px wide,
+   full mock height, cropped (object-fit: cover) and bled flush to the mock's left/top/bottom
+   edges via negative margins that cancel out .ds-example-mock's own padding-md gutter on
+   those three sides (the real component cancels padding-2xl the same way — this mock just has
+   a smaller gutter to cancel). .ds-example-mock--topbar below fixes the mock's height to
+   --component-height-3xl (64px, the real bar's own height) and adds overflow: hidden so the
+   bleed crops flush to the mock's own rounded corner instead of spilling past it. Doubled
+   selector to outrank the shared .ds-example-figure img reset (width:100%; height:auto), same
+   fix pattern as ListDoc.css's .ds-list-anatomy.ds-list-anatomy. */
+.ds-example-mock__logo.ds-example-mock__logo {
+  flex-shrink: 0;
+  width: 260px; /* matches AppTopbar's own logo panel width */
+  height: 100%;
+  margin: calc(-1 * var(--space-component-padding-md)) 0 calc(-1 * var(--space-component-padding-md))
+    calc(-1 * var(--space-component-padding-md));
+  object-fit: cover;
+}
+
 .ds-example-mock--topbar {
+  height: var(--component-height-3xl); /* component/height/3xl — matches .ds-app-topbar's own height */
   justify-content: space-between;
+  overflow: hidden;
 }
 
 .ds-example-mock--page-header {

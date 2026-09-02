@@ -9,6 +9,10 @@ export type TableSortDirection = 'asc' | 'desc' | null;
 
 export interface TableProps {
   size?: TableSize;
+  /** Overrides just the header row's height, independent of `size` (which otherwise sizes
+   * both header and body rows the same). For a composition where body rows grow to fit a
+   * thumbnail/upload tile (e.g. `xl`) but the plain-text header shouldn't stretch to match. */
+  headerSize?: TableSize;
   className?: string;
   children: React.ReactNode;
 }
@@ -17,8 +21,15 @@ export interface TableProps {
  * `<tbody>` (everything else — `TableRow`s or raw `<tr>`s) — React validates table
  * nesting strictly, so a bare `<tr>` can't sit directly under `<table>` the way the HTML
  * spec's implicit-tbody behavior would otherwise allow. */
-export function Table({ size = 'md', className, children }: TableProps) {
-  const classes = ['ds-datatable', `ds-datatable--${size}`, className].filter(Boolean).join(' ');
+export function Table({ size = 'md', headerSize, className, children }: TableProps) {
+  const classes = [
+    'ds-datatable',
+    `ds-datatable--${size}`,
+    headerSize ? `ds-datatable--header-${headerSize}` : null,
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
   const items = Children.toArray(children);
   const head = items.filter(
     (child) => isValidElement(child) && (child.type === TableHeader || child.type === 'thead'),

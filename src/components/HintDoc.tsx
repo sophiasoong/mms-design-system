@@ -1,7 +1,19 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Hint, type HintSize } from './Hint';
+import Modal from './Modal';
+import { Table, TableHeader, TableHeaderCell, TableRow, TableCell } from './Table';
+import { Searchbar } from './Searchbar';
+import { FilterChip } from './Chip';
+import Button from './Button';
+import Pagination from './Pagination';
+import List from './List';
+import { ProductIcon, PromotionIcon } from './assetIcons';
 import { DropdownIcon, TableIcon, SearchbarIcon } from './icons';
 import './ButtonDoc.css';
+import './Table.css';
+import './ModalDoc.css';
+import './ListDoc.css';
+import './HintDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=194-2853';
@@ -9,12 +21,59 @@ const FIGMA_URL =
 const SIZE_TABS = ['Md', 'Lg'] as const;
 type SizeTab = (typeof SIZE_TABS)[number];
 
+const EXAMPLE_TABS = ['Table', 'Searchbar'] as const;
+type ExampleTab = (typeof EXAMPLE_TABS)[number];
+
+// Duplicated from Modal's Variants > Example > Table instance (ModalDoc.tsx), with the
+// first row's Product Name lengthened to ~200 characters so it truncates inside its 240px
+// column — the only row wired up to reveal a Hint on hover of its ellipsis.
+const HINT_EXAMPLE_TABLE_ROWS = [
+  {
+    sku: 'SKU-1001',
+    name: 'Premium Wireless Mechanical Keyboard with RGB Backlighting, Hot-Swappable Switches, Multi-Device Bluetooth Pairing, Programmable Macro Keys, and a Detachable USB-C Cable for Gaming and Productivity',
+    category: 'Electronics',
+    price: '$49.00',
+    stock: 120,
+  },
+  { sku: 'SKU-1002', name: 'Bluetooth Speaker', category: 'Electronics', price: '$79.00', stock: 64 },
+  { sku: 'SKU-1003', name: 'Ceramic Mug', category: 'Home', price: '$12.00', stock: 340 },
+  { sku: 'SKU-1004', name: 'Yoga Mat', category: 'Sports', price: '$25.00', stock: 95 },
+  { sku: 'SKU-1005', name: 'Stainless Water Bottle', category: 'Home', price: '$18.00', stock: 210 },
+];
+
+// Duplicated from List's Variants > Example > Search Results instance (ListDoc.tsx), with
+// the first row's keyword line extended so it overflows the row and truncates — the only
+// row wired up to reveal a Hint on hover of its ellipsis.
+const HINT_EXAMPLE_SUBTITLE =
+  'Keyword • Keyword • Keyword • Keyword • Keyword • Keyword • Keyword • Keyword • Keyword • Keyword • Keyword • Keyword • Keyword • Keyword • Keyword • Intent';
+
 interface HintDocProps {
   onNavigate?: (componentId: string) => void;
 }
 
 export default function HintDoc({ onNavigate }: HintDocProps) {
   const [activeSizeTab, setActiveSizeTab] = useState<SizeTab>('Md');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Table');
+
+  const tableNameRef = useRef<HTMLSpanElement>(null);
+  const [showTableHint, setShowTableHint] = useState(false);
+  const handleTableNameMouseEnter = () => {
+    const el = tableNameRef.current;
+    if (el && el.scrollWidth > el.clientWidth) {
+      setShowTableHint(true);
+    }
+  };
+  const handleTableNameMouseLeave = () => setShowTableHint(false);
+
+  const subtitleRef = useRef<HTMLSpanElement>(null);
+  const [showSubtitleHint, setShowSubtitleHint] = useState(false);
+  const handleSubtitleMouseEnter = () => {
+    const el = subtitleRef.current;
+    if (el && el.scrollWidth > el.clientWidth) {
+      setShowSubtitleHint(true);
+    }
+  };
+  const handleSubtitleMouseLeave = () => setShowSubtitleHint(false);
 
   return (
     <div className="ds-doc">
@@ -128,6 +187,188 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
                 ? 'Dropdown max-width is 240px — beyond that, the label wraps onto a new line.'
                 : 'Modal max-width is 600px — beyond that, the label wraps onto a new line.'}
             </span>
+          </div>
+        </div>
+
+        <div id="example" className="ds-section__subsection">
+          <h3 className="ds-section__subtitle">Example</h3>
+          <p className="ds-section__desc">
+            Hint rides along with whatever component truncates its own content — a Table
+            cell's overflowing text (Md), or a Searchbar result's overflowing keyword line
+            (Lg). Hover the ellipsis in either to reveal it.
+          </p>
+
+          <div className="ds-line-tabs" role="tablist" aria-label="Hint example use cases">
+            {EXAMPLE_TABS.map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activeExampleTab === tab}
+                className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
+                onClick={() => setActiveExampleTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          <div className="ds-preview ds-preview--scrim ds-preview--scroll">
+            {activeExampleTab === 'Table' && (
+              <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                <Modal
+                  size="full"
+                  title="Product Catalog"
+                  showInfo
+                  className="ds-modal--table-example"
+                  showLeading
+                >
+                  <div className="ds-table-example">
+                    <div className="ds-table-toolbar">
+                      <div className="ds-table-toolbar__search-wrap">
+                        <Searchbar size="md" placeholder="Search" scopeLabel="SKU ID" />
+                      </div>
+                      <div className="ds-table-toolbar__filters">
+                        <FilterChip label="Category" />
+                        <FilterChip label="In Stock" />
+                      </div>
+                      <div className="ds-table-toolbar__actions">
+                        <Button variant="primary" appearance="ghost" size="md">
+                          Reset
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="ds-table-results">
+                      <span className="ds-table-results__count">
+                        1–{HINT_EXAMPLE_TABLE_ROWS.length} of {HINT_EXAMPLE_TABLE_ROWS.length}{' '}
+                        results
+                      </span>
+                      <div className="ds-table-results__actions">
+                        <span className="ds-table-results__updated">
+                          Last Updated 2026-08-11 09:15
+                        </span>
+                        <Button variant="primary" appearance="outline" size="md">
+                          Refresh
+                        </Button>
+                        <Button variant="primary" appearance="outline" size="md">
+                          Export
+                        </Button>
+                      </div>
+                    </div>
+
+                    <Table size="md" className="ds-hint-doc__example-table">
+                      <TableHeader>
+                        <TableHeaderCell width={140}>SKU ID</TableHeaderCell>
+                        <TableHeaderCell width={240}>Product Name</TableHeaderCell>
+                        <TableHeaderCell width={140}>Category</TableHeaderCell>
+                        <TableHeaderCell width={110} align="center">
+                          Price
+                        </TableHeaderCell>
+                        <TableHeaderCell width={100} align="center">
+                          Stock
+                        </TableHeaderCell>
+                      </TableHeader>
+                      {HINT_EXAMPLE_TABLE_ROWS.map((row, index) => (
+                        <TableRow key={row.sku}>
+                          <TableCell>{row.sku}</TableCell>
+                          <TableCell>
+                            {index === 0 ? (
+                              <span
+                                className="ds-hint-doc__example-wrap ds-hint-doc__example-wrap--table"
+                                onMouseEnter={handleTableNameMouseEnter}
+                                onMouseLeave={handleTableNameMouseLeave}
+                              >
+                                <span ref={tableNameRef} className="ds-hint-doc__example-truncate">
+                                  {row.name}
+                                </span>
+                                {showTableHint && (
+                                  <span className="ds-hint-doc__example-hint">
+                                    <Hint size="md">{row.name}</Hint>
+                                  </span>
+                                )}
+                              </span>
+                            ) : (
+                              row.name
+                            )}
+                          </TableCell>
+                          <TableCell>{row.category}</TableCell>
+                          <TableCell align="center">{row.price}</TableCell>
+                          <TableCell align="center">{row.stock}</TableCell>
+                        </TableRow>
+                      ))}
+                    </Table>
+
+                    <div className="ds-table-example__pagination">
+                      <Pagination size="sm" currentPage={1} totalPages={1} />
+                    </div>
+                  </div>
+                </Modal>
+              </div>
+            )}
+
+            {activeExampleTab === 'Searchbar' && (
+              <div className="ds-list-example">
+                <div className="ds-list-example__panel ds-list-example__panel--wide ds-list-example__panel--radius-xl">
+                <div className="ds-list-example__searchbar-row">
+                  <Searchbar size="lg" state="focus" chipLabel="Product" defaultValue="Something" />
+                </div>
+                <div className="ds-list-example__rows ds-list-example__rows--lg">
+                  <List
+                    size="lg"
+                    label="Storefront Setup"
+                    tag="Product"
+                    icon={<ProductIcon className="ds-list-example__thumb-glyph--product" />}
+                    subtitle={
+                      <span
+                        className="ds-hint-doc__example-wrap ds-hint-doc__example-wrap--subtitle"
+                        onMouseEnter={handleSubtitleMouseEnter}
+                        onMouseLeave={handleSubtitleMouseLeave}
+                      >
+                        <span ref={subtitleRef} className="ds-hint-doc__example-truncate">
+                          Key<mark className="ds-list__mark">word</mark> •{' '}
+                          {HINT_EXAMPLE_SUBTITLE}
+                        </span>
+                        {showSubtitleHint && (
+                          <span className="ds-hint-doc__example-hint">
+                            <Hint size="md">{`Keyword • ${HINT_EXAMPLE_SUBTITLE}`}</Hint>
+                          </span>
+                        )}
+                      </span>
+                    }
+                    caption="Online Store / Storefront / Setup / Marketing / Campaigns / Automation"
+                    forceState="hover"
+                  />
+                  <List
+                    size="lg"
+                    label="Storefront Domain Settings"
+                    tag="Product"
+                    icon={<ProductIcon className="ds-list-example__thumb-glyph--product" />}
+                    subtitle={
+                      <>
+                        Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
+                        Intent
+                      </>
+                    }
+                    caption="Online Store / Storefront / Domain / Settings / Advanced / Custom"
+                  />
+                  <List
+                    size="lg"
+                    label="Free Gift Promotion"
+                    tag="Promotion"
+                    icon={<PromotionIcon className="ds-list-example__thumb-glyph--promotion" />}
+                    subtitle={
+                      <>
+                        Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
+                        Intent
+                      </>
+                    }
+                    caption="Online Store / Promotions / Free Gift / Campaign / Rules / Eligibility"
+                  />
+                </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

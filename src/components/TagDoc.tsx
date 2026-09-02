@@ -7,6 +7,7 @@ import AppTopbar from './AppTopbar';
 import List from './List';
 import { Searchbar } from './Searchbar';
 import { SearchbarIcon, MessageIcon, TableIcon } from './icons';
+import { ProductIcon, PromotionIcon } from './assetIcons';
 import './ButtonDoc.css';
 import './TagDoc.css';
 
@@ -290,11 +291,14 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
                         <List
                           size="lg"
                           label="Storefront Setup"
-                          showFilterChip={false}
+                          tag="Product"
+                          icon={
+                            <ProductIcon className="ds-tag-example-searchbar__thumb-glyph--product" />
+                          }
                           subtitle={
                             <>
-                              Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
-                              Intent
+                              Store<mark className="ds-list__mark">front</mark> theme • Setup
+                              wizard • Launch checklist • Automation
                             </>
                           }
                           caption="Online Store / Storefront / Setup / Marketing / Campaigns / Automation"
@@ -303,10 +307,13 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
                           size="lg"
                           label="Storefront Domain Settings"
                           tag="Product"
+                          icon={
+                            <ProductIcon className="ds-tag-example-searchbar__thumb-glyph--product" />
+                          }
                           subtitle={
                             <>
-                              Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
-                              Intent
+                              Custom <mark className="ds-list__mark">domain</mark> • DNS records •
+                              SSL certificate • Redirect rules
                             </>
                           }
                           caption="Online Store / Storefront / Domain / Settings / Advanced / Custom"
@@ -315,10 +322,13 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
                           size="lg"
                           label="Free Gift Promotion"
                           tag="Promotion"
+                          icon={
+                            <PromotionIcon className="ds-tag-example-searchbar__thumb-glyph--promotion" />
+                          }
                           subtitle={
                             <>
-                              Key<mark className="ds-list__mark">word</mark> • Keyword • Keyword •
-                              Intent
+                              Gift <mark className="ds-list__mark">threshold</mark> • Eligible
+                              SKUs • Campaign dates • Auto-apply
                             </>
                           }
                           caption="Online Store / Promotions / Free Gift / Campaign / Rules / Eligibility"

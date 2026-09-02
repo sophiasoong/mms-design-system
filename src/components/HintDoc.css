@@ -1,0 +1,53 @@
+/* Example subsection (Variants) — hover-to-reveal-Hint demo reusing Modal's Table example and
+   List's Search Results panel verbatim, with the first row's overflowing text wired up to
+   reveal a Hint on hover, following the same wrap/truncate/hint-sibling idiom as Banner's
+   single-line description (Banner.css): the Hint sits as a sibling of the truncated text
+   inside a shared position:relative wrapper, not a descendant of the element carrying
+   overflow:hidden — otherwise the wrapper's own ellipsis clipping would clip the Hint too. */
+.ds-hint-doc__example-wrap {
+  position: relative;
+  min-width: 0;
+}
+
+/* Table uses auto layout by default (see Table.css), which sizes each column from its
+   content's intrinsic (nowrap, un-truncated) width — a percentage width on a descendant
+   doesn't participate in that pass, so the column just grows to fit the full product name
+   instead of truncating. table-layout: fixed switches to sizing columns from the header row's
+   own declared widths (TableHeaderCell width={...} in HintDoc.tsx) instead of content, so the
+   Product Name column settles at its real rendered width regardless of cell content length. */
+.ds-hint-doc__example-table {
+  table-layout: fixed;
+}
+
+/* Table cell instance: fills the cell's own content box. With the table above pinned to
+   table-layout: fixed, width: 100% now resolves against that column's real rendered width
+   (whatever the browser settles it at, including any leftover space distributed past the
+   header's declared width={240}) instead of a hardcoded pixel guess — so the truncated text
+   always runs flush to the column's actual edge. */
+.ds-hint-doc__example-wrap--table {
+  display: block;
+  width: 100%;
+}
+
+/* Searchbar subtitle instance: stretches to the row's own width via the same flex chain
+   List.css already resolves down to .ds-list__subtitle (min-width: 0 on .ds-list__main). */
+.ds-hint-doc__example-wrap--subtitle {
+  display: block;
+  width: 100%;
+}
+
+.ds-hint-doc__example-truncate {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Anchored to the truncated text's bottom-right corner rather than bottom-left, so the Hint
+   opens toward the reader's eye instead of doubling back under the start of the label. */
+.ds-hint-doc__example-hint {
+  position: absolute;
+  top: calc(100% + var(--space-component-gap-xs)); /* space/component/gap/xs */
+  right: 0;
+  z-index: 10;
+}

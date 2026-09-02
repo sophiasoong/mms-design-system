@@ -115,6 +115,13 @@
   gap: var(--space-component-gap-xs); /* space/component/gap/xs */
 }
 
+/* Flat, matching the no-shadow treatment every other standalone panel demo on this page
+   uses — Dropdown's own base panel (Dropdown.css) carries an elevation shadow by default,
+   scoped off here rather than changed sitewide. */
+.ds-assets__dropdown-demo .ds-dropdown {
+  box-shadow: none;
+}
+
 /* Image tab's Dropdown-demo item — hover dims the trigger chip (context) and rings only
    the Image asset itself (the thing this tab is actually demoing), not the whole Dropdown
    panel. */
@@ -190,6 +197,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: 640px;
 }
 
 .ds-assets__thumbnail-demo__dim {
@@ -208,18 +216,16 @@
   box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
 }
 
-/* Same panel treatment as List's own Search Results instance (dropdown-panel shadow, xl
-   radius) — this is a one-off composition, so the width/radius modifiers List keeps for
-   its other Example tabs are inlined here instead. */
+/* Same panel treatment as List's own Search Results instance (xl radius, no shadow) —
+   this is a one-off composition, so the width/radius modifiers List keeps for its other
+   Example tabs are inlined here instead. */
 .ds-assets__thumbnail-demo__panel {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 560px;
+  max-width: 640px;
   background: var(--brand-neutral-0);
   border-radius: var(--radius-xl);
-  box-shadow: 0 var(--shadow-dropdown-y) var(--shadow-dropdown-blur) 0
-    var(--interactive-dropdown-panel-shadow-default);
   overflow: hidden;
 }
 
@@ -287,8 +293,9 @@
    around it) to demonstrate the Message category Thumbnail glyphs from the tab above.
    This page defines its own copy rather than importing MessageDoc.css, matching how the
    Search-dropdown demo above already reuses List without importing ListDoc.css. Static (no
-   click-to-navigate) since there's no Message Center tab here to link to. Hover rings only
-   each row's Thumbnail glyph, not the whole panel. */
+   click-to-navigate) since there's no Message Center tab here to link to. Hover dims each
+   row's body text and the View All footer, and rings only the Thumbnail glyph — the asset
+   this tab demos — matching the dim/ring idiom the other Thumbnail-tab demos already use. */
 .ds-assets__message-demo {
   display: flex;
   flex-direction: column;
@@ -304,6 +311,16 @@
   box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
 }
 
+.ds-assets__message-demo .ds-message__body,
+.ds-assets__message-demo__footer {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-assets__message-demo:hover .ds-message__body,
+.ds-assets__message-demo:hover .ds-assets__message-demo__footer {
+  opacity: var(--opacity-40);
+}
+
 .ds-assets__message-demo__panel {
   display: flex;
   flex-direction: column;
@@ -311,8 +328,6 @@
   max-width: 100%;
   background: var(--brand-neutral-0);
   border-radius: var(--radius-md);
-  box-shadow: 0 var(--shadow-dropdown-y) var(--shadow-dropdown-blur) 0
-    var(--brand-neutral-400); /* shadow/dropdown-y, shadow/dropdown-blur, brand/neutral/400 */
   overflow: hidden;
 }
 
@@ -323,4 +338,129 @@
 
 .ds-assets__message-demo__view-all {
   width: 100%;
+}
+
+/* Example subsection's Thumbnail tab — Table image instance (Figma 637:5056): the real
+   Table component with Thumbnail's own "table" variant (wireflow/mockup) sitting in the
+   Image column, showing the asset in the row context that Figma composition actually
+   places it in, rather than standalone like the Variants/Thumbnail/Table tab above.
+   Hover dims the SKU ID/Price columns and rings only the Thumbnail glyph — the asset this
+   tab demos — not the whole row. */
+.ds-assets__table-image-demo {
+  width: 100%;
+  max-width: 640px;
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.ds-assets__table-image-demo .ds-datatable {
+  width: 100%;
+}
+
+.ds-assets__table-image-demo__dim {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-assets__table-image-demo:hover .ds-assets__table-image-demo__dim {
+  opacity: var(--opacity-40);
+}
+
+.ds-assets__table-image-demo .ds-thumbnail--table {
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-assets__table-image-demo:hover .ds-thumbnail--table {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+
+/* Example subsection's Thumbnail tab — Table upload instance (Figma 995:34284): Upload's
+   own UploadImageItem component (not a standalone Thumbnail) sitting in a Table's Image
+   column across its three states — the pattern this Figma node actually depicts (an
+   in-table upload cell, not a pre-populated photo). Body rows are `xl` (96px, to fit the
+   image tile) with the header decoupled to `md` (48px, Table's own headerSize prop) so the
+   plain-text header doesn't stretch to match. Hover dims the Price/Visibility/Online
+   Status columns and rings only the image-item tile. */
+.ds-assets__table-upload-demo {
+  width: 100%;
+  max-width: 640px;
+  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.ds-assets__table-upload-demo .ds-datatable {
+  width: 100%;
+}
+
+.ds-assets__table-upload-demo__dim {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-assets__table-upload-demo:hover .ds-assets__table-upload-demo__dim {
+  opacity: var(--opacity-40);
+}
+
+.ds-assets__table-upload-demo .ds-upload-image-item {
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-assets__table-upload-demo:hover .ds-upload-image-item {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+
+/* Example subsection's Thumbnail tab — Form upload image instance (Figma 1858:99005,
+   the "MMS Web AI Design System" file's fuller "Display Store" panel — supersedes the
+   single-field 3322:89859 reference this instance originally scoped down to). Reuses
+   Form/FormRow/FormCol/FormField and UploadImageItem as-is; the one field type with no
+   existing component (Figma's plain "Header" divider row, e.g. "Direct to Merchant Page
+   Banner") gets a small demo-local class below rather than a new shared component, since
+   it's unique to this composition. Hover dims the form header, the section-title divider,
+   and every readonly text field (__dim), and rings each image-item tile (both Logo and
+   Banner uploads are hero elements here). */
+.ds-assets__form-upload-demo {
+  width: 100%;
+  max-width: 640px;
+}
+
+.ds-assets__form-upload-demo .ds-form__header {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-assets__form-upload-demo:hover .ds-form__header {
+  opacity: var(--opacity-40);
+}
+
+.ds-assets__form-upload-demo__dim {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-assets__form-upload-demo:hover .ds-assets__form-upload-demo__dim {
+  opacity: var(--opacity-40);
+}
+
+.ds-assets__form-upload-demo .ds-upload-image-item {
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-assets__form-upload-demo:hover .ds-upload-image-item {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+
+/* Figma's plain full-width "Header" divider row (bold label + info glyph) that separates
+   the Banner fields from the Logo/Affiliate-URL fields above — no standalone component of
+   its own, so styled to match Form's own title (text/heading/primary/neutral) and
+   FormField's info-icon color (brand/secondary/600) rather than introducing a new token. */
+.ds-assets__form-upload-demo__section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
+  color: var(--text-heading-primary-neutral); /* text/heading/primary/neutral */
+}
+
+.ds-assets__form-upload-demo__section-title .icon {
+  color: var(--brand-secondary-600); /* brand/secondary/600, matches FormField's info icon */
 }

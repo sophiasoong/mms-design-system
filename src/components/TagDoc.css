@@ -103,7 +103,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 560px; /* matches ds-list-example__panel--wide, so both docs' example cards line up */
+  max-width: 640px; /* matches ds-list-example__panel--wide's real value, so both docs' example cards line up */
   background: var(--brand-neutral-0);
   border-radius: var(--radius-xl);
   box-shadow: 0 var(--shadow-dropdown-y) var(--shadow-dropdown-blur) 0
@@ -153,4 +153,19 @@
   font-size: var(--typography-xs-font-size);
   line-height: var(--typography-xs-line-height);
   color: var(--brand-neutral-700);
+}
+
+/* Figma's Union (Product) glyph has no matching icon-size token (20px, between sm/16 and
+   md/24) — same gap already documented in ListDoc.css's own copy of this glyph. */
+.ds-tag-example-searchbar__thumb-glyph--product {
+  width: 20px;
+  height: 20px;
+}
+
+/* Figma names this glyph "component/icon/sm" but renders it at 24px — this project's own
+   --component-icon-sm is 16px, so it's mapped here by actual pixel value
+   (--component-icon-md) rather than Figma's variable name, matching ListDoc.css. */
+.ds-tag-example-searchbar__thumb-glyph--promotion {
+  width: var(--component-icon-md); /* component/icon/md */
+  height: var(--component-icon-md);
 }
