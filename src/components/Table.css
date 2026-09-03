@@ -76,6 +76,34 @@
   color: var(--brand-secondary-600);
 }
 
+/* Opt-in hover/focus anchor for TableHeaderCell's `infoTooltip` prop — position:relative
+   host for the floating Tooltip below, so it stays pinned to the icon itself regardless
+   of the column label's length (see Table.tsx's infoTooltip doc comment). */
+.ds-datatable__header-info-anchor {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ds-datatable__header-tooltip {
+  position: absolute;
+  bottom: calc(100% + var(--space-component-gap-xs)); /* space/component/gap/xs, above the header */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) ease;
+  z-index: 10; /* matches Table.css's own freeze-shadow tier, above the header row's cells */
+  white-space: normal;
+}
+
+.ds-datatable__header-info-anchor:hover .ds-datatable__header-tooltip,
+.ds-datatable__header-info-anchor:focus-visible .ds-datatable__header-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
 .ds-datatable__sort-btn {
   display: inline-flex;
   align-items: center;

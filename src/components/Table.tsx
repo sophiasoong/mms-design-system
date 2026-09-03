@@ -1,5 +1,6 @@
-import { Children, isValidElement } from 'react';
+import { Children, isValidElement, type ReactNode } from 'react';
 import { Checkbox } from './Checkbox';
+import { Tooltip } from './Tooltip';
 import './Table.css';
 
 export type TableSize = 'sm' | 'md' | 'lg' | 'xl';
@@ -63,6 +64,11 @@ export interface TableHeaderCellProps {
   width?: number | string;
   align?: TableAlign;
   info?: boolean;
+  /** Content for a Tooltip that appears above the info icon on hover/focus — opt-in,
+   * only rendered when both `info` and this are set (see ActionPanelField's `required`
+   * prop for the same additive-prop convention). Positioned by the icon itself so it
+   * stays pinned to the icon regardless of the column label's length. */
+  infoTooltip?: ReactNode;
   sortable?: boolean;
   sortDirection?: TableSortDirection;
   onSort?: () => void;
@@ -74,6 +80,7 @@ export function TableHeaderCell({
   width,
   align = 'left',
   info = false,
+  infoTooltip,
   sortable = false,
   sortDirection = null,
   onSort,
@@ -91,7 +98,17 @@ export function TableHeaderCell({
     <th className={classes} style={width !== undefined ? { width } : undefined} scope="col">
       <span className="ds-datatable__header-content">
         <span className="ds-datatable__header-label">{children}</span>
-        {info && (
+        {info && infoTooltip && (
+          <span className="ds-datatable__header-info-anchor" tabIndex={0}>
+            <span className="icon icon--sm ds-datatable__header-icon ds-datatable__header-icon--info" aria-hidden="true">
+              info
+            </span>
+            <span className="ds-datatable__header-tooltip">
+              <Tooltip size="sm">{infoTooltip}</Tooltip>
+            </span>
+          </span>
+        )}
+        {info && !infoTooltip && (
           <span className="icon icon--sm ds-datatable__header-icon ds-datatable__header-icon--info" aria-hidden="true">
             info
           </span>

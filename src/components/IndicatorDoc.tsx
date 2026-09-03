@@ -1,15 +1,22 @@
 import { useState } from 'react';
 import { ProgressBar, ProgressRing } from './Indicator';
+import Upload, { UploadDropzone, UploadImageItem } from './Upload';
+import Dialog from './Dialog';
 import { UploadIcon, TableIcon, DialogIcon } from './icons';
 import './ButtonDoc.css';
+import './IndicatorDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=705-10506';
 
 type IndicatorType = 'ring' | 'bar';
+type ExampleTab = 'Upload' | 'Dialog';
 
 const TYPE_TABS: IndicatorType[] = ['ring', 'bar'];
+const EXAMPLE_TABS: ExampleTab[] = ['Upload', 'Dialog'];
 const PERCENTAGES = [25, 50, 75, 100];
+/** Matches UploadDoc's own Image grid instance (Method tabs) being duplicated here. */
+const IMAGE_GRID_FILLED_COUNT = 9;
 
 interface IndicatorDocProps {
   onNavigate?: (componentId: string) => void;
@@ -17,6 +24,7 @@ interface IndicatorDocProps {
 
 export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
   const [activeTypeTab, setActiveTypeTab] = useState<IndicatorType>('ring');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Upload');
 
   return (
     <div className="ds-doc">
@@ -173,6 +181,75 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
               )}
             </div>
           </div>
+        </div>
+
+        <div id="example" className="ds-section__subsection">
+          <h3 className="ds-section__subtitle">Example</h3>
+          <p className="ds-section__desc">
+            Indicator rarely stands alone — it usually rides inside another component,
+            reporting that component's own progress. Hover a composition to see which part is
+            the indicator.
+          </p>
+
+          <div className="ds-line-tabs" role="tablist" aria-label="Indicator example compositions">
+            {EXAMPLE_TABS.map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activeExampleTab === tab}
+                className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
+                onClick={() => setActiveExampleTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {activeExampleTab === 'Upload' && (
+            <div className="ds-preview ds-preview--scrim ds-preview--stack ds-indicator-doc__upload-preview">
+              <div className="ds-variant-row__cell">
+                <div className="ds-indicator-example" style={{ width: 395 }}>
+                  <UploadDropzone state="hover" className="ds-indicator-doc__dropzone--uploading" />
+                </div>
+                <span className="ds-variant-row__cell-label">Dropzone</span>
+              </div>
+              <div className="ds-variant-row__cell">
+                <div className="ds-indicator-example" style={{ width: '100%', maxWidth: 516 }}>
+                  <Upload
+                    style="image-grid"
+                    images={
+                      <>
+                        {Array.from({ length: IMAGE_GRID_FILLED_COUNT }).map((_, i) => (
+                          <UploadImageItem
+                            key={i}
+                            size="lg"
+                            shape="square"
+                            state="filled"
+                            thumbnail={<img src="/assets/lightbox-lego-stack-cutout.png" alt="" />}
+                          />
+                        ))}
+                        <UploadImageItem size="lg" shape="square" state="loading" />
+                      </>
+                    }
+                  />
+                </div>
+                <span className="ds-variant-row__cell-label">Image grid</span>
+              </div>
+            </div>
+          )}
+
+          {activeExampleTab === 'Dialog' && (
+            <div className="ds-preview ds-preview--scrim">
+              <div className="ds-indicator-example">
+                <Dialog
+                  title="Uploading products"
+                  description="Please wait while your products are being uploaded."
+                  layout="loading"
+                />
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

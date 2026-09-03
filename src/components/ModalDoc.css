@@ -30,6 +30,16 @@
   transform: translateY(-50%);
 }
 
+/* Body's own overflow-y: auto (Modal.css) forces overflow-x to compute as clipping too
+   (same either-axis-non-visible-clips-both behavior fixed for the Table header tooltip
+   in TooltipDoc.css) — badge 2 is a child of .ds-modal__body and sits outside its box
+   (badge--side-left positions at right: 100%), so it was being silently clipped away.
+   The anatomy demo is a static aria-hidden figure, never meant to scroll, so restoring
+   visible overflow here is safe (same override pattern as .ds-anatomy__demo.ds-anatomy__demo). */
+.ds-modal-anatomy .ds-modal__body {
+  overflow: visible;
+}
+
 /* The legend list sits directly on the dark backdrop with no white card behind it, so
    its default dark-on-white text needs to flip to white. */
 .ds-modal-anatomy .ds-anatomy__legend li {

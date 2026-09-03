@@ -23,3 +23,220 @@
     var(--space-component-padding-lg) + var(--component-icon-md) + var(--space-component-gap-sm)
   );
 }
+
+/* ---- Example (Variants) ----
+   Two real-world hosts for Banner (Figma nodes 1893-123689 "Overview page" and
+   1893-127337 "Modal") — "Overview page" reuses .ds-table-example/.ds-table-toolbar
+   directly from Table.css (the actual component CSS, not another doc page's scoped demo
+   classes, so importing it is fine per this codebase's doc-CSS-stays-scoped convention);
+   everything else (page frame, crumb, panel, modal filter row) is this page's own scoped
+   scaffolding, duplicated rather than pulled from TabDoc.css/ModalDoc.css. */
+
+/* Page-canvas frame — mirrors TabDoc.css's own .ds-tab-example (same page-canvas/card/
+   shadow treatment) so both doc pages' "real page" Example compositions read consistently. */
+.ds-banner-example__page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+  width: 100%;
+  background: var(--global-background-page); /* global/background/page */
+  padding: var(--space-layout-section-padding-md); /* space/layout/section/padding/md */
+  border-radius: var(--radius-lg); /* radius/lg */
+}
+
+/* Banner defaults to a fixed 412px (see Layout & Spacing's flagged "Container width" row).
+   Both page hosts (SKU, Brand — anything inside .ds-banner-example__page) want it to fill
+   their row instead, so stretch it inside the .ds-banner-example__focus wrapper that wraps
+   every Banner instance in this section. The Modal host wants the opposite — its Banner
+   hugs its own message instead of stretching to the modal's full width — so that instance
+   (scoped by its .ds-banner-example__modal-body ancestor) overrides back to fit-content
+   below, after this rule. */
+.ds-banner-example__page .ds-banner-example__focus .ds-banner {
+  width: 100%;
+}
+
+/* fit-content isn't usable here — with layout="single-line" the description is forced to
+   one unbroken nowrap line (see Banner.css's own .ds-banner--single-line .ds-banner__desc),
+   so its max-content width is the full unwrapped sentence, which clamps fit-content right
+   back to nearly the modal's full width. "Hug content" instead means falling back to
+   Banner's own native fixed width (see Layout & Spacing's flagged "Container width" row,
+   the same 412px every un-stretched Banner instance on this page already uses) — the long
+   danger message truncates with Banner's own built-in ellipsis at that width, exactly like
+   any other single-line Banner whose text runs long. */
+.ds-banner-example__modal-body .ds-banner-example__focus .ds-banner {
+  width: 412px; /* Banner's own hardcoded default — flagged, no matching token */
+}
+
+.ds-banner-example__crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  width: fit-content;
+  color: var(--brand-primary-400); /* brand/primary/400 — same Anchor-adjacent workaround
+    TabDoc.css's own .ds-tab-example__reset uses, so this stays MMS indigo under MMA too. */
+  font-family: var(--typography-font-family-body); /* typography/font-family/body */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+.ds-banner-example__crumb:hover {
+  color: var(--brand-primary-300); /* brand/primary/300 */
+  text-decoration: underline;
+}
+
+.ds-banner-example__title {
+  margin: 0;
+  font-family: var(--typography-font-family-heading); /* typography/font-family/heading */
+  font-size: var(--typography-lg-font-size); /* typography/lg/font-size */
+  line-height: var(--typography-lg-line-height); /* typography/lg/line-height */
+  font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
+  color: var(--text-heading-primary-neutral); /* text/heading/primary/neutral */
+}
+
+/* Brand page's header block (Figma node 1893-118257) — breadcrumb stacked above a
+   title/"Add Brand" row, in place of the SKU page's simpler back-link + title pair. */
+.ds-banner-example__brand-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+}
+
+.ds-banner-example__brand-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+}
+
+.ds-banner-example__layout {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+}
+
+.ds-banner-example__main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* "Cycle Detail" side panel (Figma's right-side Cycle Detail/Action panel) — kept to a
+   compact label/value summary plus its two actions rather than the fuller panel Figma
+   shows, proportionate to a doc example whose subject is Banner, not this panel. */
+.ds-banner-example__panel {
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  padding: var(--space-component-padding-lg); /* space/component/padding/lg */
+  background: var(--surface-card-surface-default); /* surface/card/surface/default */
+  border: var(--border-sm) solid var(--global-divider-neutral-light); /* border/sm, global/divider/neutral/light */
+  border-radius: var(--radius-md); /* radius/md */
+}
+
+.ds-banner-example__panel-title {
+  margin: 0;
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
+  color: var(--text-heading-primary-neutral); /* text/heading/primary/neutral */
+}
+
+.ds-banner-example__panel-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
+  line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
+}
+
+.ds-banner-example__panel-label {
+  color: var(--text-body-secondary-neutral); /* text/body/secondary/neutral */
+}
+
+.ds-banner-example__panel-value {
+  color: var(--text-body-primary-neutral); /* text/body/primary/neutral */
+  font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
+}
+
+.ds-banner-example__panel-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  margin-top: var(--space-component-gap-xs); /* space/component/gap/xs */
+}
+
+/* Chrome-less "Reset" text link — duplicated from TabDoc.css's own .ds-tab-example__reset
+   per doc-CSS-stays-scoped. */
+.ds-banner-example__reset {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--brand-primary-400); /* brand/primary/400 */
+  font-family: var(--typography-font-family-body); /* typography/font-family/body */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
+  cursor: pointer;
+  transition: color var(--duration-fast) ease;
+}
+
+.ds-banner-example__reset:hover {
+  color: var(--brand-primary-300); /* brand/primary/300 */
+}
+
+/* Modal composition's own body stack — Modal's .ds-modal__body (Modal.css) is a plain
+   padded box with no gap/flow of its own, so the filters row / Banner / table need their
+   own stacking wrapper instead of relying on stray margins between them. */
+.ds-banner-example__modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+}
+
+.ds-banner-example__modal-filters {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+}
+
+.ds-banner-example__modal-search {
+  width: 320px; /* matches Table.css's own .ds-table-toolbar__search-wrap fixed width */
+  flex: none;
+}
+
+.ds-banner-example__modal-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  padding-top: var(--space-component-gap-sm); /* space/component/gap/sm */
+}
+
+/* Highlight Banner on hover, dim other areas — same sibling dim/focus convention as
+   IndicatorDoc.css's .ds-indicator-example / ListDoc.css's .ds-list-example. Each
+   composition's non-Banner chrome is wrapped in its own .ds-banner-example__dim sibling
+   (crumb+title, the table+panel row for Overview page; the filters row and the table for
+   Modal) rather than targeting existing part classnames directly, since those chrome
+   blocks (Table, Select, Searchbar, the side panel) don't share one common part class the
+   way Upload/Dialog's own markup did in IndicatorDoc. Banner itself is wrapped in
+   .ds-banner-example__focus and gets a ring instead of staying merely undimmed, so it's
+   unambiguous which piece is Banner. */
+.ds-banner-example__dim {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-banner-example:hover .ds-banner-example__dim {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-banner-example__focus {
+  border-radius: var(--radius-md); /* radius/md */
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-banner-example:hover .ds-banner-example__focus {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary —
+    same focus-ring token as IndicatorDoc.css's/ListDoc.css's own hover-focus rings. */
+}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { ReactNode } from 'react';
 import IconButton from './IconButton';
+import { Tooltip } from './Tooltip';
 import './Form.css';
 
 export interface FormProps {
@@ -10,6 +11,13 @@ export interface FormProps {
   showInfo?: boolean;
   infoLabel?: string;
   onInfoClick?: () => void;
+  /** Content for a Tooltip that appears above the header's info icon on hover/focus —
+   * opt-in, only rendered when both `showInfo` and this are set (same additive-prop
+   * convention as TableHeaderCell's `infoTooltip` / ActionPanelField's `required`). */
+  infoTooltip?: ReactNode;
+  /** Which side of the header `infoTooltip` renders on. Defaults to `'top'` (existing
+   * behavior for all current consumers); `'bottom'` is opt-in. */
+  infoTooltipPosition?: 'top' | 'bottom';
   /** Figma's "Tag & Caption" slot, rendered beside the title. */
   tag?: ReactNode;
   /** Whether the header's chevron can collapse the Main slot. */
@@ -27,6 +35,8 @@ export default function Form({
   showInfo = true,
   infoLabel,
   onInfoClick,
+  infoTooltip,
+  infoTooltipPosition = 'top',
   tag,
   collapsible = true,
   defaultCollapsed = false,
@@ -35,6 +45,16 @@ export default function Form({
 }: FormProps) {
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
   const classes = ['ds-form', className].filter(Boolean).join(' ');
+  const infoButton = (
+    <IconButton
+      icon="info"
+      variant="pending"
+      appearance="ghost"
+      size="sm"
+      label={infoLabel ?? `About ${title}`}
+      onClick={onInfoClick}
+    />
+  );
 
   return (
     <div className={classes}>
@@ -42,16 +62,24 @@ export default function Form({
         <div className="ds-form__header">
           <div className="ds-form__header-content">
             <span className="ds-form__title">{title}</span>
-            {showInfo && (
-              <IconButton
-                icon="info"
-                variant="pending"
-                appearance="ghost"
-                size="sm"
-                label={infoLabel ?? `About ${title}`}
-                onClick={onInfoClick}
-              />
+            {showInfo && infoTooltip && (
+              <span className="ds-form__info-anchor" tabIndex={0}>
+                {infoButton}
+                <span
+                  className={[
+                    'ds-form__info-tooltip',
+                    infoTooltipPosition === 'bottom' && 'ds-form__info-tooltip--bottom',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  <Tooltip size="sm" position={infoTooltipPosition}>
+                    {infoTooltip}
+                  </Tooltip>
+                </span>
+              </span>
             )}
+            {showInfo && !infoTooltip && infoButton}
             {tag && <div className="ds-form__tag">{tag}</div>}
           </div>
           {collapsible && (

@@ -59,15 +59,26 @@ export function ActionPanelSectionTitle({ children }: { children: ReactNode }) {
 
 export interface ActionPanelFieldProps {
   label: string;
+  /** Appends a red required-marker asterisk after the label, same convention as
+   * Form.tsx's FormField `required` prop (Figma's separate text/required/default
+   * "*" span, rather than baking "*" into the label string itself). */
+  required?: boolean;
   children: ReactNode;
 }
 
 /** A labeled field row (Figma's "Select-field" / "Readonly-field") — a small label
  * above arbitrary content (a Select, a Badge, or plain text via ActionPanelValue). */
-export function ActionPanelField({ label, children }: ActionPanelFieldProps) {
+export function ActionPanelField({ label, required, children }: ActionPanelFieldProps) {
   return (
     <div className="ds-action-panel__field">
-      <span className="ds-action-panel__field-label">{label}</span>
+      <span className="ds-action-panel__field-label">
+        {label}
+        {required && (
+          <span className="ds-action-panel__field-required" aria-hidden="true">
+            *
+          </span>
+        )}
+      </span>
       {children}
     </div>
   );

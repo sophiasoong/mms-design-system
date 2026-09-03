@@ -1,0 +1,69 @@
+/* ---- Example (Variants) ----
+   Two real-world hosts for Indicator, duplicated from their own doc pages per this
+   codebase's doc-CSS-stays-scoped convention (each doc page gets its own scoped copy of
+   a shared demo pattern rather than importing another page's CSS file directly). */
+
+/* Example > Upload — Dropzone "uploading" instance, duplicated from UploadDoc.css's own
+   .ds-upload-doc__dropzone--uploading: the hover state's dashed drag-over border is not
+   an in-progress-upload affordance, so it's overridden back to the default state's solid
+   border/surface tokens. */
+.ds-indicator-doc__dropzone--uploading.ds-upload-dropzone--hover {
+  border: var(--border-sm) solid var(--interactive-dropzone-border-default);
+  background: var(--interactive-dropzone-surface-default);
+}
+
+/* Example > Upload — no .ds-variant-row wrapper (its own white background/border box
+   would double up on .ds-preview--scrim's dark one below); cells sit directly on the
+   scrim instead, stacked (.ds-preview--stack) since Dropzone and Image grid differ
+   widely in width and don't read well side by side. Caption color follows the same
+   scrim-contrast fix as ButtonDoc.css's own .ds-variant-row--scrim .ds-variant-row__cell-label. */
+.ds-indicator-doc__upload-preview .ds-variant-row__cell-label {
+  color: var(--brand-neutral-0); /* brand/neutral/0 */
+}
+
+/* Highlight Indicator on hover, dim other areas — same sibling dim/focus convention as
+   ListDoc.css's .ds-list-example / BreadcrumbDoc.css's .ds-breadcrumb-example. Each
+   composition's non-indicator chrome (icon, copy, filled thumbnails, "Uploading..."
+   label, Dialog's title/description) is targeted directly by Upload's/Dialog's own
+   existing (unscoped) part classnames — those parts are already siblings of the
+   progress element inside each component's own markup, so dimming them by class,
+   rather than wrapping them in a new ancestor, doesn't get caught by CSS's opacity
+   compositing (a dimmed ancestor can't be "undone" by a descendant's own opacity). The
+   indicator part itself (the progress track/ring) gets a focus ring instead of staying
+   merely undimmed, so it's unambiguous which piece is Indicator. */
+.ds-indicator-example :is(
+  .ds-upload-dropzone__icon,
+  .ds-upload-dropzone__content,
+  .ds-upload-image-item--filled,
+  .ds-upload-image-item__label,
+  .ds-dialog__content
+) {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-indicator-example:hover :is(
+  .ds-upload-dropzone__icon,
+  .ds-upload-dropzone__content,
+  .ds-upload-image-item--filled,
+  .ds-upload-image-item__label,
+  .ds-dialog__content
+) {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-indicator-example :is(
+  .ds-upload-dropzone__progress,
+  .ds-upload-image-item__progress-track,
+  .ds-progress-ring
+) {
+  border-radius: var(--radius-full); /* radius/full */
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-indicator-example:hover :is(
+  .ds-upload-dropzone__progress,
+  .ds-upload-image-item__progress-track,
+  .ds-progress-ring
+) {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary — same focus-ring token as ListDoc.css's .ds-list-example__focus */
+}

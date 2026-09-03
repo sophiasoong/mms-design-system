@@ -18,7 +18,6 @@
      Table.css's own pre-existing .ds-datatable { width: 100% }. */
   width: 100%;
   border-radius: var(--radius-md); /* radius/md */
-  overflow: hidden;
   /* Unlike Action Panel/Modal (whose root owns the card's background — see
      ActionPanel.css/Modal.css), Form previously left this root transparent and let
      __header/__main each paint their own opaque white instead. That's invisible in the
@@ -29,6 +28,23 @@
      its own root's still-opaque background. Adding the background here too means white
      is now blending over white at any opacity, matching the other two components. */
   background: var(--surface-form-background-default);
+}
+
+/* Rounds whichever child sits at the top/bottom edge to match .ds-form's own
+   radius/md, instead of the `overflow: hidden` this used to carry — that clipped
+   __header/__main's square corners down to the parent's rounded ones, but it also
+   clipped the `infoTooltip` bubble (which intentionally renders above __header's own
+   box via `bottom: calc(100% + gap)`, escaping .ds-form entirely). :first-child/
+   :last-child (rather than hardcoding __header/__main) keeps this correct whether
+   showHeader is on or off, and when only one of the two is rendered. */
+.ds-form > *:first-child {
+  border-top-left-radius: var(--radius-md); /* radius/md */
+  border-top-right-radius: var(--radius-md); /* radius/md */
+}
+
+.ds-form > *:last-child {
+  border-bottom-left-radius: var(--radius-md); /* radius/md */
+  border-bottom-right-radius: var(--radius-md); /* radius/md */
 }
 
 .ds-form__header {
@@ -58,6 +74,43 @@
 .ds-form__tag {
   display: flex;
   align-items: center;
+}
+
+/* Opt-in hover/focus anchor for Form's `infoTooltip` prop — position:relative host for
+   the floating Tooltip below, mirrors Table.css's .ds-datatable__header-info-anchor. */
+.ds-form__info-anchor {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ds-form__info-tooltip {
+  position: absolute;
+  bottom: calc(100% + var(--space-component-gap-xs)); /* space/component/gap/xs, above the header (default) */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) ease;
+  z-index: 10; /* matches Table.css's freeze-shadow tier — see that file's note on raw z-index being an established, unflagged exception (no token exists) */
+  white-space: normal;
+}
+
+/* Opt-in modifier for Form's `infoTooltipPosition="bottom"` — flips the tooltip to
+   render below the header instead of above it. Paired with the inner Tooltip's own
+   `position="bottom"` prop (Form.tsx) so the arrow orientation matches (see
+   Tooltip.css's `.ds-tooltip--top .ds-tooltip__arrow` flip — bottom placement keeps
+   the base "points up" triangle, pointing back up at the header above it). */
+.ds-form__info-tooltip--bottom {
+  bottom: auto;
+  top: calc(100% + var(--space-component-gap-xs)); /* space/component/gap/xs, below the header */
+}
+
+.ds-form__info-anchor:hover .ds-form__info-tooltip,
+.ds-form__info-anchor:focus-visible .ds-form__info-tooltip {
+  opacity: 1;
+  visibility: visible;
 }
 
 .ds-form__main {

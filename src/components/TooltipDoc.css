@@ -1,0 +1,158 @@
+/* ---- Example: Form header composition — rich-text Textarea field, duplicated from
+   FormDoc.css's own .ds-richtext rules (Figma 789:56940) per this codebase's doc-CSS
+   convention of duplicating shared demo patterns into each doc page's own scoped
+   classes rather than importing another doc page's CSS file directly. ---- */
+.ds-richtext {
+  display: flex;
+  flex-direction: column;
+  border: var(--border-sm) solid var(--interactive-select-border-default); /* border/sm,
+    interactive/select/border/default — reused since no dedicated richtext/border token
+    exists in the raw source data and this is the same field-border treatment. */
+  border-radius: var(--radius-md); /* radius/md */
+  overflow: hidden;
+}
+
+.ds-richtext__toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  padding: var(--space-component-gap-sm) var(--space-component-gap-lg); /* space/component/gap/sm, space/component/gap/lg */
+  background: var(--brand-primary-50); /* flagged: no richtext/toolbar/background token
+    exists; brand/primary/50 (#f7f6ff) approximates the Figma toolbar tint. */
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light); /* border/sm, global/divider/neutral/light */
+}
+
+.ds-richtext__toolbar-select {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  padding: 0 var(--space-component-gap-sm); /* space/component/gap/sm */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  color: var(--text-body-primary-neutral); /* text/body/primary/neutral */
+}
+
+.ds-richtext__divider {
+  align-self: stretch;
+  width: var(--border-sm); /* border/sm */
+  background: var(--global-divider-neutral-light); /* global/divider/neutral/light */
+}
+
+.ds-richtext__spacer {
+  flex: 1 0 auto;
+}
+
+.ds-richtext__preview {
+  border: none;
+  background: none;
+  padding: 0 var(--space-component-gap-sm); /* space/component/gap/sm */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  color: var(--text-link-default); /* text/link/default */
+  cursor: pointer;
+}
+
+.ds-richtext__field.ds-textarea {
+  border: none;
+  border-radius: 0;
+}
+
+.ds-richtext__hint {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+  padding-top: var(--space-component-gap-xs); /* space/component/gap/xs */
+  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
+  line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
+}
+
+.ds-richtext__hint-count {
+  color: var(--text-helper-default); /* text/helper/default */
+}
+
+/* ---- Example: Table header tab — reserves headroom above AND left of the frame
+   so the SKU ID / Brand TableHeaderCell tooltips (which render above the header via
+   `bottom: calc(100% + gap)`, centered on their icon via `left: 50%; transform:
+   translateX(-50%)` — see Table.css) aren't clipped. Table.css's own
+   .ds-table-example__scroll sets `overflow-x: auto`, which per the CSS overflow
+   spec forces overflow-y to also compute as `auto` (there's no way to keep one axis
+   auto and the other visible) — so anything poking outside the frame on any edge
+   gets clipped by the box's own scrollport (the clip boundary is the padding box,
+   not the content box). Real (visible) padding on the affected edges reserves
+   clip-safe room for the tooltip inside that scrollport instead. Scoped to this
+   page via a second class alongside Table.css's shared one, rather than editing
+   that shared rule, since TableDoc's own Default instance has no tooltip and
+   doesn't need the gap. */
+.ds-tooltip-example__table-scroll {
+  padding-top: 60px; /* flagged: no token matches this tooltip-popup clearance value;
+    sized to the rendered Tooltip sm bubble height (~52px) plus space/component/gap/xs
+    (4px) above the header, with a small buffer. */
+  padding-left: 50px; /* flagged: no token matches this tooltip-popup clearance value;
+    SKU ID is the first (leftmost) column with a tooltip, and its centered bubble is
+    wide enough to overhang the frame's left edge by ~46px (measured) — this reserves
+    that much room plus a small buffer. Columns further right (e.g. Brand) don't need
+    it, but padding-left applies to the whole scrollport, not per-column. */
+}
+
+/* ---- Example: Chat function "Reference in Figma" link — duplicated from
+   ModalDoc.css's own .ds-modal-example__ref rule per doc-CSS-stays-scoped. ---- */
+.ds-tooltip-example__figma-ref {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  margin-top: var(--space-component-gap-sm); /* space/component/gap/sm */
+  color: var(--interactive-button-label-primary-ghost-default); /* interactive/button/label/primary/ghost/default */
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ds-tooltip-example__figma-ref:hover {
+  text-decoration: underline;
+}
+
+/* ---- Example: Chat function screenshot (Figma node 1889-114085) — sits inside the
+   standard .ds-preview padding/gap (same as the Table header / Form header tabs,
+   rather than a zero-padding fill-to-container override), so all three Example tabs
+   read consistently. ---- */
+.ds-tooltip-example__chat-frame {
+  position: relative;
+  overflow: hidden; /* clips the highlight's oversized box-shadow (below) to the frame */
+  border-radius: var(--radius-md); /* radius/md */
+}
+
+.ds-tooltip-example__chat-image {
+  width: 100%;
+  display: block;
+}
+
+/* Spotlight callout on the Support Chat button + tooltip (Figma node 1889:117870,
+   x=243 y=981 w=114 h=49 within the 1920x1080 frame) — an oversized box-shadow on a
+   small transparent "window" positioned over that region dims everything outside it
+   while leaving the button/tooltip at full brightness. Coordinates are percentages of
+   the frame so the highlight tracks the image at any rendered size. The dim itself
+   uses white + opacity/40 (::before below) — the same wash-toward-light idiom every
+   other doc page's Example section uses for its hover-dim (e.g. AssetsDoc.css,
+   ListDoc.css, MessageDoc.css), rather than the near-black global/overlay/dark scrim
+   used for Overview's static-screenshot dimming (ButtonDoc.css's .ds-sidebar-usage,
+   TopbarDoc.css's .ds-topbar-usage__highlight) — kept separate from the outline below
+   so opacity only fades the dim layer, not the callout border itself. */
+.ds-tooltip-example__chat-highlight {
+  position: absolute;
+  left: 12%;
+  top: 89%;
+  width: 7.5%;
+  height: 11%;
+  border-radius: var(--radius-sm); /* radius/sm */
+  outline: var(--border-md) solid var(--brand-primary-400); /* border/md, brand/primary/400 —
+    marks the callout explicitly rather than relying on brightness contrast alone. */
+  pointer-events: none;
+}
+
+.ds-tooltip-example__chat-highlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 999px var(--brand-neutral-0); /* brand/neutral/0 */
+  opacity: var(--opacity-40); /* opacity/40 */
+}

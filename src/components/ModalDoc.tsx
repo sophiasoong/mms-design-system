@@ -107,6 +107,40 @@ const EXAMPLE_TABLE_ROWS = [
   { sku: 'SKU-1010', name: 'Wireless Mouse', category: 'Electronics', price: '$29.00', stock: 150 },
 ];
 
+/** Overview's default demo, Anatomy's Body part, and Variants' own "Upload" tab all show
+ * this exact three-step "Upload Products" body (mirrors the Upload doc's own Overview demo
+ * pixel-for-pixel — same step-title/body/detail/danger classes from UploadDoc.css) — shared
+ * here once instead of tripling the same markup across the three sections. */
+function ModalUploadStepsBody() {
+  return (
+    <div className="ds-upload-doc__steps">
+      <div className="ds-upload-doc__step">
+        <p className="ds-upload-doc__step-title">
+          1. Download Template File or Upload Batch File
+        </p>
+        <div className="ds-upload-doc__step-body">
+          <Button>Download Template</Button>
+        </div>
+      </div>
+      <div className="ds-upload-doc__step">
+        <p className="ds-upload-doc__step-title">2. Add your data to template file</p>
+        <div className="ds-upload-doc__step-body ds-upload-doc__step-detail">
+          <p>If using Excel, make sure to export or save as .xls or xlsx</p>
+          <p className="ds-upload-doc__step-danger">
+            Reminder: Do not modify template title fields, or error may occur
+          </p>
+        </div>
+      </div>
+      <div className="ds-upload-doc__step">
+        <p className="ds-upload-doc__step-title">3. Upload Batch File</p>
+        <div className="ds-upload-doc__step-body">
+          <Upload style="dropzone" showFileList={false} className="ds-upload-doc__step-upload" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface ModalDocProps {
   onNavigate?: (componentId: string) => void;
 }
@@ -151,15 +185,13 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
       <section id="overview" className="ds-section">
         <h2 className="ds-section__title">Overview</h2>
         <p className="ds-section__desc">
-          The default Modal: a title with a close action, a scrollable body, and a Footer of
-          Back / Confirm actions.
+          The default Modal, shown here with the Upload composition from Variants below: a
+          title with a close action, a scrollable body, and a Footer of Cancel / Confirm
+          actions.
         </p>
         <div className="ds-preview ds-preview--scrim">
-          <Modal title="Edit tier details">
-            <p className="ds-modal-doc__placeholder-text">
-              Modal body content — forms, tables, or any other content — scrolls independently
-              of the fixed Header and Footer.
-            </p>
+          <Modal size="sm" title="Upload Products" showInfo showLeading={false} secondaryLabel="Cancel">
+            <ModalUploadStepsBody />
           </Modal>
         </div>
       </section>
@@ -174,17 +206,17 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
         </p>
         <div className="ds-anatomy">
           <div className="ds-anatomy__figure ds-preview--scrim ds-modal-anatomy">
-            <div className="ds-modal ds-modal--md ds-anatomy__demo" aria-hidden="true">
+            <div className="ds-modal ds-modal--sm ds-anatomy__demo" aria-hidden="true">
               <div className="ds-anatomy__part-relative">
-                <Header style="modal" title="Title" showInfo />
+                <Header style="modal" title="Upload Products" showInfo />
                 <span className="ds-anatomy__badge ds-anatomy__badge--side-left">1</span>
               </div>
               <div className="ds-modal__body ds-anatomy__part-relative">
-                <p className="ds-modal-doc__placeholder-text">Body content</p>
+                <ModalUploadStepsBody />
                 <span className="ds-anatomy__badge ds-anatomy__badge--side-left">2</span>
               </div>
               <div className="ds-anatomy__part-relative">
-                <Footer size="lg" style="divider" />
+                <Footer size="lg" style="divider" showLeading={false} secondaryLabel="Cancel" />
                 <span className="ds-anatomy__badge ds-anatomy__badge--side-left">3</span>
               </div>
             </div>
@@ -260,38 +292,9 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
                       detail/danger classes from UploadDoc.css) — Modal's sm width (432px) was
                       already an exact match for that demo's card width, so this modal is the
                       same upload flow, just staged inside a Modal's chrome instead of a
-                      standalone card. */}
-                  {activeExampleId === 'upload' && (
-                    <div className="ds-upload-doc__steps">
-                      <div className="ds-upload-doc__step">
-                        <p className="ds-upload-doc__step-title">
-                          1. Download Template File or Upload Batch File
-                        </p>
-                        <div className="ds-upload-doc__step-body">
-                          <Button>Download Template</Button>
-                        </div>
-                      </div>
-                      <div className="ds-upload-doc__step">
-                        <p className="ds-upload-doc__step-title">2. Add your data to template file</p>
-                        <div className="ds-upload-doc__step-body ds-upload-doc__step-detail">
-                          <p>If using Excel, make sure to export or save as .xls or xlsx</p>
-                          <p className="ds-upload-doc__step-danger">
-                            Reminder: Do not modify template title fields, or error may occur
-                          </p>
-                        </div>
-                      </div>
-                      <div className="ds-upload-doc__step">
-                        <p className="ds-upload-doc__step-title">3. Upload Batch File</p>
-                        <div className="ds-upload-doc__step-body">
-                          <Upload
-                            style="dropzone"
-                            showFileList={false}
-                            className="ds-upload-doc__step-upload"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                      standalone card. Shared with Overview's and Anatomy's own instances of
+                      this same composition via ModalUploadStepsBody, above. */}
+                  {activeExampleId === 'upload' && <ModalUploadStepsBody />}
 
                   {activeExampleId === 'audit-record' && (
                     <div className="ds-modal-example__grid">

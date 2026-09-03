@@ -367,36 +367,42 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
                   </Breadcrumb>
                   <h4 className="ds-step-example-form__title">Create Bundle Set</h4>
                 </div>
-                <Step
-                  className="ds-step-example-form__focus"
-                  orientation="horizontal"
-                  items={[
-                    { title: 'Select Basic Type', status: 'finished', stepNumber: 1 },
-                    { title: 'Select SKU to Bundle', status: 'current', stepNumber: 2 },
-                    { title: 'Input Bundle Information', status: 'default', stepNumber: 3 },
-                  ]}
-                />
-                <div className="ds-step-example-form__grid ds-step-example-form__dim">
-                  <ActionPanelField label="Merchant Name">
-                    <Select placeholder="Please select" size="lg" />
-                  </ActionPanelField>
-                  <ActionPanelField label="Store *">
-                    <Select label="Store 001" size="lg" />
-                  </ActionPanelField>
-                  <ActionPanelField label="Product Ready Method *">
-                    <Select label="3PL" size="lg" state="disabled" />
-                  </ActionPanelField>
-                  <ActionPanelField label="Storage Type *">
-                    <Select label="Ambient & Air-con" size="lg" state="disabled" />
-                  </ActionPanelField>
+                <div className="ds-step-example-form__step-card">
+                  <Step
+                    className="ds-step-example-form__focus"
+                    orientation="horizontal"
+                    items={[
+                      { title: 'Select Basic Type', status: 'finished', stepNumber: 1 },
+                      { title: 'Select SKU to Bundle', status: 'current', stepNumber: 2 },
+                      { title: 'Input Bundle Information', status: 'default', stepNumber: 3 },
+                    ]}
+                  />
                 </div>
-                <div className="ds-step-example-form__footer ds-step-example-form__dim">
-                  <Button variant="secondary" appearance="outline" size="md">
-                    Cancel
-                  </Button>
-                  <Button variant="primary" appearance="solid" size="md">
-                    Next
-                  </Button>
+                <div className="ds-step-example-form__main">
+                  <div className="ds-step-example-form__form-card ds-step-example-form__dim">
+                    <div className="ds-step-example-form__grid">
+                      <ActionPanelField label="Merchant Name">
+                        <Select placeholder="Please select" size="lg" />
+                      </ActionPanelField>
+                      <ActionPanelField label="Store" required>
+                        <Select label="Store 001" size="lg" />
+                      </ActionPanelField>
+                      <ActionPanelField label="Product Ready Method" required>
+                        <Select label="3PL" size="lg" state="disabled" />
+                      </ActionPanelField>
+                      <ActionPanelField label="Storage Type" required>
+                        <Select label="Ambient & Air-con" size="lg" state="disabled" />
+                      </ActionPanelField>
+                    </div>
+                  </div>
+                  <div className="ds-step-example-form__footer ds-step-example-form__dim">
+                    <Button variant="primary" appearance="outline" size="md">
+                      Cancel
+                    </Button>
+                    <Button variant="primary" appearance="solid" size="md">
+                      Next
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>

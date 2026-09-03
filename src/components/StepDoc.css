@@ -25,20 +25,27 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* Example subsection — "Form page" tab. Figma node 1872:105873: a horizontal Step
-   sitting atop a 2-column form (Merchant Name / Store, Product Ready Method / Storage
-   Type) with a Cancel/Next footer. Same dim/focus convention as the Modal tab above —
-   own scoped classes since Doc-CSS-stays-scoped (see StepDoc.tsx's Example subsection
-   comment / project convention). */
+/* Example subsection — "Form page" tab. Figma node 1872:105877: breadcrumb+title
+   sitting directly on a light gray page canvas, with the horizontal Step, the
+   2-column form grid (Merchant Name / Store, Product Ready Method / Storage Type),
+   and the Cancel/Next footer each framed as their own white card — not one shared
+   card like this tab used to render. Same dim/focus convention as the Modal tab
+   above — own scoped classes since Doc-CSS-stays-scoped (see StepDoc.tsx's Example
+   subsection comment / project convention). */
 .ds-step-example-form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--space-component-gap-lg);
-  background: var(--global-background-surface); /* global/background/surface — page canvas
-  reads white against the .ds-preview--scrim gray, matching the Modal tab's own card. */
+  gap: var(--space-layout-section-gap-lg); /* space/layout/section/gap/lg — Figma's
+  outer gap between the header/step/form sections */
+  background: var(--global-background-page); /* global/background/page — light gray
+  page canvas per Figma, behind the header and the three white section cards. */
   border-radius: var(--radius-md);
-  padding: var(--space-layout-section-padding-sm);
+  /* Figma's outer frame is pt-none, px-lg, pb-lg, but its header row carries its
+  own extra pt-md on top of that — flattened into one top padding here since
+  nothing else sits between the container edge and the header. */
+  padding: var(--space-layout-section-padding-md) var(--space-layout-section-padding-lg)
+    var(--space-layout-section-padding-lg);
   box-sizing: border-box;
 }
 
@@ -57,16 +64,52 @@
   color: var(--text-heading-primary-neutral);
 }
 
+/* Figma node 1881:112107 "Step" — the horizontal Step gets its own white card,
+   separate from the form/footer sections below it. */
+.ds-step-example-form__step-card {
+  background: var(--global-background-surface); /* global/background/surface */
+  border-radius: var(--radius-md);
+  padding: var(--space-layout-section-padding-sm) var(--space-layout-section-padding-md); /* py-16 px-24, Figma's Step node padding */
+  box-sizing: border-box;
+}
+
+/* Figma node 1872:105881 "Form" — groups the form-grid card and the footer
+   card into one column, gapped the same as the outer sections. */
+.ds-step-example-form__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-lg); /* space/layout/section/gap/lg */
+  width: 100%;
+}
+
+/* Figma node 1872:105884 "Form" — the Merchant Name/Store/Product Ready Method/
+   Storage Type grid, now its own white card instead of sharing the outer
+   container's background. */
+.ds-step-example-form__form-card {
+  background: var(--global-background-surface); /* global/background/surface */
+  border-radius: var(--radius-md);
+  padding: var(--space-layout-section-padding-md); /* space/layout/section/padding/md */
+  box-sizing: border-box;
+}
+
 .ds-step-example-form__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-component-gap-lg);
 }
 
+/* Figma node 1872:105971 "Footer" — its own 64px-tall white card at the bottom
+   of the Form column, no longer sharing the outer container's card either. */
 .ds-step-example-form__footer {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
-  gap: var(--space-component-gap-sm);
+  gap: var(--space-component-gap-md); /* space/component/gap/md — Figma's footer button gap */
+  height: var(--component-height-3xl); /* component/height/3xl, 64px */
+  background: var(--global-background-surface); /* global/background/surface */
+  border-radius: var(--radius-md);
+  padding: var(--space-component-padding-lg); /* space/component/padding/lg */
+  box-sizing: border-box;
 }
 
 .ds-step-example-form__dim {

@@ -85,11 +85,19 @@
 }
 
 .ds-action-panel__field-label {
+  display: inline-flex; /* same convention as Form.css's .ds-form-field__label — gaps the
+  label text from the required asterisk instead of them sitting flush */
+  align-items: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
   font-family: var(--typography-font-family-body); /* typography/font/family/body */
   font-weight: var(--typography-font-weight-regular); /* typography/font/weight/regular */
   font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
   line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
   color: var(--text-body-secondary-neutral); /* text/body/secondary/neutral (exact hex match for Figma's text/label/primary, #5c5c5c) */
+}
+
+.ds-action-panel__field-required {
+  color: var(--text-required-default); /* text/required/default */
 }
 
 .ds-action-panel__field-value {
