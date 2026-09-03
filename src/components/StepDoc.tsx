@@ -1,8 +1,14 @@
 import { useState } from 'react';
 import { Step, type StepItemData } from './Step';
 import Modal from './Modal';
-import { ActionPanelField } from './ActionPanel';
+import ActionPanel, { ActionPanelField } from './ActionPanel';
 import { Input } from './Input';
+import { Select } from './Select';
+import { Searchbar } from './Searchbar';
+import Button from './Button';
+import Pagination from './Pagination';
+import Breadcrumb, { BreadcrumbItem, BreadcrumbSeparator } from './Breadcrumb';
+import { LineTabItem } from './Tab';
 import { Table, TableHeader, TableHeaderCell, TableRow, TableCell } from './Table';
 import { ListIcon } from './icons';
 import './ButtonDoc.css';
@@ -12,11 +18,53 @@ import './StepDoc.css';
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=680-5825';
 
-const EXAMPLE_FIGMA_URL =
-  'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=789-30169&t=ZupQf9myTWU8iKm1-11';
+const EXAMPLE_TABS = ['Modal', 'Form page', 'Overview page'] as const;
+type ExampleTab = (typeof EXAMPLE_TABS)[number];
+
+const EXAMPLE_FIGMA_URL: Record<ExampleTab, string> = {
+  Modal:
+    'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=789-30169&t=ZupQf9myTWU8iKm1-11',
+  'Form page':
+    'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=1872-105873&t=XQ7d668OTvMu5ODh-11',
+  'Overview page':
+    'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=1872-105586&t=XQ7d668OTvMu5ODh-11',
+};
 
 const STYLE_TABS = ['Horizontal', 'Vertical'] as const;
 type StyleTab = (typeof STYLE_TABS)[number];
+
+/* ActionPanel's Main slot is a fixed 244px (see ActionPanel.css) — narrower than the
+   Vertical style demo's 360px, so unlike VERTICAL_ITEMS above, the timestamp rides in
+   `description` rather than `caption`: a title-row caption sits inline with the title
+   and wraps badly once both a 2-word title (e.g. "Pending Approval") and a full
+   timestamp compete for that width, while `description` wraps freely on its own line. */
+const WORKFLOW_STATUS_ITEMS: StepItemData[] = [
+  {
+    title: 'Start',
+    status: 'finished',
+    description: 'YYYY-MM-DD HH:MM:SS · RML ID_0123456789',
+  },
+  {
+    title: 'Pending Approval',
+    status: 'current',
+    description: 'YYYY-MM-DD HH:MM:SS',
+  },
+  {
+    title: 'Payment',
+    status: 'default',
+    description: 'YYYY-MM-DD HH:MM:SS · Invoice No.',
+  },
+  {
+    title: 'Acknowledge',
+    status: 'default',
+    description: 'YYYY-MM-DD HH:MM:SS',
+  },
+  {
+    title: 'Completed',
+    status: 'default',
+    description: 'YYYY-MM-DD HH:MM:SS',
+  },
+];
 
 const OVERVIEW_ITEMS: StepItemData[] = [
   { title: 'Account', status: 'finished' },
@@ -69,6 +117,7 @@ interface StepDocProps {
 
 export default function StepDoc({ onNavigate }: StepDocProps) {
   const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Horizontal');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Modal');
 
   return (
     <div className="ds-doc">
@@ -220,11 +269,11 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
         <div id="example" className="ds-section__subsection">
           <h3 className="ds-section__subtitle">Example</h3>
           <p className="ds-section__desc">
-            Step's most common home is a multi-step Modal flow — here it tracks an Add Product
-            form across Basic Info, Pricing, and Review.{' '}
+            Step shows up wherever a flow spans more than one screen — a multi-step Modal, a
+            full-page form, or a record's side-panel Workflow Status.{' '}
             <a
               className="ds-modal-example__ref"
-              href={EXAMPLE_FIGMA_URL}
+              href={EXAMPLE_FIGMA_URL[activeExampleTab]}
               target="_blank"
               rel="noreferrer"
             >
@@ -235,56 +284,232 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
             </a>
           </p>
 
-          <div className="ds-preview ds-preview--scrim ds-preview--scroll">
-            <div
-              className="ds-step-example"
-              style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
-            >
-              <Modal size="xl" title="Add Product" showInfo secondaryLabel="Cancel">
-                <div className="ds-modal-example__step-wrap">
-                  <Step
-                    className="ds-step-example__focus"
-                    orientation="horizontal"
-                    items={[
-                      { title: 'Basic Info', status: 'finished', stepNumber: 1 },
-                      { title: 'Pricing', status: 'current', stepNumber: 2 },
-                      { title: 'Review', status: 'default', stepNumber: 3 },
-                    ]}
-                  />
-                  <div className="ds-modal-example__form-grid ds-modal-example__form-grid--price ds-step-example__dim">
-                    <ActionPanelField label="Original Price">
-                      <Input placeholder="0.00" size="lg" type="number" />
-                    </ActionPanelField>
-                    <ActionPanelField label="Selling Price">
-                      <Input placeholder="0.00" size="lg" type="number" />
-                    </ActionPanelField>
-                  </div>
-                  <Table size="md" className="ds-modal-example__step-table ds-step-example__dim">
-                    <TableHeader>
-                      <TableHeaderCell>Tier</TableHeaderCell>
-                      <TableHeaderCell>Min Quantity</TableHeaderCell>
-                      <TableHeaderCell>Price</TableHeaderCell>
-                    </TableHeader>
-                    <TableRow>
-                      <TableCell>Tier 1</TableCell>
-                      <TableCell>1</TableCell>
-                      <TableCell>$49.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Tier 2</TableCell>
-                      <TableCell>50</TableCell>
-                      <TableCell>$45.00</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Tier 3</TableCell>
-                      <TableCell>200</TableCell>
-                      <TableCell>$40.00</TableCell>
-                    </TableRow>
-                  </Table>
-                </div>
-              </Modal>
-            </div>
+          <div className="ds-line-tabs" role="tablist" aria-label="Step example variants">
+            {EXAMPLE_TABS.map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activeExampleTab === tab}
+                className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
+                onClick={() => setActiveExampleTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
           </div>
+
+          {activeExampleTab === 'Modal' && (
+            <div className="ds-preview ds-preview--scrim ds-preview--scroll">
+              <div
+                className="ds-step-example"
+                style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+              >
+                <Modal size="xl" title="Add Product" showInfo secondaryLabel="Cancel">
+                  <div className="ds-modal-example__step-wrap">
+                    <Step
+                      className="ds-step-example__focus"
+                      orientation="horizontal"
+                      items={[
+                        { title: 'Basic Info', status: 'finished', stepNumber: 1 },
+                        { title: 'Pricing', status: 'current', stepNumber: 2 },
+                        { title: 'Review', status: 'default', stepNumber: 3 },
+                      ]}
+                    />
+                    <div className="ds-modal-example__form-grid ds-modal-example__form-grid--price ds-step-example__dim">
+                      <ActionPanelField label="Original Price">
+                        <Input placeholder="0.00" size="lg" type="number" />
+                      </ActionPanelField>
+                      <ActionPanelField label="Selling Price">
+                        <Input placeholder="0.00" size="lg" type="number" />
+                      </ActionPanelField>
+                    </div>
+                    <Table size="md" className="ds-modal-example__step-table ds-step-example__dim">
+                      <TableHeader>
+                        <TableHeaderCell>Tier</TableHeaderCell>
+                        <TableHeaderCell>Min Quantity</TableHeaderCell>
+                        <TableHeaderCell>Price</TableHeaderCell>
+                      </TableHeader>
+                      <TableRow>
+                        <TableCell>Tier 1</TableCell>
+                        <TableCell>1</TableCell>
+                        <TableCell>$49.00</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Tier 2</TableCell>
+                        <TableCell>50</TableCell>
+                        <TableCell>$45.00</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Tier 3</TableCell>
+                        <TableCell>200</TableCell>
+                        <TableCell>$40.00</TableCell>
+                      </TableRow>
+                    </Table>
+                  </div>
+                </Modal>
+              </div>
+            </div>
+          )}
+
+          {activeExampleTab === 'Form page' && (
+            <div className="ds-preview ds-preview--scrim ds-preview--scroll">
+              <div className="ds-step-example-form">
+                <div className="ds-step-example-form__header ds-step-example-form__dim">
+                  <Breadcrumb>
+                    <BreadcrumbItem label="Home" />
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem label="Order Management" />
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem label="Order Overview" />
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem label="Order Detail" state="active" />
+                  </Breadcrumb>
+                  <h4 className="ds-step-example-form__title">Create Bundle Set</h4>
+                </div>
+                <Step
+                  className="ds-step-example-form__focus"
+                  orientation="horizontal"
+                  items={[
+                    { title: 'Select Basic Type', status: 'finished', stepNumber: 1 },
+                    { title: 'Select SKU to Bundle', status: 'current', stepNumber: 2 },
+                    { title: 'Input Bundle Information', status: 'default', stepNumber: 3 },
+                  ]}
+                />
+                <div className="ds-step-example-form__grid ds-step-example-form__dim">
+                  <ActionPanelField label="Merchant Name">
+                    <Select placeholder="Please select" size="lg" />
+                  </ActionPanelField>
+                  <ActionPanelField label="Store *">
+                    <Select label="Store 001" size="lg" />
+                  </ActionPanelField>
+                  <ActionPanelField label="Product Ready Method *">
+                    <Select label="3PL" size="lg" state="disabled" />
+                  </ActionPanelField>
+                  <ActionPanelField label="Storage Type *">
+                    <Select label="Ambient & Air-con" size="lg" state="disabled" />
+                  </ActionPanelField>
+                </div>
+                <div className="ds-step-example-form__footer ds-step-example-form__dim">
+                  <Button variant="secondary" appearance="outline" size="md">
+                    Cancel
+                  </Button>
+                  <Button variant="primary" appearance="solid" size="md">
+                    Next
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeExampleTab === 'Overview page' && (
+            <div className="ds-preview ds-preview--scrim ds-preview--scroll">
+              <div className="ds-step-example-overview">
+                <div className="ds-step-example-overview__body">
+                  <div className="ds-step-example-overview__panel ds-step-example-overview__dim">
+                    <div
+                      className="ds-line-tabs"
+                      role="tablist"
+                      aria-label="Overview page tabs"
+                    >
+                      <LineTabItem label="Basic Information" />
+                      <LineTabItem label="Product Terms" state="active" />
+                      <LineTabItem label="Document Center" />
+                    </div>
+                    <div className="ds-step-example-overview__main">
+                      <div className="ds-step-example-overview__toolbar">
+                        <div className="ds-step-example-overview__search-wrap">
+                          <Searchbar
+                            scopeLabel="Category Code"
+                            placeholder="Search Category Code"
+                            size="md"
+                          />
+                        </div>
+                        <Button variant="primary" appearance="ghost" size="sm">
+                          Clear All
+                        </Button>
+                      </div>
+                      <div className="ds-step-example-overview__results-row">
+                        <p className="ds-step-example-overview__results">6 of 265 results</p>
+                        <Button variant="primary" appearance="outline" size="sm">
+                          View Edit History
+                        </Button>
+                      </div>
+                      {/* Figma's Table instance (1872:105831) carries 10 visible columns —
+                          Product Ready Method through Tier 2 Threshold — and 12 rows that fill
+                          the container's full height; row values are the design's own
+                          placeholder data (WWWWWWWWWW / 000.00 masks), repeated identically
+                          per row same as Figma. Product Ready Method renders as the "Text-button"
+                          cell recipe (Table.css's .ds-datatable__cell-link) since Figma styles it
+                          as an underlined link, not plain text. */}
+                      <div className="ds-step-example-overview__table-scroll">
+                        <Table size="sm">
+                          <TableHeader>
+                            <TableHeaderCell>Product Ready Method</TableHeaderCell>
+                            <TableHeaderCell>Category Code</TableHeaderCell>
+                            <TableHeaderCell>Category Name</TableHeaderCell>
+                            <TableHeaderCell>Brand Code</TableHeaderCell>
+                            <TableHeaderCell>Brand Name</TableHeaderCell>
+                            <TableHeaderCell>SKU ID</TableHeaderCell>
+                            <TableHeaderCell align="right">Commission Rate %</TableHeaderCell>
+                            <TableHeaderCell align="right">Tier 1 Threshold</TableHeaderCell>
+                            <TableHeaderCell align="right">Tier 1 Comm. Rate</TableHeaderCell>
+                            <TableHeaderCell align="right">Tier 2 Threshold</TableHeaderCell>
+                          </TableHeader>
+                          {Array.from({ length: 12 }, (_, i) => (
+                            <TableRow key={i}>
+                              <TableCell>
+                                <button type="button" className="ds-datatable__cell-link">
+                                  Merchant Delivery
+                                </button>
+                              </TableCell>
+                              <TableCell>0123456789</TableCell>
+                              <TableCell>WWWWWWWWWW</TableCell>
+                              <TableCell>HKTV_S0000013</TableCell>
+                              <TableCell>WWWWWWWWWW</TableCell>
+                              <TableCell>C0044001_S_25092</TableCell>
+                              <TableCell align="right">00.00</TableCell>
+                              <TableCell align="right">000.00</TableCell>
+                              <TableCell align="right">000.00</TableCell>
+                              <TableCell align="right">000.00</TableCell>
+                            </TableRow>
+                          ))}
+                        </Table>
+                      </div>
+                      <Pagination
+                        currentPage={3}
+                        totalPages={27}
+                        size="sm"
+                        pageSizeLabel="10 / page"
+                      />
+                    </div>
+                  </div>
+                  <div className="ds-step-example-overview__side">
+                    <ActionPanel
+                      title="Action"
+                      className="ds-step-example-overview__dim"
+                      main={
+                        <Button variant="primary" appearance="outline" size="md">
+                          Audit History
+                        </Button>
+                      }
+                    />
+                    <ActionPanel
+                      title="Workflow Status"
+                      className="ds-step-example-overview__workflow-panel"
+                      main={
+                        <Step
+                          className="ds-step-example-overview__focus"
+                          orientation="vertical"
+                          items={WORKFLOW_STATUS_ITEMS}
+                        />
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

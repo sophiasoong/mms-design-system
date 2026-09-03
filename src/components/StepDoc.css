@@ -23,3 +23,214 @@
 .ds-step-example:hover .ds-step-example__focus {
   box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
 }
+
+/* ------------------------------------------------------------------ */
+/* Example subsection — "Form page" tab. Figma node 1872:105873: a horizontal Step
+   sitting atop a 2-column form (Merchant Name / Store, Product Ready Method / Storage
+   Type) with a Cancel/Next footer. Same dim/focus convention as the Modal tab above —
+   own scoped classes since Doc-CSS-stays-scoped (see StepDoc.tsx's Example subsection
+   comment / project convention). */
+.ds-step-example-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-lg);
+  background: var(--global-background-surface); /* global/background/surface — page canvas
+  reads white against the .ds-preview--scrim gray, matching the Modal tab's own card. */
+  border-radius: var(--radius-md);
+  padding: var(--space-layout-section-padding-sm);
+  box-sizing: border-box;
+}
+
+.ds-step-example-form__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-xs);
+}
+
+.ds-step-example-form__title {
+  margin: 0;
+  font-family: var(--typography-font-family-heading);
+  font-size: var(--typography-xl-font-size);
+  line-height: var(--typography-xl-line-height);
+  font-weight: var(--typography-font-weight-bold);
+  color: var(--text-heading-primary-neutral);
+}
+
+.ds-step-example-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-component-gap-lg);
+}
+
+.ds-step-example-form__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-step-example-form__dim {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-step-example-form:hover .ds-step-example-form__dim {
+  opacity: var(--opacity-40);
+}
+
+.ds-step-example-form__focus {
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-step-example-form:hover .ds-step-example-form__focus {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}
+
+/* ------------------------------------------------------------------ */
+/* Example subsection — "Overview page" tab. Figma node 1872:105586: a record page
+   (back-link + title + line tabs + toolbar + data table + pagination) with a right
+   column of an Action panel stacked above a Workflow Status panel containing a
+   vertical Step (see 1872:109152 for that Step's real item copy). Same dim/focus
+   convention, own scoped classes. */
+.ds-step-example-overview {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-lg);
+  background: var(--global-background-page); /* global/background/page — light gray instance
+  background, per request, instead of the white surface .ds-step-example-form still uses. */
+  border-radius: var(--radius-md);
+  padding: var(--space-layout-section-padding-sm);
+  box-sizing: border-box;
+}
+
+.ds-step-example-overview__body {
+  display: flex;
+  align-items: stretch; /* panel fills the row's full height instead of hugging its own
+  content, so its white card matches the side column's height rather than falling short. */
+  gap: var(--space-component-gap-lg);
+}
+
+/* Groups the line tabs + toolbar/table/pagination into one white "panel" card,
+   matching Figma's left-column framing — distinct from the gray page canvas
+   behind it and from the separate Action/Workflow Status side panel. */
+.ds-step-example-overview__panel {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-lg);
+  background: var(--global-background-surface); /* global/background/surface */
+  border-radius: var(--radius-md);
+  padding: var(--space-layout-section-padding-sm);
+  box-sizing: border-box;
+}
+
+.ds-step-example-overview__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-lg);
+}
+
+.ds-step-example-overview__toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm);
+}
+
+/* Sizes the Searchbar within the toolbar row — Searchbar itself is width:100%,
+   so it needs an explicit fixed width here, matching TableDoc's own
+   .ds-table-toolbar__search-wrap (Table.css: width: 320px). */
+.ds-step-example-overview__search-wrap {
+  position: relative;
+  width: 320px;
+  flex: 0 0 320px;
+}
+
+/* Figma's "Results + Btn" row: result count on the left, View Edit History
+   pinned right — a separate row below the toolbar, not part of it. */
+.ds-step-example-overview__results-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-component-gap-sm);
+}
+
+.ds-step-example-overview__results {
+  margin: 0;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-sm-font-size);
+  line-height: var(--typography-sm-line-height);
+  color: var(--text-body-secondary-neutral);
+}
+
+/* Figma's Table instance carries 10 columns, wider than this demo's column —
+   Table renders a bare <table> with no wrapper of its own, so scroll it
+   horizontally inside this scoped wrapper rather than forcing the whole page
+   to overflow. Bleeds edge-to-edge within .ds-step-example-overview__panel — the
+   Table section alone drops the panel's left/right padding (per request), unlike
+   the toolbar/results-row/pagination which keep it. */
+.ds-step-example-overview__table-scroll {
+  /* explicit width (not max-width: 100%, which would clamp the box back to __main's
+     own width and cancel the negative margin's right-edge bleed) so the box actually
+     grows past __main's edges by the panel's padding on both sides. */
+  width: calc(100% + var(--space-layout-section-padding-sm) * 2);
+  overflow-x: auto;
+  margin-inline: calc(var(--space-layout-section-padding-sm) * -1);
+  /* Firefox: white track (not --global-scrollbar-track-default, which is transparent)
+     so the horizontal scrollbar strip reads as part of the white panel per request,
+     not the browser's own default gray track. */
+  scrollbar-color: var(--global-scrollbar-thumb-default) var(--global-background-surface);
+}
+
+.ds-step-example-overview__table-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.ds-step-example-overview__table-scroll::-webkit-scrollbar-track {
+  background: var(--global-background-surface); /* global/background/surface */
+}
+
+.ds-step-example-overview__table-scroll::-webkit-scrollbar-thumb {
+  background: var(--global-scrollbar-thumb-default); /* global/scrollbar/thumb/default */
+  border-radius: var(--radius-md);
+}
+
+/* Figma specifies 244px for this column with no matching --component-width-* token
+   (those are all for dropdown/modal/tooltip) — flagged raw value, same convention as
+   Card.css's flagged 300px card width. */
+.ds-step-example-overview__side {
+  flex: 0 0 244px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-lg);
+}
+
+.ds-step-example-overview__dim {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-step-example-overview:hover .ds-step-example-overview__dim {
+  opacity: var(--opacity-40);
+}
+
+/* The Workflow Status ActionPanel's own header (title + info icon) isn't exposed as
+   separate JSX we can wrap (ActionPanel is self-contained, same reasoning as Modal's
+   Header/Footer above) — dim it via a structural selector and leave __main (the Step
+   itself) alone. */
+.ds-step-example-overview__workflow-panel .ds-action-panel__header {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-step-example-overview:hover .ds-step-example-overview__workflow-panel .ds-action-panel__header {
+  opacity: var(--opacity-40);
+}
+
+.ds-step-example-overview__focus {
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-step-example-overview:hover .ds-step-example-overview__focus {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+}

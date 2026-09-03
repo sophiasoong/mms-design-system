@@ -71,6 +71,14 @@
   font-weight: var(--typography-font-weight-bold);
   color: var(--text-heading-primary-neutral);
   text-align: center;
+  /* Reserves 2 lines so a longer title (e.g. "Based on sales within 1 month") doesn't
+     push its own price/divider/list further down than a sibling card whose title only
+     wraps to 1 line — keeps every card's price/divider/list row aligned when several
+     Cards sit side by side (see CardDoc's Overview 3-card stack). */
+  min-height: calc(var(--typography-xl-line-height) * 2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ds-card__price {

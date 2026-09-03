@@ -80,7 +80,7 @@ export default function BreadcrumbDoc({ onNavigate: _onNavigate }: BreadcrumbDoc
               </span>
               <span className="ds-anatomy__part-relative">
                 <BreadcrumbSeparator />
-                <span className="ds-anatomy__badge ds-anatomy__badge--side">2</span>
+                <span className="ds-anatomy__badge">2</span>
               </span>
               <BreadcrumbEllipsis />
               <BreadcrumbSeparator />
