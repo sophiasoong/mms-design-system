@@ -2,12 +2,15 @@ import { useState } from 'react';
 import Toast, { type ToastState } from './Toast';
 import Button from './Button';
 import IconButton from './IconButton';
+import AppTopbar from './AppTopbar';
 import { ButtonIcon, IconButtonIcon, FormIcon } from './icons';
 import './ButtonDoc.css';
 import './ToastDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=174-28283';
+const EXAMPLE_FIGMA_URL =
+  'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=1907-132768';
 
 const VARIANT_TABS = ['Success', 'Info', 'Warning', 'Danger'] as const;
 type VariantTab = (typeof VARIANT_TABS)[number];
@@ -19,8 +22,30 @@ const STATE_BY_TAB: Record<VariantTab, ToastState> = {
   Danger: 'danger',
 };
 
-const EXAMPLE_TABS = ['Order placed', 'Storage almost full', 'Sync failed'] as const;
-type ExampleTab = (typeof EXAMPLE_TABS)[number];
+/** Per-state copy for the Style row below — one realistic title/description/button per
+    state instead of Toast's own generic "Title"/"Description"/"Button" defaults. */
+const COPY_BY_TAB: Record<VariantTab, { title: string; description: string; buttonLabel: string }> = {
+  Success: {
+    title: 'Draft saved',
+    description: 'Your changes have been saved successfully.',
+    buttonLabel: 'View',
+  },
+  Info: {
+    title: 'Maintenance scheduled',
+    description: 'Scheduled maintenance begins tonight at 11:00 PM and lasts about 30 minutes.',
+    buttonLabel: 'Learn more',
+  },
+  Warning: {
+    title: 'Storage almost full',
+    description: "You've used 90% of your storage. Upgrade your plan to keep uploading files.",
+    buttonLabel: 'Upgrade',
+  },
+  Danger: {
+    title: 'Sync failed',
+    description: 'Sync failed — check your connection and try again.',
+    buttonLabel: 'Retry',
+  },
+};
 
 interface ToastDocProps {
   onNavigate?: (componentId: string) => void;
@@ -28,7 +53,6 @@ interface ToastDocProps {
 
 export default function ToastDoc({ onNavigate }: ToastDocProps) {
   const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Success');
-  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Order placed');
 
   return (
     <div className="ds-doc">
@@ -187,14 +211,21 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
           <div className="ds-variant-group">
             <div className="ds-variant-row">
               <div className="ds-variant-row__cell">
-                <Toast state={STATE_BY_TAB[activeVariantTab]} layout="single-line" />
+                <Toast
+                  state={STATE_BY_TAB[activeVariantTab]}
+                  layout="single-line"
+                  description={COPY_BY_TAB[activeVariantTab].description}
+                  buttonLabel={COPY_BY_TAB[activeVariantTab].buttonLabel}
+                />
                 <span className="ds-variant-row__cell-label">Single-line</span>
               </div>
               <div className="ds-variant-row__cell">
                 <Toast
                   state={STATE_BY_TAB[activeVariantTab]}
                   layout="multi-line"
-                  title={activeVariantTab}
+                  title={COPY_BY_TAB[activeVariantTab].title}
+                  description={COPY_BY_TAB[activeVariantTab].description}
+                  buttonLabel={COPY_BY_TAB[activeVariantTab].buttonLabel}
                 />
                 <span className="ds-variant-row__cell-label">Multi-line</span>
               </div>
@@ -222,69 +253,57 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
           </div>
         </div>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
-        <div className="ds-line-tabs" role="tablist" aria-label="Toast example groups">
-          {EXAMPLE_TABS.map((tab) => (
-            <button
-              key={tab}
-              type="button"
-              role="tab"
-              aria-selected={activeExampleTab === tab}
-              className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
-              onClick={() => setActiveExampleTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
+        <div id="example" className="ds-section__subsection">
+          <h3 className="ds-section__subtitle">Example</h3>
+          <p className="ds-section__desc">
+            Toast doesn&apos;t live in a row like the Style examples above — it floats above the
+            page it&apos;s reporting on, anchored to the top-right corner, clear of whatever the
+            user was doing. Hover the composition to see which part is Toast.
+          </p>
 
-        <div className="ds-variant-groups">
-          <div className="ds-variant-group">
-            <div className="ds-preview">
-              {activeExampleTab === 'Order placed' && (
-                <Toast
-                  state="success"
-                  layout="single-line"
-                  description="Your order #4821 has been placed and is now being processed."
-                  showButton={false}
-                />
-              )}
-              {activeExampleTab === 'Storage almost full' && (
-                <Toast
-                  state="warning"
-                  layout="multi-line"
-                  title="Storage almost full"
-                  description="You've used 90% of your storage. Upgrade your plan to keep uploading files."
-                  buttonLabel="Upgrade"
-                  showClose={false}
-                />
-              )}
-              {activeExampleTab === 'Sync failed' && (
-                <Toast
-                  state="danger"
-                  layout="single-line"
-                  description="Sync failed — check your connection and try again."
-                  buttonLabel="Retry"
-                />
-              )}
+          <div className="ds-variant-groups">
+            <div className="ds-variant-group">
+              <div className="ds-preview ds-preview--scrim ds-preview--scroll" style={{ padding: 0 }}>
+                <div className="ds-toast-example">
+                  <div className="ds-toast-example__dim">
+                    <AppTopbar />
+                  </div>
+                  <div className="ds-toast-example__body">
+                    <div className="ds-toast-example__page-header ds-toast-example__dim">
+                      <h4 className="ds-toast-example__page-title">Edit Product</h4>
+                      <Button variant="primary" appearance="solid" size="md">
+                        Save
+                      </Button>
+                    </div>
+                    <div className="ds-toast-example__anchor">
+                      <div className="ds-toast-example__focus">
+                        <Toast
+                          state="success"
+                          layout="multi-line"
+                          title="Draft saved successfully"
+                          description="Your changes have been saved as a draft. Publish when you're ready to make it live."
+                          showButton={false}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span className="ds-variant-note">
+                Confirms a Save action on the page behind it, then dismisses on its own.{' '}
+                <a
+                  className="ds-toast-example__ref"
+                  href={EXAMPLE_FIGMA_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className="icon icon--xs" aria-hidden="true">
+                    draw
+                  </span>
+                  Reference in Figma
+                </a>
+              </span>
             </div>
-            {activeExampleTab === 'Order placed' && (
-              <span className="ds-variant-note">
-                A transient confirmation — the customer already knows what to do next, so no
-                action is needed.
-              </span>
-            )}
-            {activeExampleTab === 'Storage almost full' && (
-              <span className="ds-variant-note">
-                A persistent nudge — pairs a call-to-action button with no close, since it stays
-                until the user acts.
-              </span>
-            )}
-            {activeExampleTab === 'Sync failed' && (
-              <span className="ds-variant-note">
-                An actionable error — offers an immediate retry alongside the option to dismiss.
-              </span>
-            )}
           </div>
         </div>
       </section>

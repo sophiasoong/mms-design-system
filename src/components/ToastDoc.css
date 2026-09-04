@@ -23,3 +23,83 @@
     var(--space-component-padding-lg) + var(--component-icon-md) + var(--space-component-gap-sm)
   );
 }
+
+/* ---- Example (Variants) ----
+   A single non-tabbed "real page" composition (Figma node 1907-132768) — unlike Indicator's
+   or Message's tabbed alternatives, Toast only ever shows up one way in product (floating
+   above the page it confirms), so there's no second mode to switch between. Same hover-dim/
+   focus idiom as MessageDoc.css's own .ds-message-example. */
+.ds-toast-example {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ds-toast-example__dim {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-toast-example:hover .ds-toast-example__dim {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+.ds-toast-example__focus {
+  border-radius: var(--radius-md); /* radius/md */
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-toast-example:hover .ds-toast-example__focus {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+.ds-toast-example__ref {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  color: var(--interactive-button-label-primary-ghost-default);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ds-toast-example__ref:hover {
+  text-decoration: underline;
+}
+
+/* Page body below the (dimmed) topbar — Sidebar isn't part of this composition, same
+   simplification MessageDoc.css's own .ds-message-example__body already establishes for its
+   Message Center tab: a page title/action row is enough context for "what did Toast just
+   confirm" without a full nav rail, proportionate to a doc example whose subject is Toast,
+   not page chrome. */
+.ds-toast-example__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
+  padding: var(--space-layout-section-padding-md); /* space/layout/section/padding/md */
+  background: var(--global-background-page); /* global/background/page */
+  min-height: 320px; /* flagged: no matching token — just enough room to read as a page, not a strip */
+}
+
+.ds-toast-example__page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+}
+
+.ds-toast-example__page-title {
+  margin: 0;
+  font-size: var(--typography-xl-font-size); /* typography/xl/font-size */
+  line-height: var(--typography-xl-line-height); /* typography/xl/line-height */
+  font-weight: var(--typography-font-weight-regular); /* typography/font-weight/regular */
+  color: var(--text-heading-primary-neutral); /* text/heading/primary/neutral */
+}
+
+/* Sits in normal flow as the body's next flex child (below the header row) rather than
+   absolutely overlapping it like Figma's own placement (node 1907:132816) — an exact
+   pixel-for-pixel overlay would sit directly on top of the header's own Save button here,
+   which reads as a bug rather than "Toast floats above the page." Right-aligning within
+   normal flow keeps the same top-right corner read without the overlap. */
+.ds-toast-example__anchor {
+  display: flex;
+  justify-content: flex-end;
+}
