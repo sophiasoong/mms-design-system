@@ -451,18 +451,10 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                     }}
                   >
                     <div className="ds-searchbar-example__topbar-anchor">
-                      <AppTopbar showLogo />
+                      <AppTopbar showLogo searchState={globalSearchOpen ? 'focus' : 'default'} />
                       {globalSearchOpen && (
                         <div className="ds-searchbar-example__results-overlay">
                           <div className="ds-searchbar-example__panel ds-searchbar-example__panel--wide ds-searchbar-example__panel--radius-xl ds-searchbar-example__results-panel">
-                            <div className="ds-searchbar-example__searchbar-row">
-                              <Searchbar
-                                size="lg"
-                                state="focus"
-                                chipLabel="Product"
-                                defaultValue="Something"
-                              />
-                            </div>
                             <div className="ds-searchbar-example__rows ds-searchbar-example__rows--lg">
                               <List
                                 size="lg"

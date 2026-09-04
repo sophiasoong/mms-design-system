@@ -1,7 +1,7 @@
 import Button from './Button';
 import IconButton from './IconButton';
 import { Badge } from './Badge';
-import { Searchbar } from './Searchbar';
+import { Searchbar, type SearchbarState } from './Searchbar';
 import './AppTopbar.css';
 
 export interface AppTopbarProps {
@@ -12,6 +12,10 @@ export interface AppTopbarProps {
   showBackButton?: boolean;
   showLogo?: boolean;
   sidebarExpanded?: boolean;
+  /** Forces the built-in Searchbar's visual state — e.g. 'focus' while a caller-driven
+      results panel anchored to this Topbar is open, so the field reads as active instead
+      of resetting to 'default' the instant the browser's own focus moves to the panel. */
+  searchState?: SearchbarState;
   onMenuClick?: () => void;
   onStoreClick?: () => void;
   onSearch?: (value: string) => void;
@@ -31,6 +35,7 @@ export default function AppTopbar({
   showBackButton = true,
   showLogo = false,
   sidebarExpanded = true,
+  searchState,
   onMenuClick,
   onStoreClick,
   onSearch,
@@ -72,7 +77,7 @@ export default function AppTopbar({
       </div>
 
       <div className="ds-app-topbar__search">
-        <Searchbar size="lg" placeholder="Search" onSearch={onSearch} />
+        <Searchbar size="lg" placeholder="Search" state={searchState} onSearch={onSearch} />
       </div>
 
       <div className="ds-app-topbar__trailing">
