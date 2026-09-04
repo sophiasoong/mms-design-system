@@ -12,6 +12,7 @@ import {
   TableSelectCell,
 } from './Table';
 import Button from './Button';
+import IconButton from './IconButton';
 import Pagination from './Pagination';
 import AppTopbar from './AppTopbar';
 import AppSidebar from './AppSidebar';
@@ -69,14 +70,25 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
   const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Table search');
   const [exampleCheckedRows, setExampleCheckedRows] = useState<Record<string, boolean>>({});
   const [globalSearchOpen, setGlobalSearchOpen] = useState(false);
+  // The panel's default content on open is a Search History view (Figma node 1913-6661);
+  // clicking its "Coffee" row swaps it to a Results view themed to that query. Reset to
+  // 'history' whenever the panel is freshly opened or closed, rather than persisting whatever
+  // view it was left on.
+  const [globalSearchView, setGlobalSearchView] = useState<'history' | 'results'>('history');
   // AppTopbar doesn't expose its internal search field's own bounding box as a prop, so the
   // results panel below measures the live DOM node directly (relative to this anchor) to line
   // its own left/width up with the real field — which itself flex-grows/shrinks with the
   // topbar's available width — rather than centering a fixed-width panel under the whole bar.
+  // bottom is tracked too (rather than relying on a CSS top:100% off the anchor) because the
+  // field sits vertically centered inside the taller topbar bar — its own bottom edge is
+  // several px above the bar's, and the panel needs to sit flush against the field itself for
+  // the "whole container" merge, not against the bar underneath it.
   const topbarAnchorRef = useRef<HTMLDivElement>(null);
-  const [searchFieldRect, setSearchFieldRect] = useState<{ left: number; width: number } | null>(
-    null
-  );
+  const [searchFieldRect, setSearchFieldRect] = useState<{
+    left: number;
+    width: number;
+    bottom: number;
+  } | null>(null);
 
   useLayoutEffect(() => {
     if (!globalSearchOpen) return;
@@ -87,7 +99,11 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
     const updateRect = () => {
       const anchorRect = anchor.getBoundingClientRect();
       const fieldRect = searchField.getBoundingClientRect();
-      setSearchFieldRect({ left: fieldRect.left - anchorRect.left, width: fieldRect.width });
+      setSearchFieldRect({
+        left: fieldRect.left - anchorRect.left,
+        width: fieldRect.width,
+        bottom: fieldRect.bottom - anchorRect.top,
+      });
     };
     updateRect();
     window.addEventListener('resize', updateRect);
@@ -456,8 +472,10 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
               <>
                 <p className="ds-section__desc">
                   Anchored at the center of the app shell (reusing Topbar's own page-preview
-                  instance, Figma node 263-5472) — click it to reveal a results panel matching
-                  List's own "Search Results" example (Figma node 639-5409).
+                  instance, Figma node 263-5472) — click it to reveal a Search History panel
+                  (Figma node 1913-6661) that reads as one continuous container with the field
+                  itself. Click its "Coffee" row to see a Results view themed to that query,
+                  matching List's own "Search Results" example (Figma node 639-5409).
                 </p>
                 <div
                   className="ds-preview ds-preview--scrim ds-preview--scroll"
@@ -469,8 +487,10 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                       const target = e.target as HTMLElement;
                       if (target.closest('.ds-app-topbar__search')) {
                         setGlobalSearchOpen((open) => !open);
+                        setGlobalSearchView('history');
                       } else if (!target.closest('.ds-searchbar-example__results-panel')) {
                         setGlobalSearchOpen(false);
+                        setGlobalSearchView('history');
                       }
                     }}
                   >
@@ -481,57 +501,118 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                           className="ds-searchbar-example__results-overlay"
                           style={
                             searchFieldRect
-                              ? { left: searchFieldRect.left, width: searchFieldRect.width }
+                              ? {
+                                  left: searchFieldRect.left,
+                                  width: searchFieldRect.width,
+                                  top: searchFieldRect.bottom,
+                                }
                               : undefined
                           }
                         >
                           <div className="ds-searchbar-example__panel ds-searchbar-example__panel--radius-xl ds-searchbar-example__results-panel">
-                            <div className="ds-searchbar-example__rows ds-searchbar-example__rows--lg">
-                              <List
-                                size="lg"
-                                label="Storefront Setup"
-                                tag="Product"
-                                icon={<ProductIcon className="ds-searchbar-example__thumb-glyph--product" />}
-                                subtitle={
-                                  <>
-                                    Store<mark className="ds-list__mark">front</mark> theme • Setup
-                                    wizard • Launch checklist • Automation
-                                  </>
-                                }
-                                caption="Online Store / Storefront / Setup / Marketing / Campaigns / Automation"
-                                forceState="hover"
-                              />
-                              <List
-                                size="lg"
-                                label="Storefront Domain Settings"
-                                tag="Product"
-                                icon={<ProductIcon className="ds-searchbar-example__thumb-glyph--product" />}
-                                subtitle={
-                                  <>
-                                    Custom <mark className="ds-list__mark">domain</mark> • DNS
-                                    records • SSL certificate • Redirect rules
-                                  </>
-                                }
-                                caption="Online Store / Storefront / Domain / Settings / Advanced / Custom"
-                              />
-                              <List
-                                size="lg"
-                                label="Free Gift Promotion"
-                                tag="Promotion"
-                                icon={<PromotionIcon className="ds-searchbar-example__thumb-glyph--promotion" />}
-                                subtitle={
-                                  <>
-                                    Gift <mark className="ds-list__mark">threshold</mark> • Eligible
-                                    SKUs • Campaign dates • Auto-apply
-                                  </>
-                                }
-                                caption="Online Store / Promotions / Free Gift / Campaign / Rules / Eligibility"
-                              />
+                            <div className="ds-searchbar-example__filters">
+                              <FilterChip label="Product" />
+                              <FilterChip label="Promotion" />
                             </div>
-                            <div className="ds-searchbar-example__footer">
-                              <span className="ds-searchbar-example__kbd">Esc</span>
-                              <span className="ds-searchbar-example__hint">Close</span>
-                            </div>
+                            {globalSearchView === 'history' ? (
+                              <>
+                                <div className="ds-searchbar-example__history-header">
+                                  <span className="ds-searchbar-example__history-title">
+                                    <IconButton
+                                      icon="info"
+                                      variant="neutral"
+                                      appearance="ghost"
+                                      shape="round"
+                                      size="sm"
+                                      label="About search history"
+                                    />
+                                    <span className="ds-searchbar-example__history-label">
+                                      Search History
+                                    </span>
+                                  </span>
+                                  <Button variant="primary" appearance="ghost" size="sm">
+                                    Clear All
+                                  </Button>
+                                </div>
+                                <div className="ds-searchbar-example__history-rows">
+                                  <div
+                                    className="ds-searchbar-example__history-row--clickable"
+                                    onClick={() => setGlobalSearchView('results')}
+                                  >
+                                    <List size="md" label="Coffee" tag="Product" showValue={false} />
+                                  </div>
+                                  <List
+                                    size="md"
+                                    label="Promotion 2026"
+                                    tag="Promotion"
+                                    value="1,000"
+                                  />
+                                  <List
+                                    size="md"
+                                    label="Inventory"
+                                    showFilterChip={false}
+                                    value="1,000"
+                                  />
+                                </div>
+                                <div className="ds-searchbar-example__footer">
+                                  <span className="ds-searchbar-example__kbd">Esc</span>
+                                  <span className="ds-searchbar-example__hint">Close</span>
+                                  <span className="ds-searchbar-example__kbd">/</span>
+                                  <span className="ds-searchbar-example__hint">
+                                    Open global search
+                                  </span>
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <div className="ds-searchbar-example__rows ds-searchbar-example__rows--lg">
+                                  <List
+                                    size="lg"
+                                    label="Coffee Machine Setup"
+                                    tag="Product"
+                                    icon={<ProductIcon className="ds-searchbar-example__thumb-glyph--product" />}
+                                    subtitle={
+                                      <>
+                                        <mark className="ds-list__mark">Coffee</mark> machine config •
+                                        Grind settings • Descale schedule • Auto-brew
+                                      </>
+                                    }
+                                    caption="Online Store / Products / Coffee Machine / Setup / Settings / Maintenance"
+                                    forceState="hover"
+                                  />
+                                  <List
+                                    size="lg"
+                                    label="Coffee Bean Restock Alert"
+                                    tag="Product"
+                                    icon={<ProductIcon className="ds-searchbar-example__thumb-glyph--product" />}
+                                    subtitle={
+                                      <>
+                                        <mark className="ds-list__mark">Coffee</mark> bean inventory •
+                                        Low-stock threshold • Supplier reorder • Roast date
+                                      </>
+                                    }
+                                    caption="Online Store / Products / Coffee Beans / Inventory / Alerts / Reorder"
+                                  />
+                                  <List
+                                    size="lg"
+                                    label="Coffee Lovers Bundle Promotion"
+                                    tag="Promotion"
+                                    icon={<PromotionIcon className="ds-searchbar-example__thumb-glyph--promotion" />}
+                                    subtitle={
+                                      <>
+                                        <mark className="ds-list__mark">Coffee</mark> bundle discount •
+                                        Eligible SKUs • Campaign dates • Auto-apply
+                                      </>
+                                    }
+                                    caption="Online Store / Promotions / Coffee Bundle / Campaign / Rules / Eligibility"
+                                  />
+                                </div>
+                                <div className="ds-searchbar-example__footer">
+                                  <span className="ds-searchbar-example__kbd">Esc</span>
+                                  <span className="ds-searchbar-example__hint">Close</span>
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       )}
@@ -545,8 +626,9 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                   </div>
                 </div>
                 <span className="ds-variant-note">
-                  Click the search field to open the results panel; click anywhere outside it to
-                  close.
+                  Click the search field to open the panel (starting on Search History); click
+                  anywhere outside it to close. Click "Coffee" in the history to see its Results
+                  view.
                 </span>
               </>
             )}

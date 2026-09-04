@@ -116,6 +116,10 @@
   flex: 1 1 auto;
   display: flex;
   min-width: 0;
+  /* Grows to fill the space the Store trigger/Back/FAQ/notification group leaves behind
+     while searchState="focus" (see AppTopbar.tsx's searchExpanded) — animated rather than
+     snapping so that width change reads as one continuous motion instead of a layout jump. */
+  transition: width var(--duration-normal) ease; /* duration/normal */
 }
 
 /* Bumped from Searchbar's own default (icon--sm, 16px) to --component-icon-md (24px), to read
