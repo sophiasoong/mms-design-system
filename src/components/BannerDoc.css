@@ -32,6 +32,18 @@
    everything else (page frame, crumb, panel, modal filter row) is this page's own scoped
    scaffolding, duplicated rather than pulled from TabDoc.css/ModalDoc.css. */
 
+/* .ds-banner-example is the direct flex child of .ds-preview in every instance — nested
+   in .ds-preview--stack for the two Overview page compositions, or merged onto
+   .ds-preview--scrim itself for the Modal one. .ds-preview's align-items:center (not
+   stretch) means a flex child with no explicit width hugs its own content instead of
+   the container's, which overflowed the SKU composition (table pushing past its row)
+   and left the Brand composition narrower than its row (same explicit-width fix as
+   CheckboxDoc.css's/RadioDoc.css's own hover-scoping wrapper divs). Harmless no-op for
+   the Modal instance, which already computes to 100% via normal block sizing. */
+.ds-banner-example {
+  width: 100%;
+}
+
 /* Page-canvas frame — mirrors TabDoc.css's own .ds-tab-example (same page-canvas/card/
    shadow treatment) so both doc pages' "real page" Example compositions read consistently. */
 .ds-banner-example__page {
