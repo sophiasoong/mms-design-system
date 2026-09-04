@@ -31,6 +31,23 @@
   flex-shrink: 0;
 }
 
+/* Leading icon slot (FilterChip's optional `icon` prop) — forces whatever's passed in (a
+   Material Symbol span or a bespoke Figma-exported svg like ProductIcon/PromotionIcon, which
+   carry their own native viewBox/width/height) down to the same 16px size as .ds-chip__chevron. */
+.ds-chip__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--component-icon-sm); /* component/icon/sm */
+  height: var(--component-icon-sm); /* component/icon/sm */
+  flex-shrink: 0;
+}
+
+.ds-chip__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
 .ds-chip.ds-chip--disabled {
   cursor: not-allowed;
 }

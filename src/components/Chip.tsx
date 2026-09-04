@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import './Chip.css';
 
 /* Figma node 1202:15587 ("Down") — a bespoke chevron, not a Material Symbols
@@ -31,6 +32,9 @@ export type ChipState = 'default' | 'hover' | 'focus' | 'disabled';
 
 export interface FilterChipProps {
   label?: string;
+  /** Optional leading icon (e.g. a category glyph) rendered before the label, sized to 16px
+      regardless of the icon's own native viewBox — see .ds-chip__icon in Chip.css. */
+  icon?: ReactNode;
   selected?: boolean;
   state?: ChipState;
   showTrailingIcon?: boolean;
@@ -40,6 +44,7 @@ export interface FilterChipProps {
 
 export function FilterChip({
   label = 'Label',
+  icon,
   selected = false,
   state = 'default',
   showTrailingIcon = true,
@@ -61,6 +66,11 @@ export function FilterChip({
 
   return (
     <button type="button" className={classes} disabled={disabled} onClick={onClick}>
+      {icon && (
+        <span className="ds-chip__icon" aria-hidden="true">
+          {icon}
+        </span>
+      )}
       <span className="ds-chip__label">{label}</span>
       {showTrailingIcon && (
         <span className="ds-chip__chevron" aria-hidden="true">
