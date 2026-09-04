@@ -75,14 +75,26 @@
   border-radius: var(--radius-md); /* radius/md */
   /* This selector's own specificity would otherwise fully overwrite (not merge with)
      AppTopbar.css's own width transition on the same element — re-declared here alongside
-     box-shadow so both keep animating. */
+     box-shadow so both keep animating. opacity is added so the field's own hide rule (below)
+     fades smoothly instead of popping, in step with the results overlay's own fade. */
   transition:
     box-shadow var(--duration-fast) ease,
-    width var(--duration-normal) ease; /* duration/normal */
+    width var(--duration-normal) ease, /* duration/normal */
+    opacity var(--duration-normal) ease; /* duration/normal */
 }
 
 .ds-searchbar-example--global:hover .ds-app-topbar__search {
   box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+/* Once the results panel opens, its own embedded Searchbar becomes the one active field on
+   screen — so the trigger field's visual chrome (border/background/placeholder text) hides
+   here rather than rendering a second fully-styled searchbar directly above it. Its layout box
+   stays intact (opacity, not display:none) so searchFieldRect's own measurement — and the
+   panel's left/width/gap positioned off it — don't shift when this toggles. */
+.ds-searchbar-example__topbar-anchor--open .ds-app-topbar__search {
+  opacity: var(--opacity-0); /* opacity/0 */
+  pointer-events: none;
 }
 
 .ds-searchbar-example--global:hover .ds-app-topbar__logo,
@@ -93,30 +105,34 @@
 }
 
 /* Results panel — click the search field to reveal, matching ListDoc.tsx's own "Search
-   Results" tab (Figma node 639-5409). left/width are set inline from a JS measurement of
+   Results" tab (Figma node 639-5409). left/width/top are set inline from a JS measurement of
    the real .ds-app-topbar__search field's own bounding box (see SearchbarDoc.tsx's
-   searchFieldRect state) so the panel lines up exactly under the field it searches,
-   including as that field's own flex-grown width changes with viewport size. Sits flush
-   (no gap) against the field's own bottom edge rather than floating below it — paired with
-   the field's own bottom corners squaring off below (see .ds-searchbar--force-focus rule)
-   and the panel's own top corners squaring off (.ds-searchbar-example__panel--radius-xl),
-   so the field and panel read as one continuous container (Figma node 1913-6661) instead of
-   two separate floating boxes. */
+   searchFieldRect state), outset by the search-container's own padding-lg on every side so
+   the panel grows outward from the field it replaces rather than dropping down below it — the
+   field itself hides (opacity, above) the instant this opens, and its embedded Searchbar
+   lands exactly back on the field's former on-screen position. That outset is clamped on left/
+   right (see searchFieldRect's own computation) so it can't grow into the topbar's own menu
+   toggle or language/user-name group, both of which stay visible while the field is expanded.
+   Stays mounted at all times (SearchbarDoc.tsx toggles the --open modifier below rather than
+   conditionally rendering it) so both the open AND close motion can transition via CSS — an
+   unmount skips straight to its end state with no transition. Default (closed) state fades/
+   settles down slightly and drops out of the hit-test tree; --open fades/rises to its normal
+   position and becomes interactive again. */
 .ds-searchbar-example__results-overlay {
   position: absolute;
-  /* top is set inline from searchFieldRect.bottom (SearchbarDoc.tsx) — the field sits
-     vertically centered inside the taller topbar bar, so a plain top:100% here (relative to
-     the whole bar) would leave a gap under the field instead of sitting flush against it. */
   z-index: 10;
+  opacity: var(--opacity-0); /* opacity/0 */
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition:
+    opacity var(--duration-normal) ease, /* duration/normal */
+    transform var(--duration-normal) ease; /* duration/normal */
 }
 
-/* Squares off the field's bottom corners while its results panel is flush beneath it, so the
-   field's own border doesn't round back inward right where the panel picks up — part of the
-   "whole container" merge above. Scoped to this doc's global-search example only; Searchbar's
-   own focus corners stay untouched everywhere else it's reused. */
-.ds-searchbar-example--global .ds-app-topbar__search .ds-searchbar--force-focus {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+.ds-searchbar-example__results-overlay--open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 /* Duplicated from ListDoc.css's own .ds-list-example__panel/__searchbar-row/__rows/__footer/
@@ -146,15 +162,12 @@
 
 .ds-searchbar-example__panel--radius-xl {
   border-radius: var(--radius-xl); /* radius/xl */
-  /* Top corners square off to meet the field's own squared-off bottom corners flush (see
-     .ds-searchbar--force-focus above) — part of the "whole container" merge. */
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
 }
 
-/* Results panel has no search field of its own — the real Searchbar it drops down from is
-   AppTopbar's (forced to searchState="focus" while open, see SearchbarDoc.tsx), so rows start
-   right at the panel's own top padding instead of repeating a second field inside it. */
+/* Results view swaps in for the Search History content below the shared
+   .ds-searchbar-example__search-container header (Searchbar + filter chips stay visible in
+   both views) — rows start right at the panel's own top padding, matching ListDoc.css's own
+   equivalent rule. */
 .ds-searchbar-example__rows {
   padding-top: var(--space-component-padding-xs); /* space/component/padding/xs */
   display: flex;
@@ -166,26 +179,29 @@
 }
 
 /* ---- Search History (default panel content, Figma node 1913-6661) ----
-   Filter Options row + a "Search History" header/rows section, duplicated from ListDoc.css's
-   own .ds-list-example__chips/__history-header/__history-label/__rows (page-scoped demo
-   classes there too) under this page's own ds-searchbar-example__ prefix, per doc-CSS-stays-
-   scoped. Unlike ListDoc's copy, there's no embedded Searchbar row here — the real field
-   above already fills that role (see .ds-searchbar-example__results-overlay's header comment)
-   — so Filter Options is the first section, followed by a divider standing in for Figma's own
-   Container/Content-Container split. */
+   Container (own Searchbar + Filter Options row) + a "Search History" header/rows section,
+   duplicated from ListDoc.css's own .ds-list-example__chips/__history-header/__history-label/
+   __rows (page-scoped demo classes there too) under this page's own ds-searchbar-example__
+   prefix, per doc-CSS-stays-scoped. */
+.ds-searchbar-example__search-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-md); /* space/component/gap/md, Figma Container's own gap */
+  padding: var(--space-component-padding-lg); /* space/component/padding/lg, Figma Container's own padding */
+  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light); /* border/sm, global/divider/neutral/light — stands in for Figma's own Container/Content-Container split */
+}
+
 .ds-searchbar-example__filters {
   display: flex;
   align-items: center;
   gap: var(--space-component-gap-sm); /* space/component/gap/sm */
-  padding: var(--space-component-padding-md); /* space/component/padding/md */
-  border-bottom: var(--border-sm) solid var(--global-divider-neutral-light); /* border/sm, global/divider/neutral/light */
 }
 
 .ds-searchbar-example__history-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-component-padding-sm) var(--space-component-padding-md) var(--space-component-padding-sm) var(--space-component-padding-xs); /* space/component/padding/sm, space/component/padding/md, space/component/padding/xs */
+  padding: var(--space-component-padding-sm) var(--space-component-padding-md) var(--space-component-padding-sm) var(--space-component-padding-lg); /* space/component/padding/sm, space/component/padding/md, space/component/padding/lg */
 }
 
 .ds-searchbar-example__history-title {
@@ -194,11 +210,14 @@
   gap: var(--space-component-gap-xs); /* space/component/gap/xs */
 }
 
+/* Unlike ListDoc.css's own copy of this label (xs/12px, brand-neutral-700 gray) — this
+   instance's header row uses the 14px header size, and reads as the panel's title rather
+   than a secondary label, so it takes the near-black neutral tier instead of that gray. */
 .ds-searchbar-example__history-label {
-  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
-  line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
   font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
-  color: var(--brand-neutral-700); /* brand/neutral/700 */
+  color: var(--brand-neutral-900); /* brand/neutral/900 */
 }
 
 .ds-searchbar-example__history-rows {

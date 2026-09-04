@@ -79,15 +79,16 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
   // results panel below measures the live DOM node directly (relative to this anchor) to line
   // its own left/width up with the real field — which itself flex-grows/shrinks with the
   // topbar's available width — rather than centering a fixed-width panel under the whole bar.
-  // bottom is tracked too (rather than relying on a CSS top:100% off the anchor) because the
-  // field sits vertically centered inside the taller topbar bar — its own bottom edge is
-  // several px above the bar's, and the panel needs to sit flush against the field itself for
-  // the "whole container" merge, not against the bar underneath it.
+  // The panel overlays the field in place (see .ds-searchbar-example__results-overlay in
+  // SearchbarDoc.css) rather than dropping down below it, growing outward from the field's own
+  // box by the search-container's own padding-lg on every side so its embedded Searchbar lands
+  // exactly on the field's former position — this state already holds that grown, clamped box
+  // (not the raw field box), computed below.
   const topbarAnchorRef = useRef<HTMLDivElement>(null);
   const [searchFieldRect, setSearchFieldRect] = useState<{
     left: number;
     width: number;
-    bottom: number;
+    top: number;
   } | null>(null);
 
   useLayoutEffect(() => {
@@ -99,10 +100,32 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
     const updateRect = () => {
       const anchorRect = anchor.getBoundingClientRect();
       const fieldRect = searchField.getBoundingClientRect();
+      // Read the real tokens' computed px values (not hardcoded numbers) so the outward
+      // grow-by-padding math below stays token-driven even though it has to run as plain
+      // arithmetic here rather than a CSS calc() — the clamps against the topbar's neighboring
+      // groups need real numbers to compare against, not calc() expressions.
+      const anchorStyle = getComputedStyle(anchor);
+      const paddingLg =
+        parseFloat(anchorStyle.getPropertyValue('--space-component-padding-lg')) || 0;
+      const gapMd = parseFloat(anchorStyle.getPropertyValue('--space-component-gap-md')) || 0;
+      // The menu toggle (.ds-app-topbar__leading) and the language/user-name group
+      // (.ds-app-topbar__trailing) both stay visible even while search is expanded (see
+      // AppTopbar.tsx) — growing the panel a flat 16px past the field's own edges would run
+      // into them at narrower widths. Clamp each side to the same gap-md the topbar itself
+      // already uses between these groups, rather than paddingLg, whenever growing that far
+      // would overlap.
+      const leadingRect = anchor.querySelector('.ds-app-topbar__leading')?.getBoundingClientRect();
+      const trailingRect = anchor
+        .querySelector('.ds-app-topbar__trailing')
+        ?.getBoundingClientRect();
+      const minLeft = leadingRect ? leadingRect.right + gapMd : -Infinity;
+      const maxRight = trailingRect ? trailingRect.left - gapMd : Infinity;
+      const left = Math.max(fieldRect.left - paddingLg, minLeft);
+      const right = Math.min(fieldRect.right + paddingLg, maxRight);
       setSearchFieldRect({
-        left: fieldRect.left - anchorRect.left,
-        width: fieldRect.width,
-        bottom: fieldRect.bottom - anchorRect.top,
+        left: left - anchorRect.left,
+        width: right - left,
+        top: fieldRect.top - paddingLg - anchorRect.top,
       });
     };
     updateRect();
@@ -473,9 +496,9 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                 <p className="ds-section__desc">
                   Anchored at the center of the app shell (reusing Topbar's own page-preview
                   instance, Figma node 263-5472) — click it to reveal a Search History panel
-                  (Figma node 1913-6661) that reads as one continuous container with the field
-                  itself. Click its "Coffee" row to see a Results view themed to that query,
-                  matching List's own "Search Results" example (Figma node 639-5409).
+                  (Figma node 1913-6661), a standalone floating container with its own Searchbar
+                  and filter chips at top. Click its "Coffee" row to see a Results view themed to
+                  that query, matching List's own "Search Results" example (Figma node 639-5409).
                 </p>
                 <div
                   className="ds-preview ds-preview--scrim ds-preview--scroll"
@@ -494,41 +517,67 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                       }
                     }}
                   >
-                    <div className="ds-searchbar-example__topbar-anchor" ref={topbarAnchorRef}>
+                    <div
+                      className={`ds-searchbar-example__topbar-anchor${globalSearchOpen ? ' ds-searchbar-example__topbar-anchor--open' : ''}`}
+                      ref={topbarAnchorRef}
+                    >
                       <AppTopbar showLogo searchState={globalSearchOpen ? 'focus' : 'default'} />
-                      {globalSearchOpen && (
-                        <div
-                          className="ds-searchbar-example__results-overlay"
-                          style={
-                            searchFieldRect
-                              ? {
-                                  left: searchFieldRect.left,
-                                  width: searchFieldRect.width,
-                                  top: searchFieldRect.bottom,
-                                }
-                              : undefined
-                          }
-                        >
-                          <div className="ds-searchbar-example__panel ds-searchbar-example__panel--radius-xl ds-searchbar-example__results-panel">
-                            <div className="ds-searchbar-example__filters">
-                              <FilterChip label="Product" />
-                              <FilterChip label="Promotion" />
+                      {
+                        // Stays mounted at all times (not conditionally rendered) so closing
+                        // can fade/slide out via CSS rather than snapping away instantly — see
+                        // .ds-searchbar-example__results-overlay's own transition in
+                        // SearchbarDoc.css. searchFieldRect itself only updates while open (its
+                        // own effect above is still gated on globalSearchOpen), so it keeps
+                        // holding the last open position while closed instead of snapping to
+                        // the collapsed field's rect first and fading out from the wrong spot.
+                      }
+                      <div
+                        className={`ds-searchbar-example__results-overlay${globalSearchOpen ? ' ds-searchbar-example__results-overlay--open' : ''}`}
+                        style={
+                          searchFieldRect
+                            ? {
+                                left: searchFieldRect.left,
+                                width: searchFieldRect.width,
+                                top: searchFieldRect.top,
+                              }
+                            : undefined
+                        }
+                        // Removes it from focus/hit-testing while closed (pointer-events:none
+                        // in CSS only blocks the mouse) so a keyboard user can't tab into
+                        // content that's faded out.
+                        inert={!globalSearchOpen}
+                      >
+                        <div className="ds-searchbar-example__panel ds-searchbar-example__panel--radius-xl ds-searchbar-example__results-panel">
+                            <div className="ds-searchbar-example__search-container">
+                              <Searchbar size="lg" state="focus" placeholder="Placeholder" />
+                              <div className="ds-searchbar-example__filters">
+                                <FilterChip
+                                  label="Product"
+                                  icon={<ProductIcon />}
+                                  showTrailingIcon={false}
+                                />
+                                <FilterChip
+                                  label="Promotion"
+                                  icon={<PromotionIcon />}
+                                  showTrailingIcon={false}
+                                />
+                              </div>
                             </div>
                             {globalSearchView === 'history' ? (
                               <>
                                 <div className="ds-searchbar-example__history-header">
                                   <span className="ds-searchbar-example__history-title">
+                                    <span className="ds-searchbar-example__history-label">
+                                      Search History
+                                    </span>
                                     <IconButton
                                       icon="info"
-                                      variant="neutral"
+                                      variant="secondary"
                                       appearance="ghost"
                                       shape="round"
                                       size="sm"
                                       label="About search history"
                                     />
-                                    <span className="ds-searchbar-example__history-label">
-                                      Search History
-                                    </span>
                                   </span>
                                   <Button variant="primary" appearance="ghost" size="sm">
                                     Clear All
@@ -543,15 +592,15 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                                   </div>
                                   <List
                                     size="md"
-                                    label="Promotion 2026"
+                                    label="Autumn Flash Sale"
                                     tag="Promotion"
-                                    value="1,000"
+                                    showValue={false}
                                   />
                                   <List
                                     size="md"
                                     label="Inventory"
                                     showFilterChip={false}
-                                    value="1,000"
+                                    showValue={false}
                                   />
                                 </div>
                                 <div className="ds-searchbar-example__footer">
@@ -615,7 +664,6 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                             )}
                           </div>
                         </div>
-                      )}
                     </div>
                     <div className="ds-searchbar-example__topbar-body ds-searchbar-example__dim">
                       <div className="ds-searchbar-example__topbar-sidebar">
