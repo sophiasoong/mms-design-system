@@ -1,9 +1,26 @@
 import { useState } from 'react';
 import { Searchbar } from './Searchbar';
-import { ActionChip } from './Chip';
+import { ActionChip, FilterChip } from './Chip';
 import { DropdownOption } from './Dropdown';
+import {
+  Table,
+  TableHeader,
+  TableHeaderCell,
+  TableSelectHeaderCell,
+  TableRow,
+  TableCell,
+  TableSelectCell,
+} from './Table';
+import Button from './Button';
+import Pagination from './Pagination';
+import AppTopbar from './AppTopbar';
+import AppSidebar from './AppSidebar';
+import List from './List';
+import { ProductIcon, PromotionIcon } from './assetIcons';
 import { TableIcon, TopbarIcon } from './icons';
 import './ButtonDoc.css';
+import './Table.css';
+import './SearchbarDoc.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=1-108';
@@ -16,6 +33,30 @@ type StyleTab = (typeof STYLE_TABS)[number];
 // relevant to a merchant search bar.
 const SCOPE_OPTIONS = ['Promotion ID', 'Order ID', 'Product ID'];
 
+const EXAMPLE_TABS = ['Table search', 'Global search'] as const;
+type ExampleTab = (typeof EXAMPLE_TABS)[number];
+
+interface ExampleTableRow {
+  sku: string;
+  brand: string;
+  name: string;
+  category: string;
+  originalPrice: string;
+  sellingPrice: string;
+  merchant: string;
+  discount: string;
+}
+
+/** A subset of TableDoc.tsx's own EXAMPLE_ROWS (Default tab) — same SKU-pricing column shape,
+ * kept as its own copy here per this codebase's doc-CSS-stays-scoped convention rather than
+ * imported, and trimmed to 4 rows since this composition's subject is Searchbar, not Table. */
+const EXAMPLE_TABLE_ROWS: ExampleTableRow[] = [
+  { sku: 'SKU-100234', brand: 'Nestlé', name: 'Nescafé Gold Blend 200g', category: 'Beverages', originalPrice: '$144', sellingPrice: '$138', merchant: 'Merchant A', discount: '8%' },
+  { sku: 'SKU-100235', brand: 'Unilever', name: 'Dove Body Wash 500ml', category: 'Personal Care', originalPrice: '$89', sellingPrice: '$79', merchant: 'Merchant A', discount: '12%' },
+  { sku: 'SKU-100236', brand: 'P&G', name: 'Pampers Diapers Size 3', category: 'Baby Care', originalPrice: '$210', sellingPrice: '$195', merchant: 'Merchant B', discount: '5%' },
+  { sku: 'SKU-100237', brand: 'Nestlé', name: 'KitKat 4 Finger 41.5g', category: 'Snacks', originalPrice: '$18', sellingPrice: '$16', merchant: 'Merchant B', discount: '15%' },
+];
+
 interface SearchbarDocProps {
   onNavigate?: (componentId: string) => void;
 }
@@ -25,6 +66,15 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [scopeValue, setScopeValue] = useState(SCOPE_OPTIONS[0]);
   const [scopeOpen, setScopeOpen] = useState(false);
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Table search');
+  const [exampleCheckedRows, setExampleCheckedRows] = useState<Record<string, boolean>>({});
+  const [globalSearchOpen, setGlobalSearchOpen] = useState(false);
+
+  const toggleExampleRow = (sku: string) => {
+    setExampleCheckedRows((prev) => ({ ...prev, [sku]: !prev[sku] }));
+  };
+  const allExampleChecked = EXAMPLE_TABLE_ROWS.every((row) => exampleCheckedRows[row.sku]);
+  const someExampleChecked = EXAMPLE_TABLE_ROWS.some((row) => exampleCheckedRows[row.sku]);
 
   return (
     <div className="ds-doc">
@@ -259,6 +309,224 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                 <span className="ds-variant-row__cell-label">Md · 32px</span>
               </div>
             </div>
+          </div>
+        </div>
+
+        <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
+        <div className="ds-line-tabs" role="tablist" aria-label="Searchbar example contexts">
+          {EXAMPLE_TABS.map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              role="tab"
+              aria-selected={activeExampleTab === tab}
+              className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
+              onClick={() => setActiveExampleTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        <div className="ds-variant-groups">
+          <div className="ds-variant-group">
+            {activeExampleTab === 'Table search' && (
+              <>
+                <p className="ds-section__desc">
+                  Scoped inside a Table toolbar (reusing Table's own Default example, Figma node
+                  152-3908) — the leading segment narrows which column a query searches within.
+                </p>
+                <div className="ds-preview">
+                  <div className="ds-searchbar-example">
+                    <div className="ds-table-example">
+                      <div className="ds-table-toolbar">
+                        <div className="ds-table-toolbar__search-wrap">
+                          <span className="ds-searchbar-example__focus">
+                            <Searchbar
+                              size="md"
+                              placeholder="Search SKU ID or Name"
+                              scopeLabel="SKU ID"
+                            />
+                          </span>
+                        </div>
+                        <div className="ds-table-toolbar__filters ds-searchbar-example__dim">
+                          <FilterChip label="Category" />
+                          <FilterChip label="Status" />
+                        </div>
+                        <div className="ds-table-toolbar__actions ds-searchbar-example__dim">
+                          <Button variant="primary" appearance="ghost" size="md">
+                            Reset
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="ds-table-example__scroll ds-searchbar-example__dim">
+                        <div className="ds-table-example__frame">
+                          <Table size="md">
+                            <TableHeader>
+                              <TableSelectHeaderCell
+                                checked={allExampleChecked}
+                                indeterminate={someExampleChecked && !allExampleChecked}
+                                onChange={(checked) =>
+                                  setExampleCheckedRows(
+                                    Object.fromEntries(
+                                      EXAMPLE_TABLE_ROWS.map((row) => [row.sku, checked]),
+                                    ),
+                                  )
+                                }
+                              />
+                              <TableHeaderCell width={88}>Image</TableHeaderCell>
+                              <TableHeaderCell width={140}>SKU ID</TableHeaderCell>
+                              <TableHeaderCell width={140}>Brand</TableHeaderCell>
+                              <TableHeaderCell width={280}>SKU Name</TableHeaderCell>
+                              <TableHeaderCell width={140}>Category</TableHeaderCell>
+                              <TableHeaderCell width={100} align="right">
+                                Original Price
+                              </TableHeaderCell>
+                              <TableHeaderCell width={100} align="right">
+                                Selling Price
+                              </TableHeaderCell>
+                              <TableHeaderCell width={110}>Merchant</TableHeaderCell>
+                              <TableHeaderCell width={90} align="right">
+                                Discount
+                              </TableHeaderCell>
+                            </TableHeader>
+                            {EXAMPLE_TABLE_ROWS.map((row) => (
+                              <TableRow
+                                key={row.sku}
+                                state={exampleCheckedRows[row.sku] ? 'selected' : 'default'}
+                              >
+                                <TableSelectCell
+                                  checked={!!exampleCheckedRows[row.sku]}
+                                  onChange={() => toggleExampleRow(row.sku)}
+                                />
+                                <TableCell>
+                                  <span className="ds-datatable__cell-thumbnail">
+                                    <span className="icon icon--sm" aria-hidden="true">
+                                      image
+                                    </span>
+                                  </span>
+                                </TableCell>
+                                <TableCell>{row.sku}</TableCell>
+                                <TableCell>{row.brand}</TableCell>
+                                <TableCell>{row.name}</TableCell>
+                                <TableCell>{row.category}</TableCell>
+                                <TableCell align="right">{row.originalPrice}</TableCell>
+                                <TableCell align="right">{row.sellingPrice}</TableCell>
+                                <TableCell>{row.merchant}</TableCell>
+                                <TableCell align="right">{row.discount}</TableCell>
+                              </TableRow>
+                            ))}
+                          </Table>
+                        </div>
+                      </div>
+                      <div className="ds-table-example__pagination ds-searchbar-example__dim">
+                        <Pagination currentPage={1} totalPages={4} size="sm" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {activeExampleTab === 'Global search' && (
+              <>
+                <p className="ds-section__desc">
+                  Anchored at the center of the app shell (reusing Topbar's own page-preview
+                  instance, Figma node 263-5472) — click it to reveal a results panel matching
+                  List's own "Search Results" example (Figma node 639-5409).
+                </p>
+                <div
+                  className="ds-preview ds-preview--scrim ds-preview--scroll"
+                  style={{ padding: 0 }}
+                >
+                  <div
+                    className="ds-searchbar-example ds-searchbar-example--global"
+                    onClick={(e) => {
+                      const target = e.target as HTMLElement;
+                      if (target.closest('.ds-app-topbar__search')) {
+                        setGlobalSearchOpen((open) => !open);
+                      } else if (!target.closest('.ds-searchbar-example__results-panel')) {
+                        setGlobalSearchOpen(false);
+                      }
+                    }}
+                  >
+                    <div className="ds-searchbar-example__topbar-anchor">
+                      <AppTopbar showLogo />
+                      {globalSearchOpen && (
+                        <div className="ds-searchbar-example__results-overlay">
+                          <div className="ds-searchbar-example__panel ds-searchbar-example__panel--wide ds-searchbar-example__panel--radius-xl ds-searchbar-example__results-panel">
+                            <div className="ds-searchbar-example__searchbar-row">
+                              <Searchbar
+                                size="lg"
+                                state="focus"
+                                chipLabel="Product"
+                                defaultValue="Something"
+                              />
+                            </div>
+                            <div className="ds-searchbar-example__rows ds-searchbar-example__rows--lg">
+                              <List
+                                size="lg"
+                                label="Storefront Setup"
+                                tag="Product"
+                                icon={<ProductIcon className="ds-searchbar-example__thumb-glyph--product" />}
+                                subtitle={
+                                  <>
+                                    Store<mark className="ds-list__mark">front</mark> theme • Setup
+                                    wizard • Launch checklist • Automation
+                                  </>
+                                }
+                                caption="Online Store / Storefront / Setup / Marketing / Campaigns / Automation"
+                                forceState="hover"
+                              />
+                              <List
+                                size="lg"
+                                label="Storefront Domain Settings"
+                                tag="Product"
+                                icon={<ProductIcon className="ds-searchbar-example__thumb-glyph--product" />}
+                                subtitle={
+                                  <>
+                                    Custom <mark className="ds-list__mark">domain</mark> • DNS
+                                    records • SSL certificate • Redirect rules
+                                  </>
+                                }
+                                caption="Online Store / Storefront / Domain / Settings / Advanced / Custom"
+                              />
+                              <List
+                                size="lg"
+                                label="Free Gift Promotion"
+                                tag="Promotion"
+                                icon={<PromotionIcon className="ds-searchbar-example__thumb-glyph--promotion" />}
+                                subtitle={
+                                  <>
+                                    Gift <mark className="ds-list__mark">threshold</mark> • Eligible
+                                    SKUs • Campaign dates • Auto-apply
+                                  </>
+                                }
+                                caption="Online Store / Promotions / Free Gift / Campaign / Rules / Eligibility"
+                              />
+                            </div>
+                            <div className="ds-searchbar-example__footer">
+                              <span className="ds-searchbar-example__kbd">Esc</span>
+                              <span className="ds-searchbar-example__hint">Close</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="ds-searchbar-example__topbar-body ds-searchbar-example__dim">
+                      <div className="ds-searchbar-example__topbar-sidebar">
+                        <AppSidebar />
+                      </div>
+                      <div className="ds-searchbar-example__topbar-content" />
+                    </div>
+                  </div>
+                </div>
+                <span className="ds-variant-note">
+                  Click the search field to open the results panel; click anywhere outside it to
+                  close.
+                </span>
+              </>
+            )}
           </div>
         </div>
       </section>

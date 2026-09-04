@@ -1,0 +1,188 @@
+/* ---- Example (Variants) ----
+   Two real-world hosts for Searchbar — "Table search" reuses .ds-table-example/
+   .ds-table-toolbar directly from Table.css (the actual component CSS, not another doc
+   page's scoped demo classes, so importing it is fine per this codebase's doc-CSS-stays-
+   scoped convention); "Global search" duplicates TopbarDoc.tsx's own page-preview layout
+   and ListDoc.tsx's own "Search Results" panel as this page's own scoped scaffolding
+   (renamed ds-searchbar-example__*) rather than importing TopbarDoc.css/ListDoc.css
+   directly, same spirit as BannerDoc.css's own comment on this. */
+
+.ds-searchbar-example {
+  width: 100%;
+}
+
+/* dim = everything in the composition that is not the Searchbar itself */
+.ds-searchbar-example__dim {
+  transition: opacity var(--duration-fast) ease;
+}
+
+.ds-searchbar-example:hover .ds-searchbar-example__dim {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+/* focus = the Searchbar itself — wraps just the Table-search instance's own field, so the
+   ring hugs the field rather than the whole toolbar. */
+.ds-searchbar-example__focus {
+  display: block;
+  border-radius: var(--radius-md); /* radius/md */
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-searchbar-example:hover .ds-searchbar-example__focus {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+/* ---- Global search ----
+   Duplicates TopbarDoc.tsx's own "Menu toggle" page-preview composition (AppTopbar +
+   AppSidebar), simplified to a static expanded Sidebar — no menu-toggle demo here, since
+   that's Topbar's own subject, not Searchbar's. */
+.ds-searchbar-example--global {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Positions the results overlay relative to the topbar alone (not the whole composition) so
+   it drops down and overlaps .ds-searchbar-example__topbar-body below, rather than extending
+   past the bottom of .ds-searchbar-example--global — which .ds-preview--scroll's own
+   overflow-x:auto (ButtonDoc.css) forces overflow-y to also clip, per the sitewide overflow
+   gotcha (an explicit non-visible value on one axis computes the other to clip too). */
+.ds-searchbar-example__topbar-anchor {
+  position: relative;
+}
+
+.ds-searchbar-example__topbar-body {
+  display: flex;
+  align-items: stretch;
+  background: var(--global-background-page); /* global/background/page */
+}
+
+.ds-searchbar-example__topbar-sidebar {
+  flex-shrink: 0;
+  width: 260px;
+  overflow: hidden;
+}
+
+.ds-searchbar-example__topbar-content {
+  flex: 1 1 auto;
+  min-height: 320px; /* flagged: no matching token — just enough room to read as a page */
+}
+
+/* AppTopbar's own search field (.ds-app-topbar__search, a real/public class from
+   AppTopbar.tsx, not a doc-scoped one) is the demonstrated part here — ringed on hover
+   while the rest of the bar and the whole page body below dim, same convention as
+   TopbarDoc.css's own hover-highlight block for its Style tabs. */
+.ds-searchbar-example--global .ds-app-topbar__search {
+  border-radius: var(--radius-md); /* radius/md */
+  transition: box-shadow var(--duration-fast) ease;
+}
+
+.ds-searchbar-example--global:hover .ds-app-topbar__search {
+  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+}
+
+.ds-searchbar-example--global:hover .ds-app-topbar__logo,
+.ds-searchbar-example--global:hover .ds-app-topbar__leading,
+.ds-searchbar-example--global:hover .ds-app-topbar__trailing {
+  opacity: var(--opacity-40); /* opacity/40 */
+  transition: opacity var(--duration-fast) ease;
+}
+
+/* Results panel — click the search field to reveal, matching ListDoc.tsx's own "Search
+   Results" tab (Figma node 639-5409); anchored below the bar rather than pixel-precise
+   under the search field itself, since AppTopbar doesn't expose that field's own bounding
+   box to a doc-only composition wrapped around it from outside. */
+.ds-searchbar-example__results-overlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: var(--space-component-gap-sm); /* space/component/gap/sm */
+  z-index: 10;
+}
+
+/* Duplicated from ListDoc.css's own .ds-list-example__panel/__searchbar-row/__rows/__footer/
+   __kbd/__hint/__thumb-glyph-- (page-scoped demo classes, not List.css's real component CSS)
+   under this page's own ds-searchbar-example__ prefix, per doc-CSS-stays-scoped. */
+.ds-searchbar-example__panel {
+  display: flex;
+  flex-direction: column;
+  width: var(--component-width-dropdown-lg); /* component/width/dropdown/lg */
+  max-width: 100%;
+  background: var(--brand-neutral-0); /* brand/neutral/0 */
+  border-radius: var(--radius-md); /* radius/md */
+  /* Unlike ListDoc.css's own flat (no-shadow) panel — this one overlays live page content
+     rather than sitting inline in a doc's own flow, so it needs the same floating-panel
+     shadow Dropdown.css's own panel uses to read as "above" the page underneath it. */
+  box-shadow: 0 2px 8px 0 var(--interactive-dropdown-panel-shadow-default); /* interactive/dropdown/panel-shadow/default */
+  overflow: hidden;
+}
+
+.ds-searchbar-example__panel--wide {
+  width: 100%;
+  max-width: 640px;
+}
+
+.ds-searchbar-example__panel--radius-xl {
+  border-radius: var(--radius-xl); /* radius/xl */
+}
+
+.ds-searchbar-example__searchbar-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-component-gap-md); /* space/component/gap/md */
+  padding: var(--space-component-padding-md); /* space/component/padding/md */
+}
+
+.ds-searchbar-example__rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-searchbar-example__rows--lg > .ds-list--lg:last-child {
+  border-bottom: none;
+}
+
+.ds-searchbar-example__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+  padding: var(--space-component-padding-sm) var(--space-component-padding-md); /* space/component/padding/sm, space/component/padding/md */
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light); /* border/sm, global/divider/neutral/light */
+}
+
+.ds-searchbar-example__kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--space-component-padding-xs); /* space/component/padding/xs */
+  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
+  line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
+  color: var(--brand-neutral-700); /* brand/neutral/700 */
+  background: var(--brand-neutral-100); /* brand/neutral/100 */
+  border-radius: var(--radius-sm); /* radius/sm */
+}
+
+.ds-searchbar-example__hint {
+  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
+  line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
+  color: var(--brand-neutral-700); /* brand/neutral/700 */
+}
+
+/* Figma's Union (Product) glyph has no matching icon-size token (20px, between sm/16 and
+   md/24) — same gap already documented in ListDoc.css's own copy of this glyph. */
+.ds-searchbar-example__thumb-glyph--product {
+  width: 20px;
+  height: 20px;
+}
+
+/* Figma names this glyph "component/icon/sm" but renders it at 24px — mapped here by
+   actual pixel value (--component-icon-md) rather than Figma's variable name, matching
+   ListDoc.css's own copy. */
+.ds-searchbar-example__thumb-glyph--promotion {
+  width: var(--component-icon-md); /* component/icon/md */
+  height: var(--component-icon-md);
+}
