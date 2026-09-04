@@ -293,6 +293,12 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
                   </div>
                   <div className="ds-toast-example__body" />
                   <div className="ds-toast-example__anchor">
+                    <span className="ds-toast-example__gap ds-toast-example__gap--top">
+                      <span>12px</span>
+                    </span>
+                    <span className="ds-toast-example__gap ds-toast-example__gap--right">
+                      <span>36px</span>
+                    </span>
                     <div className="ds-toast-example__focus">
                       <Toast
                         state="success"

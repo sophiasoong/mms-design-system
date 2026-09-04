@@ -87,6 +87,53 @@
 .ds-toast-example__anchor {
   position: absolute;
   top: calc(var(--component-height-3xl) + var(--space-component-padding-md)); /* component/height/3xl, space/component/padding/md */
-  right: var(--space-layout-section-padding-md); /* space/layout/section/padding/md */
+  right: var(--space-layout-section-padding-lg); /* space/layout/section/padding/lg, 36px */
   z-index: 10;
+}
+
+/* Spec measurement callouts (Figma node 1907:132816) — dashed leader lines sized to exactly
+   the same tokens the anchor's own top/right offsets above use, so they can never drift out
+   of sync with the real gap. Each line is a zero-width/zero-height box so its own border
+   renders as a precise 12px/36px segment; the <span> label inside is positioned off that
+   zero-size box rather than centered within it. Red style reads as an annotation/measurement
+   overlay, not real UI — brand/danger only has a single 500 tier (no lighter tint like
+   primary's 400), so label and line share the same token rather than a guessed second shade. */
+.ds-toast-example__gap {
+  position: absolute;
+  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
+  line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
+  font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
+  color: var(--brand-danger-500); /* brand/danger/500 */
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.ds-toast-example__gap--top {
+  top: calc(-1 * var(--space-component-padding-md)); /* space/component/padding/md, 12px */
+  left: 50%;
+  width: 0;
+  height: var(--space-component-padding-md); /* space/component/padding/md, 12px */
+  border-left: var(--border-sm) dashed var(--brand-danger-500); /* border/sm, brand/danger/500 */
+}
+
+.ds-toast-example__gap--top span {
+  position: absolute;
+  top: 50%;
+  left: var(--space-component-gap-xs); /* space/component/gap/xs */
+  transform: translateY(-50%);
+}
+
+.ds-toast-example__gap--right {
+  top: 50%;
+  right: calc(-1 * var(--space-layout-section-padding-lg)); /* space/layout/section/padding/lg, 36px */
+  width: var(--space-layout-section-padding-lg); /* space/layout/section/padding/lg, 36px */
+  height: 0;
+  border-top: var(--border-sm) dashed var(--brand-danger-500); /* border/sm, brand/danger/500 */
+}
+
+.ds-toast-example__gap--right span {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-component-gap-xs); /* space/component/gap/xs */
+  transform: translateX(-50%);
 }
