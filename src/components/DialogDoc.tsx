@@ -10,7 +10,7 @@ import './DialogDoc.css';
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=194-2828';
 
-const VARIANT_TABS = ['Confirm', 'Alert', 'Destructive', 'Loading', 'With Checkbox'] as const;
+const VARIANT_TABS = ['Confirm', 'Destructive', 'Loading'] as const;
 type VariantTab = (typeof VARIANT_TABS)[number];
 
 interface DialogDocProps {
@@ -125,13 +125,13 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
       <section id="variants" className="ds-section">
         <h2 className="ds-section__title">Variants</h2>
         <p className="ds-section__desc">
-          Layout controls the actions row: Confirm pairs an outline and a solid primary action;
-          Alert drops the description for a single solid action; Destructive swaps the solid
-          action for danger; Loading replaces the actions with a Progress ring.
+          Style controls the actions row: Confirm pairs an outline and a solid primary action,
+          plus an optional opt-in checkbox; Destructive swaps the solid action for danger;
+          Loading replaces the actions with a Progress ring.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Layout</span>
-        <div className="ds-line-tabs" role="tablist" aria-label="Dialog layout groups">
+        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <div className="ds-line-tabs" role="tablist" aria-label="Dialog style groups">
           {VARIANT_TABS.map((tab) => (
             <button
               key={tab}
@@ -150,13 +150,11 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
           <div className="ds-variant-group">
             <div className="ds-preview ds-preview--scrim">
               {activeVariantTab === 'Confirm' ? (
-                <Dialog layout="confirm" secondaryLabel="Cancel" primaryLabel="Confirm" />
-              ) : activeVariantTab === 'Alert' ? (
                 <Dialog
-                  layout="alert"
-                  title="Update available"
-                  showDescription={false}
-                  primaryLabel="Got it"
+                  layout="confirm"
+                  showCheckbox
+                  secondaryLabel="Cancel"
+                  primaryLabel="Confirm"
                 />
               ) : activeVariantTab === 'Destructive' ? (
                 <Dialog
@@ -166,30 +164,19 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
                   secondaryLabel="Cancel"
                   primaryLabel="Delete"
                 />
-              ) : activeVariantTab === 'Loading' ? (
+              ) : (
                 <Dialog
                   layout="loading"
                   title="Loading Data"
                   description="Please wait, do not close the window."
-                />
-              ) : (
-                <Dialog
-                  layout="confirm"
-                  showCheckbox
-                  secondaryLabel="Cancel"
-                  primaryLabel="Confirm"
                 />
               )}
             </div>
             {activeVariantTab === 'Confirm' && (
               <span className="ds-variant-note">
                 The default layout — an outline secondary action beside a solid primary action.
-              </span>
-            )}
-            {activeVariantTab === 'Alert' && (
-              <span className="ds-variant-note">
-                Pass <code>showDescription={'{false}'}</code> and{' '}
-                <code>layout="alert"</code> for a compact, single-action dialog.
+                Pass <code>showCheckbox</code> to add an opt-in below the description, as shown
+                here.
               </span>
             )}
             {activeVariantTab === 'Destructive' && (
@@ -202,12 +189,6 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
               <span className="ds-variant-note">
                 <code>layout="loading"</code> centers an indeterminate Progress ring in place of
                 the actions row — there is nothing for the user to click.
-              </span>
-            )}
-            {activeVariantTab === 'With Checkbox' && (
-              <span className="ds-variant-note">
-                Pass <code>showCheckbox</code> to add an opt-in below the description — Figma
-                keeps this hidden by default.
               </span>
             )}
           </div>
