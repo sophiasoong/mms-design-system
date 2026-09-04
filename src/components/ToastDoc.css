@@ -30,6 +30,7 @@
    above the page it confirms), so there's no second mode to switch between. Same hover-dim/
    focus idiom as MessageDoc.css's own .ds-message-example. */
 .ds-toast-example {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -94,12 +95,19 @@
   color: var(--text-heading-primary-neutral); /* text/heading/primary/neutral */
 }
 
-/* Sits in normal flow as the body's next flex child (below the header row) rather than
-   absolutely overlapping it like Figma's own placement (node 1907:132816) — an exact
-   pixel-for-pixel overlay would sit directly on top of the header's own Save button here,
-   which reads as a bug rather than "Toast floats above the page." Right-aligning within
-   normal flow keeps the same top-right corner read without the overlap. */
+/* Absolutely positioned to match Figma's own placement (node 1907:132816, top:80px against
+   a 68px-tall Topbar — i.e. 12px below it) rather than sitting in the body's normal flow.
+   top is computed off AppTopbar's own rendered height plus that 12px gap (space/component/
+   padding/md) rather than hardcoding 80px, so it stays correct if that height ever changes;
+   it computes to 76px here, not 80px, only because AppTopbar.css's own height already trades
+   Figma's 68px for the nearest tier, --component-height-3xl (64px) — a pre-existing flagged
+   mismatch (see AppTopbar.css's header comment), not a new one. right matches
+   .ds-toast-example__body's own padding so Toast's right edge lines up with the header row's
+   Save button below it. Deliberately overlaps the page content it floats above — that's the
+   point of a toast, not a bug. */
 .ds-toast-example__anchor {
-  display: flex;
-  justify-content: flex-end;
+  position: absolute;
+  top: calc(var(--component-height-3xl) + var(--space-component-padding-md)); /* component/height/3xl, space/component/padding/md */
+  right: var(--space-layout-section-padding-md); /* space/layout/section/padding/md */
+  z-index: 10;
 }

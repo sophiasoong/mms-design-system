@@ -22,12 +22,35 @@ const STATE_BY_TAB: Record<VariantTab, ToastState> = {
   Danger: 'danger',
 };
 
-/** Per-state copy for the Style row below — one realistic title/description/button per
-    state instead of Toast's own generic "Title"/"Description"/"Button" defaults. */
-const COPY_BY_TAB: Record<VariantTab, { title: string; description: string; buttonLabel: string }> = {
+/** Per-state copy for the Style row below — single-line has no title and a fixed 48px
+    row (no overflow handling of its own), so its description is written short enough to
+    read as one real line at 396px; multi-line's description is written long enough to
+    wrap to two lines, showing off the layout it's actually for. One realistic
+    title/description/button per state either way, not Toast's own generic
+    "Title"/"Description"/"Button" defaults. */
+const SINGLE_LINE_COPY_BY_TAB: Record<VariantTab, { description: string; buttonLabel: string }> = {
+  Success: {
+    description: 'Changes saved successfully.',
+    buttonLabel: 'View',
+  },
+  Info: {
+    description: 'Maintenance begins at 11 PM.',
+    buttonLabel: 'Learn more',
+  },
+  Warning: {
+    description: "You've used 90% of your storage.",
+    buttonLabel: 'Upgrade',
+  },
+  Danger: {
+    description: 'Sync failed — check your connection.',
+    buttonLabel: 'Retry',
+  },
+};
+
+const MULTI_LINE_COPY_BY_TAB: Record<VariantTab, { title: string; description: string; buttonLabel: string }> = {
   Success: {
     title: 'Draft saved',
-    description: 'Your changes have been saved successfully.',
+    description: "Your changes have been saved successfully. Publish when you're ready to make them live.",
     buttonLabel: 'View',
   },
   Info: {
@@ -42,7 +65,7 @@ const COPY_BY_TAB: Record<VariantTab, { title: string; description: string; butt
   },
   Danger: {
     title: 'Sync failed',
-    description: 'Sync failed — check your connection and try again.',
+    description: 'Sync failed — check your internet connection and try again in a few minutes.',
     buttonLabel: 'Retry',
   },
 };
@@ -214,8 +237,8 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
                 <Toast
                   state={STATE_BY_TAB[activeVariantTab]}
                   layout="single-line"
-                  description={COPY_BY_TAB[activeVariantTab].description}
-                  buttonLabel={COPY_BY_TAB[activeVariantTab].buttonLabel}
+                  description={SINGLE_LINE_COPY_BY_TAB[activeVariantTab].description}
+                  buttonLabel={SINGLE_LINE_COPY_BY_TAB[activeVariantTab].buttonLabel}
                 />
                 <span className="ds-variant-row__cell-label">Single-line</span>
               </div>
@@ -223,9 +246,9 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
                 <Toast
                   state={STATE_BY_TAB[activeVariantTab]}
                   layout="multi-line"
-                  title={COPY_BY_TAB[activeVariantTab].title}
-                  description={COPY_BY_TAB[activeVariantTab].description}
-                  buttonLabel={COPY_BY_TAB[activeVariantTab].buttonLabel}
+                  title={MULTI_LINE_COPY_BY_TAB[activeVariantTab].title}
+                  description={MULTI_LINE_COPY_BY_TAB[activeVariantTab].description}
+                  buttonLabel={MULTI_LINE_COPY_BY_TAB[activeVariantTab].buttonLabel}
                 />
                 <span className="ds-variant-row__cell-label">Multi-line</span>
               </div>
@@ -266,7 +289,7 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
               <div className="ds-preview ds-preview--scrim ds-preview--scroll" style={{ padding: 0 }}>
                 <div className="ds-toast-example">
                   <div className="ds-toast-example__dim">
-                    <AppTopbar />
+                    <AppTopbar showLogo />
                   </div>
                   <div className="ds-toast-example__body">
                     <div className="ds-toast-example__page-header ds-toast-example__dim">
@@ -275,16 +298,16 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
                         Save
                       </Button>
                     </div>
-                    <div className="ds-toast-example__anchor">
-                      <div className="ds-toast-example__focus">
-                        <Toast
-                          state="success"
-                          layout="multi-line"
-                          title="Draft saved successfully"
-                          description="Your changes have been saved as a draft. Publish when you're ready to make it live."
-                          showButton={false}
-                        />
-                      </div>
+                  </div>
+                  <div className="ds-toast-example__anchor">
+                    <div className="ds-toast-example__focus">
+                      <Toast
+                        state="success"
+                        layout="multi-line"
+                        title="Draft saved successfully"
+                        description="Your changes have been saved as a draft. Publish when you're ready to make it live."
+                        showButton={false}
+                      />
                     </div>
                   </div>
                 </div>
