@@ -226,6 +226,19 @@
   padding-top: var(--space-component-gap-sm); /* space/component/gap/sm */
 }
 
+/* Bleeds past .ds-modal__body's own left/right padding (space/layout/section/padding/sm) so
+   the table's edges meet the modal's edges — same negative-margin technique as ModalDoc.css's
+   own .ds-modal-example__step-table. Scoped to just the scroll/frame wrapper (not the whole
+   .ds-banner-example__dim block below it) so .ds-banner-example__modal-pagination keeps the
+   modal body's normal inset instead of bleeding with it — the results count and Pagination
+   control stay clear of the modal's rounded corners the way Table.css's own
+   .ds-table-example__pagination keeps its padding-lg independent of the card's edge. */
+.ds-banner-example__modal-table {
+  margin-left: calc(-1 * var(--space-layout-section-padding-sm)); /* space/layout/section/padding/sm */
+  margin-right: calc(-1 * var(--space-layout-section-padding-sm)); /* space/layout/section/padding/sm */
+  width: calc(100% + (var(--space-layout-section-padding-sm) * 2)); /* space/layout/section/padding/sm */
+}
+
 /* Highlight Banner on hover, dim other areas — same sibling dim/focus convention as
    IndicatorDoc.css's .ds-indicator-example / ListDoc.css's .ds-list-example. Each
    composition's non-Banner chrome is wrapped in its own .ds-banner-example__dim sibling

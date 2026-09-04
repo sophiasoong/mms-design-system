@@ -649,7 +649,7 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
                     </div>
 
                     <div className="ds-banner-example__dim">
-                      <div className="ds-table-example__scroll">
+                      <div className="ds-table-example__scroll ds-banner-example__modal-table">
                         <div className="ds-table-example__frame">
                           <Table size="md">
                             <TableHeader>
