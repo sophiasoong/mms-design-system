@@ -291,14 +291,7 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
                   <div className="ds-toast-example__dim">
                     <AppTopbar showLogo />
                   </div>
-                  <div className="ds-toast-example__body">
-                    <div className="ds-toast-example__page-header ds-toast-example__dim">
-                      <h4 className="ds-toast-example__page-title">Edit Product</h4>
-                      <Button variant="primary" appearance="solid" size="md">
-                        Save
-                      </Button>
-                    </div>
-                  </div>
+                  <div className="ds-toast-example__body" />
                   <div className="ds-toast-example__anchor">
                     <div className="ds-toast-example__focus">
                       <Toast

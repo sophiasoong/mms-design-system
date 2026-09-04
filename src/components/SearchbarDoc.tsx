@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { Searchbar } from './Searchbar';
 import { ActionChip, FilterChip } from './Chip';
 import { DropdownOption } from './Dropdown';
@@ -69,6 +69,30 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
   const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Table search');
   const [exampleCheckedRows, setExampleCheckedRows] = useState<Record<string, boolean>>({});
   const [globalSearchOpen, setGlobalSearchOpen] = useState(false);
+  // AppTopbar doesn't expose its internal search field's own bounding box as a prop, so the
+  // results panel below measures the live DOM node directly (relative to this anchor) to line
+  // its own left/width up with the real field — which itself flex-grows/shrinks with the
+  // topbar's available width — rather than centering a fixed-width panel under the whole bar.
+  const topbarAnchorRef = useRef<HTMLDivElement>(null);
+  const [searchFieldRect, setSearchFieldRect] = useState<{ left: number; width: number } | null>(
+    null
+  );
+
+  useLayoutEffect(() => {
+    if (!globalSearchOpen) return;
+    const anchor = topbarAnchorRef.current;
+    const searchField = anchor?.querySelector('.ds-app-topbar__search');
+    if (!anchor || !searchField) return;
+
+    const updateRect = () => {
+      const anchorRect = anchor.getBoundingClientRect();
+      const fieldRect = searchField.getBoundingClientRect();
+      setSearchFieldRect({ left: fieldRect.left - anchorRect.left, width: fieldRect.width });
+    };
+    updateRect();
+    window.addEventListener('resize', updateRect);
+    return () => window.removeEventListener('resize', updateRect);
+  }, [globalSearchOpen]);
 
   const toggleExampleRow = (sku: string) => {
     setExampleCheckedRows((prev) => ({ ...prev, [sku]: !prev[sku] }));
@@ -450,11 +474,18 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                       }
                     }}
                   >
-                    <div className="ds-searchbar-example__topbar-anchor">
+                    <div className="ds-searchbar-example__topbar-anchor" ref={topbarAnchorRef}>
                       <AppTopbar showLogo searchState={globalSearchOpen ? 'focus' : 'default'} />
                       {globalSearchOpen && (
-                        <div className="ds-searchbar-example__results-overlay">
-                          <div className="ds-searchbar-example__panel ds-searchbar-example__panel--wide ds-searchbar-example__panel--radius-xl ds-searchbar-example__results-panel">
+                        <div
+                          className="ds-searchbar-example__results-overlay"
+                          style={
+                            searchFieldRect
+                              ? { left: searchFieldRect.left, width: searchFieldRect.width }
+                              : undefined
+                          }
+                        >
+                          <div className="ds-searchbar-example__panel ds-searchbar-example__panel--radius-xl ds-searchbar-example__results-panel">
                             <div className="ds-searchbar-example__rows ds-searchbar-example__rows--lg">
                               <List
                                 size="lg"

@@ -66,33 +66,12 @@
   text-decoration: underline;
 }
 
-/* Page body below the (dimmed) topbar — Sidebar isn't part of this composition, same
-   simplification MessageDoc.css's own .ds-message-example__body already establishes for its
-   Message Center tab: a page title/action row is enough context for "what did Toast just
-   confirm" without a full nav rail, proportionate to a doc example whose subject is Toast,
-   not page chrome. */
+/* Page body below the (dimmed) topbar — just a blank page-colored canvas for Toast to float
+   above (no title/action row of its own; Sidebar isn't part of this composition either),
+   proportionate to a doc example whose subject is Toast, not page chrome. */
 .ds-toast-example__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
-  padding: var(--space-layout-section-padding-md); /* space/layout/section/padding/md */
   background: var(--global-background-page); /* global/background/page */
   min-height: 320px; /* flagged: no matching token — just enough room to read as a page, not a strip */
-}
-
-.ds-toast-example__page-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
-}
-
-.ds-toast-example__page-title {
-  margin: 0;
-  font-size: var(--typography-xl-font-size); /* typography/xl/font-size */
-  line-height: var(--typography-xl-line-height); /* typography/xl/line-height */
-  font-weight: var(--typography-font-weight-regular); /* typography/font-weight/regular */
-  color: var(--text-heading-primary-neutral); /* text/heading/primary/neutral */
 }
 
 /* Absolutely positioned to match Figma's own placement (node 1907:132816, top:80px against
@@ -102,8 +81,8 @@
    it computes to 76px here, not 80px, only because AppTopbar.css's own height already trades
    Figma's 68px for the nearest tier, --component-height-3xl (64px) — a pre-existing flagged
    mismatch (see AppTopbar.css's header comment), not a new one. right matches
-   .ds-toast-example__body's own padding so Toast's right edge lines up with the header row's
-   Save button below it. Deliberately overlaps the page content it floats above — that's the
+   .ds-toast-example__body's own padding so Toast's right edge stays clear of the page canvas's
+   own edge below it. Deliberately overlaps the page content it floats above — that's the
    point of a toast, not a bug. */
 .ds-toast-example__anchor {
   position: absolute;

@@ -48,6 +48,11 @@ export default function AppTopbar({
 }: AppTopbarProps) {
   const classes = ['ds-app-topbar', className].filter(Boolean).join(' ');
   const notificationLabel = notificationCount > 99 ? '99+' : String(notificationCount);
+  // A caller driving searchState to 'focus' (an active search) also means the search field
+  // should take over the bar — the Store menu on its left and the Back/FAQ/notification
+  // trio on its right step aside so it can flex-grow into the space they leave behind,
+  // rather than these two staying coupled to separate props of their own.
+  const searchExpanded = searchState === 'focus';
 
   return (
     <header className={classes}>
@@ -67,13 +72,15 @@ export default function AppTopbar({
           label="Toggle menu"
           onClick={onMenuClick}
         />
-        <button type="button" className="ds-app-topbar__store-trigger" onClick={onStoreClick}>
-          <Badge color="green" />
-          <span>{storeName}</span>
-          <span className="icon" aria-hidden="true">
-            expand_more
-          </span>
-        </button>
+        {!searchExpanded && (
+          <button type="button" className="ds-app-topbar__store-trigger" onClick={onStoreClick}>
+            <Badge color="green" />
+            <span>{storeName}</span>
+            <span className="icon" aria-hidden="true">
+              expand_more
+            </span>
+          </button>
+        )}
       </div>
 
       <div className="ds-app-topbar__search">
@@ -81,35 +88,39 @@ export default function AppTopbar({
       </div>
 
       <div className="ds-app-topbar__trailing">
-        {showBackButton && (
-          <Button variant="secondary" appearance="solid" size="sm" onClick={onBackClick}>
-            Back to MMS 1.0
-          </Button>
+        {!searchExpanded && (
+          <>
+            {showBackButton && (
+              <Button variant="secondary" appearance="solid" size="sm" onClick={onBackClick}>
+                Back to MMS 1.0
+              </Button>
+            )}
+            <IconButton
+              icon="help"
+              variant="neutral"
+              appearance="ghost"
+              shape="round"
+              size="md"
+              label="FAQ"
+              className="ds-app-topbar__faq"
+              onClick={onFaqClick}
+            />
+            <span className="ds-app-topbar__notification-wrap">
+              <IconButton
+                icon="notifications"
+                variant="neutral"
+                appearance="ghost"
+                shape="round"
+                size="md"
+                label="Notifications"
+                onClick={onNotificationClick}
+              />
+              {notificationCount > 0 && (
+                <span className="ds-app-topbar__notification-badge">{notificationLabel}</span>
+              )}
+            </span>
+          </>
         )}
-        <IconButton
-          icon="help"
-          variant="neutral"
-          appearance="ghost"
-          shape="round"
-          size="md"
-          label="FAQ"
-          className="ds-app-topbar__faq"
-          onClick={onFaqClick}
-        />
-        <span className="ds-app-topbar__notification-wrap">
-          <IconButton
-            icon="notifications"
-            variant="neutral"
-            appearance="ghost"
-            shape="round"
-            size="md"
-            label="Notifications"
-            onClick={onNotificationClick}
-          />
-          {notificationCount > 0 && (
-            <span className="ds-app-topbar__notification-badge">{notificationLabel}</span>
-          )}
-        </span>
         <span className="ds-app-topbar__divider" aria-hidden="true" />
         <button type="button" className="ds-app-topbar__menu-trigger" onClick={onLanguageClick}>
           <span>{language}</span>

@@ -88,16 +88,13 @@
 }
 
 /* Results panel — click the search field to reveal, matching ListDoc.tsx's own "Search
-   Results" tab (Figma node 639-5409); anchored below the bar rather than pixel-precise
-   under the search field itself, since AppTopbar doesn't expose that field's own bounding
-   box to a doc-only composition wrapped around it from outside. */
+   Results" tab (Figma node 639-5409). left/width are set inline from a JS measurement of
+   the real .ds-app-topbar__search field's own bounding box (see SearchbarDoc.tsx's
+   searchFieldRect state) so the panel lines up exactly under the field it searches,
+   including as that field's own flex-grown width changes with viewport size. */
 .ds-searchbar-example__results-overlay {
   position: absolute;
   top: 100%;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
   padding-top: var(--space-component-gap-sm); /* space/component/gap/sm */
   z-index: 10;
 }
@@ -119,9 +116,12 @@
   overflow: hidden;
 }
 
-.ds-searchbar-example__panel--wide {
+/* Results panel fills its overlay exactly (the overlay itself is already sized to the
+   search field's own width from JS, see above) rather than using the shared --wide
+   modifier's fixed width. */
+.ds-searchbar-example__results-panel {
   width: 100%;
-  max-width: 640px;
+  max-width: none;
 }
 
 .ds-searchbar-example__panel--radius-xl {
