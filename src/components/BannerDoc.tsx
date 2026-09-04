@@ -568,7 +568,7 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
                         <FilterChip label="Status" />
                       </div>
                       <div className="ds-table-toolbar__actions">
-                        <Button variant="primary" appearance="solid" size="sm">
+                        <Button variant="primary" appearance="solid" size="md">
                           Search
                         </Button>
                         <button type="button" className="ds-banner-example__reset">
