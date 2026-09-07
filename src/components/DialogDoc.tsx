@@ -50,7 +50,7 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
           and a set of actions. Use it sparingly, for moments that truly need to block the user.
         </p>
         <div className="ds-preview ds-preview--scrim">
-          <Dialog />
+          <Dialog secondaryLabel="Cancel" primaryLabel="Confirm" />
         </div>
       </section>
 
@@ -80,10 +80,10 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
               </div>
               <div className="ds-dialog__buttons ds-anatomy__part-relative">
                 <Button variant="primary" appearance="outline" size="md">
-                  Label
+                  Cancel
                 </Button>
                 <Button variant="primary" appearance="solid" size="md">
-                  Label
+                  Confirm
                 </Button>
                 <span className="ds-anatomy__badge ds-anatomy__badge--side">4</span>
               </div>
