@@ -2,6 +2,7 @@ import Button from './Button';
 import IconButton from './IconButton';
 import { Toggle } from './Toggle';
 import { Tag } from './Tag';
+import { ChevronDownIcon } from './Chip';
 import './Header.css';
 
 export type HeaderStyle = 'modal' | 'form' | 'sub-form' | 'section' | 'form-list';
@@ -137,7 +138,7 @@ export default function Header({
 
       {!isSection && showExpander && (
         <IconButton
-          icon={isModal ? 'close' : 'keyboard_arrow_down'}
+          icon={isModal ? 'close' : <ChevronDownIcon />}
           variant={isModal ? 'primary' : 'neutral'}
           appearance="ghost"
           size="sm"

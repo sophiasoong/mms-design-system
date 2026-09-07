@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes } from 'react';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import './IconButton.css';
 
 export type IconButtonVariant = 'primary' | 'secondary' | 'danger' | 'neutral' | 'success' | 'pending';
@@ -7,7 +7,10 @@ export type IconButtonSize = 'sm' | 'md' | 'lg';
 export type IconButtonShape = 'square' | 'round';
 
 export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  icon: string;
+  /** A Material Symbols Rounded glyph name (the default, rendered as ligature text), or a
+      bespoke ReactNode (e.g. Chip.tsx's ChevronDownIcon) for the rare case a glyph's shape
+      isn't in that font — see Header.tsx's expander chevron, matched to Select's own. */
+  icon: string | ReactNode;
   variant?: IconButtonVariant;
   appearance?: IconButtonAppearance;
   size?: IconButtonSize;
