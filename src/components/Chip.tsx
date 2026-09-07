@@ -136,6 +136,9 @@ export function InputChip({
 
 export interface ActionChipProps {
   label?: string;
+  /** Optional leading icon (e.g. a category glyph) rendered before the label, sized to 16px
+      regardless of the icon's own native viewBox — see .ds-chip__icon in Chip.css. */
+  icon?: ReactNode;
   size?: 'sm' | 'md' | 'lg';
   selected?: boolean;
   state?: 'default' | 'hover' | 'disabled';
@@ -145,6 +148,7 @@ export interface ActionChipProps {
 
 export function ActionChip({
   label = 'Label',
+  icon,
   size = 'lg',
   selected = false,
   state = 'default',
@@ -166,6 +170,11 @@ export function ActionChip({
 
   return (
     <button type="button" className={classes} disabled={disabled} onClick={onClick}>
+      {icon && (
+        <span className="ds-chip__icon" aria-hidden="true">
+          {icon}
+        </span>
+      )}
       <span className="ds-chip__label">{label}</span>
     </button>
   );

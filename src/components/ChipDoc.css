@@ -78,3 +78,50 @@
 .ds-preview--scrim .ds-example-mock__name {
   color: var(--brand-neutral-0);
 }
+
+/* ---- Example > Action chip ----
+   Captions are back to the shared .ds-example-mock-item/__name and
+   .ds-variant-row__cell(-label) defaults (ButtonDoc.css) — below/centered, plain
+   text — same as every other Example tab (Filter chip, Input chip). No caption
+   position/style override lives here any more; .ds-chip-doc__action-example now only
+   scopes the divider treatment below, which replaces the gap-only separation
+   previously used between sibling instances.
+   The Select mock's own two instances ("Chip (in-line) trigger" / "Chip (wrap)
+   trigger") dropped their individual captions and the vertical divider that used to
+   sit between them (both removed per follow-up request) — they now sit side by side
+   at the shared .ds-variant-row gap (ButtonDoc.css default), under the single "Select"
+   caption below the whole group. */
+
+/* Divider line between the three top-level instances (Select/Tab/Search bar), in place
+   of a gap-only separation. 16px padding-top matches the container's own 16px gap
+   (.ds-example-mocks, ButtonDoc.css) so the divider sits centered in 32px of total
+   space rather than hugging either neighbor. */
+.ds-chip-doc__action-example > .ds-example-mock-item + .ds-example-mock-item {
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light);
+  padding-top: var(--space-component-gap-lg);
+}
+
+/* The outline the Select mock shows is .ds-variant-row's own card border (ButtonDoc.css),
+   drawn around the whole two-trigger group — not each .ds-select trigger's own border,
+   which stays intact here. border-color: transparent (not border: none) keeps the row's
+   padding/radius math intact rather than collapsing its box model. Scoped to this
+   Example tab's Select group only; every other .ds-variant-row on this page (the Style
+   tab's size rows above) and elsewhere keeps its default bordered card look. */
+.ds-chip-doc__action-example .ds-variant-row {
+  border-color: transparent;
+}
+
+/* The Search bar mock (Searchbar + its Product/Promotion Action chip suggestions) sits in
+   its own padded container — sizing the Searchbar itself (below, width: 100%) to the
+   container's own width — without a visible border/background around it. align-items:
+   flex-start left-aligns both children against the container's own padding edge instead
+   of centering them. */
+.ds-chip-doc__searchbar-example {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-component-gap-md);
+  padding: var(--space-component-padding-md);
+  border-radius: var(--radius-md);
+  width: 100%;
+}

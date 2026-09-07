@@ -6,6 +6,7 @@ import { Textarea } from './Textarea';
 import { DropdownOption } from './Dropdown';
 import Button from './Button';
 import { SearchbarIcon, SelectIcon, TextareaIcon, TabIcon, TableIcon } from './icons';
+import { ProductIcon, PromotionIcon } from './assetIcons';
 import './ButtonDoc.css';
 import './Select.css';
 import './ChipDoc.css';
@@ -27,7 +28,7 @@ const EXAMPLE_TAB_NOTES: Record<ExampleTab, string> = {
   'Input chip':
     "Each chosen value renders as an Input chip; clicking a chip's close icon removes just that value. Type text and press Enter to add a new chip.",
   'Action chip':
-    'Select renders selected values as Input chips — Chip (in-line) trigger collapses overflow into a trailing "+N" badge, Chip (wrap) trigger lets selection flow onto additional lines instead. Tab groups use Action chips, with the category labels receding on hover. A Searchbar\'s filter suggestions render as Action chips too, collapsing into a removable inline token once one is picked.',
+    'Select renders selected values as Input chips — Chip (in-line) trigger collapses overflow into a trailing "+N" badge, Chip (wrap) trigger lets selection flow onto additional lines instead. Tab groups use Action chips, with the category labels receding on hover. A Search bar\'s filter suggestions render as Action chips too, collapsing into a removable inline token once one is picked.',
 };
 
 interface ChipTabGroup {
@@ -482,7 +483,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
               )}
 
               {activeExampleTab === 'Action chip' && (
-                <div className="ds-example-mocks">
+                <div className="ds-example-mocks ds-chip-doc__action-example">
                   <div className="ds-example-mock-item">
                     <span className="ds-example-mock__name">Select</span>
                     <div className="ds-variant-row" style={{ alignItems: 'flex-start' }}>
@@ -605,7 +606,6 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
                             </div>
                           )}
                         </div>
-                        <span className="ds-variant-row__cell-label">Chip (in-line) trigger</span>
                       </div>
 
                       <div className="ds-variant-row__cell">
@@ -688,7 +688,6 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
                             </div>
                           )}
                         </div>
-                        <span className="ds-variant-row__cell-label">Chip (wrap) trigger</span>
                       </div>
                     </div>
                   </div>
@@ -711,16 +710,9 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
                   </div>
 
                   <div className="ds-example-mock-item">
-                    <span className="ds-example-mock__name">Searchbar</span>
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'flex-start',
-                        gap: 'var(--space-component-gap-md)',
-                      }}
-                    >
-                      <div style={{ width: 320 }}>
+                    <span className="ds-example-mock__name">Search bar</span>
+                    <div className="ds-chip-doc__searchbar-example">
+                      <div style={{ width: '100%' }}>
                         <Searchbar
                           placeholder="Please select"
                           chipLabel={searchbarFilterChip ?? undefined}
@@ -731,11 +723,13 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
                         <div style={{ display: 'flex', gap: 'var(--space-component-gap-xs)' }}>
                           <ActionChip
                             label="Product"
+                            icon={<ProductIcon />}
                             size="md"
                             onClick={() => setSearchbarFilterChip('Product')}
                           />
                           <ActionChip
                             label="Promotion"
+                            icon={<PromotionIcon />}
                             size="md"
                             onClick={() => setSearchbarFilterChip('Promotion')}
                           />
@@ -1134,7 +1128,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
             onClick={() => onNavigate?.('searchbar')}
           >
             <SearchbarIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Searchbar</span>
+            <span className="ds-related-card__name">Search bar</span>
           </button>
           <button
             type="button"
