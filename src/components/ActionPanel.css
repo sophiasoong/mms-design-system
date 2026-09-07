@@ -66,6 +66,47 @@
   gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
 }
 
+/* Expand/collapse strip (Figma node 1881:111379): full-width, divider on top, a fixed
+   40px tall row with 24px side padding around a centered 12px chevron. Sits after
+   Main/Main2 as the panel's footer. */
+.ds-action-panel__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--component-height-lg); /* component/height/lg — 40px strip, includes the top divider */
+  padding: 0 var(--space-component-padding-xl); /* space/component/padding/xl */
+  border: 0;
+  border-top: var(--border-sm) solid var(--global-divider-neutral-light); /* border/sm, global/divider/neutral-light */
+  background: transparent;
+  color: var(--interactive-icon-button-icon-neutral-ghost-default); /* interactive/icon-button/icon/neutral/ghost/default (#5c5c5c, exact match for Figma's chevron stroke) */
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.ds-action-panel__toggle:hover {
+  background: var(--interactive-button-surface-primary-ghost-hover); /* interactive/button/surface/primary/ghost/hover */
+  color: var(--interactive-icon-button-icon-neutral-ghost-hover); /* interactive/icon-button/icon/neutral/ghost/hover */
+}
+
+.ds-action-panel__toggle:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 var(--border-md) var(--interactive-shadow-primary); /* border/md, interactive/shadow/primary */
+}
+
+.ds-action-panel__toggle-icon {
+  display: block;
+  width: var(--component-icon-xs); /* component/icon/xs — Figma's 12px chevron box */
+  height: auto;
+  transition: transform var(--duration-slow) ease; /* turns in step with Step.css's collapse motion */
+}
+
+.ds-action-panel__toggle-icon--up {
+  transform: rotate(180deg);
+}
+
 .ds-action-panel__section-title {
   display: flex;
   align-items: center;

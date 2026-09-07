@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import IconButton from './IconButton';
+import { ChevronDownIcon } from './Chip';
 import './ActionPanel.css';
 
 export interface ActionPanelProps {
@@ -12,6 +13,14 @@ export interface ActionPanelProps {
   /** Figma's "Main2" slot — a secondary content block, divided from Main by a rule
    * only when both slots are populated (matching the source component's own behavior). */
   main2?: ReactNode;
+  /** Renders Figma's expand/collapse strip (node 1881:111379) under the last slot: a
+   * full-width, divider-topped bar with a centered chevron (up when expanded, down when
+   * collapsed). Controlled — the panel only reports the click via `onToggleCollapsed`;
+   * the caller owns `collapsed` and folds the slot's own content with it (e.g. Step's
+   * `collapsed` prop), since what "collapsed" means depends on what the slot holds. */
+  collapsible?: boolean;
+  collapsed?: boolean;
+  onToggleCollapsed?: () => void;
   className?: string;
 }
 
@@ -22,6 +31,9 @@ export default function ActionPanel({
   onInfoClick,
   main,
   main2,
+  collapsible = false,
+  collapsed = false,
+  onToggleCollapsed,
   className,
 }: ActionPanelProps) {
   const classes = ['ds-action-panel', className].filter(Boolean).join(' ');
@@ -47,6 +59,21 @@ export default function ActionPanel({
         </div>
       )}
       {main2 && <div className="ds-action-panel__main2">{main2}</div>}
+      {collapsible && (
+        <button
+          type="button"
+          className="ds-action-panel__toggle"
+          aria-expanded={!collapsed}
+          aria-label={collapsed ? `Expand ${title}` : `Collapse ${title}`}
+          onClick={onToggleCollapsed}
+        >
+          {/* Same ChevronDownIcon as Form's header collapse chevron — one glyph, rotated
+              180deg while expanded (pointing up), instead of swapping Figma's Up/Down pair. */}
+          <ChevronDownIcon
+            className={`ds-action-panel__toggle-icon${collapsed ? '' : ' ds-action-panel__toggle-icon--up'}`}
+          />
+        </button>
+      )}
     </div>
   );
 }

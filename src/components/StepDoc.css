@@ -133,8 +133,10 @@
 /* Example subsection — "Overview page" tab. Figma node 1872:105586: a record page
    (back-link + title + line tabs + toolbar + data table + pagination) with a right
    column of an Action panel stacked above a Workflow Status panel containing a
-   vertical Step (see 1872:109152 for that Step's real item copy). Same dim/focus
-   convention, own scoped classes. */
+   vertical Step (see 1872:109152 for that Step's real item copy). The Workflow Status
+   panel is collapsible (Expand 1872:109426 is the default, Collapse 1881:111929 keeps
+   only the current step) via ActionPanel's footer chevron + Step's `collapsed` prop.
+   Same dim/focus convention, own scoped classes. */
 .ds-step-example-overview {
   width: 100%;
   display: flex;

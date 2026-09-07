@@ -24,10 +24,13 @@
   gap: var(--space-component-gap-lg);
 }
 
+/* The vertical stack's 16px item rhythm is a margin on each item that follows another
+   *visible* item (the sibling rule below) rather than a flex `gap`, so a collapsed item
+   can animate its own spacing away with it — a `gap` would keep holding 16px open
+   between two visible neighbours even once the item between them has folded to 0. */
 .ds-step--vertical {
   flex-direction: column;
   align-items: stretch;
-  gap: var(--space-component-gap-lg);
 }
 
 .ds-step-item--horizontal {
@@ -37,9 +40,44 @@
   flex: 0 0 auto;
 }
 
+/* Grid (not flex) so the item can collapse with the 1fr -> 0fr row-track transition:
+   the single row is sized by its rail/body children, both freed to shrink below their
+   content (min-height: 0), while overflow: hidden clips what no longer fits. Column
+   sizes/gap match the previous flex layout exactly (32px rail + 16px gap + fluid body). */
 .ds-step-item--vertical {
-  display: flex;
-  gap: var(--space-component-gap-lg);
+  display: grid;
+  grid-template-columns: var(--component-height-md) minmax(0, 1fr); /* component/height/md */
+  grid-template-rows: 1fr;
+  column-gap: var(--space-component-gap-lg); /* space/component/gap/lg */
+  margin-top: 0;
+  overflow: hidden;
+  /* Expand/collapse motion. --duration-slow (300ms) is the longest motion token — the
+     height change is a layout shift, so it reads better at the slow tier than the
+     --duration-fast used for hover/opacity. flagged: no easing token exists in tokens.json,
+     so `ease` is used per the codebase's existing convention (Sidebar.css, Form.css). */
+  transition:
+    grid-template-rows var(--duration-slow) ease,
+    margin-top var(--duration-slow) ease,
+    opacity var(--duration-slow) ease;
+}
+
+.ds-step-item--vertical:not(.ds-step-item--collapsed)
+  ~ .ds-step-item--vertical:not(.ds-step-item--collapsed) {
+  margin-top: var(--space-component-gap-lg); /* space/component/gap/lg */
+}
+
+.ds-step-item--vertical > .ds-step-item__rail,
+.ds-step-item--vertical > .ds-step-item__body {
+  min-height: 0;
+}
+
+/* Collapsed (Step's `collapsed` prop, every item but the current one): the row track
+   folds to 0fr and the item fades, its top margin going with it. Kept mounted so the
+   panel width/rail stay stable and the reverse transition has something to grow back. */
+.ds-step-item--collapsed {
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  opacity: 0; /* flagged: tokens.css has no --opacity-0 (scale starts at --opacity-40) */
 }
 
 .ds-step-item__rail {

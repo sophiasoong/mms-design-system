@@ -86,28 +86,32 @@ const VERTICAL_ITEMS: StepItemData[] = [
     caption: 'Aug 1, 2026, 9:14 AM',
     status: 'finished',
     description: 'Your account details have been verified and saved.',
-    badgeLabel: 'Label',
+    badgeLabel: 'Done',
+    badgeColor: 'green',
   },
   {
     title: 'Add profile info',
     caption: 'Aug 4, 2026, 2:30 PM',
     status: 'current',
     description: 'Tell us a bit about yourself to personalize your experience.',
-    badgeLabel: 'Label',
+    badgeLabel: 'In progress',
+    badgeColor: 'blue',
   },
   {
     title: 'Set preferences',
     caption: 'Aug 6, 2026, 10:00 AM',
     status: 'default',
     description: 'Choose your notification and privacy settings.',
-    badgeLabel: 'Label',
+    badgeLabel: 'Pending',
+    badgeColor: 'gray',
   },
   {
     title: 'Review & submit',
     caption: 'Aug 8, 2026, 3:45 PM',
     status: 'default',
     description: 'Confirm everything looks correct before finishing.',
-    badgeLabel: 'Label',
+    badgeLabel: 'Pending',
+    badgeColor: 'gray',
   },
 ];
 
@@ -118,6 +122,8 @@ interface StepDocProps {
 export default function StepDoc({ onNavigate }: StepDocProps) {
   const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Horizontal');
   const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Modal');
+  // Overview page's Workflow Status panel — Expand is Figma's default variant.
+  const [workflowCollapsed, setWorkflowCollapsed] = useState(false);
 
   return (
     <div className="ds-doc">
@@ -500,14 +506,21 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
                         </Button>
                       }
                     />
+                    {/* Expand (default, Figma 1872:109426) / Collapse (1881:111929): the
+                        panel's footer chevron folds the Step down to its current item and
+                        back, animated by Step.css. */}
                     <ActionPanel
                       title="Workflow Status"
                       className="ds-step-example-overview__workflow-panel"
+                      collapsible
+                      collapsed={workflowCollapsed}
+                      onToggleCollapsed={() => setWorkflowCollapsed((c) => !c)}
                       main={
                         <Step
                           className="ds-step-example-overview__focus"
                           orientation="vertical"
                           items={WORKFLOW_STATUS_ITEMS}
+                          collapsed={workflowCollapsed}
                         />
                       }
                     />
