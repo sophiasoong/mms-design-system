@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { ReactNode } from 'react';
 import IconButton from './IconButton';
 import { Tooltip } from './Tooltip';
+import { ChevronDownIcon } from './Chip';
 import './Form.css';
 
 export interface FormProps {
@@ -84,11 +85,10 @@ export default function Form({
           </div>
           {collapsible && (
             <IconButton
-              icon={collapsed ? 'expand_more' : 'expand_less'}
+              icon={<ChevronDownIcon className={!collapsed ? 'ds-form__header-chevron--up' : undefined} />}
               variant="neutral"
               appearance="ghost"
               size="sm"
-              className="ds-icon-button--icon-scale-lg"
               label={collapsed ? `Expand ${title}` : `Collapse ${title}`}
               aria-expanded={!collapsed}
               onClick={() => setCollapsed((c) => !c)}

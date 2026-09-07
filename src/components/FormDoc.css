@@ -112,33 +112,46 @@
   max-width: var(--component-width-modal-lg);
 }
 
+/* Explicit 2-column grid (Label|Text button / Badge|Chip / Tag alone on the third row)
+   rather than the flex-wrap row-by-row grouping this used to have — the 5 cells sit
+   flat here (no per-row wrapper div in FormDoc.tsx) and auto-flow into the grid in
+   markup order. 24px gap on both axes matches the row-to-row spacing this grid already
+   used before. */
 .ds-form-doc__readonly-grid {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-layout-section-gap-md);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-layout-section-gap-lg); /* 24px between instances, row and column */
   width: 100%;
 }
 
-/* One explicit row per line (Label/Text button/Badge, then Chip/Tag) rather than an
-   auto-fit grid — the prior auto-fit column count depended on container width, which
-   didn't reliably keep Chip and Tag on their own second line. */
-.ds-form-doc__readonly-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-layout-section-gap-md);
-}
-
-/* Left-align each cell's instance and caption with each other, overriding
-   .ds-variant-row__cell(-label)'s shared centered layout (ButtonDoc.css) — scoped to
-   this page only since other Doc pages rely on the centered default. */
-.ds-form-doc__readonly-row .ds-variant-row__cell {
-  flex: 1 1 220px;
+/* Caption sits to the left of each cell's instance rather than below it, overriding
+   .ds-variant-row__cell(-label)'s shared below/centered layout (ButtonDoc.css) — scoped
+   to this page only since other Doc pages rely on the below/centered default. The
+   FormField comes before its caption span in markup, but order:-1 on the label
+   (below) moves it first visually (left) without touching the DOM/reading order.
+   align-items:flex-start pins both to the top corner, level with the instance's own
+   first line, rather than centered against its full (often two-line) height. */
+.ds-form-doc__readonly-grid .ds-variant-row__cell {
   min-width: 0;
+  flex-direction: row;
   align-items: flex-start;
+  gap: var(--space-component-gap-lg); /* 16px between caption and instance */
 }
 
-.ds-form-doc__readonly-row .ds-variant-row__cell-label {
-  text-align: left;
+/* Fixed width (rather than each caption sizing to its own text) so every caption in the
+   grid lines up into one clean vertical column, text right-aligned within it so the ragged
+   edge falls on the right (against the instance) instead of the left (against the grid's
+   own edge) — and because the fixed width is consistent across rows, every instance also
+   starts at the same x position regardless of its own caption's text length. order:-1
+   moves the caption before the instance visually (left) despite following it in markup.
+   flagged: no dedicated caption/label-width token exists at 96px, and no width-scale token
+   at all — component-height-5xl (96px) is reused for its exact value despite being a
+   height token, since it's a closer match than resizing to any of the width-scale steps. */
+.ds-form-doc__readonly-grid .ds-variant-row__cell-label {
+  order: -1;
+  flex-shrink: 0;
+  width: var(--component-height-5xl);
+  text-align: right;
 }
 
 /* Text button style — no dedicated link component exists yet (ToggleDoc.css's own
@@ -303,6 +316,9 @@
     match for the Figma card background. */
   border-radius: var(--radius-md); /* radius/md */
   overflow: hidden;
+  /* Plays the drag-reorder preview: FormDoc.tsx's FormListExample FLIP-animates each
+     card that changed slot (snap to old position, then release to this transition). */
+  transition: transform var(--duration-normal) ease; /* duration/normal */
 }
 
 .ds-form-list-item__header {
@@ -351,6 +367,27 @@
   flex-direction: column;
   gap: var(--space-layout-section-gap-md); /* space/layout/section/gap/md */
   padding: 0 var(--space-layout-section-padding-md) var(--space-layout-section-padding-md); /* space/layout/section/padding/md */
+}
+
+/* Per-item collapse — same stays-mounted-but-zeroed approach as Form.css's own
+   .ds-form__main--collapsed (so a collapsed banner's own content still holds the
+   card's shrink-to-fit width), toggled by the same bespoke ChevronDownIcon +
+   .ds-form__header-chevron--up rotation used on Form's header expander. */
+.ds-form-list-item__body--collapsed {
+  height: 0;
+  gap: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* Dragging affordance for reordering via the drag_indicator handle (native HTML5
+   drag-and-drop — see FormDoc.tsx's FormListExample/BannerListItem). --opacity-40
+   is the token scale's established "dimmed" value elsewhere in the doc pages
+   (e.g. TopbarDoc.css's own disabled-state comment). */
+.ds-form-list-item--dragging {
+  opacity: var(--opacity-40); /* opacity/40 */
 }
 
 .ds-form-doc__field-caption {

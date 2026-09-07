@@ -76,6 +76,16 @@
   align-items: center;
 }
 
+/* Collapse chevron — same bespoke ChevronDownIcon SVG as Header.tsx's expander and
+   Select's own trigger chevron (Chip.tsx), replacing the old expand_more/expand_less
+   Material Symbols pair (which needed .ds-icon-button--icon-scale-lg to read at a
+   legible size). One icon covers both directions: rotated 180deg when expanded
+   (pointing up, "collapse" affordance) instead of swapping glyphs — same rotate-in-
+   place pattern as .ds-input__stepper-icon--up (Input.css). */
+.ds-form__header-chevron--up {
+  transform: rotate(180deg);
+}
+
 /* Opt-in hover/focus anchor for Form's `infoTooltip` prop — position:relative host for
    the floating Tooltip below, mirrors Table.css's .ds-datatable__header-info-anchor. */
 .ds-form__info-anchor {

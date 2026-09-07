@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useLayoutEffect } from 'react';
 import Form, { FormRow, FormCol, FormField } from './Form';
 import { Input } from './Input';
 import { Select } from './Select';
@@ -11,7 +11,7 @@ import Upload, { UploadImageItem } from './Upload';
 import Button from './Button';
 import IconButton from './IconButton';
 import { Badge } from './Badge';
-import { InputChip } from './Chip';
+import { ChevronDownIcon, InputChip } from './Chip';
 import { Tag } from './Tag';
 import {
   InputIcon,
@@ -256,11 +256,10 @@ function SubFormExample() {
           />
         </span>
         <IconButton
-          icon="expand_less"
+          icon={<ChevronDownIcon className="ds-form__header-chevron--up" />}
           variant="neutral"
           appearance="ghost"
           size="sm"
-          className="ds-icon-button--icon-scale-lg"
           label="Collapse Product Variants"
         />
       </div>
@@ -307,13 +306,53 @@ function SubFormExample() {
  * drag handle, thumbnail, title, delete/collapse actions, then an image + URL row and
  * a schedule row whose date fields only appear once "Schedule display period" is
  * selected. */
-function BannerListItem({ scheduled, index }: { scheduled: boolean; index: number }) {
+interface BannerListItemProps {
+  scheduled: boolean;
+  index: number;
+  dragging?: boolean;
+  rootRef: (el: HTMLDivElement | null) => void;
+  onDragStart: () => void;
+  onDragEnd: () => void;
+  onDragEnterSelf: () => void;
+  onDropOnSelf: () => void;
+  onDelete: () => void;
+}
+
+function BannerListItem({
+  scheduled,
+  index,
+  dragging,
+  rootRef,
+  onDragStart,
+  onDragEnd,
+  onDragEnterSelf,
+  onDropOnSelf,
+  onDelete,
+}: BannerListItemProps) {
   const [isScheduled, setIsScheduled] = useState(scheduled);
+  const [collapsed, setCollapsed] = useState(false);
   const scheduleGroup = `banner-schedule-${index}`;
   return (
-    <div className="ds-form-list-item">
+    <div
+      ref={rootRef}
+      className={['ds-form-list-item', dragging && 'ds-form-list-item--dragging']
+        .filter(Boolean)
+        .join(' ')}
+      onDragEnter={onDragEnterSelf}
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={(e) => {
+        e.preventDefault();
+        onDropOnSelf();
+      }}
+    >
       <div className="ds-form-list-item__header">
-        <span className="icon icon--sm ds-form-list-item__drag" aria-hidden="true">
+        <span
+          className="icon icon--sm ds-form-list-item__drag"
+          aria-hidden="true"
+          draggable
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+        >
           drag_indicator
         </span>
         <span className="ds-form-list-item__thumb" aria-hidden="true">
@@ -334,17 +373,25 @@ function BannerListItem({ scheduled, index }: { scheduled: boolean; index: numbe
             variant="primary"
             appearance="ghost"
             size="sm"
+            onClick={onDelete}
           />
           <IconButton
-            icon="expand_less"
-            label="Collapse banner"
+            icon={<ChevronDownIcon className={!collapsed ? 'ds-form__header-chevron--up' : undefined} />}
+            label={collapsed ? 'Expand banner' : 'Collapse banner'}
             variant="primary"
             appearance="ghost"
             size="sm"
+            aria-expanded={!collapsed}
+            onClick={() => setCollapsed((c) => !c)}
           />
         </div>
       </div>
-      <div className="ds-form-list-item__body">
+      <div
+        className={['ds-form-list-item__body', collapsed && 'ds-form-list-item__body--collapsed']
+          .filter(Boolean)
+          .join(' ')}
+        aria-hidden={collapsed || undefined}
+      >
         <FormRow>
           <FormCol>
             <FormField label="Banner">
@@ -406,19 +453,132 @@ function BannerListItem({ scheduled, index }: { scheduled: boolean; index: numbe
 /** Example tab: Form-list (Figma 1201:63864) — a Form wrapping two repeatable Banner
  * cards (one scheduled, one always-displayed) plus an outlined "add" button with a
  * running count, demonstrating a repeatable list of composite fields inside a Form. */
+interface BannerData {
+  id: number;
+  scheduled: boolean;
+}
+
+const MAX_BANNERS = 10;
+
 function FormListExample() {
+  const [banners, setBanners] = useState<BannerData[]>([
+    { id: 1, scheduled: true },
+    { id: 2, scheduled: false },
+  ]);
+  const nextIdRef = useRef(3);
+  const [dragId, setDragId] = useState<number | null>(null);
+  // Live preview of the drop while dragging: the dragged card moves into whichever
+  // card's slot the pointer enters, so the cards in between visibly push aside. Only
+  // committed to `banners` on drop; a cancelled drag simply discards it.
+  const [previewBanners, setPreviewBanners] = useState<BannerData[] | null>(null);
+  const itemRefs = useRef(new Map<number, HTMLDivElement>());
+  const firstRectsRef = useRef<Map<number, DOMRect> | null>(null);
+  const displayBanners = previewBanners ?? banners;
+
+  // Taken right before a state change that reorders the cards, so the rects are fresh —
+  // getBoundingClientRect is viewport-relative, so a snapshot kept from an earlier
+  // render would drift as soon as the doc page scrolled.
+  const snapshotRects = () => {
+    firstRectsRef.current = new Map(
+      Array.from(itemRefs.current, ([id, node]) => [id, node.getBoundingClientRect()]),
+    );
+  };
+
+  // FLIP: each card that changed slot is snapped back to where it was (transition off),
+  // then released so .ds-form-list-item's CSS transform transition plays it to its new
+  // slot. Measured rects keep mixed heights (collapsed/scheduled) exact.
+  useLayoutEffect(() => {
+    const firstRects = firstRectsRef.current;
+    if (!firstRects) return;
+    firstRectsRef.current = null;
+    itemRefs.current.forEach((node, id) => {
+      const first = firstRects.get(id);
+      if (!first) return;
+      const deltaY = first.top - node.getBoundingClientRect().top;
+      if (!deltaY) return;
+      node.style.transition = 'none';
+      node.style.transform = `translateY(${deltaY}px)`;
+      node.getBoundingClientRect();
+      node.style.transition = '';
+      node.style.transform = '';
+    });
+  }, [displayBanners]);
+
+  const handleAddBanner = () => {
+    setBanners((prev) =>
+      prev.length >= MAX_BANNERS ? prev : [...prev, { id: nextIdRef.current++, scheduled: false }],
+    );
+  };
+
+  // Removes the whole card; the rects snapshot lets the cards below FLIP-slide up into
+  // the gap instead of jumping (same transition as the drag preview).
+  const handleDeleteBanner = (id: number) => {
+    snapshotRects();
+    setBanners((prev) => prev.filter((b) => b.id !== id));
+  };
+
+  const handleDragStart = (id: number) => {
+    setDragId(id);
+    setPreviewBanners(banners);
+  };
+
+  // Ignores the dragged card itself: after a move it sits under the pointer, and
+  // reacting to that would bounce the order straight back.
+  const handleDragEnterItem = (targetId: number) => {
+    if (dragId === null || targetId === dragId || !previewBanners) return;
+    const from = previewBanners.findIndex((b) => b.id === dragId);
+    const to = previewBanners.findIndex((b) => b.id === targetId);
+    if (from === -1 || to === -1) return;
+    const next = [...previewBanners];
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    snapshotRects();
+    setPreviewBanners(next);
+  };
+
+  const handleDrop = () => {
+    if (previewBanners) setBanners(previewBanners);
+    setDragId(null);
+    setPreviewBanners(null);
+  };
+
+  // Fires after a drop too (preview already cleared then); only a cancelled drag with
+  // a pending move still has cards to animate back.
+  const handleDragEnd = () => {
+    if (previewBanners && previewBanners !== banners) snapshotRects();
+    setDragId(null);
+    setPreviewBanners(null);
+  };
+
   return (
     <Form title="Direct to Merchant Page Banner">
-      <BannerListItem scheduled index={1} />
-      <BannerListItem scheduled={false} index={2} />
+      {displayBanners.map((banner, i) => (
+        <BannerListItem
+          key={banner.id}
+          scheduled={banner.scheduled}
+          index={i + 1}
+          dragging={dragId === banner.id}
+          rootRef={(el) => {
+            if (el) itemRefs.current.set(banner.id, el);
+            else itemRefs.current.delete(banner.id);
+          }}
+          onDragStart={() => handleDragStart(banner.id)}
+          onDragEnd={handleDragEnd}
+          onDragEnterSelf={() => handleDragEnterItem(banner.id)}
+          onDropOnSelf={handleDrop}
+          onDelete={() => handleDeleteBanner(banner.id)}
+        />
+      ))}
       <Button
         variant="primary"
         appearance="outline"
         size="md"
         leadingIcon="add"
         className="ds-form-doc__add-banner"
+        onClick={handleAddBanner}
+        disabled={banners.length >= MAX_BANNERS}
       >
-        Add Direct to Merchant Page Banner 2/10
+        Add Direct to Merchant Page Banner {banners.length}/{MAX_BANNERS}
       </Button>
     </Form>
   );
@@ -504,11 +664,10 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
                   <IconButton icon="info" variant="pending" appearance="ghost" size="sm" label="About" />
                 </div>
                 <IconButton
-                  icon="expand_less"
+                  icon={<ChevronDownIcon className="ds-form__header-chevron--up" />}
                   variant="neutral"
                   appearance="ghost"
                   size="sm"
-                  className="ds-icon-button--icon-scale-lg"
                   label="Collapse"
                 />
                 <span className="ds-anatomy__badge ds-anatomy__badge--side-left">1</span>
@@ -649,55 +808,51 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
             )}
             {activeFieldTypeId === 'readonly' && (
               <div className="ds-form-doc__readonly-grid">
-                <div className="ds-form-doc__readonly-row">
-                  <div className="ds-variant-row__cell">
-                    <FormField label="Order ID">
-                      <span className="ds-form-field__value">ORD-2024-00842</span>
-                    </FormField>
-                    <span className="ds-variant-row__cell-label">Label</span>
-                  </div>
-                  <div className="ds-variant-row__cell">
-                    <FormField label="Tracking Number">
-                      <span className="ds-form-doc__readonly-link">
-                        <span className="ds-form-doc__readonly-link-text">TRK-88213</span>
-                        <span className="icon icon--sm" aria-hidden="true">
-                          open_in_new
-                        </span>
-                      </span>
-                    </FormField>
-                    <span className="ds-variant-row__cell-label">Text button</span>
-                  </div>
-                  <div className="ds-variant-row__cell">
-                    <FormField label="Order Status">
-                      <Badge label="Pending" color="orange" />
-                    </FormField>
-                    <span className="ds-variant-row__cell-label">Badge</span>
-                  </div>
+                <div className="ds-variant-row__cell">
+                  <FormField label="Order ID">
+                    <span className="ds-form-field__value">ORD-2024-00842</span>
+                  </FormField>
+                  <span className="ds-variant-row__cell-label">Label</span>
                 </div>
-                <div className="ds-form-doc__readonly-row">
-                  <div className="ds-variant-row__cell">
-                    <FormField label="Delivery Dates">
-                      <div className="ds-form-doc__readonly-chip-row">
-                        <InputChip label="2026-01-01" size="sm" showTrailingIcon={false} />
-                        <InputChip label="2026-01-02" size="sm" showTrailingIcon={false} />
-                        <InputChip label="2026-01-02" size="sm" showTrailingIcon={false} />
-                        <Button variant="primary" appearance="ghost" size="sm">
-                          View All (100)
-                        </Button>
-                      </div>
-                    </FormField>
-                    <span className="ds-variant-row__cell-label">Chip</span>
-                  </div>
-                  <div className="ds-variant-row__cell">
-                    <FormField label="Categories">
-                      <div className="ds-form-doc__readonly-tag-row">
-                        <Tag label="Apparel" />
-                        <Tag label="Footwear" />
-                        <Tag label="Accessories" />
-                      </div>
-                    </FormField>
-                    <span className="ds-variant-row__cell-label">Tag</span>
-                  </div>
+                <div className="ds-variant-row__cell">
+                  <FormField label="Tracking Number">
+                    <span className="ds-form-doc__readonly-link">
+                      <span className="ds-form-doc__readonly-link-text">TRK-88213</span>
+                      <span className="icon icon--sm" aria-hidden="true">
+                        open_in_new
+                      </span>
+                    </span>
+                  </FormField>
+                  <span className="ds-variant-row__cell-label">Text button</span>
+                </div>
+                <div className="ds-variant-row__cell">
+                  <FormField label="Order Status">
+                    <Badge label="Pending" color="orange" />
+                  </FormField>
+                  <span className="ds-variant-row__cell-label">Badge</span>
+                </div>
+                <div className="ds-variant-row__cell">
+                  <FormField label="Delivery Dates">
+                    <div className="ds-form-doc__readonly-chip-row">
+                      <InputChip label="2026-01-01" size="sm" showTrailingIcon={false} />
+                      <InputChip label="2026-01-02" size="sm" showTrailingIcon={false} />
+                      <InputChip label="2026-01-02" size="sm" showTrailingIcon={false} />
+                      <Button variant="primary" appearance="ghost" size="sm">
+                        View All (100)
+                      </Button>
+                    </div>
+                  </FormField>
+                  <span className="ds-variant-row__cell-label">Chip</span>
+                </div>
+                <div className="ds-variant-row__cell">
+                  <FormField label="Categories">
+                    <div className="ds-form-doc__readonly-tag-row">
+                      <Tag label="Apparel" />
+                      <Tag label="Footwear" />
+                      <Tag label="Accessories" />
+                    </div>
+                  </FormField>
+                  <span className="ds-variant-row__cell-label">Tag</span>
                 </div>
               </div>
             )}
