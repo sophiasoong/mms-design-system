@@ -1,6 +1,11 @@
 import { useState } from 'react';
-import AppSidebar, { DEFAULT_SIDEBAR_SECTIONS, type SidebarNavSection } from './AppSidebar';
+import AppSidebar, {
+  DEFAULT_SIDEBAR_SECTIONS,
+  MMA_SIDEBAR_SECTIONS,
+  type SidebarNavSection,
+} from './AppSidebar';
 import { AssetsIcon } from './icons';
+import { useBrandMode } from '../brandMode';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -46,12 +51,38 @@ const FLYOUT_MENU_SECTIONS: SidebarNavSection[] = COMPACT_SECTIONS.map((section)
   }),
 }));
 
+// MMA (Figma node 1932:69692) is a single flat list, so both tabs show the same eleven items;
+// the Flyout menu tab hangs a live flyout off each item that carries a chevron in the source
+// node (Cashback, Permission Setting, Payment, Product, Contract, Store Management, PPP
+// Management), which is exactly the set MMA marks as opening a sub-menu.
+const MMA_FLYOUT_MENU_SECTIONS: SidebarNavSection[] = MMA_SIDEBAR_SECTIONS.map((section) => ({
+  ...section,
+  items: section.items.map((item) =>
+    item.chevron
+      ? {
+          ...item,
+          subItems: [0, 1, 2].map((i) => ({ id: `${item.id}-sub-${i + 1}`, label: 'Sub-item' })),
+        }
+      : item,
+  ),
+}));
+
 interface SidebarDocProps {
   onNavigate?: (componentId: string) => void;
 }
 
 export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
   const [activeMenuTab, setActiveMenuTab] = useState<MenuTab>('Main menu');
+  // Overview's in-situ screenshot and the Variants instance both re-shape per brand.
+  const brandMode = useBrandMode();
+  const isMma = brandMode === 'mma';
+  const variantSections = isMma
+    ? activeMenuTab === 'Flyout menu'
+      ? MMA_FLYOUT_MENU_SECTIONS
+      : MMA_SIDEBAR_SECTIONS
+    : activeMenuTab === 'Flyout menu'
+      ? FLYOUT_MENU_SECTIONS
+      : COMPACT_SECTIONS;
 
   return (
     <div className="ds-doc">
@@ -85,10 +116,13 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
         <div className="ds-preview ds-sidebar-usage">
           <img
             className="ds-sidebar-usage__img"
-            src="/assets/sidebar-overview-usage.png"
+            src={isMma ? '/assets/sidebar-overview-usage-mma.png' : '/assets/sidebar-overview-usage.png'}
             alt="Sidebar shown in place within the app shell, beside the page content (Figma reference)"
           />
-          <span className="ds-sidebar-usage__highlight" aria-hidden="true" />
+          <span
+            className={`ds-sidebar-usage__highlight${isMma ? ' ds-sidebar-usage__highlight--mma' : ''}`}
+            aria-hidden="true"
+          />
         </div>
       </section>
 
@@ -203,15 +237,19 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
           <div className="ds-variant-group">
             <div className="ds-preview" style={{ justifyContent: 'flex-start' }}>
               <AppSidebar
-                key={activeMenuTab}
-                sections={activeMenuTab === 'Flyout menu' ? FLYOUT_MENU_SECTIONS : COMPACT_SECTIONS}
+                key={`${brandMode}-${activeMenuTab}`}
+                sections={variantSections}
                 showItemChevron={activeMenuTab === 'Flyout menu'}
               />
             </div>
             <span className="ds-variant-note">
-              {activeMenuTab === 'Main menu'
-                ? 'Main menu — a plain item list with no further navigation.'
-                : 'Flyout menu — hover or focus any item to reveal its flyout live; Return Request, 3PL, and Promotion Management each cascade a sub-item into a second nested level.'}
+              {isMma
+                ? activeMenuTab === 'Main menu'
+                  ? 'Main menu — one flat, ungrouped list; items that open a sub-menu carry a trailing chevron.'
+                  : 'Flyout menu — hover or focus any chevroned item (Cashback, Permission Setting, Payment, Product, Contract, Store Management, PPP Management) to reveal its flyout live.'
+                : activeMenuTab === 'Main menu'
+                  ? 'Main menu — a plain item list with no further navigation.'
+                  : 'Flyout menu — hover or focus any item to reveal its flyout live; Return Request, 3PL, and Promotion Management each cascade a sub-item into a second nested level.'}
             </span>
           </div>
         </div>

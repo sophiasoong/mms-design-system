@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useBrandMode } from '../brandMode';
 import './AppSidebar.css';
 
 export interface SidebarSubItem {
@@ -10,13 +11,19 @@ export interface SidebarSubItem {
 export interface SidebarNavItem {
   id: string;
   label: string;
-  icon: string;
+  /** Leading Material Symbol. MMA's sidebar (Figma node 1932:69692) has no item icons, so it's optional. */
+  icon?: string;
+  /** Per-item override of the sidebar-wide `showItemChevron` prop — MMA shows the trailing
+   * chevron only on the items that open a sub-menu, not on every row. */
+  chevron?: boolean;
   subItems?: SidebarSubItem[];
 }
 
 export interface SidebarNavSection {
   id: string;
-  label: string;
+  /** Section header text. Omit it for a header-less, un-indented flat list — the whole MMA
+   * sidebar is one such section, with no collapsible groupings at all. */
+  label?: string;
   items: SidebarNavItem[];
 }
 
@@ -109,7 +116,30 @@ export const DEFAULT_SIDEBAR_SECTIONS: SidebarNavSection[] = [
   },
 ];
 
+// MMA's internal-user sidebar (Figma node 1932:69692): a single flat list — no section
+// headers, no item icons, no bordered indent — where only the items that open a sub-menu
+// carry a trailing chevron. Labels and chevron placement read from that node in order.
+export const MMA_SIDEBAR_SECTIONS: SidebarNavSection[] = [
+  {
+    id: 'mma',
+    items: [
+      { id: 'cashback', label: 'Cashback', chevron: true },
+      { id: 'price-management', label: 'Price Management', chevron: false },
+      { id: 'permission-setting', label: 'Permission Setting', chevron: true },
+      { id: 'notification-settings', label: 'Notification Settings', chevron: false },
+      { id: 'exchange-rate-setting', label: 'Exchange Rate Setting', chevron: false },
+      { id: 'payment', label: 'Payment', chevron: true },
+      { id: 'product', label: 'Product', chevron: true },
+      { id: 'contract', label: 'Contract', chevron: true },
+      { id: 'rm-team', label: 'RM Team', chevron: false },
+      { id: 'store-management', label: 'Store Management', chevron: true },
+      { id: 'ppp-management', label: 'PPP Management', chevron: true },
+    ],
+  },
+];
+
 export interface AppSidebarProps {
+  /** Defaults per brand mode: DEFAULT_SIDEBAR_SECTIONS under MMS, MMA_SIDEBAR_SECTIONS under MMA. */
   sections?: SidebarNavSection[];
   activeItemId?: string;
   onSelectItem?: (id: string) => void;
@@ -119,13 +149,18 @@ export interface AppSidebarProps {
 }
 
 export default function AppSidebar({
-  sections = DEFAULT_SIDEBAR_SECTIONS,
+  sections: sectionsProp,
   activeItemId,
   onSelectItem,
   collapsedSectionIds,
   showItemChevron = true,
   className,
 }: AppSidebarProps) {
+  // Same brand-following pattern as AppTopbar's logo lockup: an instance rendered with no
+  // explicit `sections` re-shapes itself to the current brand's navigation.
+  const brandMode = useBrandMode();
+  const sections =
+    sectionsProp ?? (brandMode === 'mma' ? MMA_SIDEBAR_SECTIONS : DEFAULT_SIDEBAR_SECTIONS);
   const [collapsed, setCollapsed] = useState<Set<string>>(() => new Set(collapsedSectionIds));
 
   const toggleSection = (id: string) => {
@@ -137,29 +172,45 @@ export default function AppSidebar({
     });
   };
 
-  const classes = ['ds-app-sidebar', className].filter(Boolean).join(' ');
+  // A sidebar made only of header-less sections (MMA) drops the panel's vertical padding —
+  // node 1932:69692's container is px-12 / py-0, its first row sitting flush under the Topbar.
+  const isFlat = sections.every((section) => !section.label);
+  const classes = ['ds-app-sidebar', isFlat ? 'ds-app-sidebar--flat' : '', className]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <nav className={classes} aria-label="Product navigation">
       {sections.map((section) => {
-        const isCollapsed = collapsed.has(section.id);
+        const hasHeader = Boolean(section.label);
+        const isCollapsed = hasHeader && collapsed.has(section.id);
+        const listClasses = [
+          'ds-app-sidebar__item-list',
+          section.id === 'main' ? 'ds-app-sidebar__item-list--main' : '',
+          hasHeader ? '' : 'ds-app-sidebar__item-list--flat',
+        ]
+          .filter(Boolean)
+          .join(' ');
         return (
           <div className="ds-app-sidebar__section" key={section.id}>
-            <button
-              type="button"
-              className="ds-app-sidebar__section-header"
-              onClick={() => toggleSection(section.id)}
-              aria-expanded={!isCollapsed}
-            >
-              <span className="ds-app-sidebar__section-label">{section.label}</span>
-              <span className="icon ds-app-sidebar__section-chevron" aria-hidden="true">
-                {isCollapsed ? 'expand_more' : 'expand_less'}
-              </span>
-            </button>
+            {hasHeader && (
+              <button
+                type="button"
+                className="ds-app-sidebar__section-header"
+                onClick={() => toggleSection(section.id)}
+                aria-expanded={!isCollapsed}
+              >
+                <span className="ds-app-sidebar__section-label">{section.label}</span>
+                <span className="icon ds-app-sidebar__section-chevron" aria-hidden="true">
+                  {isCollapsed ? 'expand_more' : 'expand_less'}
+                </span>
+              </button>
+            )}
             {!isCollapsed && (
-              <ul className={`ds-app-sidebar__item-list${section.id === 'main' ? ' ds-app-sidebar__item-list--main' : ''}`}>
+              <ul className={listClasses}>
                 {section.items.map((item) => {
                   const isActive = activeItemId === item.id;
+                  const showChevron = item.chevron ?? showItemChevron;
                   return (
                     <li
                       className={`ds-app-sidebar__item-wrap${
@@ -173,11 +224,13 @@ export default function AppSidebar({
                         className={`ds-app-sidebar__item${isActive ? ' ds-app-sidebar__item--active' : ''}`}
                         onClick={() => onSelectItem?.(item.id)}
                       >
-                        <span className="icon ds-app-sidebar__item-icon" aria-hidden="true">
-                          {item.icon}
-                        </span>
+                        {item.icon && (
+                          <span className="icon ds-app-sidebar__item-icon" aria-hidden="true">
+                            {item.icon}
+                          </span>
+                        )}
                         <span className="ds-app-sidebar__item-label">{item.label}</span>
-                        {showItemChevron && (
+                        {showChevron && (
                           <span className="icon ds-app-sidebar__item-chevron" aria-hidden="true">
                             chevron_right
                           </span>

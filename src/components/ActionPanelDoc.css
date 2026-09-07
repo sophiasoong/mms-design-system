@@ -26,6 +26,17 @@
   pointer-events: none;
 }
 
+/* MMA counterpart (Figma node 1937:73509, a 1920x991 "3rd Party Integrate Management -
+   Tmall" screenshot): ActionPanelDoc swaps in action-panel-overview-usage-mma.png and this
+   modifier while the brand toggle is on MMA. The node is a plain cropped bitmap with no
+   component children to read positions from, so — as above — the two stacked panels'
+   shared bounds were measured from the PNG's own pixels (white cards against the #f5f5f5
+   page ground): left=1637, right=1882, top=168 ("Taobao Code" panel's top), bottom=593
+   ("Action" panel's bottom). */
+.ds-action-panel-usage__highlight--mma {
+  inset: 16.953% 1.979% 40.161% 85.260%;
+}
+
 /* Action Panel doc page only — the anatomy figure uses the same dimmed backdrop as
    .ds-preview--scrim (Footer's Overview) instead of the shared white .ds-anatomy__figure.
    .ds-anatomy__figure's own background rule sits later in ButtonDoc.css than

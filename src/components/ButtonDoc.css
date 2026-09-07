@@ -1151,6 +1151,15 @@
   pointer-events: none;
 }
 
+/* MMA counterpart (Figma node 1932:69535, Dashboard shell): SidebarDoc swaps in
+   sidebar-overview-usage-mma.png and this modifier while the brand toggle is on MMA. That
+   export was cropped the same way (the raw render carried 8px/6px of outer bleed on the
+   left/top and a ~0.99 scale), so the boundary is measured from the cropped PNG's pixels:
+   the brown rail — logo block plus Sidebar — ends at x=258 of 1904 (258/1904 = 13.55%). */
+.ds-sidebar-usage__highlight--mma {
+  inset: 0 86.45% 0 0;
+}
+
 /* ---- Table "Cell" content-style demo (TableDoc.tsx) ---- */
 /* Input normally stretches to fill its container (Input.css: width: 100%), so inside
    this wide preview table it sprawled to the cell's full ~716px — far past what a

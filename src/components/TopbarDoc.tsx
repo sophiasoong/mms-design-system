@@ -29,7 +29,8 @@ interface TopbarDocProps {
 
 export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
   const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Menu toggle');
-  // Anatomy's static logo mirrors the live AppTopbar instances, which swap lockups per brand.
+  // Anatomy's static logo mirrors the live AppTopbar instances, which swap lockups per brand;
+  // Overview swaps its in-situ screenshot (and highlight cutout) the same way.
   const brandMode = useBrandMode();
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
@@ -65,10 +66,19 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
         <div className="ds-preview ds-topbar-usage">
           <img
             className="ds-topbar-usage__img"
-            src="/assets/sidebar-overview-usage.png"
+            src={
+              brandMode === 'mma'
+                ? '/assets/sidebar-overview-usage-mma.png'
+                : '/assets/sidebar-overview-usage.png'
+            }
             alt="Topbar shown in place within the app shell, above the page content (Figma reference)"
           />
-          <span className="ds-topbar-usage__highlight" aria-hidden="true" />
+          <span
+            className={`ds-topbar-usage__highlight${
+              brandMode === 'mma' ? ' ds-topbar-usage__highlight--mma' : ''
+            }`}
+            aria-hidden="true"
+          />
         </div>
       </section>
 

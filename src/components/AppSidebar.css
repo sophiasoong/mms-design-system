@@ -76,6 +76,22 @@
   padding-left: var(--space-component-padding-sm); /* Figma inconsistency: Main is 8px vs. 12px elsewhere, see file header note 3 */
 }
 
+/* ---- Flat (header-less) list — MMA's sidebar, Figma node 1932:69692 ----
+   The MMA rail is one ungrouped item list: no section header above it, so no indent or
+   left border rail either (those exist to hang the items off a header), and its rows are
+   spaced by a 4px gap (item/list gap in the source node) instead of sitting flush. The
+   container drops its vertical padding too (node: px 12 / py 0), so the first row starts
+   directly under the Topbar the way the source frame (1932:69535) shows it. */
+.ds-app-sidebar--flat {
+  padding-block: var(--space-component-padding-none); /* space/component/padding/none */
+}
+
+.ds-app-sidebar__item-list--flat {
+  gap: var(--space-component-gap-xs); /* space/component/gap/xs */
+  padding-left: var(--space-component-padding-none); /* space/component/padding/none */
+  border-left: none;
+}
+
 .ds-app-sidebar__item-wrap {
   position: relative;
 }

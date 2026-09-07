@@ -9,7 +9,9 @@ import { Select } from './Select';
 import { Badge } from './Badge';
 import Button from './Button';
 import IconButton from './IconButton';
+import { Step, type StepItemData } from './Step';
 import { HeaderIcon, ButtonIcon, RadioIcon, SelectIcon, BadgeIcon } from './icons';
+import { useBrandMode } from '../brandMode';
 import './ButtonDoc.css';
 import './ActionPanelDoc.css';
 
@@ -19,8 +21,39 @@ const FIGMA_URL =
 const HISTORY_OPTIONS = ['Last 7 days', 'Last 30 days', 'Last 90 days'] as const;
 type HistoryOption = (typeof HISTORY_OPTIONS)[number] | 'All history' | 'Custom range';
 
-const VARIANT_TABS = ['Info only', 'Buttons only', 'Full example'] as const;
+const VARIANT_TABS = ['Info only', 'Buttons only', 'Combo', 'Step'] as const;
 type VariantTab = (typeof VARIANT_TABS)[number];
+
+/* Same items as StepDoc's Overview-page "Workflow Status" panel (Figma 1872:109426 /
+   1881:111929) — duplicated here rather than imported so the two doc pages stay
+   independent, matching the doc-CSS-stays-scoped convention. */
+const WORKFLOW_STATUS_ITEMS: StepItemData[] = [
+  {
+    title: 'Start',
+    status: 'finished',
+    description: 'YYYY-MM-DD HH:MM:SS · RML ID_0123456789',
+  },
+  {
+    title: 'Pending Approval',
+    status: 'current',
+    description: 'YYYY-MM-DD HH:MM:SS',
+  },
+  {
+    title: 'Payment',
+    status: 'default',
+    description: 'YYYY-MM-DD HH:MM:SS · Invoice No.',
+  },
+  {
+    title: 'Acknowledge',
+    status: 'default',
+    description: 'YYYY-MM-DD HH:MM:SS',
+  },
+  {
+    title: 'Completed',
+    status: 'default',
+    description: 'YYYY-MM-DD HH:MM:SS',
+  },
+];
 
 interface ActionPanelDocProps {
   onNavigate?: (componentId: string) => void;
@@ -29,8 +62,12 @@ interface ActionPanelDocProps {
 export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
   const [historyRange, setHistoryRange] = useState<HistoryOption>('All history');
   const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Info only');
+  // Step tab's Workflow Status panel — Expand is Figma's default variant.
+  const [workflowCollapsed, setWorkflowCollapsed] = useState(false);
+  // Overview's in-situ screenshot (and its highlight cutout) swaps per brand, like Sidebar/Topbar.
+  const isMma = useBrandMode() === 'mma';
 
-  const fullExampleMain = (
+  const comboMain = (
     <>
       <ActionPanelSectionTitle>Search History</ActionPanelSectionTitle>
       <div className="ds-action-panel__radio-group">
@@ -65,7 +102,7 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
     </>
   );
 
-  const fullExampleMain2 = (
+  const comboMain2 = (
     <>
       <ActionPanelField label="Storefront Code">
         <Select label="H0888001" size="md" />
@@ -111,10 +148,19 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
         <div className="ds-preview ds-action-panel-usage">
           <img
             className="ds-action-panel-usage__img"
-            src="/assets/action-panel-overview-usage.png"
+            src={
+              isMma
+                ? '/assets/action-panel-overview-usage-mma.png'
+                : '/assets/action-panel-overview-usage.png'
+            }
             alt="Action panel shown in place within the app shell, beside the page content (Figma reference)"
           />
-          <span className="ds-action-panel-usage__highlight" aria-hidden="true" />
+          <span
+            className={`ds-action-panel-usage__highlight${
+              isMma ? ' ds-action-panel-usage__highlight--mma' : ''
+            }`}
+            aria-hidden="true"
+          />
         </div>
       </section>
 
@@ -257,14 +303,41 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
             </div>
           )}
 
-          {activeVariantTab === 'Full example' && (
+          {activeVariantTab === 'Combo' && (
             <div className="ds-variant-group">
               <div className="ds-preview ds-preview--scrim">
-                <ActionPanel title="Search History" main={fullExampleMain} main2={fullExampleMain2} />
+                <ActionPanel title="Search History" main={comboMain} main2={comboMain2} />
               </div>
               <span className="ds-variant-note">
                 Main holds a section title, a radio group, and a button; Main2 holds a select
                 field, a status field, and two buttons — divided by a rule since both are present.
+              </span>
+            </div>
+          )}
+
+          {activeVariantTab === 'Step' && (
+            <div className="ds-variant-group">
+              <div className="ds-preview ds-preview--scrim">
+                {/* Expand (default, Figma 1872:109426) / Collapse (1881:111929): the footer
+                    chevron folds the Step down to its current item and back, animated by
+                    Step.css — the same instance as the Step page's Overview example. */}
+                <ActionPanel
+                  title="Workflow Status"
+                  collapsible
+                  collapsed={workflowCollapsed}
+                  onToggleCollapsed={() => setWorkflowCollapsed((c) => !c)}
+                  main={
+                    <Step
+                      orientation="vertical"
+                      items={WORKFLOW_STATUS_ITEMS}
+                      collapsed={workflowCollapsed}
+                    />
+                  }
+                />
+              </div>
+              <span className="ds-variant-note">
+                Main holds a vertical Step; the panel's footer chevron collapses it to the
+                current step and expands it again. Main2 is unused.
               </span>
             </div>
           )}
@@ -275,8 +348,9 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
       <section id="states" className="ds-section">
         <h2 className="ds-section__title">States</h2>
         <p className="ds-section__desc">
-          The only interactive part the panel itself owns is the header's info icon button —
-          Main and Main2 content carries whatever states its own component defines.
+          The interactive parts the panel itself owns are the header's info icon button and,
+          when collapsible, the footer's expand/collapse chevron — Main and Main2 content
+          carries whatever states its own component defines.
         </p>
         <table className="ds-table">
           <thead>

@@ -92,6 +92,13 @@
   pointer-events: none;
 }
 
+/* MMA counterpart — the same sidebar-overview-usage-mma.png SidebarDoc uses (Figma node
+   1932:69535, where Topbar is an explicit 1920×68 child). Measured on the cropped PNG the
+   white bar ends at y=67 of 988 (67/988 = 6.78%, hence 93.22% bottom inset). */
+.ds-topbar-usage__highlight--mma {
+  inset: 0 0 93.22% 0;
+}
+
 /* ---- Topbar Anatomy figure overrides ----
    .ds-anatomy__figure (ButtonDoc.css) is shared by every component doc's Anatomy section,
    so these two changes are scoped here rather than edited globally:
