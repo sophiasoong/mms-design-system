@@ -6,6 +6,7 @@ import IconButton from './IconButton';
 import { Badge } from './Badge';
 import { Searchbar } from './Searchbar';
 import { IconButtonIcon, SearchbarIcon, DropdownIcon, AssetsIcon } from './icons';
+import { useBrandMode, brandLogoSrc } from '../brandMode';
 import './ButtonDoc.css';
 import './TopbarDoc.css';
 
@@ -28,6 +29,8 @@ interface TopbarDocProps {
 
 export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
   const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Menu toggle');
+  // Anatomy's static logo mirrors the live AppTopbar instances, which swap lockups per brand.
+  const brandMode = useBrandMode();
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
   return (
@@ -87,7 +90,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
               <span className="ds-anatomy__part-relative">
                 <img
                   className="ds-app-topbar__logo"
-                  src="/assets/logo_mms_default.png"
+                  src={brandLogoSrc(brandMode)}
                   alt="Merchant Management System"
                 />
                 <span className="ds-anatomy__badge">1</span>

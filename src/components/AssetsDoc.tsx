@@ -421,8 +421,9 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
         <p className="ds-section__desc">
           Empty-state illustrations for content that hasn't loaded or hasn't been added
           yet — Empty for a generic blank state, Activate for an activation prompt, and
-          Search for no results. Each is a flattened Figma export (the source itself
-          typos this style as "Activitate").
+          Search for no results. Each is a flattened Figma export with its own MMS and MMA
+          set, swapped by the brand toggle (the source itself typos this style as
+          "Activitate").
         </p>
         <div className="ds-variant-row">
           {IMAGE_STYLES.map(({ style, label }) => (

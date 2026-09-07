@@ -290,7 +290,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
                 <div className="ds-preview ds-preview--scrim ds-preview--scroll" style={{ padding: 0 }}>
                   <div className="ds-message-example">
                     <div className="ds-message-example__dim">
-                      <AppTopbar />
+                      <AppTopbar showLogo />
                     </div>
                     <div className="ds-message-example__panel-row">
                       <div className="ds-message-example__panel ds-message-example__focus">
@@ -389,7 +389,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
                 <div className="ds-preview ds-preview--scrim ds-preview--scroll" style={{ padding: 0 }}>
                   <div className="ds-message-example">
                     <div className="ds-message-example__dim">
-                      <AppTopbar />
+                      <AppTopbar showLogo />
                     </div>
                     <div className="ds-message-example__body">
                       <div className="ds-message-example__page-header ds-message-example__dim">

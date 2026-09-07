@@ -190,6 +190,7 @@
   --brand-primary-75: #f1ecff;
   --brand-primary-100: #d4d0fb;
   --brand-secondary-200: #ffeccc;
+  --brand-secondary-300: #ffd591;
   --brand-secondary-600: #ffa000;
   --brand-neutral-0: #ffffff;
   --brand-neutral-100: #fbfbfb;
@@ -477,6 +478,15 @@
   --interactive-button-icon-primary-outline-hover: #c5ab7f;
   --interactive-button-icon-primary-outline-focus: #8d6341;
   --interactive-button-surface-primary-ghost-default: #a47c4e00;
+  --interactive-button-surface-primary-ghost-hover: #f7f4ef; /* via brand-primary-50 */
+  --interactive-button-surface-primary-ghost-focus: #ece5d5; /* via brand-primary-100 */
+  --interactive-button-surface-primary-ghost-disabled: #a47c4e00; /* via brand-primary-400 */
+  --interactive-button-label-primary-ghost-default: #a47c4e; /* via brand-primary-400 */
+  --interactive-button-label-primary-ghost-hover: #c5ab7f; /* via brand-primary-300 */
+  --interactive-button-label-primary-ghost-focus: #8d6341; /* via brand-primary-600 */
+  --interactive-button-icon-primary-ghost-default: #a47c4e; /* via brand-primary-400 */
+  --interactive-button-icon-primary-ghost-hover: #c5ab7f; /* via brand-primary-300 */
+  --interactive-button-icon-primary-ghost-focus: #8d6341; /* via brand-primary-600 */
   --interactive-button-surface-danger-solid-default: #cf1322;
   --interactive-button-surface-danger-solid-hover: #f5222d;
   --interactive-button-surface-danger-solid-focus: #a8071a;
@@ -503,7 +513,31 @@
   --interactive-sidebar-item-label-active: #8d6341;
   --interactive-sidebar-item-icon-default: #ece5d5;
   --interactive-sidebar-item-icon-active: #8d6341;
+  --interactive-searchbar-border-focus: #a47c4e; /* via brand-primary-400 */
+  --interactive-searchbar-scope-surface-default: #f7f4ef; /* via brand-primary-50 */
+  --interactive-searchbar-scope-border-focus: #a47c4e; /* via brand-primary-400 */
+  --interactive-searchbar-scope-label-default: #a47c4e; /* via brand-primary-400 */
+  --interactive-searchbar-action-search-surface-default: #f7f4ef; /* via brand-primary-50 */
+  --interactive-searchbar-action-search-icon-default: #a47c4e; /* via brand-primary-400 */
+  --interactive-list-background-hover: #eee8dd; /* via brand-primary-75 */
+  --interactive-dropdown-option-surface-hover: #f7f4ef; /* via brand-primary-50 */
+  --interactive-dropdown-option-surface-selected: #eee8dd; /* via brand-primary-75 */
+  --interactive-dropdown-option-surface-selected-hover: #eee8dd; /* via brand-primary-75 */
+  --interactive-checkbox-surface-checked: #a47c4e; /* via brand-primary-400 */
+  --interactive-checkbox-surface-checked-hover: #c5ab7f; /* via brand-primary-300 */
   --interactive-checkbox-border-hover: #c5ab7f;
+  --interactive-checkbox-border-checked: #a47c4e; /* via brand-primary-400 */
+  --interactive-checkbox-shadow-focus: #ece5d5; /* via brand-primary-100 */
+  --interactive-select-border-hover: #a47c4e; /* via brand-primary-400 */
+  --interactive-select-border-focus: #a47c4e; /* via brand-primary-400 */
+  --interactive-select-icon-focus: #a47c4e; /* via brand-primary-400 */
+  --interactive-anchor-label-active: #a47c4e; /* via brand-primary-400 */
+  --interactive-anchor-label-hover: #a47c4e; /* via brand-primary-400 */
+  --interactive-tab-indicator-line-active: #a47c4e; /* via brand-primary-400 */
+  --interactive-tab-label-line-active: #a47c4e; /* via brand-primary-400 */
+  --interactive-tab-label-line-hover: #a47c4e; /* via brand-primary-400 */
+  --interactive-tab-surface-segment-hover: #dacbae; /* via brand-primary-200 */
+  --interactive-tab-surface-segment-active: #a47c4e; /* via brand-primary-400 */
   --interactive-icon-button-surface-primary-solid-default: #a47c4e;
   --interactive-icon-button-surface-primary-solid-hover: #dacbae;
   --interactive-icon-button-surface-primary-solid-focus: #8d6341;
@@ -513,5 +547,19 @@
   --interactive-icon-button-icon-primary-outline-hover: #c5ab7f;
   --interactive-icon-button-icon-primary-outline-focus: #8d6341;
   --interactive-icon-button-surface-primary-ghost-default: #a47c4e00;
+  --interactive-icon-button-surface-primary-ghost-hover: #f7f4ef; /* via brand-primary-50 */
+  --interactive-icon-button-surface-primary-ghost-focus: #ece5d5; /* via brand-primary-100 */
+  --interactive-icon-button-surface-primary-ghost-disabled: #a47c4e00; /* via brand-primary-400 */
+  --interactive-icon-button-icon-primary-ghost-default: #a47c4e; /* via brand-primary-400 */
+  --interactive-icon-button-icon-primary-ghost-hover: #c5ab7f; /* via brand-primary-300 */
+  --interactive-icon-button-icon-primary-ghost-focus: #8d6341; /* via brand-primary-600 */
   --interactive-icon-button-icon-danger-default: #cf1322;
+  --feedback-banner-border-default: #ece5d5; /* via brand-primary-100 */
+  --feedback-banner-icon-default: #a47c4e; /* via brand-primary-400 */
+  --feedback-banner-surface-default: #f7f4ef; /* via brand-primary-50 */
+  --interactive-dropzone-border-drag-over: #c5ab7f; /* via brand-primary-300 */
+  --interactive-dropzone-border-hover: #c5ab7f; /* via brand-primary-300 */
+  --interactive-image-item-border-hover: #c5ab7f; /* via brand-primary-300 */
+  --surface-progress-bar-fill-default: #c5ab7f; /* via brand-primary-300 */
+  --text-heading-primary-brand: #714c37; /* via brand-primary-700 */
 }

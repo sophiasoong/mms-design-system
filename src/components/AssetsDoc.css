@@ -95,13 +95,18 @@
   width: 100%;
 }
 
-/* .ds-variant-note's default light-gray (--text-caption-primary-light) reads at near-zero
-   contrast on this item's dark .ds-preview--scrim backdrop — flipped to white, same fix as
-   the Card-tab/Line-tab captions elsewhere on a scrim (see ButtonDoc.css's own comment on
-   .ds-preview--scrim), scoped to this wrapper so other pages' white-background captions
-   are unaffected. */
-.ds-assets__image-example__item .ds-variant-note {
+/* Example-instance captions (Image and Thumbnail tabs). .ds-variant-note's default
+   light-gray (--text-caption-primary-light) reads at near-zero contrast on the dark
+   .ds-preview--scrim backdrop — flipped to white, same fix as the Card-tab/Line-tab
+   captions elsewhere on a scrim (see ButtonDoc.css's own comment on .ds-preview--scrim).
+   Its default xs size also reads too small sitting inside the full-width scrim card, so it
+   steps up to sm — the same size Topbar's in-scrim notification-preview caption uses.
+   Scoped to these wrappers so other pages' white-background captions are unaffected. */
+.ds-assets__image-example__item .ds-variant-note,
+.ds-assets__thumbnail-example__item .ds-variant-note {
   color: var(--brand-neutral-0);
+  font-size: var(--typography-sm-font-size); /* typography/sm/font-size, 14px */
+  line-height: var(--typography-sm-line-height); /* typography/sm/line-height */
 }
 
 /* The Dropdown example (Example subsection) renders its panel always-open — a static
@@ -182,11 +187,6 @@
   align-items: center;
   gap: var(--space-component-gap-lg); /* space/component/gap/lg */
   width: 100%;
-}
-
-/* Same contrast fix as .ds-assets__image-example__item's own override, above. */
-.ds-assets__thumbnail-example__item .ds-variant-note {
-  color: var(--brand-neutral-0);
 }
 
 /* Example subsection's Thumbnail tab — a List Lg search-result row reused as-is with its

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Button from './Button';
 import IconButton from './IconButton';
 import { IconButtonIcon, FooterIcon, DropdownIcon, TableIcon } from './icons';
+import { useBrandMode, brandLogoSrc } from '../brandMode';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -24,6 +25,8 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
   const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Primary');
   const [activeStateTab, setActiveStateTab] = useState<StateTab>('Primary');
   const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Solid');
+  // Example's Topbar mock carries the same per-brand logo lockup as the real AppTopbar.
+  const brandMode = useBrandMode();
 
   return (
     <div className="ds-doc">
@@ -265,7 +268,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
                       <div className="ds-example-mock__group">
                         <img
                           className="ds-example-mock__logo ds-example-mock__dim"
-                          src="/assets/logo_mms_default.png"
+                          src={brandLogoSrc(brandMode)}
                           alt="Merchant Management System"
                         />
                         <IconButton

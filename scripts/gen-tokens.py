@@ -54,7 +54,7 @@ USED = [
     'interactive-shadow-primary',
     # App chrome — surface / text / sidebar / divider / brand
     'brand-primary-300','brand-primary-400','brand-primary-600','brand-primary-50','brand-primary-75','brand-primary-100',
-    'brand-secondary-200','brand-secondary-600',
+    'brand-secondary-200','brand-secondary-300','brand-secondary-600',
     'brand-neutral-0','brand-neutral-100','brand-neutral-200','brand-neutral-300','brand-neutral-400',
     'brand-neutral-500','brand-neutral-600','brand-neutral-700','brand-neutral-800','brand-neutral-900','brand-neutral-950',
     'brand-danger-500',
@@ -253,13 +253,31 @@ for k in USED:
 lines.append(f"  --interactive-select-label-error: {mms['interactive-select-label-default']};")
 lines.append('}')
 lines.append('')
+# brand-primary scale steps keyed by their MMS hex (lowercase, alpha stripped), used below to
+# fill gaps in the export's MMA mode.
+primary_steps = {mms[k].lower()[:7]: k for k in mms if k.startswith('brand-primary-')}
+
 lines.append('/* ---- color: MMA overrides (only tokens whose value differs by brand) ---- */')
 lines.append('[data-color-mode="mma"] {')
+derived = []
 for k in USED:
     if k not in mma:
         continue
     if mms.get(k) != mma[k]:
         lines.append(f'  --{kebab(k)}: {mma[k]};')
+        continue
+    # The Figma export's MMA mode still carries the MMS purple for a number of semantic
+    # tokens (tab, searchbar, banner, select, checkbox, ghost button, progress, ...). Every
+    # such value sits on the brand-primary scale, and the scale's own MMA steps *are*
+    # exported correctly — so resolve the token through its scale step rather than leaving
+    # it purple in MMA. Alpha suffixes (8-digit hex) are preserved from the MMS value.
+    if k.startswith('brand-primary-'):
+        continue
+    val = mms[k].lower()
+    step = primary_steps.get(val[:7])
+    if step is not None:
+        derived.append((k, step))
+        lines.append(f'  --{kebab(k)}: {mma[step].lower()}{val[7:]}; /* via {step} */')
 lines.append('}')
 
 out = '\n'.join(lines) + '\n'
@@ -267,4 +285,7 @@ with open('/Users/sophiasoong/Documents/AI Playground/playground/design-system/s
     f.write(out)
 
 print('missing tokens:', missing)
+print('MMA overrides derived via brand-primary scale:', len(derived))
+for k, step in derived:
+    print(f'  {k} <- {step}')
 print('written', len(lines), 'lines')

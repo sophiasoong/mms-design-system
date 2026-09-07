@@ -2,6 +2,7 @@ import Button from './Button';
 import IconButton from './IconButton';
 import { Badge } from './Badge';
 import { Searchbar, type SearchbarState } from './Searchbar';
+import { useBrandMode, brandLogoSrc } from '../brandMode';
 import './AppTopbar.css';
 
 export interface AppTopbarProps {
@@ -47,6 +48,8 @@ export default function AppTopbar({
   className,
 }: AppTopbarProps) {
   const classes = ['ds-app-topbar', className].filter(Boolean).join(' ');
+  // The logo panel follows the MMS/MMA brand toggle — each brand ships its own lockup set.
+  const brandMode = useBrandMode();
   const notificationLabel = notificationCount > 99 ? '99+' : String(notificationCount);
   // A caller driving searchState to 'focus' (an active search) also means the search field
   // should take over the bar — the Store menu on its left and the Back/FAQ/notification
@@ -59,7 +62,7 @@ export default function AppTopbar({
       {showLogo && (
         <img
           className="ds-app-topbar__logo"
-          src={sidebarExpanded ? '/assets/logo_mms_default.png' : '/assets/logo_mms_collapsed.png'}
+          src={brandLogoSrc(brandMode, sidebarExpanded ? 'default' : 'collapsed')}
           alt="Merchant Management System"
         />
       )}
