@@ -8,25 +8,22 @@ import './LightboxDoc.css';
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=730-26921';
 
-const VARIANT_TABS = [
-  'Preview image (multiple)',
-  'Preview image (single)',
-  'Preview video',
-  'Fit image (width)',
-  'Fit image (height)',
-] as const;
+const VARIANT_TABS = ['Image (single)', 'Image (multiple)', 'Video'] as const;
 type VariantTab = (typeof VARIANT_TABS)[number];
 
-// "Preview image (multiple)" demo, items 2-9 — Lego Bricks photos from Unsplash (item 1 keeps
-// the default placeholder). Indexed by previewImageIndex - 2.
+// "Image (multiple)" demo, items 2-9 (item 1 keeps the default placeholder). Items 2 and 3 are
+// the former standalone "Fit image (width)"/"Fit image (height)" demo photos, folded into this
+// set instead of staying as their own tabs; items 5, 6, and 7 are locally hosted assets
+// (downloaded rather than hotlinked so they render at full quality); the rest are Lego Bricks
+// photos hotlinked from Unsplash. Indexed by previewImageIndex - 2.
 const PREVIEW_IMAGE_URLS = [
-  'https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1600&q=80',
-  'https://images.unsplash.com/photo-1646995477167-a344548ce6b9?auto=format&fit=crop&w=1600&q=80',
+  '/assets/lightbox-fit-width.jpg',
+  '/assets/lightbox-fit-height.jpg',
   'https://images.unsplash.com/photo-1633469924738-52101af51d87?auto=format&fit=crop&w=1600&q=80',
-  'https://images.unsplash.com/photo-1631106256072-54c89defe828?auto=format&fit=crop&w=1600&q=80',
-  'https://images.unsplash.com/photo-1631106254201-ffbee2305c5b?auto=format&fit=crop&w=1600&q=80',
-  'https://images.unsplash.com/photo-1620309668391-26ac1c90f61b?auto=format&fit=crop&w=1600&q=80',
-  'https://images.unsplash.com/photo-1560961911-ba7ef651a56c?auto=format&fit=crop&w=1600&q=80',
+  '/assets/lightbox-lego-book-reading.jpg',
+  '/assets/lightbox-lego-star-wars-trio.jpg',
+  '/assets/lightbox-lego-play.avif',
+  'https://images.unsplash.com/photo-1579724186435-56a4bd84ab31?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   'https://images.unsplash.com/photo-1575470522418-b88b692b8084?auto=format&fit=crop&w=1600&q=80',
 ];
 
@@ -35,8 +32,7 @@ interface LightboxDocProps {
 }
 
 export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
-  const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Preview image (multiple)');
-  const goToPreviewImage = () => setActiveVariantTab('Preview image (multiple)');
+  const [activeVariantTab, setActiveVariantTab] = useState<VariantTab>('Image (single)');
   const previewImageTotal = 9;
   const [previewImageIndex, setPreviewImageIndex] = useState(1);
 
@@ -257,7 +253,10 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
               {/* flagged: no aspect-ratio token exists in tokens.json — 16:9 is kept as a
                   raw value per the "flag instead of guessing" rule. */}
               <div style={{ width: '100%', aspectRatio: '16 / 9' }}>
-                {activeVariantTab === 'Preview image (multiple)' && (
+                {activeVariantTab === 'Image (single)' && (
+                  <Lightbox showPrevious={false} showNext={false} showCounter={false} />
+                )}
+                {activeVariantTab === 'Image (multiple)' && (
                   <Lightbox
                     showPrevious={previewImageIndex > 1}
                     showNext={previewImageIndex < previewImageTotal}
@@ -277,10 +276,7 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
                     }
                   />
                 )}
-                {activeVariantTab === 'Preview image (single)' && (
-                  <Lightbox showPrevious={false} showNext={false} showCounter={false} />
-                )}
-                {activeVariantTab === 'Preview video' && (
+                {activeVariantTab === 'Video' && (
                   <Lightbox
                     showVideo
                     showPrevious={false}
@@ -291,33 +287,14 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
                     showMore={false}
                   />
                 )}
-                {activeVariantTab === 'Fit image (width)' && (
-                  <Lightbox
-                    onNext={goToPreviewImage}
-                    media={
-                      <img
-                        src="/assets/lightbox-fit-width.jpg"
-                        alt=""
-                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                      />
-                    }
-                  />
-                )}
-                {activeVariantTab === 'Fit image (height)' && (
-                  <Lightbox
-                    onNext={goToPreviewImage}
-                    media={
-                      <img
-                        src="/assets/lightbox-fit-height.jpg"
-                        alt=""
-                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                      />
-                    }
-                  />
-                )}
               </div>
             </div>
-            {activeVariantTab === 'Preview image (multiple)' && (
+            {activeVariantTab === 'Image (single)' && (
+              <span className="ds-variant-note">
+                With only one item, navigation and the counter are both unnecessary and hidden.
+              </span>
+            )}
+            {activeVariantTab === 'Image (multiple)' && (
               <span className="ds-variant-note">
                 {previewImageIndex === 1
                   ? "Previous is hidden on the first item in the set — there's nowhere for it to go."
@@ -326,25 +303,10 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
                     : `Click Next or Previous to browse the set (currently item ${previewImageIndex} of ${previewImageTotal}).`}
               </span>
             )}
-            {activeVariantTab === 'Preview image (single)' && (
-              <span className="ds-variant-note">
-                With only one item, navigation and the counter are both unnecessary and hidden.
-              </span>
-            )}
-            {activeVariantTab === 'Preview video' && (
+            {activeVariantTab === 'Video' && (
               <span className="ds-variant-note">
                 A poster frame with a play overlay; the counter and the editing-only actions
                 (flip, rotate, more) drop out, leaving just download and zoom.
-              </span>
-            )}
-            {activeVariantTab === 'Fit image (width)' && (
-              <span className="ds-variant-note">
-                A wide image fits to the media area's width, letterboxing above and below.
-              </span>
-            )}
-            {activeVariantTab === 'Fit image (height)' && (
-              <span className="ds-variant-note">
-                A tall image fits to the media area's height, letterboxing left and right.
               </span>
             )}
           </div>
@@ -355,8 +317,8 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
       <section id="states" className="ds-section">
         <h2 className="ds-section__title">States</h2>
         <p className="ds-section__desc">
-          Close, Previous, and Next are Icon Buttons — their default/hover/focus/disabled states
-          are already documented in full on the Icon Button page. The action-bar controls below
+          Close, Previous, and Next are Icon buttons — their default/hover/focus/disabled states
+          are already documented in full on the Icon button page. The action-bar controls below
           use their own bespoke tokens.
         </p>
         <table className="ds-table">
@@ -563,7 +525,7 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
             onClick={() => onNavigate?.('icon-button')}
           >
             <IconButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Icon Button</span>
+            <span className="ds-related-card__name">Icon button</span>
           </button>
         </div>
       </section>

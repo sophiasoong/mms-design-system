@@ -120,7 +120,17 @@ export default function Lightbox({
         </div>
       </div>
       <div className="ds-lightbox__footer">
-        {showCounter && <p className="ds-lightbox__counter">{counterLabel}</p>}
+        {/* Stays mounted even when hidden (opacity, not unmounted) so its own line-height
+            plus the gap below it stays reserved in the footer — otherwise the "Preview image
+            (single)"/"Preview video" instances (showCounter=false) would render a shorter
+            footer than "Preview image (multiple)", pushing .ds-lightbox__media (flex:1) to a
+            taller size and making the same photo render at a different scale across variants. */}
+        <p
+          className={`ds-lightbox__counter${showCounter ? '' : ' ds-lightbox__counter--hidden'}`}
+          aria-hidden={!showCounter}
+        >
+          {counterLabel}
+        </p>
         {showActionBar && (
           <div className="ds-lightbox__actions">
             {showDownload && (

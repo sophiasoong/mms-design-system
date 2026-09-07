@@ -139,6 +139,14 @@
   white-space: nowrap;
 }
 
+/* showCounter=false (Preview image (single), Preview video) — hides the label visually while
+   keeping its layout box, so the footer's height (and therefore .ds-lightbox__media's) stays
+   identical to the counter-bearing "Preview image (multiple)" instance. See the comment on
+   this element in Lightbox.tsx. */
+.ds-lightbox__counter--hidden {
+  opacity: var(--opacity-0); /* opacity/0 */
+}
+
 .ds-lightbox__actions {
   display: flex;
   align-items: center;
