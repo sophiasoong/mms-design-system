@@ -4,7 +4,7 @@
   padding: var(--space-layout-section-padding-lg) var(--space-layout-section-padding-md);
   display: flex;
   flex-direction: column;
-  gap: var(--space-component-padding-6xl);
+  gap: var(--space-component-padding-6xl); /* space/component/padding/6xl, 80px between sections */
 }
 
 .ds-doc__header {
@@ -51,9 +51,11 @@
   scroll-margin-top: var(--space-layout-section-padding-md);
 }
 
+/* Doc typography scale: section title = Heading 1 (typography/2xl, 34px), subsection /
+   variant-group heading = Heading 2 (typography/xl, 24px), line-tab items 18px. */
 .ds-section__title {
-  font-size: var(--typography-xl-font-size);
-  line-height: var(--typography-xl-line-height);
+  font-size: var(--typography-2xl-font-size); /* typography/2xl/font-size, 34px */
+  line-height: var(--typography-2xl-line-height); /* typography/2xl/line-height */
   font-weight: var(--typography-font-weight-bold);
   color: var(--text-heading-primary-neutral);
 }
@@ -66,14 +68,16 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-layout-section-gap-sm);
-  padding-top: var(--space-layout-section-padding-md);
+  /* With the parent's section-gap-sm (12px) above the border, this lands the subsection
+     heading 40px (space/layout/section/gap/xl) below the preceding content. */
+  padding-top: calc(var(--space-layout-section-gap-xl) - var(--space-layout-section-gap-sm)); /* space/layout/section/gap/xl - gap/sm */
   border-top: var(--border-sm) solid var(--global-divider-neutral-light);
   scroll-margin-top: var(--space-layout-section-padding-md);
 }
 
 .ds-section__subtitle {
-  font-size: var(--typography-lg-font-size);
-  line-height: var(--typography-lg-line-height);
+  font-size: var(--typography-xl-font-size); /* typography/xl/font-size, 24px (Heading 2) */
+  line-height: var(--typography-xl-line-height); /* typography/xl/line-height */
   font-weight: var(--typography-font-weight-bold);
   color: var(--text-heading-primary-neutral);
 }
@@ -349,10 +353,15 @@
 }
 
 /* ---- Variants ---- */
+/* Sub-section rhythm: 40px (space/layout/section/gap/xl) between one sub-section's content
+   and the next sub-section's heading. The parent .ds-section already contributes its
+   section-gap-sm (12px) between siblings, so these margins/paddings top up the remainder. */
 .ds-variant-tabs-label {
   display: block;
-  margin-top: calc(var(--space-layout-section-gap-lg) - var(--space-layout-section-gap-sm));
-  margin-bottom: var(--space-component-gap-md);
+  margin-top: calc(var(--space-layout-section-gap-xl) - var(--space-layout-section-gap-sm)); /* space/layout/section/gap/xl - gap/sm */
+  /* Title → tab row = 16px total (space/layout/section/gap/md), again topped up on the
+     parent .ds-section's own 12px gap. */
+  margin-bottom: calc(var(--space-layout-section-gap-md) - var(--space-layout-section-gap-sm)); /* space/layout/section/gap/md - gap/sm */
 }
 
 /* global/divider/neutral/light (#f4f4f4) reads fine on the white surface Line tab
@@ -369,10 +378,14 @@
 }
 
 .ds-line-tabs--no-label {
-  margin-top: calc(var(--space-layout-section-gap-lg) - var(--space-layout-section-gap-sm));
+  margin-top: calc(var(--space-layout-section-gap-xl) - var(--space-layout-section-gap-sm)); /* space/layout/section/gap/xl - gap/sm, 40px sub-section rhythm */
 }
 
 .ds-line-tab {
+  --typography-line-tab-font-size: 18px; /* flagged: no 18px typography token exists
+    (typography/md is 16px, typography/lg is 20px); the requested tab size is declared
+    once here, Form.css-style, rather than hardcoded inline. */
+
   appearance: none;
   background: none;
   border: none;
@@ -380,7 +393,7 @@
   margin-bottom: calc(var(--border-sm) * -1);
   padding: var(--space-component-padding-sm) var(--space-component-padding-md);
   font-family: inherit;
-  font-size: var(--typography-md-font-size);
+  font-size: var(--typography-line-tab-font-size);
   font-weight: var(--typography-font-weight-regular);
   color: var(--interactive-tab-label-line-default);
   cursor: pointer;
@@ -404,7 +417,7 @@
 .ds-variant-groups {
   display: flex;
   flex-direction: column;
-  gap: var(--space-layout-section-gap-lg);
+  gap: var(--space-layout-section-gap-xl); /* space/layout/section/gap/xl, 40px between sub-sections */
   margin-top: var(--space-component-gap-sm);
 }
 
@@ -416,8 +429,8 @@
 }
 
 .ds-variant-group__label {
-  font-size: var(--typography-lg-font-size);
-  line-height: var(--typography-lg-line-height);
+  font-size: var(--typography-xl-font-size); /* typography/xl/font-size, 24px (Heading 2) */
+  line-height: var(--typography-xl-line-height); /* typography/xl/line-height */
   font-weight: var(--typography-font-weight-medium);
   color: var(--text-body-primary-neutral);
 }
