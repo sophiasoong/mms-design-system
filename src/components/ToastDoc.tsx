@@ -533,7 +533,7 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
             onClick={() => onNavigate?.('icon-button')}
           >
             <IconButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Icon Button</span>
+            <span className="ds-related-card__name">Icon button</span>
           </button>
           <button
             type="button"

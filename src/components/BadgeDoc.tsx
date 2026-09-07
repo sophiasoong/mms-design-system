@@ -52,7 +52,7 @@ const BADGE_TABLE_ROWS: BadgeTableRow[] = [
   { code: 'H0892003', status: 'Pending', color: 'orange' },
 ];
 
-const EXAMPLE_COMPOSITE_TABS = ['Table', 'Action Panel'] as const;
+const EXAMPLE_COMPOSITE_TABS = ['Table', 'Action panel'] as const;
 type ExampleTab = BadgeColor | (typeof EXAMPLE_COMPOSITE_TABS)[number];
 
 interface BadgeDocProps {
@@ -63,7 +63,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
   const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Label');
   const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('green');
   const activeColorGroup = BADGE_EXAMPLES.find((group) => group.color === activeExampleTab);
-  const isCompositeExampleTab = activeExampleTab === 'Table' || activeExampleTab === 'Action Panel';
+  const isCompositeExampleTab = activeExampleTab === 'Table' || activeExampleTab === 'Action panel';
 
   return (
     <div className="ds-doc">
@@ -210,7 +210,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
             <span className="ds-variant-group__label">Example</span>
             <p className="ds-section__desc">
               Real-world status labels grouped by color, plus two live compositions — a data
-              table and an Action Panel — showing Badge in context.
+              table and an Action panel — showing Badge in context.
             </p>
 
             <div className="ds-line-tabs" role="tablist" aria-label="Badge example colors">
@@ -284,7 +284,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
                 </div>
               )}
 
-              {activeExampleTab === 'Action Panel' && (
+              {activeExampleTab === 'Action panel' && (
                 <div className="ds-example-badge-action-panel">
                   <ActionPanel
                     title="Action"
@@ -498,7 +498,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
             onClick={() => onNavigate?.('action-panel')}
           >
             <ActionPanelIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Action Panel</span>
+            <span className="ds-related-card__name">Action panel</span>
           </button>
         </div>
       </section>

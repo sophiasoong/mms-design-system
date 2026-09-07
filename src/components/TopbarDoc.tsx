@@ -453,7 +453,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
               <td>
                 <code>--component-height-lg</code>
               </td>
-              <td>40px, via Searchbar's Lg size</td>
+              <td>40px, via Search bar's Lg size</td>
             </tr>
             <tr>
               <th scope="row">Divider height</th>
@@ -484,7 +484,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
             onClick={() => onNavigate?.('icon-button')}
           >
             <IconButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Icon Button</span>
+            <span className="ds-related-card__name">Icon button</span>
           </button>
           <button
             type="button"
@@ -492,7 +492,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
             onClick={() => onNavigate?.('searchbar')}
           >
             <SearchbarIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Searchbar</span>
+            <span className="ds-related-card__name">Search bar</span>
           </button>
           <button
             type="button"

@@ -1164,7 +1164,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
             onClick={() => onNavigate?.('icon-button')}
           >
             <IconButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Icon Button</span>
+            <span className="ds-related-card__name">Icon button</span>
           </button>
           <button
             type="button"
@@ -1188,7 +1188,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
             onClick={() => onNavigate?.('searchbar')}
           >
             <SearchbarIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Searchbar</span>
+            <span className="ds-related-card__name">Search bar</span>
           </button>
           <button
             type="button"

@@ -21,7 +21,7 @@ const FIGMA_URL =
 const STYLE_TABS = ['Modal', 'Form', 'Sub-form', 'Section', 'Form-list'] as const;
 type StyleTab = (typeof STYLE_TABS)[number];
 
-const EXAMPLE_TABS = ['Action Panel', 'Modal', 'Form'] as const;
+const EXAMPLE_TABS = ['Action panel', 'Modal', 'Form'] as const;
 type ExampleTab = (typeof EXAMPLE_TABS)[number];
 
 /** Example tab: Form — duplicated from FormDoc's own RichTextField, since it isn't
@@ -209,7 +209,7 @@ interface HeaderDocProps {
 
 export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
   const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Form');
-  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Action Panel');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Action panel');
 
   return (
     <div className="ds-doc">
@@ -444,7 +444,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
               ))}
             </div>
             <div className="ds-preview ds-preview--scrim ds-header-doc__example">
-              {activeExampleTab === 'Action Panel' && (
+              {activeExampleTab === 'Action panel' && (
                 <ActionPanel
                   title="Promotion Details"
                   main={
@@ -708,7 +708,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
             onClick={() => onNavigate?.('icon-button')}
           >
             <IconButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Icon Button</span>
+            <span className="ds-related-card__name">Icon button</span>
           </button>
           <button
             type="button"

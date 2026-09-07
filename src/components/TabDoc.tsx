@@ -17,7 +17,7 @@ type StyleTab = (typeof STYLE_TABS)[number];
 const STATE_TABS = ['Card Tab', 'Line Tab', 'Segment Tab', 'Chip Tab'] as const;
 type StateTab = (typeof STATE_TABS)[number];
 
-const EXAMPLE_TABS = ['Card Tab', 'Line Tab', 'Segment Tab', 'Chip Tab'] as const;
+const EXAMPLE_TABS = ['Card tab', 'Line tab', 'Segment tab', 'Chip tab'] as const;
 type ExampleTab = (typeof EXAMPLE_TABS)[number];
 
 const CARD_LABELS = ['Overview', 'Details', 'History'];
@@ -190,7 +190,7 @@ interface TabDocProps {
 export default function TabDoc({ onNavigate }: TabDocProps) {
   const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Line Tab');
   const [activeStateTab, setActiveStateTab] = useState<StateTab>('Line Tab');
-  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Line Tab');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Line tab');
 
   // ---- Variants: interactive demo state ----
   const [cardActive, setCardActive] = useState(CARD_LABELS[0]);
@@ -488,7 +488,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
           </div>
 
           <div className="ds-variant-groups">
-            {activeExampleTab === 'Card Tab' && (
+            {activeExampleTab === 'Card tab' && (
               <div className="ds-variant-group">
                 <div className="ds-preview ds-preview--scrim">
                   <TabExampleComposition controller="segment" spotlight="card" />
@@ -497,7 +497,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
               </div>
             )}
 
-            {activeExampleTab === 'Line Tab' && (
+            {activeExampleTab === 'Line tab' && (
               <div className="ds-variant-group">
                 <div className="ds-preview ds-preview--scrim">
                   <TabExampleComposition controller="segment" spotlight="line" />
@@ -506,7 +506,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
               </div>
             )}
 
-            {activeExampleTab === 'Segment Tab' && (
+            {activeExampleTab === 'Segment tab' && (
               <div className="ds-variant-group">
                 <div className="ds-preview ds-preview--scrim">
                   <TabExampleComposition controller="segment" spotlight="controller" />
@@ -518,7 +518,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
               </div>
             )}
 
-            {activeExampleTab === 'Chip Tab' && (
+            {activeExampleTab === 'Chip tab' && (
               <div className="ds-variant-group">
                 <div className="ds-preview ds-preview--scrim">
                   <TabExampleComposition controller="chip" spotlight="controller" />

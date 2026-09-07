@@ -42,12 +42,12 @@ export interface ComponentEntry {
 // it's presentation-only grouping, unrelated to routing (App.tsx keys off `id` alone).
 export const COMPONENTS: ComponentEntry[] = [
   { id: 'button', name: 'Button', icon: 'smart_button', category: 'general' },
-  { id: 'icon-button', name: 'Icon Button', icon: 'add_circle', category: 'general' },
+  { id: 'icon-button', name: 'Icon button', icon: 'add_circle', category: 'general' },
   { id: 'badge', name: 'Badge', icon: 'fiber_manual_record', category: 'general' },
   { id: 'tag', name: 'Tag', icon: 'sell', category: 'general' },
   { id: 'chip', name: 'Chip', icon: 'medication', category: 'general' },
   { id: 'input', name: 'Input', icon: 'text_fields', category: 'data-entry' },
-  { id: 'searchbar', name: 'Searchbar', icon: 'search', category: 'data-entry' },
+  { id: 'searchbar', name: 'Search bar', icon: 'search', category: 'data-entry' },
   { id: 'textarea', name: 'Textarea', icon: 'notes', category: 'data-entry' },
   { id: 'select', name: 'Select', icon: 'expand_circle_down', category: 'data-entry' },
   { id: 'dropdown', name: 'Dropdown', icon: 'list_alt', category: 'data-entry' },
@@ -65,7 +65,7 @@ export const COMPONENTS: ComponentEntry[] = [
   { id: 'pagination', name: 'Pagination', icon: 'more_horiz', category: 'navigation' },
   { id: 'anchor', name: 'Anchor', icon: 'link', category: 'navigation' },
   { id: 'breadcrumb', name: 'Breadcrumb', icon: 'chevron_right', category: 'navigation' },
-  { id: 'action-panel', name: 'Action Panel', icon: 'view_sidebar', category: 'navigation' },
+  { id: 'action-panel', name: 'Action panel', icon: 'view_sidebar', category: 'navigation' },
   { id: 'table', name: 'Table', icon: 'table_chart', category: 'data-display' },
   { id: 'card', name: 'Card', icon: 'credit_card', category: 'data-display' },
   { id: 'list', name: 'List', icon: 'list', category: 'data-display' },

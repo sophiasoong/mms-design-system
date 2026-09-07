@@ -21,13 +21,13 @@ const UPLOAD_FIELD_FIGMA_URL =
 const SIZE_TABS = ['Lg', 'Md', 'Sm'] as const;
 type SizeTab = (typeof SIZE_TABS)[number];
 
-const EXAMPLE_TABS = ['Search History', 'Search Results', 'Uploaded Files'] as const;
+const EXAMPLE_TABS = ['Search history', 'Search results', 'Uploaded files'] as const;
 type ExampleTab = (typeof EXAMPLE_TABS)[number];
 
 const EXAMPLE_FIGMA_URL: Record<ExampleTab, string> = {
-  'Search History': SEARCH_DROPDOWN_FIGMA_URL,
-  'Search Results': SEARCH_RESULTS_FIGMA_URL,
-  'Uploaded Files': UPLOAD_FIELD_FIGMA_URL,
+  'Search history': SEARCH_DROPDOWN_FIGMA_URL,
+  'Search results': SEARCH_RESULTS_FIGMA_URL,
+  'Uploaded files': UPLOAD_FIELD_FIGMA_URL,
 };
 
 interface ListDocProps {
@@ -36,7 +36,7 @@ interface ListDocProps {
 
 export default function ListDoc({ onNavigate }: ListDocProps) {
   const [activeSizeTab, setActiveSizeTab] = useState<SizeTab>('Lg');
-  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Search History');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Search history');
 
   return (
     <div className="ds-doc">
@@ -212,7 +212,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
 
           <div className="ds-preview ds-preview--scrim">
             <div className="ds-list-example">
-              {activeExampleTab === 'Search History' && (
+              {activeExampleTab === 'Search history' && (
                 <div className="ds-list-example__panel ds-list-example__panel--wide">
                   <div className="ds-list-example__searchbar-row ds-list-example__dim">
                     <Searchbar
@@ -262,7 +262,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
                 </div>
               )}
 
-              {activeExampleTab === 'Search Results' && (
+              {activeExampleTab === 'Search results' && (
                 <div className="ds-list-example__panel ds-list-example__panel--wide ds-list-example__panel--radius-xl">
                   <div className="ds-list-example__searchbar-row ds-list-example__dim">
                     <Searchbar size="lg" state="focus" chipLabel="Product" defaultValue="Something" />
@@ -318,7 +318,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
                 </div>
               )}
 
-              {activeExampleTab === 'Uploaded Files' && (
+              {activeExampleTab === 'Uploaded files' && (
                 <div className="ds-list-example__upload">
                   <div className="ds-list-example__upload-card">
                     <div className="ds-list-example__upload-content ds-list-example__dim">
@@ -405,20 +405,20 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
               )}
             </div>
           </div>
-          {activeExampleTab === 'Search History' && (
+          {activeExampleTab === 'Search history' && (
             <span className="ds-variant-note">
               Each row reuses Md-size List as-is — the dropdown only adds the searchbar, chips,
               and header/footer around it.
             </span>
           )}
-          {activeExampleTab === 'Search Results' && (
+          {activeExampleTab === 'Search results' && (
             <span className="ds-variant-note">
               Each row reuses Lg-size List as-is — the highlighted keyword is a &lt;mark&gt; inside
               the subtitle, and the first row uses <code>forceState=&quot;hover&quot;</code> to
               show the keyboard-focused state.
             </span>
           )}
-          {activeExampleTab === 'Uploaded Files' && (
+          {activeExampleTab === 'Uploaded files' && (
             <span className="ds-variant-note">
               The Pass/Error summary and each filename both reuse Sm-size List — only the icon,
               value, and action props change.
@@ -662,7 +662,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
             onClick={() => onNavigate?.('icon-button')}
           >
             <IconButtonIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Icon Button</span>
+            <span className="ds-related-card__name">Icon button</span>
           </button>
           <button
             type="button"

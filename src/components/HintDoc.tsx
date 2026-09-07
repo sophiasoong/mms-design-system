@@ -21,7 +21,7 @@ const FIGMA_URL =
 const SIZE_TABS = ['Md', 'Lg'] as const;
 type SizeTab = (typeof SIZE_TABS)[number];
 
-const EXAMPLE_TABS = ['Table', 'Searchbar'] as const;
+const EXAMPLE_TABS = ['Table', 'Search bar'] as const;
 type ExampleTab = (typeof EXAMPLE_TABS)[number];
 
 // Duplicated from Modal's Variants > Example > Table instance (ModalDoc.tsx), with the
@@ -194,7 +194,7 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
           <h3 className="ds-section__subtitle">Example</h3>
           <p className="ds-section__desc">
             Hint rides along with whatever component truncates its own content — a Table
-            cell's overflowing text (Md), or a Searchbar result's overflowing keyword line
+            cell's overflowing text (Md), or a Search bar result's overflowing keyword line
             (Lg). Hover the ellipsis in either to reveal it.
           </p>
 
@@ -307,7 +307,7 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
               </div>
             )}
 
-            {activeExampleTab === 'Searchbar' && (
+            {activeExampleTab === 'Search bar' && (
               <div className="ds-list-example">
                 <div className="ds-list-example__panel ds-list-example__panel--wide ds-list-example__panel--radius-xl">
                 <div className="ds-list-example__searchbar-row">
@@ -461,7 +461,7 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
             onClick={() => onNavigate?.('searchbar')}
           >
             <SearchbarIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Searchbar</span>
+            <span className="ds-related-card__name">Search bar</span>
           </button>
         </div>
       </section>

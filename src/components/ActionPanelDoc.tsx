@@ -82,9 +82,9 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Action Panel</h1>
+        <h1 className="ds-doc__title">Action panel</h1>
         <p className="ds-doc__lede">
-          An Action Panel is a small, self-contained surface for a focused set of controls —
+          An Action panel is a small, self-contained surface for a focused set of controls —
           filters, quick settings, or read-only details — attached beside the content it acts on.
         </p>
         <a
@@ -104,7 +104,7 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
       <section id="overview" className="ds-section">
         <h2 className="ds-section__title">Overview</h2>
         <p className="ds-section__desc">
-          Use an Action Panel beside a list or table to hold the controls that filter or act on
+          Use an Action panel beside a list or table to hold the controls that filter or act on
           it — Main and Main2 are two generic content slots, divided by a rule only when both
           are populated.
         </p>
@@ -112,7 +112,7 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
           <img
             className="ds-action-panel-usage__img"
             src="/assets/action-panel-overview-usage.png"
-            alt="Action Panel shown in place within the app shell, beside the page content (Figma reference)"
+            alt="Action panel shown in place within the app shell, beside the page content (Figma reference)"
           />
           <span className="ds-action-panel-usage__highlight" aria-hidden="true" />
         </div>
@@ -197,7 +197,7 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
           controls, buttons, or both at once.
         </p>
         <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
-        <div className="ds-line-tabs" role="tablist" aria-label="Action Panel variant groups">
+        <div className="ds-line-tabs" role="tablist" aria-label="Action panel variant groups">
           {VARIANT_TABS.map((tab) => (
             <button
               key={tab}
@@ -467,7 +467,7 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
         <h2 className="ds-section__title">Related Components</h2>
-        <p className="ds-section__desc">Components that commonly appear alongside Action Panel.</p>
+        <p className="ds-section__desc">Components that commonly appear alongside Action panel.</p>
         <div className="ds-related-grid">
           <button
             type="button"

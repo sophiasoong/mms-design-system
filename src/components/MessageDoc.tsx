@@ -38,7 +38,7 @@ const MESSAGE_CENTER_FIGMA_URL =
 const STYLE_TABS = ['Default', 'Compact', 'Read'] as const;
 type StyleTab = (typeof STYLE_TABS)[number];
 
-const EXAMPLE_TABS = ['Notification Panel', 'Message Center'] as const;
+const EXAMPLE_TABS = ['Notification panel', 'Message center'] as const;
 type ExampleTab = (typeof EXAMPLE_TABS)[number];
 
 interface MessageDocProps {
@@ -47,7 +47,7 @@ interface MessageDocProps {
 
 export default function MessageDoc({ onNavigate }: MessageDocProps) {
   const [activeStyleTab, setActiveStyleTab] = useState<StyleTab>('Default');
-  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Notification Panel');
+  const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Notification panel');
   const messageListRef = useRef<HTMLDivElement>(null);
   const [listScrollThumb, setListScrollThumb] = useState({ top: 0, height: 0 });
 
@@ -285,7 +285,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
           </div>
 
           <div className="ds-variant-groups">
-            {activeExampleTab === 'Notification Panel' && (
+            {activeExampleTab === 'Notification panel' && (
               <div className="ds-variant-group">
                 <div className="ds-preview ds-preview--scrim ds-preview--scroll" style={{ padding: 0 }}>
                   <div className="ds-message-example">
@@ -298,11 +298,11 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
                           className="ds-message-example__panel-item"
                           role="button"
                           tabIndex={0}
-                          onClick={() => setActiveExampleTab('Message Center')}
+                          onClick={() => setActiveExampleTab('Message center')}
                           onKeyDown={(event) => {
                             if (event.key === 'Enter' || event.key === ' ') {
                               event.preventDefault();
-                              setActiveExampleTab('Message Center');
+                              setActiveExampleTab('Message center');
                             }
                           }}
                         >
@@ -358,7 +358,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
                             appearance="outline"
                             size="md"
                             className="ds-message-example__view-all"
-                            onClick={() => setActiveExampleTab('Message Center')}
+                            onClick={() => setActiveExampleTab('Message center')}
                           >
                             View All
                           </Button>
@@ -384,7 +384,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
                 </span>
               </div>
             )}
-            {activeExampleTab === 'Message Center' && (
+            {activeExampleTab === 'Message center' && (
               <div className="ds-variant-group">
                 <div className="ds-preview ds-preview--scrim ds-preview--scroll" style={{ padding: 0 }}>
                   <div className="ds-message-example">

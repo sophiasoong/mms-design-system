@@ -143,9 +143,9 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Searchbar</h1>
+        <h1 className="ds-doc__title">Search bar</h1>
         <p className="ds-doc__lede">
-          A Searchbar is a bordered text field dedicated to querying a list or dataset. A
+          A Search bar is a bordered text field dedicated to querying a list or dataset. A
           trailing action icon submits the search, swapping to a clear icon once the field is
           focused with a typed value.
         </p>
@@ -166,7 +166,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
       <section id="overview" className="ds-section">
         <h2 className="ds-section__title">Overview</h2>
         <p className="ds-section__desc">
-          Use a Searchbar wherever a user filters or queries a list of results, rather than
+          Use a Search bar wherever a user filters or queries a list of results, rather than
           entering free-form text into a form (see Input).
         </p>
         <div className="ds-preview">
@@ -239,7 +239,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
         </p>
 
         <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
-        <div className="ds-line-tabs" role="tablist" aria-label="Searchbar style groups">
+        <div className="ds-line-tabs" role="tablist" aria-label="Search bar style groups">
           {STYLE_TABS.map((tab) => (
             <button
               key={tab}
@@ -376,7 +376,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
         </div>
 
         <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
-        <div className="ds-line-tabs" role="tablist" aria-label="Searchbar example contexts">
+        <div className="ds-line-tabs" role="tablist" aria-label="Search bar example contexts">
           {EXAMPLE_TABS.map((tab) => (
             <button
               key={tab}
@@ -399,7 +399,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                   Scoped inside a Table toolbar (reusing Table's own Default example, Figma node
                   152-3908) — the leading segment narrows which column a query searches within.
                 </p>
-                <div className="ds-preview">
+                <div className="ds-preview ds-preview--scrim ds-preview--scroll">
                   <div className="ds-searchbar-example">
                     <div className="ds-table-example">
                       <div className="ds-table-toolbar">
@@ -496,7 +496,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                 <p className="ds-section__desc">
                   Anchored at the center of the app shell (reusing Topbar's own page-preview
                   instance, Figma node 263-5472) — click it to reveal a Search History panel
-                  (Figma node 1913-6661), a standalone floating container with its own Searchbar
+                  (Figma node 1913-6661), a standalone floating container with its own Search bar
                   and filter chips at top. Click its "Coffee" row to see a Results view themed to
                   that query, matching List's own "Search Results" example (Figma node 639-5409).
                 </p>
@@ -776,7 +776,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
       <section id="layout-spacing" className="ds-section">
         <h2 className="ds-section__title">Layout &amp; Spacing</h2>
         <p className="ds-section__desc">
-          A Searchbar fills its container's width; only height and internal gap change between
+          A Search bar fills its container's width; only height and internal gap change between
           sizes.
         </p>
         <table className="ds-table">
@@ -839,7 +839,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
         <h2 className="ds-section__title">Related Components</h2>
-        <p className="ds-section__desc">Components that commonly appear alongside Searchbar.</p>
+        <p className="ds-section__desc">Components that commonly appear alongside Search bar.</p>
         <div className="ds-related-grid">
           <button
             type="button"

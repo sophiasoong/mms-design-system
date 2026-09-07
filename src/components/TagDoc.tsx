@@ -23,7 +23,7 @@ const OUTLINE_COLORS: TagColor[] = ['primary', 'green', 'orange', 'red', 'blue',
 const STYLE_TABS = ['Outline', 'Solid'] as const;
 type StyleTab = (typeof STYLE_TABS)[number];
 
-const EXAMPLE_TABS = ['Message', 'Searchbar'] as const;
+const EXAMPLE_TABS = ['Message', 'Search bar'] as const;
 type ExampleTab = (typeof EXAMPLE_TABS)[number];
 
 interface TagDocProps {
@@ -279,7 +279,7 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
               </div>
             )}
 
-            {activeExampleTab === 'Searchbar' && (
+            {activeExampleTab === 'Search bar' && (
               <div className="ds-variant-group">
                 <div className="ds-preview ds-preview--scrim">
                   <div className="ds-tag-example-searchbar">
@@ -560,7 +560,7 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
             onClick={() => onNavigate?.('searchbar')}
           >
             <SearchbarIcon className="ds-related-card__icon" />
-            <span className="ds-related-card__name">Searchbar</span>
+            <span className="ds-related-card__name">Search bar</span>
           </button>
           <button
             type="button"

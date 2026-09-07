@@ -96,9 +96,9 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Icon Button</h1>
+        <h1 className="ds-doc__title">Icon button</h1>
         <p className="ds-doc__lede">
-          Icon Buttons trigger an action using only an icon, for contexts where the icon alone
+          Icon buttons trigger an action using only an icon, for contexts where the icon alone
           communicates the action clearly. Use the variant to signal intent (primary, danger,
           success) and the appearance to signal visual weight (solid, outline, ghost).
         </p>
@@ -119,7 +119,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
       <section id="overview" className="ds-section">
         <h2 className="ds-section__title">Overview</h2>
         <p className="ds-section__desc">
-          The default Icon Button is a Primary / Solid / Medium / Square button: high-emphasis,
+          The default Icon button is a Primary / Solid / Medium / Square button: high-emphasis,
           used for a single, clearly recognizable action such as closing a dialog.
         </p>
         <div className="ds-preview">
@@ -182,7 +182,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
         </p>
 
         <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
-        <div className="ds-line-tabs" role="tablist" aria-label="Icon Button variant groups">
+        <div className="ds-line-tabs" role="tablist" aria-label="Icon button variant groups">
           {VARIANT_TABS.map((tab) => (
             <button
               key={tab}
@@ -635,7 +635,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
       <section id="related-component" className="ds-section">
         <h2 className="ds-section__title">Related Components</h2>
         <p className="ds-section__desc">
-          Components that commonly appear alongside Icon Button.
+          Components that commonly appear alongside Icon button.
         </p>
         <div className="ds-related-grid">
           <button
