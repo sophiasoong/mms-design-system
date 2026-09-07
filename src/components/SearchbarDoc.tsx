@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Searchbar } from './Searchbar';
 import { ActionChip, FilterChip } from './Chip';
 import { DropdownOption } from './Dropdown';
@@ -33,6 +33,9 @@ type StyleTab = (typeof STYLE_TABS)[number];
 // 3-option Dropdown panel — these stand in for its placeholder "Option" rows with values
 // relevant to a merchant search bar.
 const SCOPE_OPTIONS = ['Promotion ID', 'Order ID', 'Product ID'];
+// The Table-search Example's own scope options — the two columns its "Search SKU ID or
+// Name" placeholder already names, so the selector narrows the query to one of them.
+const EXAMPLE_SCOPE_OPTIONS = ['SKU ID', 'SKU Name'];
 
 const EXAMPLE_TABS = ['Table search', 'Global search'] as const;
 type ExampleTab = (typeof EXAMPLE_TABS)[number];
@@ -69,7 +72,21 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
   const [scopeOpen, setScopeOpen] = useState(false);
   const [activeExampleTab, setActiveExampleTab] = useState<ExampleTab>('Table search');
   const [exampleCheckedRows, setExampleCheckedRows] = useState<Record<string, boolean>>({});
+  const [exampleScopeValue, setExampleScopeValue] = useState(EXAMPLE_SCOPE_OPTIONS[0]);
+  const [exampleScopeOpen, setExampleScopeOpen] = useState(false);
+  const exampleScopeRef = useRef<HTMLDivElement>(null);
   const [globalSearchOpen, setGlobalSearchOpen] = useState(false);
+
+  // Same click-outside dismissal as TableDoc's own scope selector: the panel closes when
+  // the pointer lands anywhere outside the search-wrap that hosts both trigger and panel.
+  useEffect(() => {
+    if (!exampleScopeOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!exampleScopeRef.current?.contains(e.target as Node)) setExampleScopeOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [exampleScopeOpen]);
   // The panel's default content on open is a Search History view (Figma node 1913-6661);
   // clicking its "Coffee" row swaps it to a Results view themed to that query. Reset to
   // 'history' whenever the panel is freshly opened or closed, rather than persisting whatever
@@ -403,14 +420,36 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
                   <div className="ds-searchbar-example">
                     <div className="ds-table-example">
                       <div className="ds-table-toolbar">
-                        <div className="ds-table-toolbar__search-wrap">
+                        <div className="ds-table-toolbar__search-wrap" ref={exampleScopeRef}>
                           <span className="ds-searchbar-example__focus">
                             <Searchbar
                               size="md"
                               placeholder="Search SKU ID or Name"
-                              scopeLabel="SKU ID"
+                              scopeLabel={exampleScopeValue}
+                              onScopeClick={() => setExampleScopeOpen((open) => !open)}
                             />
                           </span>
+                          {exampleScopeOpen && (
+                            // Reuses Table's own .ds-table-filter__panel (Table.css, real
+                            // component CSS) to float the panel under the field, the same way
+                            // TableDoc's own scope selector does.
+                            <div className="ds-dropdown ds-table-filter__panel" role="listbox">
+                              <div className="ds-dropdown__options">
+                                {EXAMPLE_SCOPE_OPTIONS.map((option) => (
+                                  <DropdownOption
+                                    key={option}
+                                    label={option}
+                                    style="single"
+                                    state={exampleScopeValue === option ? 'selected' : 'default'}
+                                    onClick={() => {
+                                      setExampleScopeValue(option);
+                                      setExampleScopeOpen(false);
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                          )}
                         </div>
                         <div className="ds-table-toolbar__filters ds-searchbar-example__dim">
                           <FilterChip label="Category" />

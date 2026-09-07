@@ -285,7 +285,14 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
                   <div className="ds-tag-example-searchbar">
                     <div className="ds-tag-example-searchbar__panel">
                       <div className="ds-tag-example-searchbar__searchbar-row ds-tag-example-searchbar__dim">
-                        <Searchbar size="lg" state="focus" chipLabel="Label" defaultValue="Label" />
+                        {/* Mirrors ListDoc's own "Search results" instance: a committed
+                            Product filter chip inline before the typed query. */}
+                        <Searchbar
+                          size="lg"
+                          state="focus"
+                          chipLabel="Product"
+                          defaultValue="Something"
+                        />
                       </div>
                       <div className="ds-tag-example-searchbar__rows">
                         <List
