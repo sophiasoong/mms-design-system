@@ -55,9 +55,11 @@
 }
 
 .ds-topbar-notification-preview__caption {
+  order: 1; /* visually below the AppTopbar instance that follows it in markup, not above */
   color: var(--brand-neutral-0);
   font-size: var(--typography-sm-font-size);
   font-weight: var(--typography-font-weight-medium);
+  text-align: center;
 }
 
 /* ---- Topbar Overview usage screenshot ----

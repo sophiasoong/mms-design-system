@@ -506,8 +506,10 @@
 }
 
 .ds-example-mock__name {
+  order: 1; /* visually below the instance div that precedes it in markup, not above */
   font-size: var(--typography-sm-font-size);
   color: var(--text-caption-primary-light);
+  text-align: center;
 }
 
 .ds-example-mock {
@@ -1151,4 +1153,24 @@
    is what actually guarantees the override rather than depending on import order. */
 .ds-input.ds-table-content-style__input {
   width: 200px;
+}
+
+/* ---- SelectDoc Example > Single-select ----
+   SelectDoc has no dedicated CSS file of its own (it only imports this one), so its
+   page-specific overrides live here alongside the other cross-page scoped exceptions.
+   Caption moves below each instance (order:1, mirroring .ds-example-mock__name's own
+   below-caption pattern above) and centers under it, instead of the shared
+   .ds-combo-figure/.ds-variant-row__cell-label default of an above/left-aligned caption.
+   Scoped to .ds-preview--stack .ds-combo-figure specifically — the Single-select tab's
+   two instances (Label, Badge) are the only .ds-combo-figure usage inside a
+   .ds-preview--stack wrapper anywhere in the docs (SelectDoc's own Multi-select tab and
+   DropdownDoc's .ds-preview--stack blocks both use plain .ds-variant-row(__cell)
+   instead), so this doesn't reach any other page or tab. */
+.ds-preview--stack .ds-combo-figure {
+  align-items: center;
+}
+
+.ds-preview--stack .ds-combo-figure .ds-variant-row__cell-label {
+  order: 1;
+  text-align: center;
 }
