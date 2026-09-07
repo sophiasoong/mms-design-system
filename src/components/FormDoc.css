@@ -112,6 +112,184 @@
   max-width: var(--component-width-modal-lg);
 }
 
+/* ---- Variants > Column Layout ----
+   One FormRow split into 1..4 equal FormCols (Figma node 775-18658). Unlike the fixed
+   320px Field Type card, this preview has to be wide enough for four tracks to read as
+   columns, so the Form fills the scrim container edge to edge (no cap). position:relative
+   anchors the absolutely positioned padding callouts below to the card itself. */
+.ds-form-doc__column-layout-demo {
+  position: relative;
+  width: 100%;
+}
+
+/* Spec measurement callouts — same red dashed leader-line style as ToastDoc.css's
+   .ds-toast-example__gap, duplicated here per the page-scoped doc-CSS convention. Each
+   line is a zero-width/zero-height box whose border draws a segment exactly as long as
+   the token it measures (so it can never drift from the real padding/gap); the <span>
+   label hangs off that box. brand/danger only has a 500 tier, so line and label share
+   the one token rather than a guessed second shade. */
+.ds-form-doc__spec {
+  position: absolute;
+  font-size: var(--typography-xs-font-size); /* typography/xs/font-size */
+  line-height: var(--typography-xs-line-height); /* typography/xs/line-height */
+  font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
+  color: var(--brand-danger-500); /* brand/danger/500 */
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1; /* above the fields it overlays — same unflagged raw z-index exception as Form.css/Table.css */
+}
+
+/* Vertical leaders (top/bottom padding, field gap, summary gap): label sits to the right
+   of the line, vertically centred on it. */
+.ds-form-doc__spec--pad-top span,
+.ds-form-doc__spec--pad-bottom span,
+.ds-form-doc__spec--field-gap span,
+.ds-form-doc__spec--summary-gap span {
+  position: absolute;
+  top: 50%;
+  left: var(--space-component-gap-xs); /* space/component/gap/xs */
+  transform: translateY(-50%);
+}
+
+/* Top/bottom padding of .ds-form__main (space/layout/section/padding/md, 24px), centred
+   horizontally on the card. On 2-col that centre is the column gap, which is why the
+   field columns' col-gap callout sits down in the field-gap band (see --col-gap-mid)
+   instead of up here in the padding band. */
+.ds-form-doc__spec--pad-top,
+.ds-form-doc__spec--pad-bottom {
+  left: 50%;
+  width: 0;
+  height: var(--space-layout-section-padding-md); /* space/layout/section/padding/md, 24px */
+  border-left: var(--border-sm) dashed var(--brand-danger-500); /* border/sm, brand/danger/500 */
+}
+
+.ds-form-doc__spec--pad-top {
+  top: 0;
+}
+
+.ds-form-doc__spec--pad-bottom {
+  bottom: 0;
+}
+
+/* Left/right padding, centred vertically on the card. The label sits above the line,
+   centred on it (same as ToastDoc's --right leader) so it stays within the padding band
+   instead of running into the field beside it. */
+.ds-form-doc__spec--pad-left,
+.ds-form-doc__spec--pad-right {
+  top: 50%;
+  width: var(--space-layout-section-padding-md); /* space/layout/section/padding/md, 24px */
+  height: 0;
+  border-top: var(--border-sm) dashed var(--brand-danger-500); /* border/sm, brand/danger/500 */
+}
+
+.ds-form-doc__spec--pad-left {
+  left: 0;
+}
+
+.ds-form-doc__spec--pad-right {
+  right: 0;
+}
+
+.ds-form-doc__spec--pad-left span,
+.ds-form-doc__spec--pad-right span {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-component-gap-xs); /* space/component/gap/xs */
+  transform: translateX(-50%);
+}
+
+/* Anchors for the gap callouts: the FormField (or summary list block) that sits BELOW a
+   measured gap, and the FormCol that sits to the RIGHT of a measured column gap. */
+.ds-form-doc__column-layout-field--measured,
+.ds-form-doc__column-layout-col--measured {
+  position: relative;
+}
+
+/* FormCol's field-to-field gap (space/component/gap/lg, 16px), drawn upward from the
+   measured field's top edge into the gap above it. */
+.ds-form-doc__spec--field-gap {
+  top: calc(-1 * var(--space-component-gap-lg)); /* space/component/gap/lg */
+  left: 50%;
+  width: 0;
+  height: var(--space-component-gap-lg); /* space/component/gap/lg, 16px */
+  border-left: var(--border-sm) dashed var(--brand-danger-500); /* border/sm, brand/danger/500 */
+}
+
+/* 4-col summary column's Tag-to-list gap (space/component/gap/sm, 8px). */
+.ds-form-doc__spec--summary-gap {
+  top: calc(-1 * var(--space-component-gap-sm)); /* space/component/gap/sm */
+  left: 50%;
+  width: 0;
+  height: var(--space-component-gap-sm); /* space/component/gap/sm, 8px */
+  border-left: var(--border-sm) dashed var(--brand-danger-500); /* border/sm, brand/danger/500 */
+}
+
+/* FormRow's column gap (space/layout/section/gap/md, 16px), drawn leftward across the gap
+   to the measured column's left edge. Two anchorings:
+   --col-gap (4-col summary columns): from the column's top-left corner, label above in
+     the top padding band — those columns never start at the card's horizontal centre, so
+     the label can't meet the centred top-padding leader.
+   --col-gap-mid (1..3-col field columns): anchored to the column's second FormField and
+     raised half a field gap, so the line runs through the empty field-gap band and the
+     label sits to its right in that same band — clear of both the fields and the centred
+     top-padding leader (which on 2-col shares the column gap's x). */
+.ds-form-doc__spec--col-gap,
+.ds-form-doc__spec--col-gap-mid {
+  left: calc(-1 * var(--space-layout-section-gap-md)); /* space/layout/section/gap/md */
+  width: var(--space-layout-section-gap-md); /* space/layout/section/gap/md, 16px */
+  height: 0;
+  border-top: var(--border-sm) dashed var(--brand-danger-500); /* border/sm, brand/danger/500 */
+}
+
+.ds-form-doc__spec--col-gap {
+  top: 0;
+}
+
+.ds-form-doc__spec--col-gap span {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-component-gap-xs); /* space/component/gap/xs */
+  transform: translateX(-50%);
+}
+
+.ds-form-doc__spec--col-gap-mid {
+  top: calc(-1 * var(--space-component-gap-lg) / 2); /* space/component/gap/lg, half the field gap */
+}
+
+.ds-form-doc__spec--col-gap-mid span {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + var(--space-component-gap-xs)); /* space/component/gap/xs */
+  transform: translateY(-50%);
+}
+
+/* 4-col's readonly summary columns: Figma stacks the Tag over the list block with the
+   tight component gap rather than FormCol's field-to-field gap (component-gap-lg). */
+.ds-form-doc__column-layout-summary {
+  gap: var(--space-component-gap-sm); /* space/component/gap/sm */
+}
+
+/* FormCol stretches its children to the column width, which would turn the Tag into a
+   full-width pill; Figma's Tag hugs its "Label" text, so only the list block below it
+   keeps the stretched width. */
+.ds-form-doc__column-layout-summary > .ds-tag {
+  align-self: flex-start;
+}
+
+/* The list block itself: Sm List rows stacked with no extra spacing beyond each row's
+   own 24px height (List.css .ds-list--sm), matching the Figma reference's row rhythm. */
+.ds-form-doc__column-layout-summary-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* The "Title" rows heading each group read as medium weight in Figma, against the
+   regular-weight "Label · 1,000" rows beneath them. */
+.ds-form-doc__column-layout-summary-title .ds-list__label {
+  font-weight: var(--typography-font-weight-medium); /* typography/font-weight/medium */
+}
+
 /* Explicit 2-column grid (Label|Text button / Badge|Chip / Tag alone on the third row)
    rather than the flex-wrap row-by-row grouping this used to have — the 5 cells sit
    flat here (no per-row wrapper div in FormDoc.tsx) and auto-flow into the grid in

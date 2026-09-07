@@ -8,6 +8,7 @@ import { Radio } from './Radio';
 import { DateRangePicker } from './DateRangePicker';
 import { DatePicker } from './DatePicker';
 import Upload, { UploadImageItem } from './Upload';
+import List from './List';
 import Button from './Button';
 import IconButton from './IconButton';
 import { Badge } from './Badge';
@@ -48,6 +49,17 @@ const FIELD_TYPE_TABS: { id: FieldTypeId; label: string }[] = [
   { id: 'radio', label: 'Radio' },
   { id: 'readonly', label: 'Readonly' },
   { id: 'image-grid', label: 'Image Grid' },
+];
+
+type ColumnLayoutId = '1-col' | '2-col' | '3-col' | '4-col';
+
+/** Figma's "Form-col" span variants (node 775-18658): how many equal FormCol columns
+ * one FormRow splits into. The numeric id doubles as the column count. */
+const COLUMN_LAYOUT_TABS: { id: ColumnLayoutId; label: string; columns: number }[] = [
+  { id: '1-col', label: '1-col', columns: 1 },
+  { id: '2-col', label: '2-col', columns: 2 },
+  { id: '3-col', label: '3-col', columns: 3 },
+  { id: '4-col', label: '4-col', columns: 4 },
 ];
 
 type ExampleId = 'form' | 'sub-form' | 'form-list';
@@ -584,6 +596,135 @@ function FormListExample() {
   );
 }
 
+type SpecLineKind =
+  | 'pad-top'
+  | 'pad-bottom'
+  | 'pad-left'
+  | 'pad-right'
+  | 'field-gap'
+  | 'col-gap'
+  | 'col-gap-mid'
+  | 'summary-gap';
+
+/** Red dashed measurement callout — same annotation style as ToastDoc's Example
+ * (.ds-toast-example__gap), duplicated here under a page-scoped class per the doc-CSS
+ * convention. Absolutely positioned, so it never affects the layout it measures. */
+function SpecLine({ kind, value }: { kind: SpecLineKind; value: string }) {
+  return (
+    <span className={`ds-form-doc__spec ds-form-doc__spec--${kind}`} aria-hidden="true">
+      <span>{value}</span>
+    </span>
+  );
+}
+
+/** One standard column of Figma's Form-col 1-col / 2-col / 3-col variants (node 775-18658):
+ * Input-field, required Date-picker-field, Select-field — the same three placeholder
+ * fields repeated per column so the tabs only differ by how the width is split.
+ * `showFieldGaps` annotates the two field-to-field gaps (first column only);
+ * `showColumnGap` annotates the gap to the column on its left (second column only), drawn
+ * level with the first field gap so it stays clear of the centred padding leaders. */
+function ColumnLayoutFieldCol({
+  showFieldGaps,
+  showColumnGap,
+}: {
+  showFieldGaps?: boolean;
+  showColumnGap?: boolean;
+}) {
+  const measuredField = showFieldGaps ? 'ds-form-doc__column-layout-field--measured' : undefined;
+  // The column-gap leader hangs off the second field (raised into the field-gap band above
+  // it, see FormDoc.css --col-gap-mid) rather than the column's top edge, so that field is
+  // the positioning anchor whenever either callout is shown.
+  const secondField =
+    showFieldGaps || showColumnGap ? 'ds-form-doc__column-layout-field--measured' : undefined;
+  return (
+    <FormCol>
+      <FormField label="Title">
+        <Input placeholder="Placeholder" size="lg" />
+      </FormField>
+      <FormField label="Title" required className={secondField}>
+        {showFieldGaps && <SpecLine kind="field-gap" value="16px" />}
+        {showColumnGap && <SpecLine kind="col-gap-mid" value="16px" />}
+        <DateRangePicker />
+      </FormField>
+      <FormField label="Title" className={measuredField}>
+        {showFieldGaps && <SpecLine kind="field-gap" value="16px" />}
+        <Select placeholder="Placeholder" size="lg" />
+      </FormField>
+    </FormCol>
+  );
+}
+
+/** Figma's 4-col variant swaps the field stacks for a readonly summary column: a primary
+ * Tag heading a stack of Sm List rows (a medium-weight "Title" row followed by two
+ * "Label · 1,000" rows, twice). Figma leaves columns 2 and 4 empty; the doc fills all four
+ * so the preview has no dead space. */
+function ColumnLayoutSummaryCol({
+  showSummaryGap,
+  showColumnGap,
+}: {
+  showSummaryGap?: boolean;
+  showColumnGap?: boolean;
+}) {
+  return (
+    <FormCol
+      className={[
+        'ds-form-doc__column-layout-summary',
+        showColumnGap && 'ds-form-doc__column-layout-col--measured',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      {showColumnGap && <SpecLine kind="col-gap" value="16px" />}
+      <Tag label="Label" color="primary" />
+      <div
+        className={[
+          'ds-form-doc__column-layout-summary-list',
+          showSummaryGap && 'ds-form-doc__column-layout-field--measured',
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
+        {showSummaryGap && <SpecLine kind="summary-gap" value="8px" />}
+        {[0, 1].map((group) => (
+          <div key={group}>
+            <List
+              size="sm"
+              showLeadingIcon={false}
+              showIconButton={false}
+              showValue={false}
+              label="Title"
+              className="ds-form-doc__column-layout-summary-title"
+            />
+            <List size="sm" showLeadingIcon={false} showIconButton={false} label="Label" value="1,000" />
+            <List size="sm" showLeadingIcon={false} showIconButton={false} label="Label" value="1,000" />
+          </div>
+        ))}
+      </div>
+    </FormCol>
+  );
+}
+
+/** The Column Layout preview's single FormRow, split into `columns` equal FormCols. */
+function ColumnLayoutRow({ columns }: { columns: number }) {
+  if (columns === 4) {
+    return (
+      <FormRow>
+        <ColumnLayoutSummaryCol showSummaryGap />
+        <ColumnLayoutSummaryCol showColumnGap />
+        <ColumnLayoutSummaryCol />
+        <ColumnLayoutSummaryCol />
+      </FormRow>
+    );
+  }
+  return (
+    <FormRow>
+      {Array.from({ length: columns }, (_, i) => (
+        <ColumnLayoutFieldCol key={i} showFieldGaps={i === 0} showColumnGap={i === 1} />
+      ))}
+    </FormRow>
+  );
+}
+
 interface FormDocProps {
   onNavigate?: (componentId: string) => void;
 }
@@ -591,6 +732,7 @@ interface FormDocProps {
 export default function FormDoc({ onNavigate }: FormDocProps) {
   const [collapsedDemo, setCollapsedDemo] = useState(false);
   const [activeFieldTypeId, setActiveFieldTypeId] = useState<FieldTypeId>('input');
+  const [activeColumnLayoutId, setActiveColumnLayoutId] = useState<ColumnLayoutId>('1-col');
   const [activeExampleId, setActiveExampleId] = useState<ExampleId>('form');
   const [fulfillment, setFulfillment] = useState<'warehouse' | 'dropship'>('warehouse');
 
@@ -729,7 +871,8 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
         <p className="ds-section__desc">
           Every field type Form can contain, each in its default state — switch tabs to preview
           Input, Number Input, Select, Date Picker, Textarea, Toggle, Radio, Readonly, and Image
-          Grid.
+          Grid. Column Layout then shows how one FormRow splits into 1 to 4 equal FormCol
+          columns.
         </p>
 
         <span className="ds-variant-group__label ds-variant-tabs-label">Field Type</span>
@@ -893,6 +1036,38 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
                 />
               </FormField>
             )}
+          </Form>
+        </div>
+
+        <span className="ds-variant-group__label ds-variant-tabs-label">Column Layout</span>
+        <div className="ds-line-tabs" role="tablist" aria-label="Form column layouts">
+          {COLUMN_LAYOUT_TABS.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              aria-selected={activeColumnLayoutId === tab.id}
+              className={`ds-line-tab${activeColumnLayoutId === tab.id ? ' ds-line-tab--active' : ''}`}
+              onClick={() => setActiveColumnLayoutId(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="ds-preview ds-preview--scrim">
+          <Form title="Column Layout" showHeader={false} className="ds-form-doc__column-layout-demo">
+            {/* Main-slot padding callouts (space/layout/section/padding/md on all four sides);
+                the field/column gap callouts live inside ColumnLayoutRow's columns. */}
+            <SpecLine kind="pad-top" value="24px" />
+            <SpecLine kind="pad-bottom" value="24px" />
+            <SpecLine kind="pad-left" value="24px" />
+            <SpecLine kind="pad-right" value="24px" />
+            <ColumnLayoutRow
+              columns={
+                COLUMN_LAYOUT_TABS.find((tab) => tab.id === activeColumnLayoutId)?.columns ?? 1
+              }
+            />
           </Form>
         </div>
 
