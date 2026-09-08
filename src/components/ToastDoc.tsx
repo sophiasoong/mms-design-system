@@ -24,7 +24,7 @@ const STATE_BY_TAB: Record<VariantTab, ToastState> = {
 
 /** Per-state copy for the Style row below — single-line has no title and a fixed 48px
     row (no overflow handling of its own), so its description is written short enough to
-    read as one real line at 396px; multi-line's description is written long enough to
+    read as one real line at 412px; multi-line's description is written long enough to
     wrap to two lines, showing off the layout it's actually for. One realistic
     title/description/button per state either way, not Toast's own generic
     "Title"/"Description"/"Button" defaults. */
@@ -422,7 +422,7 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
       <section id="layout-spacing" className="ds-section">
         <h2 className="ds-section__title">Layout &amp; Spacing</h2>
         <p className="ds-section__desc">
-          Every measurement below comes from a token — no hardcoded values, except where flagged.
+          Every measurement below comes from a token — no hardcoded values.
         </p>
         <table className="ds-table">
           <thead>
@@ -436,9 +436,9 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
             <tr>
               <th scope="row">Container width</th>
               <td>
-                <em>none — flagged</em>
+                <code>--component-width-toast-md</code>
               </td>
-              <td>396px, fixed in every Figma instance and in this build</td>
+              <td>412px, fixed</td>
             </tr>
             <tr>
               <th scope="row">Single-line height</th>
@@ -464,9 +464,9 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
             <tr>
               <th scope="row">Container radius</th>
               <td>
-                <em>none — flagged</em>
+                <code>--radius-md</code>
               </td>
-              <td>6px (closest tokens are --radius-sm at 4px and --radius-md at 8px)</td>
+              <td>8px</td>
             </tr>
             <tr>
               <th scope="row">Container border</th>
@@ -492,7 +492,7 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
             <tr>
               <th scope="row">Icon size</th>
               <td>
-                <code>--component-icon-md</code> / <code>--component-icon-sm</code>
+                <code>--component-icon-lg</code> / <code>--component-icon-sm</code>
               </td>
               <td>24px tile, 16px glyph</td>
             </tr>

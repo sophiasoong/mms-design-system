@@ -456,7 +456,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
             <tr>
               <th scope="row">Standalone box (Lg)</th>
               <td>
-                <code>--component-icon-md</code>
+                <code>--component-icon-lg</code>
               </td>
               <td>24px</td>
             </tr>

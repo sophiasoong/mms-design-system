@@ -160,7 +160,7 @@
 }
 
 /* Figma (639:5388) sizes the history-row leading icon at 16px, but the shared .icon class
-   defaults to 24px (--component-icon-md) — List's own leading-icon box is already 16px per
+   defaults to 24px (--component-icon-lg) — List's own leading-icon box is already 16px per
    spec (List.css), so only the glyph itself needs to shrink to match its container, same
    fix pattern as the Uploaded Files file-row icon below. */
 .ds-list-example__rows .ds-list__leading-icon .icon {
@@ -220,19 +220,19 @@
   border-bottom: none;
 }
 
-/* Figma's Union (Product) glyph has no matching icon-size token (20px, between sm/16 and
-   md/24) — same gap already documented in Thumbnail.css for its own copy of this glyph. */
+/* Figma's Union (Product) glyph is 20px — component/icon/md since the 2026-09-08 token
+   export re-cut the icon scale (xs 12 / sm 16 / md 20 / lg 24 / xl 36). */
 .ds-list-example__thumb-glyph--product {
-  width: 20px;
-  height: 20px;
+  width: var(--component-icon-md); /* component/icon/md */
+  height: var(--component-icon-md);
 }
 
 /* Figma names this glyph "component/icon/sm" but renders it at 24px — this project's own
    --component-icon-sm is 16px, so it's mapped here by actual pixel value
-   (--component-icon-md) rather than Figma's variable name, matching Thumbnail.css. */
+   (--component-icon-lg) rather than Figma's variable name, matching Thumbnail.css. */
 .ds-list-example__thumb-glyph--promotion {
-  width: var(--component-icon-md); /* component/icon/md */
-  height: var(--component-icon-md);
+  width: var(--component-icon-lg); /* component/icon/lg */
+  height: var(--component-icon-lg);
 }
 
 /* Uploaded Files tab — a dropzone-style import summary above a compact file list. Figma
@@ -314,8 +314,8 @@
    leading-icon box — a 16px glyph centered in a 24px container — so it's scoped to these
    rows rather than resizing every List's leading icon (Layout & Spacing still specs 16px). */
 .ds-list-example__upload-files .ds-list__leading-icon {
-  width: var(--component-icon-md);
-  height: var(--component-icon-md);
+  width: var(--component-icon-lg);
+  height: var(--component-icon-lg);
 }
 
 .ds-list-example__upload-files .ds-list__leading-icon .icon {

@@ -56,13 +56,13 @@ const ICONS = {
 } as const;
 
 export type IconName = keyof typeof ICONS;
-export type IconSize = 'xs' | 'sm' | 'md' | 'lg';
+export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export const ICON_NAMES = Object.keys(ICONS) as IconName[];
 
 export interface IconProps {
   name: IconName;
-  /** Maps to --component-icon-xs/sm/md/lg (12/16/24/36px). */
+  /** Maps to --component-icon-xs/sm/md/lg/xl (12/16/20/24/36px). */
   size?: IconSize;
   className?: string;
 }

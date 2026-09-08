@@ -822,7 +822,7 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
       <section id="layout-spacing" className="ds-section">
         <h2 className="ds-section__title">Layout &amp; Spacing</h2>
         <p className="ds-section__desc">
-          Every measurement below comes from a token — no hardcoded values, except where flagged.
+          Every measurement below comes from a token — no hardcoded values.
         </p>
         <table className="ds-table">
           <thead>
@@ -836,9 +836,9 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
             <tr>
               <th scope="row">Container width</th>
               <td>
-                <em>none — flagged</em>
+                <code>--component-width-banner-md</code>
               </td>
-              <td>412px, fixed in every Figma instance and in this build</td>
+              <td>412px, fixed</td>
             </tr>
             <tr>
               <th scope="row">Single-line height</th>
@@ -885,7 +885,7 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
             <tr>
               <th scope="row">Icon size</th>
               <td>
-                <code>--component-icon-md</code> / <code>--component-icon-sm</code>
+                <code>--component-icon-lg</code> / <code>--component-icon-sm</code>
               </td>
               <td>24px tile, 16px glyph</td>
             </tr>

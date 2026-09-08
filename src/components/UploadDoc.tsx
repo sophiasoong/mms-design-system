@@ -821,7 +821,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
               <td>
                 <em>none — flagged</em>
               </td>
-              <td>48px (largest icon token is --component-icon-lg at 36px)</td>
+              <td>48px (largest icon token is --component-icon-xl at 36px)</td>
             </tr>
             <tr>
               <th scope="row">Progress bar track height</th>

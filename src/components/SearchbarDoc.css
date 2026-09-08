@@ -238,7 +238,7 @@
 }
 
 /* Figma (1913-6661) sizes the history-row leading icon at 16px, but the shared .icon class
-   defaults to 24px (--component-icon-md) — same fix already applied to ListDoc.css's own copy
+   defaults to 24px (--component-icon-lg) — same fix already applied to ListDoc.css's own copy
    of this Search History section. */
 .ds-searchbar-example__history-rows .ds-list__leading-icon .icon {
   font-size: var(--component-icon-sm); /* component/icon/sm */
@@ -272,17 +272,17 @@
   color: var(--brand-neutral-700); /* brand/neutral/700 */
 }
 
-/* Figma's Union (Product) glyph has no matching icon-size token (20px, between sm/16 and
-   md/24) — same gap already documented in ListDoc.css's own copy of this glyph. */
+/* Figma's Union (Product) glyph is 20px — component/icon/md since the 2026-09-08 token
+   export re-cut the icon scale (xs 12 / sm 16 / md 20 / lg 24 / xl 36). */
 .ds-searchbar-example__thumb-glyph--product {
-  width: 20px;
-  height: 20px;
+  width: var(--component-icon-md); /* component/icon/md */
+  height: var(--component-icon-md);
 }
 
 /* Figma names this glyph "component/icon/sm" but renders it at 24px — mapped here by
-   actual pixel value (--component-icon-md) rather than Figma's variable name, matching
+   actual pixel value (--component-icon-lg) rather than Figma's variable name, matching
    ListDoc.css's own copy. */
 .ds-searchbar-example__thumb-glyph--promotion {
-  width: var(--component-icon-md); /* component/icon/md */
-  height: var(--component-icon-md);
+  width: var(--component-icon-lg); /* component/icon/lg */
+  height: var(--component-icon-lg);
 }

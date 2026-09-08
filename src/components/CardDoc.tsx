@@ -351,8 +351,8 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
       <section id="layout-spacing" className="ds-section">
         <h2 className="ds-section__title">Layout &amp; Spacing</h2>
         <p className="ds-section__desc">
-          Width is a fixed 300px in the source Figma spec — every other measurement below comes
-          from a token.
+          Width is a fixed 300px in the source Figma spec — every measurement below comes from a
+          token.
         </p>
         <table className="ds-table">
           <thead>
@@ -365,7 +365,9 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
           <tbody>
             <tr>
               <th scope="row">Width</th>
-              <td>—</td>
+              <td>
+                <code>--component-width-card-md</code>
+              </td>
               <td>300px</td>
             </tr>
             <tr>
@@ -420,13 +422,9 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
             <tr>
               <th scope="row">Highlighted shadow</th>
               <td>
-                <code>--brand-primary-100</code>
-                <span className="ds-doc-flag">flagged</span>
+                <code>--brand-primary-200</code>
               </td>
-              <td>
-                0px 1px 6px — Figma specifies <code>brand/primary/200</code> (#a9a1f7), which has
-                no matching token; using the nearest existing tier
-              </td>
+              <td>0px 1px 6px</td>
             </tr>
           </tbody>
         </table>

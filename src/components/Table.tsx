@@ -4,7 +4,13 @@ import { Tooltip } from './Tooltip';
 import './Table.css';
 
 export type TableSize = 'sm' | 'md' | 'lg' | 'xl';
-export type TableRowState = 'default' | 'hover' | 'selected' | 'highlighted' | 'disabled';
+export type TableRowState =
+  | 'default'
+  | 'hover'
+  | 'selected'
+  | 'highlighted'
+  | 'highlighted-hover'
+  | 'disabled';
 export type TableAlign = 'left' | 'center' | 'right';
 export type TableSortDirection = 'asc' | 'desc' | null;
 

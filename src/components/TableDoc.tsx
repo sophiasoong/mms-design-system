@@ -395,7 +395,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
                 <span className="ds-anatomy__legend-num">4</span>
                 <span>
                   <strong>Row</strong> —{' '}
-                  <span>groups related cells; carries default, hover, selected, highlighted, and disabled states</span>
+                  <span>groups related cells; carries default, hover, selected, highlighted, highlighted-hover, and disabled states</span>
                 </span>
               </li>
             </ul>
@@ -933,9 +933,9 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
       <section id="states" className="ds-section">
         <h2 className="ds-section__title">States</h2>
         <p className="ds-section__desc">
-          Every row carries one of five states — hover and selected reuse the same purple
-          tints as the rest of the system; highlighted uses a flagged one-off value with no
-          matching token.
+          Every row carries one of six states — hover and selected reuse the same purple
+          tints as the rest of the system; highlighted and highlighted-hover sit on the amber
+          brand-secondary scale, stepping from 50 at rest to 100 on hover.
         </p>
         <table className="ds-table">
           <thead>
@@ -995,7 +995,20 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
                 </Table>
               </td>
               <td>
-                <code>#fffbf2</code> <span className="ds-variant-note">(unmatched)</span>
+                <code>brand-secondary-50</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Highlighted-hover</td>
+              <td>
+                <Table size="sm">
+                  <TableRow state="highlighted-hover">
+                    <TableCell>Row value</TableCell>
+                  </TableRow>
+                </Table>
+              </td>
+              <td>
+                <code>brand-secondary-100</code>
               </td>
             </tr>
             <tr>

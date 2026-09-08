@@ -391,13 +391,15 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
             <tr>
               <th scope="row">Max-width (Md)</th>
               <td>
-                <code>--component-width-tooltip-md</code>
+                <code>--component-width-hint-md</code>
               </td>
               <td>240px</td>
             </tr>
             <tr>
               <th scope="row">Max-width (Lg)</th>
-              <td>—</td>
+              <td>
+                <code>--component-width-hint-lg</code>
+              </td>
               <td>600px</td>
             </tr>
             <tr>

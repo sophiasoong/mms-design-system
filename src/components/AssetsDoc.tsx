@@ -70,14 +70,15 @@ const THUMBNAIL_FIGMA_URL =
 const ICON_SIZES: { size: IconSize; label: string }[] = [
   { size: 'xs', label: 'Xs · 12px' },
   { size: 'sm', label: 'Sm · 16px' },
-  { size: 'md', label: 'Md · 24px' },
-  { size: 'lg', label: 'Lg · 36px' },
+  { size: 'md', label: 'Md · 20px' },
+  { size: 'lg', label: 'Lg · 24px' },
+  { size: 'xl', label: 'Xl · 36px' },
 ];
 
 // The Icon-library's own 5 native size TIERS from Figma (967:42491) — a different axis
 // from ICON_SIZES above: each tier is its own frame of hand-drawn artwork at a fixed
 // native pixel size, not one glyph CSS-scaled to 4 sizes. Some tier icons reuse Icon's
-// ICONS map (Xs/Sm/Md already render at 12/16/24px) or assetIcons.tsx components that
+// ICONS map (Xs/Sm/Md/Lg already render at 12/16/20/24px) or assetIcons.tsx components that
 // happen to match 1:1; the rest are new, tier-specific traces in iconSizeGroups.tsx.
 const ICON_SIZE_TABS = ['12px', '16px', '20px', '24px', '48px'] as const;
 type IconSizeTab = (typeof ICON_SIZE_TABS)[number];
@@ -290,7 +291,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
         <p className="ds-section__desc">One of each, side by side.</p>
         <div className="ds-variant-row">
           <div className="ds-variant-row__cell">
-            <Icon name="faq" size="lg" />
+            <Icon name="faq" size="xl" />
             <span className="ds-variant-row__cell-label">Icon</span>
           </div>
           <div className="ds-variant-row__cell">
@@ -315,7 +316,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
         </div>
         <p className="ds-section__desc">
           Single-color glyphs (<code>currentColor</code>) sized via a <code>size</code>{' '}
-          prop — Xs/Sm/Md/Lg map to 12/16/24/36px. Used inline in buttons, inputs, and
+          prop — Xs/Sm/Md/Lg/Xl map to 12/16/20/24/36px. Used inline in buttons, inputs, and
           list rows throughout this system.
         </p>
 
@@ -379,7 +380,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
               {activeIconSizeTab === '24px' &&
                 ICON_TAB_24_NAMES.map((name) => (
                   <div className="ds-variant-row__cell" key={name}>
-                    <Icon name={name} size="md" />
+                    <Icon name={name} size="lg" />
                     <span className="ds-variant-row__cell-label">{formatIconLabel(name)}</span>
                   </div>
                 ))}

@@ -1,7 +1,7 @@
 /* ---- Hint ----
-   Figma node 194:2853 (Size=Md at 684:7605, Size=Lg at 684:7945). Md's 240px max-width is
-   an exact match to --component-width-tooltip-md; Lg's spec value (600px) does not match
-   --component-width-tooltip-lg (320px), so it's flagged below rather than reused. Background
+   Figma node 194:2853 (Size=Md at 684:7605, Size=Lg at 684:7945). Both max-widths map to
+   Hint's own component/width/hint/md (240px) and /lg (600px) tokens, added to tokens.json on
+   2026-09-08 (Md previously borrowed --component-width-tooltip-md, Lg was flagged). Background
    and shadow have no dedicated Hint token — brand-neutral-200 is an exact color match to the
    general neutral scale, and the shadow reuses Dropdown panel's shadow token since both
    resolve to the same Figma "Element Blur/Gray" effect (0px 2px, 8px blur, #D9D9D9). */
@@ -10,7 +10,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  max-width: var(--component-width-tooltip-md);
+  max-width: var(--component-width-hint-md); /* component/width/hint/md */
   padding: var(--space-component-padding-xs) var(--space-component-padding-sm);
   background: var(--brand-neutral-200);
   border-radius: var(--radius-sm);
@@ -18,8 +18,7 @@
 }
 
 .ds-hint--lg {
-  /* No token matches Figma's 600px Lg max-width (--component-width-tooltip-lg is 320px). */
-  max-width: 600px;
+  max-width: var(--component-width-hint-lg); /* component/width/hint/lg */
 }
 
 .ds-hint__label {

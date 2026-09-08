@@ -10,7 +10,7 @@
     calc(
       -1 *
         (
-          var(--space-component-padding-lg) + var(--component-icon-md) +
+          var(--space-component-padding-lg) + var(--component-icon-lg) +
             var(--space-component-gap-sm) * 2
         )
     ),
@@ -20,7 +20,7 @@
 
 .ds-banner-anatomy .ds-anatomy__badge--side-left::before {
   width: calc(
-    var(--space-component-padding-lg) + var(--component-icon-md) + var(--space-component-gap-sm)
+    var(--space-component-padding-lg) + var(--component-icon-lg) + var(--space-component-gap-sm)
   );
 }
 
@@ -56,7 +56,8 @@
   border-radius: var(--radius-lg); /* radius/lg */
 }
 
-/* Banner defaults to a fixed 412px (see Layout & Spacing's flagged "Container width" row).
+/* Banner defaults to a fixed 412px (component/width/banner/md — see Layout & Spacing's
+   "Container width" row).
    Both page hosts (SKU, Brand — anything inside .ds-banner-example__page) want it to fill
    their row instead, so stretch it inside the .ds-banner-example__focus wrapper that wraps
    every Banner instance in this section. The Modal host wants the opposite — its Banner
@@ -71,12 +72,12 @@
    one unbroken nowrap line (see Banner.css's own .ds-banner--single-line .ds-banner__desc),
    so its max-content width is the full unwrapped sentence, which clamps fit-content right
    back to nearly the modal's full width. "Hug content" instead means falling back to
-   Banner's own native fixed width (see Layout & Spacing's flagged "Container width" row,
-   the same 412px every un-stretched Banner instance on this page already uses) — the long
-   danger message truncates with Banner's own built-in ellipsis at that width, exactly like
-   any other single-line Banner whose text runs long. */
+   Banner's own native fixed width (see Layout & Spacing's "Container width" row, the same
+   412px every un-stretched Banner instance on this page already uses) — the long danger
+   message truncates with Banner's own built-in ellipsis at that width, exactly like any
+   other single-line Banner whose text runs long. */
 .ds-banner-example__modal-body .ds-banner-example__focus .ds-banner {
-  width: 412px; /* Banner's own hardcoded default — flagged, no matching token */
+  width: var(--component-width-banner-md); /* component/width/banner/md — Banner's own default */
 }
 
 .ds-banner-example__crumb {

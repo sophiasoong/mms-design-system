@@ -9,9 +9,8 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  width: 244px; /* Figma's explicit panel width — no equivalent exists in tokens.css (only
-  dropdown/modal/tooltip width tiers) or in tokens.json's size/component/width scale, so it's
-  hardcoded and flagged rather than reused from an unrelated tier, matching AppSidebar's 260px. */
+  width: var(--component-width-action-panel-md); /* component/width/action-panel/md — 244px,
+  added by the 2026-09-08 token export (previously a flagged literal) */
   background: var(--global-background-surface); /* global/background/surface */
   border-radius: var(--radius-md); /* radius/md */
   overflow: hidden;

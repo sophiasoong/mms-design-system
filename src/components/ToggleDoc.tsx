@@ -378,7 +378,7 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
                 <Toggle checked={true} state="hover" />
               </td>
               <td>
-                <code>brand-primary-100</code>
+                <code>brand-primary-200</code>
               </td>
               <td>
                 <code>brand-neutral-0</code>

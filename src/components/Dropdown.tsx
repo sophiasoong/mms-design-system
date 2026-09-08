@@ -131,7 +131,7 @@ export function ExpanderOption({
       aria-disabled={disabled || undefined}
       onClick={disabled ? undefined : onClick}
       style={{
-        paddingLeft: `calc(var(--space-component-padding-sm) + ${level} * (var(--component-icon-md) + var(--space-component-gap-xs)))`,
+        paddingLeft: `calc(var(--space-component-padding-sm) + ${level} * (var(--component-icon-lg) + var(--space-component-gap-xs)))`,
       }}
     >
       {expandState !== 'none' && (

@@ -72,8 +72,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: var(--component-icon-md);
-  height: var(--component-icon-md);
+  width: var(--component-icon-lg);
+  height: var(--component-icon-lg);
 }
 
 .ds-dropdown-option__expander-icon .icon,
@@ -91,8 +91,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: var(--component-icon-md);
-  height: var(--component-icon-md);
+  width: var(--component-icon-lg);
+  height: var(--component-icon-lg);
 }
 
 .ds-dropdown-option__badge-dot {

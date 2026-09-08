@@ -3,10 +3,16 @@ import json, re
 with open('/Users/sophiasoong/Documents/AI Playground/MD/tokens.json') as f:
     data = json.loads(json.loads(f.read()))
 
-size = data['size']
-motion = data['motion']
-opacity = data['opacity']
-shadow = data['shadow']
+# Since the 2026-09-08 export, single-mode collections (size / motion / opacity / shadow) are
+# wrapped in one extra "mode-1" level (Figma's default mode name); older exports had the
+# tokens directly under the collection. Accept both shapes.
+def single_mode(collection):
+    return collection['mode-1'] if set(collection) == {'mode-1'} else collection
+
+size = single_mode(data['size'])
+motion = single_mode(data['motion'])
+opacity = single_mode(data['opacity'])
+shadow = single_mode(data['shadow'])
 mms = data['color']['m-m-s']
 mma = data['color']['m-m-a']
 
@@ -54,10 +60,16 @@ USED = [
     'interactive-shadow-primary',
     # App chrome — surface / text / sidebar / divider / brand
     'brand-primary-300','brand-primary-400','brand-primary-600','brand-primary-50','brand-primary-75','brand-primary-100',
+    # brand-primary-200 only exists since the 2026-09-08 export — Chip.css / DatePickerDoc.css were
+    # already referencing it (previously resolving to nothing), and Card/Modal/Toggle carry flagged
+    # substitutions for it.
+    'brand-primary-200',
     'brand-secondary-200','brand-secondary-300','brand-secondary-600',
+    'brand-secondary-50','brand-secondary-100', # Table highlighted row surface / its hover
     'brand-neutral-0','brand-neutral-100','brand-neutral-200','brand-neutral-300','brand-neutral-400',
     'brand-neutral-500','brand-neutral-600','brand-neutral-700','brand-neutral-800','brand-neutral-900','brand-neutral-950',
     'brand-danger-500',
+    'brand-danger-300', # Tag.css's Red border already referenced it without it being emitted
     # Tag / Badge — Green and Blue color variants (Tag.css, Badge.css)
     'brand-green-100','brand-green-300','brand-green-600',
     'brand-blue-100','brand-blue-300','brand-blue-600',
@@ -263,21 +275,24 @@ derived = []
 for k in USED:
     if k not in mma:
         continue
-    if mms.get(k) != mma[k]:
-        lines.append(f'  --{kebab(k)}: {mma[k]};')
-        continue
     # The Figma export's MMA mode still carries the MMS purple for a number of semantic
     # tokens (tab, searchbar, banner, select, checkbox, ghost button, progress, ...). Every
     # such value sits on the brand-primary scale, and the scale's own MMA steps *are*
     # exported correctly — so resolve the token through its scale step rather than leaving
-    # it purple in MMA. Alpha suffixes (8-digit hex) are preserved from the MMS value.
-    if k.startswith('brand-primary-'):
-        continue
-    val = mms[k].lower()
-    step = primary_steps.get(val[:7])
-    if step is not None:
+    # it purple in MMA. Alpha suffixes (8-digit hex) are preserved from the exported value.
+    # Two leak shapes exist: the MMA value equals the MMS value (most tokens), or the MMA
+    # value is a *different* MMS-purple step than the MMS value (2026-09-08 export: sidebar
+    # surfaces/labels and text-link land on MMS primary-400/600/700 while MMS itself uses
+    # other steps). Both are caught by keying on "is this MMA hex an MMS primary step?".
+    # The scale's own steps are exempt — they ARE the MMA source of truth.
+    val = mma[k].lower()
+    step = None if k.startswith('brand-primary-') else primary_steps.get(val[:7])
+    if step is not None and mma[step].lower() != val[:7]:
         derived.append((k, step))
         lines.append(f'  --{kebab(k)}: {mma[step].lower()}{val[7:]}; /* via {step} */')
+        continue
+    if mms.get(k) != mma[k]:
+        lines.append(f'  --{kebab(k)}: {mma[k]};')
 lines.append('}')
 
 out = '\n'.join(lines) + '\n'

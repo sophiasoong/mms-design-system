@@ -806,7 +806,7 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
               <th scope="row">Day cell</th>
               <td>
                 <div className="ds-table-cell">
-                  <code>--component-icon-md</code>
+                  <code>--component-icon-lg</code>
                   <span className="ds-tag">24px</span>
                 </div>
               </td>

@@ -485,7 +485,7 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
             <tr>
               <th scope="row">Action icon size</th>
               <td>
-                <code>--component-icon-md</code>
+                <code>--component-icon-lg</code>
               </td>
               <td>24px</td>
             </tr>
@@ -494,14 +494,14 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
               <td>
                 <em>none — flagged</em>
               </td>
-              <td>64px (largest icon token is --component-icon-lg at 36px)</td>
+              <td>64px (largest icon token is --component-icon-xl at 36px)</td>
             </tr>
             <tr>
               <th scope="row">Video-play icon size</th>
               <td>
                 <em>none — flagged</em>
               </td>
-              <td>128px (largest icon token is --component-icon-lg at 36px)</td>
+              <td>128px (largest icon token is --component-icon-xl at 36px)</td>
             </tr>
             <tr>
               <th scope="row">Mobile nav breakpoint</th>

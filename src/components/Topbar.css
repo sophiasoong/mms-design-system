@@ -19,8 +19,8 @@
 }
 
 .ds-topbar__brand-icon {
-  width: var(--component-icon-md); /* component/icon/md */
-  height: var(--component-icon-md); /* component/icon/md */
+  width: var(--component-icon-lg); /* component/icon/lg */
+  height: var(--component-icon-lg); /* component/icon/lg */
 }
 
 .ds-topbar__brand-name {

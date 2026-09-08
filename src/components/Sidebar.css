@@ -134,7 +134,7 @@
         (
             var(--space-layout-section-gap-sm) + var(--typography-xxs-line-height) +
               var(--space-component-gap-xs) + var(--space-component-gap-sm) +
-              (var(--component-icon-md) / 2)
+              (var(--component-icon-lg) / 2)
           ) - (var(--component-height-md) / 2)
       ) / 2
   );

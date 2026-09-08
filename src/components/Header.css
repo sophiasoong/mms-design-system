@@ -17,10 +17,9 @@
    gray matches the Form/Sub-form/Form-list chevron and the Form-list delete icon,
    #5c5c5c) — same reuse precedent as Step's check/close glyphs. The trailing "Label"
    button and "Yes" toggle reuse the existing Button (outline) and Toggle components;
-   the blue metadata tag reuses Tag color="blue". One value has no matching token and
-   is flagged per the project's "flag instead of guessing" rule: the Form-list
-   thumbnail's picture-icon size (20px sits between --component-icon-sm/16 and
-   --component-icon-md/24, so it's used as a literal). */
+   the blue metadata tag reuses Tag color="blue". The Form-list thumbnail's 20px
+   picture icon maps to --component-icon-md since the 2026-09-08 token export re-cut the
+   icon scale (xs 12 / sm 16 / md 20 / lg 24 / xl 36). */
 
 .ds-header {
   display: flex;
@@ -71,7 +70,7 @@
 
 .ds-header__drag {
   flex-shrink: 0;
-  font-size: var(--component-icon-md);
+  font-size: var(--component-icon-lg);
   color: var(--brand-neutral-700);
   cursor: grab;
 }
@@ -87,7 +86,7 @@
 }
 
 .ds-header__thumbnail .icon {
-  font-size: 20px; /* flagged: no token between --component-icon-sm(16) / -md(24) matches */
+  font-size: var(--component-icon-md); /* component/icon/md */
   color: var(--brand-neutral-700);
 }
 

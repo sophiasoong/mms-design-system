@@ -1,7 +1,8 @@
 /* ---- Icon: generic recolorable SVG glyph ---- */
 /* Figma's Icon-library (node 967-42491) spans 12/16/20/24/48px frame tiers; tokens.css
-   only defines --component-icon-xs/sm/md/lg (12/16/24/36), so this component's size prop
-   sticks to those four rather than the two Figma tiers that have no exact token (20, 48).
+   defines --component-icon-xs/sm/md/lg/xl (12/16/20/24/36 — the 20px md tier was added by
+   the 2026-09-08 token export), so this component's size prop sticks to those five rather
+   than the one Figma tier that still has no exact token (48).
    Each glyph in assetIcons.tsx keeps its own native (often non-square) viewBox, so the box
    below centers it rather than stretching it to fill the box — matching how Figma itself
    centers a tall/narrow mark like Chevron or Drag inside its square frame. */
@@ -24,13 +25,18 @@
 }
 
 .ds-icon--md {
-  width: var(--component-icon-md);
+  width: var(--component-icon-md); /* component/icon/md — 20px */
   height: var(--component-icon-md);
 }
 
 .ds-icon--lg {
-  width: var(--component-icon-lg);
+  width: var(--component-icon-lg); /* component/icon/lg — 24px */
   height: var(--component-icon-lg);
+}
+
+.ds-icon--xl {
+  width: var(--component-icon-xl); /* component/icon/xl — 36px */
+  height: var(--component-icon-xl);
 }
 
 .ds-icon__glyph {

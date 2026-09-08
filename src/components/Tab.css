@@ -166,7 +166,9 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   justify-items: center;
-  row-gap: var(--space-layout-section-gap-xl);
+  row-gap: var(--space-component-padding-3xl); /* flagged: space/layout/section/gap/xl (40px) was
+    dropped by the 2026-09-08 token export; space/component/padding/3xl is the only remaining
+    40px size token, so it stands in here to keep the 40px rhythm. */
   column-gap: var(--space-component-padding-6xl);
 }
 

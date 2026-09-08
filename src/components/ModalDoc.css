@@ -278,12 +278,10 @@
      center. */
   border-radius: var(--radius-full);
   background: var(--brand-neutral-0);
-  /* FLAGGED: Figma's thumb border is brand/primary/200 (#a9a1f7), which has
-     no matching token — brand-primary-* only defines 50/75/100/300/400/600.
-     Using brand-primary-100 as the nearest existing tier, the same
-     substitution already flagged for this exact gap in Card.css
-     (.ds-card--highlighted). */
-  border: 2px solid var(--brand-primary-100);
+  /* Figma's thumb border is brand/primary/200 — a token since the 2026-09-08 export
+     (previously substituted with brand-primary-100 and flagged, like Card's
+     highlighted shadow). */
+  border: 2px solid var(--brand-primary-200); /* brand/primary/200 */
   cursor: pointer;
 }
 
@@ -304,7 +302,7 @@
   height: 18px;
   border-radius: var(--radius-full);
   background: var(--brand-neutral-0);
-  border: 2px solid var(--brand-primary-100);
+  border: 2px solid var(--brand-primary-200); /* brand/primary/200 — see the -webkit twin above */
   cursor: pointer;
 }
 

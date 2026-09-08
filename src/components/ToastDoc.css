@@ -10,7 +10,7 @@
     calc(
       -1 *
         (
-          var(--space-component-padding-lg) + var(--component-icon-md) +
+          var(--space-component-padding-lg) + var(--component-icon-lg) +
             var(--space-component-gap-sm) * 2
         )
     ),
@@ -20,7 +20,7 @@
 
 .ds-toast-anatomy .ds-anatomy__badge--side-left::before {
   width: calc(
-    var(--space-component-padding-lg) + var(--component-icon-md) + var(--space-component-gap-sm)
+    var(--space-component-padding-lg) + var(--component-icon-lg) + var(--space-component-gap-sm)
   );
 }
 

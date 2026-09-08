@@ -819,7 +819,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
               </td>
               <td>
                 <div className="ds-table-cell">
-                  <code>--component-icon-md</code>
+                  <code>--component-icon-lg</code>
                   <span className="ds-tag">24px</span>
                 </div>
               </td>

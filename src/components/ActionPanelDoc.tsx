@@ -446,9 +446,9 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
             <tr>
               <th scope="row">Panel width</th>
               <td>
-                <code>—</code>
+                <code>--component-width-action-panel-md</code>
               </td>
-              <td>244px (no matching width token; flagged, same as AppSidebar's 260px)</td>
+              <td>244px</td>
             </tr>
             <tr>
               <th scope="row">Corner radius</th>

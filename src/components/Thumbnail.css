@@ -86,8 +86,8 @@
 
 /* Search: single centered glyph on a tinted rounded box. */
 .ds-thumbnail--search {
-  width: var(--component-icon-lg); /* component/icon/lg */
-  height: var(--component-icon-lg);
+  width: var(--component-icon-xl); /* component/icon/xl */
+  height: var(--component-icon-xl);
   border-radius: var(--radius-md); /* radius/md */
   background: var(--brand-primary-50); /* brand/primary/50 */
   color: var(--brand-primary-400); /* brand/primary/400 */
@@ -97,19 +97,20 @@
   display: inline-flex;
 }
 
-/* Figma's Union (Product) glyph has no matching icon-size token (20px, between sm/16 and md/24). */
+/* Figma's Union (Product) glyph is 20px — component/icon/md since the 2026-09-08 token export
+   re-cut the icon scale (xs 12 / sm 16 / md 20 / lg 24 / xl 36). */
 .ds-thumbnail__glyph--product svg {
-  width: 20px;
-  height: 20px;
+  width: var(--component-icon-md); /* component/icon/md */
+  height: var(--component-icon-md);
 }
 
 /* Figma names these two "component/icon/sm" but renders them at 24px — this project's own
-   --component-icon-sm is 16px, so they're mapped here by actual pixel value (--component-icon-md)
+   --component-icon-sm is 16px, so they're mapped here by actual pixel value (--component-icon-lg)
    rather than by Figma's variable name, to avoid silently importing the wrong size. */
 .ds-thumbnail__glyph--promotion svg,
 .ds-thumbnail__glyph--page svg {
-  width: var(--component-icon-md); /* component/icon/md */
-  height: var(--component-icon-md);
+  width: var(--component-icon-lg); /* component/icon/lg */
+  height: var(--component-icon-lg);
 }
 
 /* Table: Wireflow is an icon-on-neutral tile; Mockup is a cropped screenshot, no tint needed. */
@@ -129,10 +130,11 @@
   display: inline-flex;
 }
 
-/* flagged: Figma's Picture glyph is 20px, no exact icon-size token. */
+/* Figma's Picture glyph is 20px — component/icon/md since the 2026-09-08 token export
+   re-cut the icon scale (xs 12 / sm 16 / md 20 / lg 24 / xl 36). */
 .ds-thumbnail--wireflow .ds-thumbnail__glyph svg {
-  width: 20px;
-  height: 20px;
+  width: var(--component-icon-md); /* component/icon/md */
+  height: var(--component-icon-md);
 }
 
 .ds-thumbnail--mockup .ds-thumbnail__image {

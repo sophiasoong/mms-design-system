@@ -45,8 +45,8 @@
 
 .ds-badge--dot-lg {
   justify-content: center;
-  width: var(--component-icon-md);
-  height: var(--component-icon-md);
+  width: var(--component-icon-lg);
+  height: var(--component-icon-lg);
 }
 
 .ds-badge__dot--green {

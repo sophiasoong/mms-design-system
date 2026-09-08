@@ -8,10 +8,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Figma specifies a flat 300px card width with no responsive behavior and no
-     matching --component-width-* token (those are all for dropdown/modal/tooltip) —
-     flagged raw value, same convention as Hint.css's flagged 600px Lg width. */
-  width: 300px;
+  /* Figma specifies a flat 300px card width with no responsive behavior. */
+  width: var(--component-width-card-md); /* component/width/card/md — 300px, added by the
+     2026-09-08 token export (previously a flagged literal) */
   padding: var(--space-component-padding-lg);
   background: var(--surface-card-surface-default);
   border-radius: var(--radius-md);
@@ -21,11 +20,10 @@
 }
 
 /* Figma effect: DROP_SHADOW brand/primary/200, offset (0, 1), radius 6, spread 0.
-   brand/primary/200 (#a9a1f7) has no matching token — brand-primary-* only defines
-   50/75/100/300/400/600 — using brand-primary-100 as the nearest existing tier,
-   flagged rather than guessed. */
+   brand/primary/200 exists since the 2026-09-08 token export (previously substituted with
+   the nearest tier, brand-primary-100, and flagged). */
 .ds-card--highlighted {
-  box-shadow: 0 1px 6px var(--brand-primary-100);
+  box-shadow: 0 1px 6px var(--brand-primary-200); /* brand/primary/200 */
 }
 
 .ds-card__badge {

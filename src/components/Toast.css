@@ -2,16 +2,13 @@
   display: flex;
   align-items: center;
   gap: var(--space-component-gap-sm); /* space/component/gap/sm */
-  /* flagged: no token matches Figma's fixed 396px toast width (closest is
-     --component-width-modal-sm at 432px) — kept as a raw value per the project's
-     "flag instead of guessing" rule. */
-  width: 396px;
+  width: var(--component-width-toast-md); /* component/width/toast/md — 412px (the Figma
+     instances still measure 396px; the token was added to tokens.json on 2026-09-08 and
+     supersedes the old flagged literal) */
   padding: var(--space-component-padding-md) var(--space-component-padding-lg); /* space/component/padding/md, /lg */
   border: var(--border-sm) solid; /* border/sm */
-  /* flagged: no token matches Figma's 6px radius (closest are --radius-sm at 4px and
-     --radius-md at 8px) — kept as a raw value per the project's "flag instead of
-     guessing" rule. */
-  border-radius: 6px;
+  border-radius: var(--radius-md); /* radius/md — 8px (the Figma instances still draw 6px;
+     mapped to the md tier by decision on 2026-09-08, replacing the old flagged literal) */
   box-sizing: border-box;
 }
 
@@ -49,8 +46,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--component-icon-md); /* component/icon/md */
-  height: var(--component-icon-md); /* component/icon/md */
+  width: var(--component-icon-lg); /* component/icon/lg */
+  height: var(--component-icon-lg); /* component/icon/lg */
   flex-shrink: 0;
 }
 

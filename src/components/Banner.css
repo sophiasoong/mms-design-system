@@ -2,10 +2,8 @@
   display: flex;
   align-items: center;
   gap: var(--space-component-gap-sm); /* space/component/gap/sm */
-  /* flagged: no token matches Figma's fixed 412px banner width (closest is
-     --component-width-modal-sm at 432px) — kept as a raw value per the project's
-     "flag instead of guessing" rule. */
-  width: 412px;
+  width: var(--component-width-banner-md); /* component/width/banner/md — 412px, added by the
+     2026-09-08 token export (previously a flagged literal) */
   padding: var(--space-component-padding-md) var(--space-component-padding-lg); /* space/component/padding/md, /lg */
   border: var(--border-sm) solid; /* border/sm */
   border-radius: var(--radius-md); /* radius/md */
@@ -46,8 +44,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--component-icon-md); /* component/icon/md */
-  height: var(--component-icon-md); /* component/icon/md */
+  width: var(--component-icon-lg); /* component/icon/lg */
+  height: var(--component-icon-lg); /* component/icon/lg */
   flex-shrink: 0;
 }
 

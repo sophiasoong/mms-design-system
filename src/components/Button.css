@@ -63,7 +63,7 @@
 }
 
 .ds-button--lg .ds-button__icon {
-  font-size: var(--component-icon-md);
+  font-size: var(--component-icon-lg);
 }
 
 /* ===== Primary — Solid ===== */

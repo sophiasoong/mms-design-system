@@ -194,11 +194,18 @@
   background: var(--brand-primary-75);
 }
 
-/* No token resolves this value — Figma's row/highlighted surface is a plain #fffbf2 with
-   no matching entry anywhere in tokens.css, so it's kept as a flagged literal per the
-   project's "flag instead of guessing" rule. */
+/* Highlighted rows sit on the brand-secondary (amber) scale: 50 at rest, 100 on hover —
+   the secondary counterpart of the primary-50 hover / primary-75 selected tints above.
+   (Formerly a flagged #fffbf2 literal; the 2026-09-08 token export re-cut brand-secondary
+   so that value is now brand-secondary-50.) */
 .ds-datatable__row--highlighted {
-  background: #fffbf2; /* unmatched token: row/highlighted surface */
+  background: var(--brand-secondary-50); /* brand/secondary/50 */
+}
+
+.ds-datatable__row--highlighted-hover,
+.ds-datatable__row--highlighted.ds-datatable__row--hover,
+.ds-datatable__row--highlighted:not(.ds-datatable__row--disabled):hover {
+  background: var(--brand-secondary-100); /* brand/secondary/100 */
 }
 
 .ds-datatable__row--disabled {

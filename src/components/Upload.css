@@ -30,7 +30,7 @@
 }
 
 /* List's leading-icon box is already 16px (List.css), but the shared .icon class defaults
-   to 24px (--component-icon-md) — shrink the glyph to match, same fix pattern as List's own
+   to 24px (--component-icon-lg) — shrink the glyph to match, same fix pattern as List's own
    docs (ListDoc.css's Search History and Uploaded Files rows). */
 .ds-upload__file-list .ds-list__leading-icon .icon {
   font-size: var(--component-icon-sm); /* component/icon/sm */
@@ -77,7 +77,7 @@
 
 .ds-upload-dropzone__icon {
   /* flagged: no --component-icon token matches Figma's 48px dropzone glyph (largest
-     token, --component-icon-lg, is 36px) — kept as a raw value per the "flag instead
+     token, --component-icon-xl, is 36px) — kept as a raw value per the "flag instead
      of guessing" rule. */
   width: 48px;
   height: 48px;

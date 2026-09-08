@@ -599,7 +599,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
             <tr>
               <th scope="row">Thumbnail size</th>
               <td>
-                <code>--component-icon-lg</code>
+                <code>--component-icon-xl</code>
               </td>
               <td>36px</td>
             </tr>

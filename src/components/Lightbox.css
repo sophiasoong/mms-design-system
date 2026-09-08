@@ -112,7 +112,7 @@
 }
 
 /* flagged: no token matches Figma's 128px video-play glyph (largest icon token is
-   --component-icon-lg at 36px) — kept as a raw value per the "flag instead of
+   --component-icon-xl at 36px) — kept as a raw value per the "flag instead of
    guessing" rule. */
 .ds-lightbox__play .icon {
   font-size: 128px;
@@ -178,7 +178,7 @@
 }
 
 .ds-lightbox__action .icon {
-  font-size: var(--component-icon-md); /* component/icon/md */
+  font-size: var(--component-icon-lg); /* component/icon/lg */
 }
 
 /* ---- mobile: nav buttons float over the media instead of reserving side columns ---- */

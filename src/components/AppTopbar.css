@@ -122,11 +122,11 @@
   transition: width var(--duration-normal) ease; /* duration/normal */
 }
 
-/* Bumped from Searchbar's own default (icon--sm, 16px) to --component-icon-md (24px), to read
+/* Bumped from Searchbar's own default (icon--sm, 16px) to --component-icon-lg (24px), to read
    at the same scale as the FAQ/notification/avatar icons beside it. Scoped to Topbar's search
    wrapper only — Searchbar's default stays 16px everywhere else it's reused (Dropdown, Header). */
 .ds-app-topbar__search .icon {
-  font-size: var(--component-icon-md);
+  font-size: var(--component-icon-lg);
 }
 
 .ds-app-topbar__trailing {
@@ -141,12 +141,12 @@
   display: inline-flex;
 }
 
-/* Bumped from IconButton's default md icon (--component-icon-sm, 16px) to --component-icon-md
+/* Bumped from IconButton's default md icon (--component-icon-sm, 16px) to --component-icon-lg
    (24px), keeping the shared 32px md container (--component-height-md) untouched. Scoped to
    Topbar only — IconButton's own default stays 16px everywhere else it's used at size="md". */
 .ds-app-topbar__faq .icon,
 .ds-app-topbar__notification-wrap .icon {
-  font-size: var(--component-icon-md);
+  font-size: var(--component-icon-lg);
 }
 
 .ds-app-topbar__notification-badge {
@@ -156,8 +156,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: var(--component-icon-md);
-  height: var(--component-icon-md);
+  min-width: var(--component-icon-lg);
+  height: var(--component-icon-lg);
   padding-inline: var(--space-component-gap-xs);
   border-radius: var(--radius-full);
   border: var(--border-sm) solid var(--global-background-surface);
@@ -203,9 +203,9 @@
   color: var(--brand-neutral-700);
 }
 
-/* Circle resized from --component-icon-lg (36px) to --component-height-md (32px) to match the
+/* Circle resized from --component-icon-xl (36px) to --component-height-md (32px) to match the
    FAQ/notification icon containers beside it; the account_circle glyph inside was already
-   --component-icon-md (24px), so only the surrounding circle changes here. */
+   --component-icon-lg (24px), so only the surrounding circle changes here. */
 .ds-app-topbar__avatar {
   display: inline-flex;
   align-items: center;
@@ -219,7 +219,7 @@
 }
 
 .ds-app-topbar__avatar .icon {
-  font-size: var(--component-icon-md);
+  font-size: var(--component-icon-lg);
   color: var(--brand-neutral-700);
 }
 

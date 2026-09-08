@@ -39,8 +39,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: var(--component-icon-lg);
-  height: var(--component-icon-lg);
+  width: var(--component-icon-xl);
+  height: var(--component-icon-xl);
   background: var(--brand-primary-50);
   border-radius: var(--radius-md);
   color: var(--brand-primary-400);

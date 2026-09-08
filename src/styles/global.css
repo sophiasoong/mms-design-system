@@ -45,7 +45,7 @@ button {
   font-family: 'Material Symbols Rounded';
   font-weight: normal;
   font-style: normal;
-  font-size: var(--component-icon-md);
+  font-size: var(--component-icon-lg);
   line-height: 1;
   letter-spacing: normal;
   text-transform: none;
@@ -66,7 +66,7 @@ button {
 }
 
 .icon--lg {
-  font-size: var(--component-icon-lg);
+  font-size: var(--component-icon-xl);
 }
 
 .icon--filled {

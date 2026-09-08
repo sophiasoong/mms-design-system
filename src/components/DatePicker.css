@@ -164,8 +164,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--component-icon-md);
-  height: var(--component-icon-md);
+  width: var(--component-icon-lg);
+  height: var(--component-icon-lg);
   margin: 0 auto;
   border-radius: var(--radius-sm);
   border: none;
