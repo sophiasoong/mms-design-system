@@ -684,9 +684,9 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
             <tr>
               <th scope="row">Sm button size</th>
               <td>
-                <code>--component-height-sm</code>
+                <code>--component-height-xs</code>
               </td>
-              <td>28px (Figma specifies 24px; no matching Button size exists)</td>
+              <td>24px</td>
             </tr>
           </tbody>
         </table>

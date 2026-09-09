@@ -111,7 +111,7 @@
   position: fixed;
   margin-top: var(--space-component-gap-xs);
   z-index: 1000;
-  width: 280px;
+  width: var(--component-width-datepicker-md); /* component/width/datepicker/md */
   border-radius: var(--radius-md);
   background: var(--interactive-select-surface-default);
   box-shadow: 0 2px 8px 0 var(--interactive-dropdown-panel-shadow-default);
@@ -281,7 +281,7 @@
 }
 
 .ds-date-picker__range-panel {
-  width: 280px;
+  width: var(--component-width-datepicker-md); /* component/width/datepicker/md */
 }
 
 .ds-date-picker__range-panel + .ds-date-picker__range-panel {
@@ -322,7 +322,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 280px;
+  width: var(--component-width-datepicker-md); /* component/width/datepicker/md */
   height: 100%;
   padding: 0 var(--space-component-padding-sm);
   border-right: var(--border-sm) solid var(--global-divider-neutral-light);
@@ -343,7 +343,7 @@
 }
 
 .ds-date-picker__date-panel {
-  width: 280px;
+  width: var(--component-width-datepicker-md); /* component/width/datepicker/md */
   border-right: var(--border-sm) solid var(--global-divider-neutral-light);
 }
 

@@ -1,13 +1,13 @@
 /* Dialog card — Figma node 346:1729. 416px is the component's own fixed width in every
-   sampled instance (194:2828), not a responsive breakpoint, so it's kept as a literal
-   rather than mapped to a --component-width-* token (those are reserved for modal/dropdown
-   surfaces, none of which land on 416). */
+   sampled instance (194:2828), not a responsive breakpoint. It maps to Dialog's own
+   component/width/dialog/md token, added to tokens.json on 2026-09-08 (previously a
+   flagged literal). */
 .ds-dialog {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: var(--space-component-gap-lg);
-  width: 416px;
+  width: var(--component-width-dialog-md); /* component/width/dialog/md */
   max-width: 100%;
   box-sizing: border-box;
   padding: var(--space-component-padding-2xl);

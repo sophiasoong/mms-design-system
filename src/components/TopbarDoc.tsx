@@ -421,8 +421,9 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
       <section id="layout-spacing" className="ds-section">
         <h2 className="ds-section__title">Layout &amp; Spacing</h2>
         <p className="ds-section__desc">
-          Figma specifies a 68px bar with 32px of edge padding; the closest existing height
-          tier and a symmetric rail are used in its place.
+          Figma specifies a 68px bar with 32px of edge padding. The bar height is a
+          Topbar-only value — no other component shares it, so it is intentionally not a
+          token; the edge padding uses a symmetric rail.
         </p>
         <table className="ds-table">
           <thead>
@@ -436,9 +437,9 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
             <tr>
               <th scope="row">Bar height</th>
               <td>
-                <code>--component-height-3xl</code>
+                <em>Topbar-only, not tokenised</em>
               </td>
-              <td>64px (Figma specifies 68px; no matching height tier exists)</td>
+              <td>68px — applies to Topbar alone; no shared height tier</td>
             </tr>
             <tr>
               <th scope="row">Edge padding</th>

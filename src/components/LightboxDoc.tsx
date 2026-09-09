@@ -401,7 +401,7 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
       <section id="layout-spacing" className="ds-section">
         <h2 className="ds-section__title">Layout &amp; Spacing</h2>
         <p className="ds-section__desc">
-          Every measurement below comes from a token — no hardcoded values, except where flagged.
+          Every measurement below comes from a token — no hardcoded values.
         </p>
         <table className="ds-table">
           <thead>
@@ -439,13 +439,6 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
                 <code>--space-layout-section-gap-sm</code>
               </td>
               <td>12px</td>
-            </tr>
-            <tr>
-              <th scope="row">Nav column width</th>
-              <td>
-                <em>none — flagged</em>
-              </td>
-              <td>104px, fixed in Figma</td>
             </tr>
             <tr>
               <th scope="row">Footer gap (counter ↔ action bar)</th>
@@ -488,27 +481,6 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
                 <code>--component-icon-lg</code>
               </td>
               <td>24px</td>
-            </tr>
-            <tr>
-              <th scope="row">Placeholder icon size</th>
-              <td>
-                <em>none — flagged</em>
-              </td>
-              <td>64px (largest icon token is --component-icon-xl at 36px)</td>
-            </tr>
-            <tr>
-              <th scope="row">Video-play icon size</th>
-              <td>
-                <em>none — flagged</em>
-              </td>
-              <td>128px (largest icon token is --component-icon-xl at 36px)</td>
-            </tr>
-            <tr>
-              <th scope="row">Mobile nav breakpoint</th>
-              <td>
-                <em>none — flagged</em>
-              </td>
-              <td>640px container width (hand-picked, matches Tab/Topbar precedent)</td>
             </tr>
           </tbody>
         </table>

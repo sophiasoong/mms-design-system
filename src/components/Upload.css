@@ -49,8 +49,8 @@
   align-items: center;
   text-align: center;
   gap: var(--space-component-gap-md); /* space/component/gap/md */
-  /* flagged: no width token models Figma's fixed 395px dropzone instance — the field
-     fills its container's intrinsic width instead per the "flag instead of guessing" rule. */
+  /* Fills its container by decision 2026-09-08 — Figma's 395px instance width is the
+     frame, not a component token. */
   width: 100%;
   padding: var(--space-component-padding-xl) var(--space-component-padding-lg); /* space/component/padding/xl (y), /lg (x) */
   border-radius: var(--radius-md); /* radius/md ("for-card") */
@@ -76,11 +76,10 @@
 }
 
 .ds-upload-dropzone__icon {
-  /* flagged: no --component-icon token matches Figma's 48px dropzone glyph (largest
-     token, --component-icon-xl, is 36px) — kept as a raw value per the "flag instead
-     of guessing" rule. */
-  width: 48px;
-  height: 48px;
+  /* Figma's 48px dropzone glyph is larger than any component/icon tier (xl is 36px); it
+     maps to component/height/xl (48px) by decision 2026-09-08 (previously flagged). */
+  width: var(--component-height-xl); /* component/height/xl */
+  height: var(--component-height-xl); /* component/height/xl */
   color: var(--interactive-dropzone-icon-default); /* interactive/dropzone/icon/default */
 }
 

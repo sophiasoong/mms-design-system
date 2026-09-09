@@ -5,10 +5,10 @@
    Input / Select / Textarea / DatePicker / Toggle / Radio components. */
 
 .ds-form {
-  --surface-form-background-default: var(--surface-card-surface-default); /* flagged: no
-    surface/form/background/default token exists in the raw Figma source data; substituting
-    the identical value (#ffffff) from surface/card/surface/default instead of guessing. */
-
+  /* Root and header surfaces use global/background/surface, the same token Header uses
+     for its own bar (decision 2026-09-08). Figma's surface/form/background/default is not
+     in the token export; it was previously aliased to surface/card/surface/default and
+     flagged. */
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -27,7 +27,7 @@
      scrim — instead of staying white like Action Panel's dimmed main, which fades over
      its own root's still-opaque background. Adding the background here too means white
      is now blending over white at any opacity, matching the other two components. */
-  background: var(--surface-form-background-default);
+  background: var(--global-background-surface); /* global/background/surface */
 }
 
 /* Rounds whichever child sits at the top/bottom edge to match .ds-form's own
@@ -53,7 +53,7 @@
   justify-content: space-between;
   gap: var(--space-component-gap-lg); /* space/component/gap/lg */
   padding: var(--space-component-gap-lg); /* space/component/gap/lg */
-  background: var(--surface-form-background-default);
+  background: var(--global-background-surface); /* global/background/surface */
   border-bottom: var(--border-sm) solid var(--global-divider-neutral-light); /* border/sm, global/divider/neutral/light */
 }
 

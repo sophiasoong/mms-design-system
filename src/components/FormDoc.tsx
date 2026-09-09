@@ -1136,7 +1136,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
       <section id="layout-spacing" className="ds-section">
         <h2 className="ds-section__title">Layout &amp; Spacing</h2>
         <p className="ds-section__desc">
-          Every measurement below comes from a token — no hardcoded values, except where flagged.
+          Every measurement below comes from a token — no hardcoded values.
         </p>
         <table className="ds-table">
           <thead>
@@ -1164,12 +1164,9 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
             <tr>
               <th scope="row">Header background</th>
               <td>
-                <code>--surface-form-background-default</code>
+                <code>--global-background-surface</code>
               </td>
-              <td>
-                #ffffff — flagged: no matching token in the raw source data, substituted from{' '}
-                <code>surface-card-surface-default</code> (identical value)
-              </td>
+              <td>#ffffff</td>
             </tr>
             <tr>
               <th scope="row">Header divider</th>

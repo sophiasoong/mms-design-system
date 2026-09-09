@@ -401,9 +401,9 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
             <tr>
               <th scope="row">Sidebar width</th>
               <td>
-                <code>—</code>
+                <code>--component-width-sidebar-md</code>
               </td>
-              <td>260px (Figma's size/component/width/sm; no matching tokens.css variable exists)</td>
+              <td>260px</td>
             </tr>
             <tr>
               <th scope="row">Section gap</th>

@@ -1,5 +1,8 @@
 .ds-topbar {
-  height: var(--component-height-3xl);
+  /* Topbar-only value: Figma specifies a 68px bar and no shared component/height tier
+     lands on it (3xl is 64px). By decision 2026-09-08 the height applies to Topbar alone
+     and is intentionally not tokenised (previously mapped to --component-height-3xl). */
+  height: 68px;
   display: flex;
   align-items: center;
   justify-content: space-between;

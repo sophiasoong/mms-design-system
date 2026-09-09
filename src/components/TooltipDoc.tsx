@@ -840,7 +840,9 @@ export default function TooltipDoc({ onNavigate }: TooltipDocProps) {
             </tr>
             <tr>
               <th scope="row">Width (Lg)</th>
-              <td>—</td>
+              <td>
+                <code>--component-width-tooltip-lg</code>
+              </td>
               <td>600px</td>
             </tr>
             <tr>
@@ -859,8 +861,10 @@ export default function TooltipDoc({ onNavigate }: TooltipDocProps) {
             </tr>
             <tr>
               <th scope="row">Radius</th>
-              <td>—</td>
-              <td>6px</td>
+              <td>
+                <code>--radius-md</code>
+              </td>
+              <td>8px</td>
             </tr>
             <tr>
               <th scope="row">Shadow</th>

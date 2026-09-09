@@ -594,8 +594,10 @@ export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
             </tr>
             <tr>
               <th scope="row">Item corner radius</th>
-              <td>—</td>
-              <td>6px (no matching token; sits between --radius-sm/4px and --radius-md/8px)</td>
+              <td>
+                <code>--radius-md</code>
+              </td>
+              <td>8px</td>
             </tr>
             <tr>
               <th scope="row">Md item gap</th>

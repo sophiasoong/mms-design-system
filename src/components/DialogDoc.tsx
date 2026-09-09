@@ -287,7 +287,7 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
       <section id="layout-spacing" className="ds-section">
         <h2 className="ds-section__title">Layout &amp; Spacing</h2>
         <p className="ds-section__desc">
-          Every measurement below comes from a token — no hardcoded values, except where flagged.
+          Every measurement below comes from a token — no hardcoded values.
         </p>
         <table className="ds-table">
           <thead>
@@ -301,9 +301,9 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
             <tr>
               <th scope="row">Card width</th>
               <td>
-                <em>none — flagged</em>
+                <code>--component-width-dialog-md</code>
               </td>
-              <td>416px, fixed in every Figma instance</td>
+              <td>416px, fixed</td>
             </tr>
             <tr>
               <th scope="row">Card padding</th>
@@ -315,7 +315,7 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
             <tr>
               <th scope="row">Card radius</th>
               <td>
-                <code>--radius-md</code> <em>(closest — Figma specs 6px)</em>
+                <code>--radius-md</code>
               </td>
               <td>8px</td>
             </tr>

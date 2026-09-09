@@ -777,7 +777,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
       <section id="layout-spacing" className="ds-section">
         <h2 className="ds-section__title">Layout &amp; Spacing</h2>
         <p className="ds-section__desc">
-          Every measurement below comes from a token — no hardcoded values, except where flagged.
+          Every measurement below comes from a token — no hardcoded values.
         </p>
         <table className="ds-table">
           <thead>
@@ -791,9 +791,9 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
             <tr>
               <th scope="row">Dropzone width</th>
               <td>
-                <em>none — flagged</em>
+                <em>Fills its container</em>
               </td>
-              <td>395px, fixed in Figma; kept fluid (100%) here to fill its container</td>
+              <td>100%</td>
             </tr>
             <tr>
               <th scope="row">Dropzone padding (x / y)</th>
@@ -819,16 +819,9 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
             <tr>
               <th scope="row">Dropzone icon size</th>
               <td>
-                <em>none — flagged</em>
+                <code>--component-height-xl</code>
               </td>
-              <td>48px (largest icon token is --component-icon-xl at 36px)</td>
-            </tr>
-            <tr>
-              <th scope="row">Progress bar track height</th>
-              <td>
-                <em>none — flagged</em>
-              </td>
-              <td>6px</td>
+              <td>48px</td>
             </tr>
             <tr>
               <th scope="row">Detail row indent</th>
@@ -838,25 +831,11 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
               <td>24px</td>
             </tr>
             <tr>
-              <th scope="row">Detail status dot</th>
-              <td>
-                <em>none — flagged</em>
-              </td>
-              <td>6px diameter</td>
-            </tr>
-            <tr>
               <th scope="row">Image item size (Sm / Lg)</th>
               <td>
                 <code>--component-height-4xl</code> / <code>--component-height-6xl</code>
               </td>
               <td>72px / 120px</td>
-            </tr>
-            <tr>
-              <th scope="row">Image grid width</th>
-              <td>
-                <em>none — flagged</em>
-              </td>
-              <td>516px, fixed in Figma; kept fluid (flex-wrap) here</td>
             </tr>
             <tr>
               <th scope="row">Image grid gap</th>

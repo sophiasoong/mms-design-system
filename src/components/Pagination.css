@@ -6,9 +6,9 @@
      interactive/pagination/item/border/current (#1f11bb) -> --brand-primary-600
    None of the three interactive/pagination/* tokens exist in tokens.css yet, so each is
    reused by exact value — the same approach Table.css originally took for its inline
-   pagination block (now consolidated here). One value has no token match at all: the
-   item's 6px corner radius sits between --radius-sm (4px) and --radius-md (8px);
-   flagged rather than rounded to either. */
+   pagination block (now consolidated here). The item corner radius maps to --radius-md
+   (8px) by decision on 2026-09-08; Figma still draws 6px, which sits between --radius-sm
+   (4px) and --radius-md and was previously a flagged literal. */
 
 .ds-pagination {
   display: flex;
@@ -32,7 +32,7 @@
   height: var(--component-height-md);
   border: var(--border-sm) solid transparent;
   background: none;
-  border-radius: 6px; /* unmatched token: pagination item radius (Figma: 6px, between --radius-sm/4px and --radius-md/8px) */
+  border-radius: var(--radius-md); /* radius/md — 8px; Figma draws 6px, mapped up by decision 2026-09-08 */
   font-family: var(--typography-font-family-body);
   font-size: var(--typography-sm-font-size);
   color: var(--text-body-primary-neutral);

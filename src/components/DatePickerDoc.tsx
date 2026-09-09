@@ -788,8 +788,8 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
               <th scope="row">Panel width</th>
               <td>
                 <div className="ds-table-cell">
-                  <code>280px</code>
-                  <span className="ds-tag">no matching token</span>
+                  <code>--component-width-datepicker-md</code>
+                  <span className="ds-tag">280px</span>
                 </div>
               </td>
             </tr>

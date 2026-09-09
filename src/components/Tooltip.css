@@ -20,9 +20,9 @@
 }
 
 .ds-tooltip--lg {
-  /* Figma's Lg width (600px) doesn't match --component-width-tooltip-lg (320px) —
-     same mismatch already flagged in Hint.css; kept as a raw value instead of reused. */
-  width: 600px;
+  /* component/width/tooltip/lg was re-pointed from 320px to Figma's 600px on 2026-09-08;
+     previously a flagged literal. */
+  width: var(--component-width-tooltip-lg); /* component/width/tooltip/lg */
 }
 
 .ds-tooltip__bubble {
@@ -31,7 +31,7 @@
   justify-content: center;
   padding: var(--space-component-padding-md) var(--space-component-padding-lg);
   background: var(--surface-card-surface-default);
-  border-radius: 6px; /* unmatched token: Figma's 6px sits between --radius-sm/4px and --radius-md/8px */
+  border-radius: var(--radius-md); /* radius/md — 8px; Figma draws 6px, mapped up by decision 2026-09-08 */
 }
 
 .ds-tooltip__label {

@@ -21,6 +21,8 @@
   --component-width-action-panel-md: 244px;
   --component-width-banner-md: 412px;
   --component-width-card-md: 300px;
+  --component-width-datepicker-md: 280px;
+  --component-width-dialog-md: 416px;
   --component-width-dropdown-lg: 320px;
   --component-width-dropdown-sm: 280px;
   --component-width-hint-lg: 600px;
@@ -30,8 +32,9 @@
   --component-width-modal-md: 656px;
   --component-width-modal-sm: 432px;
   --component-width-modal-xl: 1328px;
+  --component-width-sidebar-md: 260px;
   --component-width-toast-md: 412px;
-  --component-width-tooltip-lg: 320px;
+  --component-width-tooltip-lg: 600px;
   --component-width-tooltip-md: 240px;
   --component-width-tooltip-sm: 160px;
   --radius-full: 9999px;
