@@ -25,6 +25,7 @@ import {
   ZoomInIcon,
   ZoomOutIcon,
 } from './icons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './Table.css';
 import './UploadDoc.css';
@@ -162,7 +163,7 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Modal</h1>
+        <DocTitle>Modal</DocTitle>
         <p className="ds-doc__lede">
           A Modal is a larger floating surface for tasks that need room — a form, a data table,
           a multi-step flow — while still blocking the page behind it. It composes a Header, a
@@ -183,7 +184,7 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           The default Modal, shown here with the Upload composition from Variants below: a
           title with a close action, a scrollable body, and a Footer of Cancel / Confirm
@@ -198,7 +199,7 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Three parts: a Header, a scrollable body, and a Footer. The dimmed backdrop behind the
           panel is not part of Modal itself — like Dialog, it belongs to whatever presents the
@@ -248,13 +249,13 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Six real compositions — built entirely from existing components — show every fixed
           size in context, from a compact Sm upload prompt to a Full product-catalog table.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Modal style examples">
           {EXAMPLE_TABS.map((tab) => (
             <button
@@ -265,7 +266,7 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
               className={`ds-line-tab${activeExampleId === tab.id ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveExampleId(tab.id)}
             >
-              {tab.label}
+              <TabLabel>{tab.label}</TabLabel>
             </button>
           ))}
         </div>
@@ -526,7 +527,7 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
               Reference in Figma
             </a>
 
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <table className="ds-table">
               <thead>
                 <tr>
@@ -579,7 +580,7 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Modal itself has no interactive state of its own — the ones below belong to its
           primary action Button, already documented in full on the Button page.
@@ -667,7 +668,7 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Every measurement below comes from a token — no hardcoded values, except where flagged.
         </p>
@@ -763,7 +764,7 @@ export default function ModalDoc({ onNavigate }: ModalDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Modal.</p>
         <div className="ds-related-grid">
           <button

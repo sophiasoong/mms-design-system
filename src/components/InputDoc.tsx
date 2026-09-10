@@ -3,6 +3,7 @@ import { Input } from './Input';
 import Form, { FormRow, FormCol, FormField } from './Form';
 import { Table, TableHeader, TableHeaderCell, TableRow, TableCell } from './Table';
 import { FormIcon, TableIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './InputDoc.css';
 
@@ -37,7 +38,7 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Input</h1>
+        <DocTitle>Input</DocTitle>
         <p className="ds-doc__lede">
           An Input is a bordered text field for free-form entry. Label holds a single typed
           value, Password masks it behind a visibility toggle, and Number restricts entry to
@@ -58,7 +59,7 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use an Input wherever a user types free-form text directly, rather than picking from a
           list of options (see Select). Password and Number constrain what's typed to a masked
@@ -73,7 +74,7 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           An Input is a bordered container holding typed or placeholder text, with an optional
           trailing icon — a visibility toggle in the Password style.
@@ -113,13 +114,13 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Label holds a single typed value. Password masks the typed value, with a trailing icon
           to toggle visibility. Number restricts entry to numeric characters.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Input variant groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -130,7 +131,7 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -190,7 +191,7 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row">
               <div className="ds-variant-row__cell">
                 <div style={{ width: 240 }}>
@@ -209,7 +210,7 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
         </div>
 
         <div id="variants-example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             Real compositions from elsewhere in the system — a Form's delivery-fee fields and a
             Table's editable SKU row — with the field type worth calling out highlighted against
@@ -226,7 +227,7 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -350,13 +351,13 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Error replaces the border color to flag invalid input; Disabled dims the surface and
           blocks interaction entirely.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Input states style">
           {STATES_TABS.map((tab) => (
             <button
@@ -367,7 +368,7 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
               className={`ds-line-tab${activeStatesTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStatesTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -533,7 +534,7 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           An Input fills its container's width; only height and internal gap change between
           sizes.
@@ -597,7 +598,7 @@ export default function InputDoc({ onNavigate }: InputDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Input.</p>
         <div className="ds-related-grid">
           <button

@@ -16,6 +16,7 @@ import {
 } from './Table';
 import Modal from './Modal';
 import { IconButtonIcon, DropdownIcon } from './icons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './Table.css';
 import './ModalDoc.css';
@@ -270,7 +271,7 @@ export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Pagination</h1>
+        <DocTitle>Pagination</DocTitle>
         <p className="ds-doc__lede">
           Pagination breaks a long result set into pages, letting a user jump between numbered
           pages, step forward or back one at a time, or go straight to a specific page.
@@ -290,7 +291,7 @@ export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use Pagination below a table or list once results span more than one page — it keeps
           the page count visible while giving direct access to the first, last, and current
@@ -303,7 +304,7 @@ export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Numbered items sit between two nav controls; an optional page-size trigger and a
           go-to field follow on the trailing edge.
@@ -427,14 +428,14 @@ export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Size scales every control together — Sm shows one fewer page before collapsing to an
           ellipsis, to fit its narrower footprint.
         </p>
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row">
               <div className="ds-variant-row__cell">
                 <Pagination size="md" currentPage={3} totalPages={10} />
@@ -447,7 +448,7 @@ export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
             </div>
           </div>
 
-          <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
+          <VariantLabel tabs>Example</VariantLabel>
           <div className="ds-line-tabs" role="tablist" aria-label="Pagination example contexts">
             {EXAMPLE_TABS.map((tab) => (
               <button
@@ -458,7 +459,7 @@ export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab.id ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab.id)}
               >
-                {tab.label}
+                <TabLabel>{tab.label}</TabLabel>
               </button>
             ))}
           </div>
@@ -485,7 +486,7 @@ export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           A page item carries one of three looks; the nav controls also disable at either end
           of the range.
@@ -564,7 +565,7 @@ export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Md and Sm share the same corner radius and token set; only item size and gap scale
           down together.
@@ -640,7 +641,7 @@ export default function PaginationDoc({ onNavigate }: PaginationDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Pagination.</p>
         <div className="ds-related-grid">
           <button

@@ -36,6 +36,7 @@ import {
   ChipIcon,
   PaginationIcon,
 } from './icons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './Table.css';
 
@@ -267,7 +268,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Table</h1>
+        <DocTitle>Table</DocTitle>
         <p className="ds-doc__lede">
           A Table lays out structured data in rows and columns — with optional per-row
           selection, sortable and annotated headers, and cells that host real controls like
@@ -288,7 +289,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Reach for a Table when data needs to be scanned and compared row by row — pair it
           with Checkbox for bulk selection, Badge to flag status, and Button for row-level
@@ -334,7 +335,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           A header row of labeled columns sits above any number of data rows — the select
           column and its per-row checkboxes are optional.
@@ -405,13 +406,13 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Size controls header and row height — Md is the default, Sm suits dense data grids
           and Xl gives each row room for secondary text or larger cell content.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Table style groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -422,7 +423,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
               className={`ds-line-tab${activeStyleTab === tab.id ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab.id)}
             >
-              {tab.label}
+              <TabLabel>{tab.label}</TabLabel>
             </button>
           ))}
         </div>
@@ -593,7 +594,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
           )}
         </div>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Size</span>
+        <VariantLabel tabs>Size</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Table size groups">
           {SIZE_TABS.map((tab) => (
             <button
@@ -604,7 +605,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
               className={`ds-line-tab${activeSizeTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveSizeTab(tab)}
             >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              <TabLabel>{tab.charAt(0).toUpperCase() + tab.slice(1)}</TabLabel>
             </button>
           ))}
         </div>
@@ -673,7 +674,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
           </div>
         </div>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
+        <VariantLabel tabs>Example</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Table example states">
           {EXAMPLE_TABS.map((tab) => (
             <button
@@ -684,7 +685,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
               className={`ds-line-tab${activeExampleTab === tab.id ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveExampleTab(tab.id)}
             >
-              {tab.label}
+              <TabLabel>{tab.label}</TabLabel>
             </button>
           ))}
         </div>
@@ -931,7 +932,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Every row carries one of six states — hover and selected reuse the same purple
           tints as the rest of the system; highlighted and highlighted-hover sit on the amber
@@ -1030,7 +1031,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Row/header height is the only size-dependent measurement — every other spacing
           value below is shared across all four sizes.
@@ -1106,7 +1107,7 @@ export default function TableDoc({ onNavigate }: TableDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">
           Components that commonly appear alongside Table.
         </p>

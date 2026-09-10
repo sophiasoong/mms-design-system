@@ -1,5 +1,6 @@
 import type { BrandMode } from '../brandMode';
 import type { Locale } from '../locale';
+import { getStrings } from '../i18n/strings';
 import './Topbar.css';
 
 interface TopbarProps {
@@ -10,6 +11,9 @@ interface TopbarProps {
 }
 
 export default function Topbar({ mode, onToggleMode, locale, onToggleLocale }: TopbarProps) {
+  // Topbar already receives the locale as a prop, so it reads the strings directly instead
+  // of subscribing through useStrings like the Sidebar does.
+  const strings = getStrings(locale).topbar;
   return (
     <header className="ds-topbar">
       <div className="ds-topbar__left">
@@ -35,7 +39,7 @@ export default function Topbar({ mode, onToggleMode, locale, onToggleLocale }: T
       <button
         className="ds-topbar__mode-toggle"
         onClick={onToggleLocale}
-        aria-label={`Switch to ${locale === 'en' ? 'Chinese' : 'English'}`}
+        aria-label={locale === 'en' ? strings.switchToChinese : strings.switchToEnglish}
       >
         <span className={`ds-topbar__mode-option${locale === 'en' ? ' ds-topbar__mode-option--active' : ''}`}>
           EN

@@ -5,6 +5,7 @@ import ActionPanel, { ActionPanelField } from './ActionPanel';
 import { Select } from './Select';
 import Button from './Button';
 import { TableIcon, FormIcon, ActionPanelIcon } from './icons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './BadgeDoc.css';
 
@@ -69,7 +70,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Badge</h1>
+        <DocTitle>Badge</DocTitle>
         <p className="ds-doc__lede">
           A Badge is a small color dot used to flag status at a glance — on its own as a
           standalone indicator, or paired with a text label. Unlike a Tag, it carries no
@@ -90,7 +91,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Reach for color to carry meaning — Green for success/active states, Orange for
           pending, Red for error, Blue for informational, and Gray for neutral/offline states.
@@ -108,7 +109,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Just two parts — a colored dot, and the optional label it sits beside.
         </p>
@@ -146,14 +147,14 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Style controls what's rendered: Label pairs the dot with text and comes in five
           colors; Dot is the standalone indicator and only varies by size in the source Figma
           spec.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Badge style groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -164,7 +165,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -207,7 +208,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Example</span>
+            <VariantLabel>Example</VariantLabel>
             <p className="ds-section__desc">
               Real-world status labels grouped by color, plus two live compositions — a data
               table and an Action panel — showing Badge in context.
@@ -225,7 +226,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
                   }`}
                   onClick={() => setActiveExampleTab(group.color)}
                 >
-                  {group.name}
+                  <TabLabel>{group.name}</TabLabel>
                 </button>
               ))}
               {EXAMPLE_COMPOSITE_TABS.map((tab) => (
@@ -239,7 +240,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
                   }`}
                   onClick={() => setActiveExampleTab(tab)}
                 >
-                  {tab}
+                  <TabLabel>{tab}</TabLabel>
                 </button>
               ))}
             </div>
@@ -309,7 +310,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Badge is a static indicator, not an interactive control — it has no hover, focus, or
           disabled state. Each color/type resolves to these dot and label tokens.
@@ -418,7 +419,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           The dot itself is a fixed 6px circle (12px for the large standalone size) — every
           other measurement below comes from a token.
@@ -473,7 +474,7 @@ export default function BadgeDoc({ onNavigate }: BadgeDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Badge.</p>
         <div className="ds-related-grid">
           <button

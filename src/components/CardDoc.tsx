@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card } from './Card';
 import Button from './Button';
 import { ListIcon, ButtonIcon, TagIcon } from './icons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './CardDoc.css';
 
@@ -22,7 +23,7 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Card</h1>
+        <DocTitle>Card</DocTitle>
         <p className="ds-doc__lede">
           A Card is a self-contained pricing plan surface — a price block, an itemized list of
           what's included, and an optional call-to-action. Reach for it when comparing plans or
@@ -43,7 +44,7 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Every Card leads with a price and closes with an itemized breakdown — everything else
           (badge, title, a Subscription date field, the footer button) is optional and only shows
@@ -114,7 +115,7 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Eight parts — only the container, price block, and list are always present.
         </p>
@@ -236,14 +237,14 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Three ways the same Card shows up in the source Figma spec — a plain plan, a
           highlighted plan with a badge and an elevated shadow, and a subscription plan with a
           date field and a mid-list divider.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Card style variants">
           {VARIANT_TABS.map((tab) => (
             <button
@@ -254,7 +255,7 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
               className={`ds-line-tab${activeVariantTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveVariantTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -349,7 +350,7 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Width is a fixed 300px in the source Figma spec — every measurement below comes from a
           token.
@@ -432,7 +433,7 @@ export default function CardDoc({ onNavigate }: CardDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">
           Components that commonly appear alongside Card.
         </p>

@@ -11,6 +11,7 @@ import { Radio } from './Radio';
 import { Select } from './Select';
 import { Checkbox } from './Checkbox';
 import { CalendarIcon, FormIcon, ChipIcon, TableIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './DatePickerDoc.css';
 
@@ -75,7 +76,7 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Datepicker</h1>
+        <DocTitle>Datepicker</DocTitle>
         <p className="ds-doc__lede">
           A Datepicker lets a user pick a single date from a calendar popover anchored to a
           text-style trigger.
@@ -95,7 +96,7 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Click the trigger to open the calendar. Selecting a date or clicking Apply commits
           the value and closes the panel; clicking outside or pressing Escape closes it without
@@ -108,7 +109,7 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           A Datepicker is a trigger that anchors a calendar panel made of a header, a day grid,
           and a footer.
@@ -260,14 +261,14 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Style controls how many dates the panel collects: Single Date picks one day; Date
           Range pairs two month panels behind a shared footer to pick a start/end pair; Date
           and Time adds an hour/minute/second column beside the day grid.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Datepicker variant groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -278,7 +279,7 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -321,7 +322,7 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row">
               <div className="ds-variant-row__cell">
                 <DatePicker placeholder="Start Date" size="md" />
@@ -336,7 +337,7 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
         </div>
 
         <div id="variants-example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             A Datepicker composes into a table toolbar as a filter-chip trigger, or into a form
             alongside other fields.
@@ -353,7 +354,7 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
                 }`}
                 onClick={() => setActiveVariantExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -541,7 +542,7 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           The trigger and the calendar's day cells each carry their own state set.
         </p>
@@ -559,7 +560,7 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
               className={`ds-line-tab${activeStateTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStateTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -747,7 +748,7 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">Key dimensions for the trigger, panel, and day cells.</p>
         <table className="ds-table">
           <thead>
@@ -835,7 +836,7 @@ export default function DatePickerDoc({ onNavigate }: DatePickerDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Datepicker.</p>
         <div className="ds-related-grid">
           <button

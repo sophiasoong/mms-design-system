@@ -5,6 +5,7 @@ import Pagination from './Pagination';
 import { Searchbar } from './Searchbar';
 import { FilterChip } from './Chip';
 import { ChipIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './TabDoc.css';
 
@@ -203,7 +204,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Tab</h1>
+        <DocTitle>Tab</DocTitle>
         <p className="ds-doc__lede">
           A Tab lets users switch between related views without leaving the page. Card tab reads
           as a notebook divider atop its panel; Line tab is a lightweight underline strip; Segment
@@ -225,7 +226,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use Card tab when tabs sit directly on top of a bordered panel; Line tab for a compact,
           low-emphasis switcher inside any surface; Segment tab when the choices behave like a
@@ -268,7 +269,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Shown here on Line tab, the simplest style — Card and Segment tab share the same
           Container / Label parts, swapping the underline indicator for a filled or bordered
@@ -316,13 +317,13 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Style changes the container and indicator; Card and Segment tab also come in multiple
           sizes.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Tab variant groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -333,7 +334,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -425,7 +426,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row">
               <div className="ds-variant-row__cell">
                 <CardTabItem label="Label" size="lg" state="active" />
@@ -464,7 +465,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
         </div>
 
         <div id="example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             Each style staged inside the full reference page it actually ships in: a store
             switcher (Card tab), delivery sub-nav (Line tab), an Order Status controller (Segment
@@ -482,7 +483,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -535,7 +536,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Every style shares the same Default / Hover / Active / Disabled progression; Segment
           tab's Active state also has no border since its solid fill already reads as selected.
@@ -550,7 +551,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
               className={`ds-line-tab${activeStateTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStateTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -807,7 +808,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Card and Segment tab scale their height and padding with size; Line and Chip tab hold
           one fixed size each.
@@ -964,7 +965,7 @@ export default function TabDoc({ onNavigate }: TabDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Tab.</p>
         <div className="ds-related-grid">
           <button

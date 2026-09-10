@@ -7,6 +7,7 @@ import { DropdownOption } from './Dropdown';
 import Button from './Button';
 import { SearchbarIcon, SelectIcon, TextareaIcon, TabIcon, TableIcon } from './icons';
 import { ProductIcon, PromotionIcon } from './assetIcons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './Select.css';
 import './ChipDoc.css';
@@ -168,7 +169,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Chip</h1>
+        <DocTitle>Chip</DocTitle>
         <p className="ds-doc__lede">
           A Chip is a compact, pill-shaped control used to filter, tag, or trigger an action.
           Filter chips open a dropdown panel and reflect selection; Input chips represent a
@@ -190,7 +191,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Chips surface a relationship between pieces of information at a glance and let users
           browse, narrow, or act on content quickly. Use a Filter chip when the chip opens a panel
@@ -208,7 +209,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Every chip is a pill-shaped container holding a label; Filter chips add a trailing
           chevron to signal the attached dropdown, and Input chips add a trailing close icon
@@ -259,14 +260,14 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Style controls behavior: Filter chip toggles selection and pairs with a Dropdown panel
           (see Related Components); Input chip can be removed individually; Action chip fires an
           action immediately and comes in three sizes.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Chip variant groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -277,7 +278,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -343,7 +344,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row">
               <div className="ds-variant-row__cell">
                 <FilterChip label="Label" selected />
@@ -379,7 +380,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Example</span>
+            <VariantLabel>Example</VariantLabel>
             <p className="ds-section__desc">
               Real-world compositions adapted from a Waybill Management toolbar and other
               chip-bearing components, grouped by chip style — Filter chips paired with a data
@@ -397,7 +398,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
                   className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                   onClick={() => setActiveExampleTab(tab)}
                 >
-                  {tab}
+                  <TabLabel>{tab}</TabLabel>
                 </button>
               ))}
             </div>
@@ -746,7 +747,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Filter chip is the only style with a Focus ring; Input chip drops its close icon when
           disabled since a disabled chip can't be removed.
@@ -761,7 +762,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
               className={`ds-line-tab${activeStateTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStateTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -1029,7 +1030,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Every chip hugs its label width; only height and horizontal padding change between
           styles and sizes.
@@ -1119,7 +1120,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Chip.</p>
         <div className="ds-related-grid">
           <button

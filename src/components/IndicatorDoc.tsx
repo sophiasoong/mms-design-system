@@ -3,6 +3,7 @@ import { ProgressBar, ProgressRing } from './Indicator';
 import Upload, { UploadDropzone, UploadImageItem } from './Upload';
 import Dialog from './Dialog';
 import { UploadIcon, TableIcon, DialogIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './IndicatorDoc.css';
 
@@ -30,7 +31,7 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Indicator</h1>
+        <DocTitle>Indicator</DocTitle>
         <p className="ds-doc__lede">
           A Progress Indicator expresses an unspecified wait time or shows how far a process
           has advanced. It comes in two forms — a circular Ring and a linear Bar — both driven
@@ -51,7 +52,7 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Both forms are read-only, non-interactive displays of progress — they never carry
           their own affordance and should be paired with a label if the surrounding context
@@ -67,7 +68,7 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Just two parts, shared by both the Ring and the Bar — a track that shows the full
           length of the process, and a fill that shows how much of it is done.
@@ -109,13 +110,13 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Ring suits a fixed-size, self-contained indicator (e.g. a card or avatar overlay);
           Bar suits a full-width row (e.g. a table cell or upload item).
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Indicator style groups">
           {TYPE_TABS.map((type) => (
             <button
@@ -126,7 +127,7 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
               className={`ds-line-tab${activeTypeTab === type ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveTypeTab(type)}
             >
-              {type === 'ring' ? 'Progress Ring' : 'Progress Bar'}
+              <TabLabel>{type === 'ring' ? 'Progress Ring' : 'Progress Bar'}</TabLabel>
             </button>
           ))}
         </div>
@@ -150,7 +151,7 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
           </div>
 
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">With label</span>
+            <VariantLabel>With label</VariantLabel>
             {activeTypeTab === 'bar' ? (
               <div className="ds-preview">
                 <div style={{ width: 240 }}>
@@ -166,7 +167,7 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
           </div>
 
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Indeterminate</span>
+            <VariantLabel>Indeterminate</VariantLabel>
             <p className="ds-variant-note">
               For an unspecified wait time — the fill loops continuously instead of tracking a
               progress value.
@@ -184,7 +185,7 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
         </div>
 
         <div id="example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             Indicator rarely stands alone — it usually rides inside another component,
             reporting that component's own progress. Hover a composition to see which part is
@@ -201,7 +202,7 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -255,7 +256,7 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Track and fill share the same two colors across both forms; only the geometry
           differs.
@@ -327,7 +328,7 @@ export default function IndicatorDoc({ onNavigate }: IndicatorDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">
           Components that commonly appear alongside Indicator.
         </p>

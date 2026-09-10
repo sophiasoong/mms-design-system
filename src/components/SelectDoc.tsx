@@ -5,6 +5,7 @@ import { ChevronDownIcon, InputChip } from './Chip';
 import { DropdownOption } from './Dropdown';
 import Button from './Button';
 import { ChipIcon, DropdownIcon, FormIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -186,7 +187,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Select</h1>
+        <DocTitle>Select</DocTitle>
         <p className="ds-doc__lede">
           A Select is a form-field trigger that opens a choice panel. It shows a label or
           placeholder when empty, can display chosen values as removable chips, and always ends
@@ -207,7 +208,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use a Select wherever a user needs to open a panel to pick one or more values from a
           list. It pairs with a Dropdown panel (see Related Components) for the actual choices; the
@@ -222,7 +223,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           A Select is a bordered container holding either placeholder/label text or a set of
           value chips, and a trailing chevron that signals the attached panel.
@@ -273,13 +274,13 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           A Select shows placeholder text when empty; once a value is chosen it displays as a
           solid label. For a field that holds several removable values, see Input.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Select variant groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -290,7 +291,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -430,7 +431,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row" style={{ flexDirection: 'column', alignItems: 'center' }}>
               <div className="ds-variant-row__cell">
                 <div style={{ width: 240 }}>
@@ -455,7 +456,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
         </div>
 
         <div id="example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             A Single-select trigger opens a searchable Dropdown panel and closes as soon as a value
             is picked. A Multi-select trigger opens a checkbox panel that stays open across picks,
@@ -472,7 +473,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -791,7 +792,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Error replaces the border color to flag an invalid selection; Disabled dims the surface
           and blocks interaction entirely.
@@ -881,7 +882,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           A Select fills its container's width; only height and internal gap change between
           sizes.
@@ -945,7 +946,7 @@ export default function SelectDoc({ onNavigate }: SelectDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Select.</p>
         <div className="ds-related-grid">
           <button

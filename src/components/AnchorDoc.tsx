@@ -10,6 +10,7 @@ import { Table, TableHeader, TableHeaderCell, TableRow, TableCell } from './Tabl
 import Pagination from './Pagination';
 import { Searchbar } from './Searchbar';
 import { FilterChip } from './Chip';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './FormDoc.css';
 import './AnchorDoc.css';
@@ -193,7 +194,7 @@ export default function AnchorDoc({ onNavigate: _onNavigate }: AnchorDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Anchor</h1>
+        <DocTitle>Anchor</DocTitle>
         <p className="ds-doc__lede">
           An Anchor stacks the links that jump a reader to a section of the current page,
           highlighting whichever one is in view.
@@ -213,7 +214,7 @@ export default function AnchorDoc({ onNavigate: _onNavigate }: AnchorDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use Anchor beside long-form content so a reader always knows where they are and can
           jump straight to another section.
@@ -236,7 +237,7 @@ export default function AnchorDoc({ onNavigate: _onNavigate }: AnchorDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Every item carries an indicator and a label; a Sub-tab indents further to nest under
           its parent Tab.
@@ -292,13 +293,13 @@ export default function AnchorDoc({ onNavigate: _onNavigate }: AnchorDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Level sets how far an item indents — Tab for a top-level section, Sub-tab for one
           nested beneath it.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Level</span>
+        <VariantLabel tabs>Level</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Anchor level groups">
           {LEVEL_TABS.map((tab) => (
             <button
@@ -309,7 +310,7 @@ export default function AnchorDoc({ onNavigate: _onNavigate }: AnchorDocProps) {
               className={`ds-line-tab${activeLevelTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveLevelTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -352,7 +353,7 @@ export default function AnchorDoc({ onNavigate: _onNavigate }: AnchorDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Example</span>
+            <VariantLabel>Example</VariantLabel>
             <p className="ds-section__desc">
               A form page with several sections, each with a matching Anchor item — click one
               to scroll the page to that section and highlight it, the same in-page
@@ -528,7 +529,7 @@ export default function AnchorDoc({ onNavigate: _onNavigate }: AnchorDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Hover and Active both switch to the brand color; Active also switches to a heading
           weight so the current section reads at a glance.
@@ -596,7 +597,7 @@ export default function AnchorDoc({ onNavigate: _onNavigate }: AnchorDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Tab and Sub-tab share the same height, gap, and indicator width; only the left inset
           changes between them.
@@ -665,7 +666,7 @@ export default function AnchorDoc({ onNavigate: _onNavigate }: AnchorDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">
           No related components have been identified for Anchor yet.
         </p>

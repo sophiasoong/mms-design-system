@@ -7,6 +7,7 @@ import { Badge } from './Badge';
 import { Searchbar } from './Searchbar';
 import { IconButtonIcon, SearchbarIcon, DropdownIcon, AssetsIcon } from './icons';
 import { useBrandMode, brandLogoSrc } from '../brandMode';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './TopbarDoc.css';
 
@@ -38,7 +39,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Topbar</h1>
+        <DocTitle>Topbar</DocTitle>
         <p className="ds-doc__lede">
           The Topbar anchors the top of the product shell — store switching, search, and account
           controls all live in one fixed bar above the page content.
@@ -58,7 +59,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use Topbar once, at the root of the application shell — it stays fixed while the
           sidebar and page content scroll beneath it.
@@ -84,7 +85,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           A leading store-switching group and a centered search field are fixed; the trailing
           group of account controls stays flexible based on which actions apply.
@@ -250,13 +251,13 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           The logo and menu toggle mirror the product sidebar's own expanded/collapsed state, and
           the notification badge reflects whether there's anything new to see.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Topbar style groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -267,7 +268,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -337,7 +338,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           The menu toggle is the one control with a Figma-specified border, so its outline
           state carries the bar's full default/hover/focus/disabled range.
@@ -419,7 +420,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Figma specifies a 68px bar with 32px of edge padding. The bar height is a
           Topbar-only value — no other component shares it, so it is intentionally not a
@@ -489,7 +490,7 @@ export default function TopbarDoc({ onNavigate }: TopbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Topbar.</p>
         <div className="ds-related-grid">
           <button

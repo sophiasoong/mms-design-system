@@ -4,6 +4,7 @@ import Button from './Button';
 import IconButton from './IconButton';
 import AppTopbar from './AppTopbar';
 import { ButtonIcon, IconButtonIcon, FormIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './ToastDoc.css';
 
@@ -81,7 +82,7 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Toast</h1>
+        <DocTitle>Toast</DocTitle>
         <p className="ds-doc__lede">
           A Toast surfaces a brief, self-contained notification about the result of an action — a
           confirmation, a warning, or an error. Unlike a Banner, it always carries a semantic state
@@ -102,7 +103,7 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Toast is a bordered, tinted row — a state icon, a message, and up to two optional
           actions. State controls its color; layout controls whether it carries a title.
@@ -114,7 +115,7 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Five parts: an icon, an optional title, a description, an optional button, and an
           optional close control.
@@ -207,14 +208,14 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           State sets the icon and surface color. Layout controls whether the message carries a
           title: single-line stays a fixed 48px row, multi-line grows to fit a title and
           description stacked above the button.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Toast style groups">
           {VARIANT_TABS.map((tab) => (
             <button
@@ -225,7 +226,7 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
               className={`ds-line-tab${activeVariantTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveVariantTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -277,7 +278,7 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
         </div>
 
         <div id="example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             Toast doesn&apos;t live in a row like the Style examples above — it floats above the
             page it&apos;s reporting on, anchored to the top-right corner, clear of whatever the
@@ -332,7 +333,7 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Toast itself has no interactive state of its own — the ones below belong to its ghost
           Button, already documented in full on the Button page.
@@ -420,7 +421,7 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Every measurement below comes from a token — no hardcoded values.
         </p>
@@ -516,7 +517,7 @@ export default function ToastDoc({ onNavigate }: ToastDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Toast.</p>
         <div className="ds-related-grid">
           <button

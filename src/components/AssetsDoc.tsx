@@ -58,6 +58,7 @@ import {
   StoreHktv20Icon,
   StoreThePlace20Icon,
 } from './iconSizeGroups';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './AssetsDoc.css';
 
 const ICON_FIGMA_URL =
@@ -275,7 +276,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Assets</h1>
+        <DocTitle>Assets</DocTitle>
         <p className="ds-doc__lede">
           Assets bundles three small, non-interactive display primitives that other
           components lean on: Icon for inline glyphs, Image for empty-state
@@ -287,7 +288,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">One of each, side by side.</p>
         <div className="ds-variant-row">
           <div className="ds-variant-row__cell">
@@ -307,11 +308,11 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
 
         <div id="variants-icon" className="ds-section__subsection">
         <div className="ds-assets__section-head">
-          <h3 className="ds-section__subtitle">Icon</h3>
+          <SectionSubtitle>Icon</SectionSubtitle>
           <FigmaRef href={ICON_FIGMA_URL} />
         </div>
         <p className="ds-section__desc">
@@ -330,7 +331,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
               className={`ds-line-tab${activeIconSizeTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveIconSizeTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -401,7 +402,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
           </div>
 
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row">
               {ICON_SIZES.map(({ size, label }) => (
                 <div className="ds-variant-row__cell" key={size}>
@@ -416,7 +417,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
 
         <div id="variants-image" className="ds-section__subsection">
         <div className="ds-assets__section-head">
-          <h3 className="ds-section__subtitle">Illustration</h3>
+          <SectionSubtitle>Illustration</SectionSubtitle>
           <FigmaRef href={IMAGE_FIGMA_URL} />
         </div>
         <p className="ds-section__desc">
@@ -445,7 +446,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
 
         <div id="variants-thumbnail" className="ds-section__subsection">
         <div className="ds-assets__section-head">
-          <h3 className="ds-section__subtitle">Thumbnail</h3>
+          <SectionSubtitle>Thumbnail</SectionSubtitle>
           <FigmaRef href={THUMBNAIL_FIGMA_URL} />
         </div>
         <p className="ds-section__desc">
@@ -465,7 +466,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
               className={`ds-line-tab${activeThumbnailTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveThumbnailTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -540,7 +541,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
         </div>
 
         <div id="variants-example" className="ds-section__subsection">
-        <h3 className="ds-section__subtitle">Example</h3>
+        <SectionSubtitle>Example</SectionSubtitle>
         <p className="ds-section__desc">
           Two real compositions built from these assets: the Empty Image style standing in
           for a Table's rows or a Dropdown's option list, and the Product/Promotion
@@ -557,7 +558,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
               className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveExampleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -986,7 +987,7 @@ export default function AssetsDoc({ onNavigate }: AssetsDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">
           Components that commonly appear alongside Assets.
         </p>

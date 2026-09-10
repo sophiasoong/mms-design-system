@@ -11,6 +11,7 @@ import Breadcrumb, { BreadcrumbItem, BreadcrumbSeparator } from './Breadcrumb';
 import { LineTabItem } from './Tab';
 import { Table, TableHeader, TableHeaderCell, TableRow, TableCell } from './Table';
 import { ListIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './ModalDoc.css';
 import './StepDoc.css';
@@ -129,7 +130,7 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Step</h1>
+        <DocTitle>Step</DocTitle>
         <p className="ds-doc__lede">
           A Step indicator communicates progress through a multi-step flow. Each step shows its
           own status — not yet reached, in progress, finished, or errored — connected in
@@ -150,7 +151,7 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use Step to orient a user inside a flow they can't fully see at once — a multi-page
           form, a checkout, an onboarding sequence — so they always know what's done, what's
@@ -163,7 +164,7 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Each step is an indicator and a title, joined to its neighbors by a connector rail.
         </p>
@@ -224,13 +225,13 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Horizontal suits a compact row of short titles. Vertical suits a longer flow where
           each step carries its own description and supporting detail.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Step style groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -241,7 +242,7 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -273,7 +274,7 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
         </div>
 
         <div id="example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             Step shows up wherever a flow spans more than one screen — a multi-step Modal, a
             full-page form, or a record's side-panel Workflow Status.{' '}
@@ -300,7 +301,7 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -534,7 +535,7 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           A step's status drives both its indicator and its connector color.
         </p>
@@ -601,7 +602,7 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           The indicator is a fixed circle; everything else — titles, connectors, descriptions —
           flexes to fill the available width.
@@ -691,7 +692,7 @@ export default function StepDoc({ onNavigate }: StepDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">
           Components that commonly appear alongside Step.
         </p>

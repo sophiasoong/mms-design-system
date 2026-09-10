@@ -19,6 +19,7 @@ import AppSidebar from './AppSidebar';
 import List from './List';
 import { ProductIcon, PromotionIcon } from './assetIcons';
 import { TableIcon, TopbarIcon } from './icons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './Table.css';
 import './SearchbarDoc.css';
@@ -160,7 +161,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Search bar</h1>
+        <DocTitle>Search bar</DocTitle>
         <p className="ds-doc__lede">
           A Search bar is a bordered text field dedicated to querying a list or dataset. A
           trailing action icon submits the search, swapping to a clear icon once the field is
@@ -181,7 +182,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use a Search bar wherever a user filters or queries a list of results, rather than
           entering free-form text into a form (see Input).
@@ -195,7 +196,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           A bordered container holding typed or placeholder text, with a trailing action icon
           that submits the search or clears the current value.
@@ -248,14 +249,14 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Label holds a single free-typed query. Chip lets a picked filter sit inline as a
           removable token ahead of the typed text. Scope Selector narrows the query to a named
           field via a leading dropdown segment.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Search bar style groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -266,7 +267,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -374,7 +375,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row" style={{ flexDirection: 'column', alignItems: 'center' }}>
               <div className="ds-variant-row__cell">
                 <div style={{ width: 240 }}>
@@ -392,7 +393,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
           </div>
         </div>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
+        <VariantLabel tabs>Example</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Search bar example contexts">
           {EXAMPLE_TABS.map((tab) => (
             <button
@@ -403,7 +404,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
               className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveExampleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -725,7 +726,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Focus applies the brand focus ring; Disabled dims the surface and blocks interaction
           entirely.
@@ -813,7 +814,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           A Search bar fills its container's width; only height and internal gap change between
           sizes.
@@ -877,7 +878,7 @@ export default function SearchbarDoc({ onNavigate }: SearchbarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Search bar.</p>
         <div className="ds-related-grid">
           <button

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Lightbox from './Lightbox';
 import IconButton from './IconButton';
 import { IconButtonIcon } from './icons';
+import { DocTitle, SectionTitle, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './LightboxDoc.css';
 
@@ -40,7 +41,7 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Lightbox</h1>
+        <DocTitle>Lightbox</DocTitle>
         <p className="ds-doc__lede">
           A Lightbox is a full-screen overlay for viewing a single image or video from a set — it
           pairs the media with prev/next navigation, a position counter, and a bar of quick
@@ -61,7 +62,7 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           The default Lightbox: a close control, previous/next navigation flanking the media, a
           counter, and an action bar of secondary controls.
@@ -77,7 +78,7 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Seven parts: a close button, previous/next navigation, the media itself, an optional
           video-play overlay, a position counter, and an action bar.
@@ -225,7 +226,7 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           The media type and the item's position in the set determine which controls appear —
           video drops the editing actions, and the edge items hide the navigation control that
@@ -242,7 +243,7 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
               className={`ds-line-tab${activeVariantTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveVariantTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -315,7 +316,7 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Close, Previous, and Next are Icon buttons — their default/hover/focus/disabled states
           are already documented in full on the Icon button page. The action-bar controls below
@@ -399,7 +400,7 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Every measurement below comes from a token — no hardcoded values.
         </p>
@@ -488,7 +489,7 @@ export default function LightboxDoc({ onNavigate }: LightboxDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Lightbox.</p>
         <div className="ds-related-grid">
           <button

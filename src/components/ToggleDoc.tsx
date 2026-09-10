@@ -6,6 +6,7 @@ import Form, { FormCol, FormField, FormRow } from './Form';
 import Header from './Header';
 import { Table, TableCell, TableHeader, TableHeaderCell, TableRow } from './Table';
 import { FormIcon, HeaderIcon, TableIcon } from './icons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './ToggleDoc.css';
 
@@ -31,7 +32,7 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Toggle</h1>
+        <DocTitle>Toggle</DocTitle>
         <p className="ds-doc__lede">
           A Toggle switches a single setting directly between two states — unlike a
           Checkbox, flipping it takes effect immediately, with no separate submit step.
@@ -51,7 +52,7 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Reach for a Toggle when a setting has an immediate, binary effect — notifications
           on/off, a feature flag, dark mode. Use a Checkbox instead when the choice is part
@@ -64,7 +65,7 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Just two parts — a pill-shaped track, and the thumb that slides across it.
         </p>
@@ -103,13 +104,13 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Size controls the track and thumb dimensions — Md is the default, Sm fits denser
           layouts like table rows or settings lists.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Size</span>
+        <VariantLabel tabs>Size</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Toggle size groups">
           {SIZE_TABS.map((tab) => (
             <button
@@ -120,7 +121,7 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
               className={`ds-line-tab${activeSizeTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveSizeTab(tab)}
             >
-              {tab === 'md' ? 'Md' : 'Sm'}
+              <TabLabel>{tab === 'md' ? 'Md' : 'Sm'}</TabLabel>
             </button>
           ))}
         </div>
@@ -142,7 +143,7 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Example</span>
+            <VariantLabel>Example</VariantLabel>
             <div className="ds-preview ds-preview--scrim ds-toggle-doc__example-container">
               <div className="ds-toggle-doc__example-row">
                 <div className="ds-toggle-doc__example-item ds-toggle-doc__example">
@@ -297,7 +298,7 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Off and on each carry their own hover, focus, and disabled treatment. Preview
           shows the Md size; every color below applies at Sm too.
@@ -414,7 +415,7 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Track and thumb sizes are fixed pixel values from the source Figma spec — every
           other measurement below comes from a token.
@@ -480,7 +481,7 @@ export default function ToggleDoc({ onNavigate }: ToggleDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Toggle.</p>
         <div className="ds-related-grid">
           <button

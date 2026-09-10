@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Breadcrumb, { BackLink, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbSeparator } from './Breadcrumb';
 import Button from './Button';
+import { DocTitle, SectionTitle, SectionSubtitle, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './BreadcrumbDoc.css';
 
@@ -27,7 +28,7 @@ export default function BreadcrumbDoc({ onNavigate: _onNavigate }: BreadcrumbDoc
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Breadcrumb</h1>
+        <DocTitle>Breadcrumb</DocTitle>
         <p className="ds-doc__lede">
           A Breadcrumb traces the path a reader took to the current page, so any earlier step is
           one click away.
@@ -47,7 +48,7 @@ export default function BreadcrumbDoc({ onNavigate: _onNavigate }: BreadcrumbDoc
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Every item is clickable except the last — the current page renders in a darker,
           non-interactive state so a reader can tell at a glance where they are. Folder-only
@@ -66,7 +67,7 @@ export default function BreadcrumbDoc({ onNavigate: _onNavigate }: BreadcrumbDoc
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           A trail chains Items with a Separator between each pair; a long trail can collapse its
           middle steps behind an Ellipsis.
@@ -116,7 +117,7 @@ export default function BreadcrumbDoc({ onNavigate: _onNavigate }: BreadcrumbDoc
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           A full trail lists every step; when it would run too long, the middle steps collapse
           behind an Ellipsis. Back-link is a lighter alternative for a single return path.
@@ -133,7 +134,7 @@ export default function BreadcrumbDoc({ onNavigate: _onNavigate }: BreadcrumbDoc
               className={`ds-line-tab${activeVariantTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveVariantTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -187,7 +188,7 @@ export default function BreadcrumbDoc({ onNavigate: _onNavigate }: BreadcrumbDoc
         </div>
 
         <div id="example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             A page header pairs Breadcrumb (or Back-link) with the page title and its primary
             actions — the trail sits above the title so a reader can place the page before
@@ -215,7 +216,7 @@ export default function BreadcrumbDoc({ onNavigate: _onNavigate }: BreadcrumbDoc
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -289,7 +290,7 @@ export default function BreadcrumbDoc({ onNavigate: _onNavigate }: BreadcrumbDoc
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Hover underlines an item to signal it's clickable; Active marks the current page;
           Disabled reads as a step with no page of its own.
@@ -366,7 +367,7 @@ export default function BreadcrumbDoc({ onNavigate: _onNavigate }: BreadcrumbDoc
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Item, Separator, and Ellipsis all share the trail's height; Back-link matches it too so
           either style drops into the same header slot.
@@ -428,7 +429,7 @@ export default function BreadcrumbDoc({ onNavigate: _onNavigate }: BreadcrumbDoc
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">
           No related components have been identified for Breadcrumb yet.
         </p>

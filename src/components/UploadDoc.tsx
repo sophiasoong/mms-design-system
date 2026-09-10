@@ -9,6 +9,7 @@ import { Input } from './Input';
 import { Radio } from './Radio';
 import { DatePicker } from './DatePicker';
 import { ListIcon, FormIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './FormDoc.css';
 import './UploadDoc.css';
@@ -192,7 +193,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Upload</h1>
+        <DocTitle>Upload</DocTitle>
         <p className="ds-doc__lede">
           Upload is a field for getting files into the product — a dropzone with drag-and-drop and
           progress feedback, a grid of image tiles, or a plain trigger button, each paired with a
@@ -213,7 +214,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           A guided batch upload flow: download the template, fill it in, then upload the
           completed file.
@@ -255,7 +256,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Seven parts, shown here in the dropzone's Filled state — the container, title, and
           description are always present; the results, total, file list, and buttons appear once
@@ -375,14 +376,14 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Two independent variant sets: the upload method — how files get in — and the image
           item's size and shape — how each attached image tile is drawn.
         </p>
 
         <div id="variants-method" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Style</h3>
+          <SectionSubtitle>Style</SectionSubtitle>
           <p className="ds-section__desc">
             Three field styles: a drag-and-drop dropzone, a grid of image tiles, and a plain
             trigger button — all three pair with the same reusable file list.
@@ -398,7 +399,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
                 className={`ds-line-tab${activeMethodTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveMethodTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -482,7 +483,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
         </div>
 
         <div id="variants-example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             Each upload style staged in a realistic composition — the dropzone inside a batch
             upload Modal, and the image grid inside a Form field.
@@ -498,7 +499,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -581,7 +582,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
         </div>
 
         <div id="variants-image-item" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Image item</h3>
+          <SectionSubtitle>Image item</SectionSubtitle>
           <p className="ds-section__desc">
             The image-grid tile in each of its three size/shape combinations — there's no large
             round variant, only small round, small square, and large square.
@@ -597,7 +598,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
                 className={`ds-line-tab${activeImageItemTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveImageItemTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -657,13 +658,13 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           The dropzone and image item are each literal Figma variants rather than CSS pseudo-states
           — pass the matching <code>state</code> prop directly.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Dropzone</span>
+        <VariantLabel tabs>Dropzone</VariantLabel>
         <table className="ds-table ds-upload-doc__states-table">
           <thead>
             <tr>
@@ -718,7 +719,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
           </tbody>
         </table>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Image item</span>
+        <VariantLabel tabs>Image item</VariantLabel>
         <table className="ds-table ds-upload-doc__states-table">
           <thead>
             <tr>
@@ -775,7 +776,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Every measurement below comes from a token — no hardcoded values.
         </p>
@@ -871,7 +872,7 @@ export default function UploadDoc({ onNavigate }: UploadDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Upload.</p>
         <div className="ds-related-grid">
           <button

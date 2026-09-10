@@ -25,6 +25,7 @@ import { Searchbar } from './Searchbar';
 import { FilterChip } from './Chip';
 import { CardTabItem } from './Tab';
 import { ButtonIcon, BadgeIcon, TagIcon, ListIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './MessageDoc.css';
 
@@ -79,7 +80,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Message</h1>
+        <DocTitle>Message</DocTitle>
         <p className="ds-doc__lede">
           A Message is a single notification row — a thumbnail, a title and description, and a
           primary action, with tags and a timestamp underneath. Use it to list updates in a
@@ -100,7 +101,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Compose a list of Messages to build a notification panel, or drop a single row into
           any feed.
@@ -114,7 +115,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Six parts: a thumbnail, title and description, a primary action, an unread badge, and
           a row of tags with a timestamp.
@@ -211,14 +212,14 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Style controls the row's presentation: Default includes the description for a full
           notification-panel row; Compact drops it for a denser detail-list row; Read clears the
           unread badge once the notification has been opened.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Message style groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -229,7 +230,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -263,7 +264,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
         </div>
 
         <div id="example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             Two places Message shows up in product: a short list dropped from the topbar's
             notification bell, and the full list-to-detail layout on the Message Center page.
@@ -279,7 +280,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -623,7 +624,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           The whole row is a single hover target — background and tag color shift together.
         </p>
@@ -675,7 +676,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Every measurement below comes from a token — no hardcoded values.
         </p>
@@ -757,7 +758,7 @@ export default function MessageDoc({ onNavigate }: MessageDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Message.</p>
         <div className="ds-related-grid">
           <button

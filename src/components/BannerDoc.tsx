@@ -19,6 +19,7 @@ import { Badge, type BadgeColor } from './Badge';
 import Breadcrumb, { BreadcrumbItem, BreadcrumbSeparator } from './Breadcrumb';
 import Pagination from './Pagination';
 import { ButtonIcon, IconButtonIcon, FormIcon } from './icons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './BannerDoc.css';
 
@@ -171,7 +172,7 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Banner</h1>
+        <DocTitle>Banner</DocTitle>
         <p className="ds-doc__lede">
           A Banner surfaces a short, persistent message inline with the page content — a status
           update, a warning, or an announcement. Unlike a Dialog, it never blocks the page.
@@ -191,7 +192,7 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Banner is a bordered, tinted row — a state icon, a message, and up to two optional
           actions. State controls its color; layout controls whether it carries a title.
@@ -203,7 +204,7 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Five parts: an icon, an optional title, a description, an optional button, and an
           optional close control.
@@ -296,14 +297,14 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           State sets the icon and surface color. Layout controls whether the message carries a
           title: single-line stays a fixed 48px row, multi-line grows to fit a title and
           description stacked above the button.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Banner style groups">
           {VARIANT_TABS.map((tab) => (
             <button
@@ -314,7 +315,7 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
               className={`ds-line-tab${activeVariantTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveVariantTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -359,7 +360,7 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
           </div>
         </div>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
+        <VariantLabel tabs>Example</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Banner example groups">
           {EXAMPLE_TABS.map((tab) => (
             <button
@@ -370,7 +371,7 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
               className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveExampleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -732,7 +733,7 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Banner itself has no interactive state of its own — the ones below belong to its ghost
           Button, already documented in full on the Button page.
@@ -820,7 +821,7 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Every measurement below comes from a token — no hardcoded values.
         </p>
@@ -909,7 +910,7 @@ export default function BannerDoc({ onNavigate }: BannerDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Banner.</p>
         <div className="ds-related-grid">
           <button

@@ -21,6 +21,7 @@ import { Textarea } from './Textarea';
 import { DateRangePicker } from './DateRangePicker';
 import IconButton from './IconButton';
 import { TableIcon, FormIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './Table.css';
 import './TooltipDoc.css';
@@ -83,10 +84,16 @@ const TOOLTIP_STATUS_FILTER_OPTIONS = ['Success', 'Pending', 'Rejected'];
 const TOOLTIP_SCOPE_OPTIONS = ['SKU ID', 'Brand', 'Product Name'];
 
 /** Duplicated from FormDoc.tsx's own RichTextField helper (Figma 789:56940) — see
- * TooltipDoc.css for the duplicated .ds-richtext styling this depends on. */
+ * TooltipDoc.css for the duplicated .ds-richtext styling this depends on. Adds
+ * `infoTooltip` to the field label so the Form tab also demonstrates a field-level info
+ * icon's hover tooltip alongside the header's. */
 function TooltipRichTextField({ defaultValue }: { defaultValue?: string } = {}) {
   return (
-    <FormField label="Description" info>
+    <FormField
+      label="Description"
+      info
+      infoTooltip="Shown on the product page and in search results, up to 200 characters."
+    >
       <div className="ds-richtext">
         <div className="ds-richtext__toolbar">
           <span className="ds-richtext__toolbar-select">
@@ -371,7 +378,7 @@ export default function TooltipDoc({ onNavigate }: TooltipDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Tooltip</h1>
+        <DocTitle>Tooltip</DocTitle>
         <p className="ds-doc__lede">
           A Tooltip is a floating label with a directional arrow that points back at the
           element that triggered it. It appears on hover or focus and disappears once the
@@ -393,7 +400,7 @@ export default function TooltipDoc({ onNavigate }: TooltipDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Tooltip is passive, read-only content — it never carries its own interactivity. It
           rides along with the element that triggers it and inherits that element's
@@ -406,7 +413,7 @@ export default function TooltipDoc({ onNavigate }: TooltipDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Three parts — a shadowed container that carries the surface, the text it holds, and
           the arrow that points back at the trigger.
@@ -461,13 +468,13 @@ export default function TooltipDoc({ onNavigate }: TooltipDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Position controls which side of the trigger the bubble sits on and which way the
           arrow points; Size controls the bubble's width and whether its label can wrap.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Position</span>
+        <VariantLabel tabs>Position</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Tooltip position groups">
           {POSITION_TABS.map((position) => (
             <button
@@ -478,7 +485,7 @@ export default function TooltipDoc({ onNavigate }: TooltipDocProps) {
               className={`ds-line-tab${activePositionTab === position ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActivePositionTab(position)}
             >
-              {formatPosition(position)}
+              <TabLabel>{formatPosition(position)}</TabLabel>
             </button>
           ))}
         </div>
@@ -503,7 +510,7 @@ export default function TooltipDoc({ onNavigate }: TooltipDocProps) {
           </div>
 
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row">
               <div className="ds-variant-row__cell">
                 <Tooltip size="sm">Amet minim</Tooltip>
@@ -525,7 +532,7 @@ export default function TooltipDoc({ onNavigate }: TooltipDocProps) {
         </div>
 
         <div id="example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             Tooltip most often annotates a header's info icon — hovering or focusing the icon
             reveals the bubble pinned above it.
@@ -541,7 +548,7 @@ export default function TooltipDoc({ onNavigate }: TooltipDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -812,7 +819,7 @@ export default function TooltipDoc({ onNavigate }: TooltipDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Padding, radius, shadow, and type are fixed across all sizes and positions — only
           width changes.
@@ -886,7 +893,7 @@ export default function TooltipDoc({ onNavigate }: TooltipDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">
           Components that commonly appear alongside Tooltip.
         </p>

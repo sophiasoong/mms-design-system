@@ -3,6 +3,7 @@ import Button from './Button';
 import IconButton from './IconButton';
 import { IconButtonIcon, FooterIcon, DropdownIcon, TableIcon } from './icons';
 import { useBrandMode, brandLogoSrc } from '../brandMode';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -32,7 +33,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Button</h1>
+        <DocTitle>Button</DocTitle>
         <p className="ds-doc__lede">
           Buttons trigger an action or navigation, in forms, dialogs, toolbars, and cards. Use the
           variant to signal intent (primary, secondary, danger) and the appearance to signal
@@ -53,7 +54,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           The default Button is a Primary / Solid / Medium button: high-emphasis, used for the
           single most important action on a screen.
@@ -65,7 +66,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           A button is composed of a container plus up to three optional content slots.
         </p>
@@ -133,13 +134,13 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Variant sets intent; appearance sets emphasis. Not every variant supports every
           appearance — Secondary is Solid-only in the current token set.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Button variant groups">
           {VARIANT_TABS.map((tab) => (
             <button
@@ -150,7 +151,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
               className={`ds-line-tab${activeVariantTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveVariantTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -226,7 +227,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row">
               <div className="ds-variant-row__cell">
                 <Button size="sm">Small</Button>
@@ -244,7 +245,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
           </div>
 
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Example</span>
+            <VariantLabel>Example</VariantLabel>
             <div className="ds-line-tabs" role="tablist" aria-label="Button example groups">
               {EXAMPLE_TABS.map((tab) => (
                 <button
@@ -255,7 +256,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
                   className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                   onClick={() => setActiveExampleTab(tab)}
                 >
-                  {tab}
+                  <TabLabel>{tab}</TabLabel>
                 </button>
               ))}
             </div>
@@ -525,7 +526,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Every variant/appearance pair defines default, hover, focus, and disabled states. Hover
           and focus are statically forced below for documentation purposes.
@@ -540,7 +541,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
               className={`ds-line-tab${activeStateTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStateTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -726,7 +727,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Height, inline padding, content gap, and icon size all scale together by size token.
         </p>
@@ -839,7 +840,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">
           Components that commonly appear alongside Button.
         </p>

@@ -8,6 +8,7 @@ import List from './List';
 import { Searchbar } from './Searchbar';
 import { SearchbarIcon, MessageIcon, TableIcon } from './icons';
 import { ProductIcon, PromotionIcon } from './assetIcons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './TagDoc.css';
 
@@ -38,7 +39,7 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Tag</h1>
+        <DocTitle>Tag</DocTitle>
         <p className="ds-doc__lede">
           A Tag is a small, static label used to categorize content or flag its status — unlike a
           Chip, it isn't clickable, selectable, or removable. Gray comes in both Solid and Outline
@@ -59,7 +60,7 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Reach for color to carry meaning — Green for success/active states, Orange for pending,
           Red for error, Blue for informational, and Primary or Gray for neutral categorization.
@@ -78,7 +79,7 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Just two parts — a container that carries the color, and the label it holds.
         </p>
@@ -116,13 +117,13 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Style controls the container: Outline pairs a tinted background with a matching border;
           Solid drops the border and is only defined for Gray in the source Figma spec.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Tag style groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -133,7 +134,7 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -172,7 +173,7 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
         </div>
 
         <div id="example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             Two places Tag shows up in composition: the notification panel dropped from the
             topbar's bell, and a global-search results panel.
@@ -188,7 +189,7 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -373,7 +374,7 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Tag is a static label, not an interactive control — it has no hover, focus, or disabled
           state. Each color/style resolves to these container and label tokens.
@@ -506,7 +507,7 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">Every color and style shares the same fixed geometry.</p>
         <table className="ds-table">
           <thead>
@@ -558,7 +559,7 @@ export default function TagDoc({ onNavigate }: TagDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Tag.</p>
         <div className="ds-related-grid">
           <button

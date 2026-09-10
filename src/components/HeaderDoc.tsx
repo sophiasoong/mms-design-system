@@ -11,6 +11,7 @@ import { DateRangePicker } from './DateRangePicker';
 import Button from './Button';
 import IconButton from './IconButton';
 import { IconButtonIcon, ToggleIcon, AssetsIcon } from './icons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './UploadDoc.css';
 import './HeaderDoc.css';
@@ -215,7 +216,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Header</h1>
+        <DocTitle>Header</DocTitle>
         <p className="ds-doc__lede">
           A Header titles a surface — a modal, a form, a section, or a row in a list — and
           carries the controls that act on it: an info tooltip, a status tag, a toggle, a
@@ -236,7 +237,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use Header to give any surface a consistent title bar, with optional metadata and
           trailing actions layered in only where the surface needs them.
@@ -250,7 +251,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           A title anchors the header; everything else is an optional slot that appears only
           when the surface needs it.
@@ -315,13 +316,13 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Style sets the surface Header sits on top of — a Modal, a Form, a nested Sub-form, a
           plain Section, or a row inside a Form-list.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Header style groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -332,7 +333,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -414,7 +415,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row ds-variant-row--scrim">
               <div className="ds-variant-row__cell">
                 <Header style="form" title="Shipping address" />
@@ -428,7 +429,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
           </div>
 
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
+            <VariantLabel tabs>Example</VariantLabel>
             <div className="ds-line-tabs" role="tablist" aria-label="Header example compositions">
               {EXAMPLE_TABS.map((tab) => (
                 <button
@@ -439,7 +440,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
                   className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                   onClick={() => setActiveExampleTab(tab)}
                 >
-                  {tab}
+                  <TabLabel>{tab}</TabLabel>
                 </button>
               ))}
             </div>
@@ -515,7 +516,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Each style maps to its own surface color, so a Header always reads as part of the
           container it titles.
@@ -595,7 +596,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Modal, Form, Sub-form, and Form-list share the same top-corner radius and border;
           Section carries no chrome of its own.
@@ -699,7 +700,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Header.</p>
         <div className="ds-related-grid">
           <button

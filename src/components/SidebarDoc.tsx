@@ -6,6 +6,7 @@ import AppSidebar, {
 } from './AppSidebar';
 import { AssetsIcon } from './icons';
 import { useBrandMode } from '../brandMode';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -88,7 +89,7 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Sidebar</h1>
+        <DocTitle>Sidebar</DocTitle>
         <p className="ds-doc__lede">
           The Sidebar is the product's primary navigation — a dark, always-present rail grouping
           every merchant workflow into collapsible sections.
@@ -108,7 +109,7 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use Sidebar once, at the root of the application shell, beside the page content — it
           stays fixed while the main content area scrolls independently.
@@ -128,7 +129,7 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Each section groups a header with its own collapse toggle above an indented, bordered
           list of nav items; items that carry sub-navigation reveal a flyout panel.
@@ -211,13 +212,13 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Every section collapses independently, and items can optionally open a flyout for
           sub-navigation.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Sidebar menu content">
           {MENU_TABS.map((tab) => (
             <button
@@ -228,7 +229,7 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
               className={`ds-line-tab${activeMenuTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveMenuTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -257,7 +258,7 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Active is the one state where the label's font weight steps up from regular to medium.
         </p>
@@ -384,7 +385,7 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           The Main section indents its item list less than the other three — a genuine
           inconsistency in the source Figma file, preserved here rather than normalized.
@@ -467,7 +468,7 @@ export default function SidebarDoc({ onNavigate }: SidebarDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Sidebar.</p>
         <div className="ds-related-grid">
           <button

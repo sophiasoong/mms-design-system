@@ -6,6 +6,7 @@ import { DatePicker } from './DatePicker';
 import Form, { FormRow, FormCol, FormField } from './Form';
 import IconButton from './IconButton';
 import { FormIcon, InputIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './RadioDoc.css';
 
@@ -43,7 +44,7 @@ export default function RadioDoc({ onNavigate }: RadioDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Radio</h1>
+        <DocTitle>Radio</DocTitle>
         <p className="ds-doc__lede">
           A Radio lets a user select exactly one option from a set of mutually exclusive
           choices.
@@ -63,7 +64,7 @@ export default function RadioDoc({ onNavigate }: RadioDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use a Radio group when a user must pick a single option from a short, visible
           list — unlike Checkbox, only one Radio in a group can be checked at a time.
@@ -75,7 +76,7 @@ export default function RadioDoc({ onNavigate }: RadioDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           A Radio is a bordered circle inside a larger invisible hit area, holding a dot
           that appears once checked.
@@ -121,14 +122,14 @@ export default function RadioDoc({ onNavigate }: RadioDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Radio has a single binary axis — unlike Checkbox, there is no indeterminate
           state.
         </p>
 
         <div id="variants-style" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Style</h3>
+          <SectionSubtitle>Style</SectionSubtitle>
           <div className="ds-line-tabs" role="tablist" aria-label="Radio style">
             {VARIANT_STYLE_TABS.map((tab) => (
               <button
@@ -139,7 +140,7 @@ export default function RadioDoc({ onNavigate }: RadioDocProps) {
                 className={`ds-line-tab${activeVariantStyleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveVariantStyleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -232,7 +233,7 @@ export default function RadioDoc({ onNavigate }: RadioDocProps) {
         </div>
 
         <div id="variants-example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             A real "Sending Settings" composition — with the Radio usage worth calling
             out highlighted against the rest of the form.
@@ -247,7 +248,7 @@ export default function RadioDoc({ onNavigate }: RadioDocProps) {
                 className={`ds-line-tab${activeVariantExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveVariantExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -362,7 +363,7 @@ export default function RadioDoc({ onNavigate }: RadioDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Checked reuses the unchecked circle's border/background treatment except where
           noted — only the dot appears in addition.
@@ -377,7 +378,7 @@ export default function RadioDoc({ onNavigate }: RadioDocProps) {
               className={`ds-line-tab${activeStateTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStateTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -524,7 +525,7 @@ export default function RadioDoc({ onNavigate }: RadioDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           There is a single Radio size across the design system — hit area, circle, and
           dot all stay fixed.
@@ -606,7 +607,7 @@ export default function RadioDoc({ onNavigate }: RadioDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Radio.</p>
         <div className="ds-related-grid">
           <button

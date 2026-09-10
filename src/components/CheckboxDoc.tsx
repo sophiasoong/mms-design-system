@@ -18,6 +18,7 @@ import {
   TableSelectCell,
 } from './Table';
 import { FormIcon, TableIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './Table.css';
 import './CheckboxDoc.css';
@@ -125,7 +126,7 @@ export default function CheckboxDoc({ onNavigate }: CheckboxDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Checkbox</h1>
+        <DocTitle>Checkbox</DocTitle>
         <p className="ds-doc__lede">
           A Checkbox lets a user select one or more options from a set. Its indeterminate
           state represents a parent whose children are only partially selected.
@@ -145,7 +146,7 @@ export default function CheckboxDoc({ onNavigate }: CheckboxDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use a Checkbox for independent on/off choices, or in a group for multi-select
           lists. Pair a parent Checkbox with the indeterminate state to summarize a group
@@ -158,7 +159,7 @@ export default function CheckboxDoc({ onNavigate }: CheckboxDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           A Checkbox is a bordered box inside a larger invisible hit area, holding a mark
           that appears once checked or indeterminate.
@@ -209,14 +210,14 @@ export default function CheckboxDoc({ onNavigate }: CheckboxDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Checked and indeterminate share the same checked-mark space — only one mark is
           ever visible, so a checkbox can't be both at once.
         </p>
 
         <div id="variants-style" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Style</h3>
+          <SectionSubtitle>Style</SectionSubtitle>
           <div className="ds-line-tabs" role="tablist" aria-label="Checkbox style">
             {VARIANT_STYLE_TABS.map((tab) => (
               <button
@@ -227,7 +228,7 @@ export default function CheckboxDoc({ onNavigate }: CheckboxDocProps) {
                 className={`ds-line-tab${activeVariantStyleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveVariantStyleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -290,7 +291,7 @@ export default function CheckboxDoc({ onNavigate }: CheckboxDocProps) {
         </div>
 
         <div id="variants-example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             Real compositions from elsewhere in the system — a Table's row selection and a
             Form's Platform/Shipping Method fields — with the checkbox usage worth calling
@@ -306,7 +307,7 @@ export default function CheckboxDoc({ onNavigate }: CheckboxDocProps) {
                 className={`ds-line-tab${activeVariantExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveVariantExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -536,7 +537,7 @@ export default function CheckboxDoc({ onNavigate }: CheckboxDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Checked and indeterminate reuse the unchecked box's border/background treatment
           except where noted — only the mark color changes between them.
@@ -551,7 +552,7 @@ export default function CheckboxDoc({ onNavigate }: CheckboxDocProps) {
               className={`ds-line-tab${activeStateTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStateTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -768,7 +769,7 @@ export default function CheckboxDoc({ onNavigate }: CheckboxDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           There is a single Checkbox size across the design system — hit area, box, and
           mark all stay fixed.
@@ -859,7 +860,7 @@ export default function CheckboxDoc({ onNavigate }: CheckboxDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Checkbox.</p>
         <div className="ds-related-grid">
           <button

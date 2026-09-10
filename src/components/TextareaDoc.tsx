@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { Textarea } from './Textarea';
 import Button from './Button';
 import { FormIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 
 const FIGMA_URL =
@@ -87,7 +88,7 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Textarea</h1>
+        <DocTitle>Textarea</DocTitle>
         <p className="ds-doc__lede">
           A Textarea is a bordered multi-line text field for free-form entry that runs longer than
           a single line. It grows with typed content and offers a resize handle so the user can
@@ -108,7 +109,7 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use a Textarea wherever a user needs to enter more than one line of free-form text, such
           as a comment, description, or note. For a single line of free-typed text, use Input
@@ -123,7 +124,7 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           A Textarea is a bordered container holding typed or placeholder text, with a resize
           handle in the bottom-right corner for manually adjusting its height.
@@ -171,7 +172,7 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Label holds typed or placeholder text as a growing block. Input-chip turns each Enter
           keypress into a removable Input chip (see Chip), so the field can hold several keywords
@@ -179,7 +180,7 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
           couple of lines, Sm for a compact note.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Textarea variant groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -190,7 +191,7 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -224,7 +225,7 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row" style={{ flexDirection: 'column', alignItems: 'center' }}>
               <div className="ds-variant-row__cell">
                 <div style={{ width: 240 }}>
@@ -249,7 +250,7 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
         </div>
 
         <div id="example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             Textarea-field pairs a Title label with the field and a hint row for validation
             and character count. Text editor toolbar adds a formatting bar above the field for
@@ -266,7 +267,7 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -423,7 +424,7 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Error replaces the border color to flag invalid input; Disabled dims the surface, blocks
           interaction, and removes the resize handle.
@@ -513,7 +514,7 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           A Textarea fills its container's width; minimum height and internal padding change
           between sizes, and content beyond six lines scrolls rather than growing the field.
@@ -577,7 +578,7 @@ export default function TextareaDoc({ onNavigate }: TextareaDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Textarea.</p>
         <div className="ds-related-grid">
           <button

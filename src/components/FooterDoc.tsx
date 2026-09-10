@@ -12,6 +12,7 @@ import { DropdownOption } from './Dropdown';
 import Button from './Button';
 import IconButton from './IconButton';
 import { ButtonIcon } from './icons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './UploadDoc.css';
 import './FooterDoc.css';
@@ -257,7 +258,7 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Footer</h1>
+        <DocTitle>Footer</DocTitle>
         <p className="ds-doc__lede">
           A Footer closes out a surface — a modal, a form, or a panel — and carries the
           actions that move a user forward, back, or out of it.
@@ -277,7 +278,7 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use Footer to anchor a surface's actions to its bottom edge, with a leading way out
           and a primary way forward always in the same place.
@@ -291,7 +292,7 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Every Footer carries a leading and a primary action; the secondary action is
           optional and only appears at the Lg size.
@@ -349,13 +350,13 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Style sets how Footer separates itself from the surface above — a hairline Divider
           or a lifting Shadow.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Footer style groups">
           {STYLE_TABS.map((tab) => (
             <button
@@ -366,7 +367,7 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
               className={`ds-line-tab${activeStyleTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStyleTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -403,7 +404,7 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row ds-variant-row--scrim">
               <div className="ds-variant-row__cell">
                 <div style={{ width: 320 }}>
@@ -426,7 +427,7 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
           </div>
 
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
+            <VariantLabel tabs>Example</VariantLabel>
             <div className="ds-line-tabs" role="tablist" aria-label="Footer example compositions">
               {EXAMPLE_TABS.map((tab) => (
                 <button
@@ -437,7 +438,7 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
                   className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                   onClick={() => setActiveExampleTab(tab)}
                 >
-                  {tab}
+                  <TabLabel>{tab}</TabLabel>
                 </button>
               ))}
             </div>
@@ -540,7 +541,7 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Each style maps to its own separation treatment, so a Footer always reads as
           attached to the surface it closes.
@@ -597,7 +598,7 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Lg and Sm share the same button gap and corner radius; only height, padding, and
           button size scale down together.
@@ -694,7 +695,7 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Footer.</p>
         <div className="ds-related-grid">
           <button

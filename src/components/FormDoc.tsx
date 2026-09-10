@@ -22,6 +22,7 @@ import {
   TableIcon,
   UploadIcon,
 } from './icons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './FormDoc.css';
 
@@ -740,7 +741,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Form</h1>
+        <DocTitle>Form</DocTitle>
         <p className="ds-doc__lede">
           A Form is a collapsible section that groups related fields into a responsive column
           grid — Input, Select, Textarea, DatePicker, Toggle, and Radio controls stack inside
@@ -761,7 +762,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           The default Form: a title with an info action, a two-column row of fields, and a
           collapse chevron.
@@ -792,7 +793,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Three parts: a Header, one or more Form-col rows of equal-width columns, and each
           column's stack of labeled Fields.
@@ -867,7 +868,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Every field type Form can contain, each in its default state — switch tabs to preview
           Input, Number Input, Select, Date Picker, Textarea, Toggle, Radio, Readonly, and Image
@@ -875,7 +876,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
           columns.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Field Type</span>
+        <VariantLabel tabs>Field Type</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Form field types">
           {FIELD_TYPE_TABS.map((tab) => (
             <button
@@ -886,7 +887,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
               className={`ds-line-tab${activeFieldTypeId === tab.id ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveFieldTypeId(tab.id)}
             >
-              {tab.label}
+              <TabLabel>{tab.label}</TabLabel>
             </button>
           ))}
         </div>
@@ -1039,7 +1040,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
           </Form>
         </div>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Column Layout</span>
+        <VariantLabel tabs>Column Layout</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Form column layouts">
           {COLUMN_LAYOUT_TABS.map((tab) => (
             <button
@@ -1050,7 +1051,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
               className={`ds-line-tab${activeColumnLayoutId === tab.id ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveColumnLayoutId(tab.id)}
             >
-              {tab.label}
+              <TabLabel>{tab.label}</TabLabel>
             </button>
           ))}
         </div>
@@ -1071,7 +1072,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
           </Form>
         </div>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
+        <VariantLabel tabs>Example</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Form composition examples">
           {EXAMPLE_TABS.map((tab) => (
             <button
@@ -1082,7 +1083,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
               className={`ds-line-tab${activeExampleId === tab.id ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveExampleId(tab.id)}
             >
-              {tab.label}
+              <TabLabel>{tab.label}</TabLabel>
             </button>
           ))}
         </div>
@@ -1096,7 +1097,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Form's own state is its collapse toggle. Its field controls each carry their own
           default / hover / focus / error / disabled states, documented on their own pages.
@@ -1116,7 +1117,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
               <td>Expanded</td>
               <td>
                 <button type="button" className="ds-line-tab" onClick={() => setCollapsedDemo(false)}>
-                  Show expanded
+                  <TabLabel>Show expanded</TabLabel>
                 </button>
               </td>
             </tr>
@@ -1124,7 +1125,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
               <td>Collapsed</td>
               <td>
                 <button type="button" className="ds-line-tab" onClick={() => setCollapsedDemo(true)}>
-                  Show collapsed
+                  <TabLabel>Show collapsed</TabLabel>
                 </button>
               </td>
             </tr>
@@ -1134,7 +1135,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Every measurement below comes from a token — no hardcoded values.
         </p>
@@ -1244,7 +1245,7 @@ export default function FormDoc({ onNavigate }: FormDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Form.</p>
         <div className="ds-related-grid">
           <button type="button" className="ds-related-card ds-related-card--link" onClick={() => onNavigate?.('input')}>

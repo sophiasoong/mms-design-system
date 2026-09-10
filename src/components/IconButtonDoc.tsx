@@ -9,6 +9,7 @@ import { Input } from './Input';
 import { Table, TableHeader, TableHeaderCell, TableRow, TableCell } from './Table';
 import Pagination from './Pagination';
 import { ButtonIcon, HeaderIcon, PaginationIcon, UploadIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './IconButtonDoc.css';
 
@@ -96,7 +97,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Icon button</h1>
+        <DocTitle>Icon button</DocTitle>
         <p className="ds-doc__lede">
           Icon buttons trigger an action using only an icon, for contexts where the icon alone
           communicates the action clearly. Use the variant to signal intent (primary, danger,
@@ -117,7 +118,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           The default Icon button is a Primary / Solid / Medium / Square button: high-emphasis,
           used for a single, clearly recognizable action such as closing a dialog.
@@ -129,7 +130,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           An icon button is composed of a container plus a single required icon slot — there is no
           label, so the container's <code>aria-label</code> carries the accessible name.
@@ -175,13 +176,13 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Variant sets intent; appearance sets emphasis. Not every variant supports every
           appearance — Danger has no Outline tokens defined in the current token set.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Icon button variant groups">
           {VARIANT_TABS.map((tab) => (
             <button
@@ -192,7 +193,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
               className={`ds-line-tab${activeVariantTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveVariantTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -281,7 +282,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Shape</span>
+            <VariantLabel>Shape</VariantLabel>
             <div className="ds-variant-row">
               <div className="ds-variant-row__cell">
                 <IconButton shape="square" icon="close" label="Close" />
@@ -295,7 +296,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
           </div>
 
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Size</span>
+            <VariantLabel>Size</VariantLabel>
             <div className="ds-variant-row">
               <div className="ds-variant-row__cell">
                 <IconButton size="sm" icon="close" label="Close" />
@@ -314,7 +315,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
         </div>
 
         <div id="variants-example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             Real compositions from elsewhere in the system, grouped by appearance — Ghost gathers
             a batch-upload modal, a collapsible form list of banner sections, and a data table
@@ -332,7 +333,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -459,7 +460,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Every variant/appearance pair defines default, hover, focus, and disabled states. Hover
           and focus are statically forced below for documentation purposes.
@@ -555,7 +556,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Container size scales by size token; padding and icon size stay fixed across all three
           sizes — only the hit area grows.
@@ -633,7 +634,7 @@ export default function IconButtonDoc({ onNavigate }: IconButtonDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">
           Components that commonly appear alongside Icon button.
         </p>

@@ -4,6 +4,7 @@ import Button from './Button';
 import { Checkbox } from './Checkbox';
 import { ProgressRing } from './Indicator';
 import { ButtonIcon, IndicatorIcon } from './icons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './DialogDoc.css';
 
@@ -24,7 +25,7 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Dialog</h1>
+        <DocTitle>Dialog</DocTitle>
         <p className="ds-doc__lede">
           A Dialog interrupts the current flow to ask for confirmation, surface a short message,
           or report progress. It always floats centered over a dimmed backdrop.
@@ -44,7 +45,7 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Dialog is a fixed-width card — a title and description, an optional opt-in checkbox,
           and a set of actions. Use it sparingly, for moments that truly need to block the user.
@@ -56,7 +57,7 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Four parts: a title, an optional description, an optional checkbox, and a row of
           actions.
@@ -123,14 +124,14 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Style controls the actions row: Confirm pairs an outline and a solid primary action,
           plus an optional opt-in checkbox; Destructive swaps the solid action for danger;
           Loading replaces the actions with a Progress ring.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Dialog style groups">
           {VARIANT_TABS.map((tab) => (
             <button
@@ -141,7 +142,7 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
               className={`ds-line-tab${activeVariantTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveVariantTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -197,7 +198,7 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Dialog itself has no interactive state of its own — the ones below belong to its
           primary action Button, already documented in full on the Button page.
@@ -285,7 +286,7 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Every measurement below comes from a token — no hardcoded values.
         </p>
@@ -360,7 +361,7 @@ export default function DialogDoc({ onNavigate }: DialogDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Dialog.</p>
         <div className="ds-related-grid">
           <button

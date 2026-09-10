@@ -124,6 +124,10 @@ export interface FormFieldProps {
   label: string;
   required?: boolean;
   info?: boolean;
+  /** Content for a Tooltip that appears above the label's info glyph on hover/focus —
+   * opt-in, only rendered when both `info` and this are set (same additive-prop
+   * convention as Form's header `infoTooltip` and TableHeaderCell's `infoTooltip`). */
+  infoTooltip?: ReactNode;
   className?: string;
   children: ReactNode;
 }
@@ -131,7 +135,12 @@ export interface FormFieldProps {
 /** A labeled field row (Figma's "Input-field" / "Select-field" / "Toggle-field" / etc.)
  * — a small label, optionally marked required or paired with an info glyph, above
  * arbitrary field content (Input, Select, Toggle, Radio, DateRangePicker, Textarea...). */
-export function FormField({ label, required, info, className, children }: FormFieldProps) {
+export function FormField({ label, required, info, infoTooltip, className, children }: FormFieldProps) {
+  const infoGlyph = (
+    <span className="icon icon--sm ds-form-field__info" aria-hidden="true">
+      info
+    </span>
+  );
   return (
     <div className={['ds-form-field', className].filter(Boolean).join(' ')}>
       <span className="ds-form-field__label">
@@ -141,11 +150,20 @@ export function FormField({ label, required, info, className, children }: FormFi
             *
           </span>
         )}
-        {info && (
-          <span className="icon icon--sm ds-form-field__info" aria-hidden="true">
-            info
+        {info && infoTooltip && (
+          <span className="ds-form-field__info-anchor" tabIndex={0}>
+            {infoGlyph}
+            <span className="ds-form-field__info-tooltip">
+              {/* top-right: the bubble grows rightward from the glyph (which always sits at
+                  the left of its column, just after the label), so it can't run off the form's
+                  left edge the way a centered bubble does — see Form.css for the arrow offset. */}
+              <Tooltip size="sm" position="top-right">
+                {infoTooltip}
+              </Tooltip>
+            </span>
           </span>
         )}
+        {info && !infoTooltip && infoGlyph}
       </span>
       {children}
     </div>

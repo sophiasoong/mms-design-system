@@ -6,6 +6,7 @@ import { Tag } from './Tag';
 import Button from './Button';
 import { IconButtonIcon, AssetsIcon } from './icons';
 import { ProductIcon, PromotionIcon } from './assetIcons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './ListDoc.css';
 
@@ -42,7 +43,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">List</h1>
+        <DocTitle>List</DocTitle>
         <p className="ds-doc__lede">
           A List is a single row in a set of results or entries — a search result with a
           thumbnail, a recent-search entry, or a compact uploaded-file row, all built from the
@@ -63,7 +64,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Stack Lists to build a search-results panel, a recent-searches dropdown, or a list of
           uploaded files — the row's background shifts on hover so a reader can track which one
@@ -78,7 +79,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           The Lg row — a search result — has the fullest anatomy: a thumbnail, a title with an
           optional filter chip, a subtitle, and a breadcrumb-style caption, all separated from the
@@ -169,7 +170,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Size changes both height and anatomy: Lg is the full search-result row above; Md drops
           to a single line with a leading icon and an optional trailing value; Sm is the most
@@ -177,7 +178,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
         </p>
 
         <div id="example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             List adapts to three real compositions: a recent-searches dropdown (Md), a live
             search-results panel with keyword highlighting (Lg), and a bulk-upload file list (Sm).
@@ -205,7 +206,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -426,7 +427,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
           )}
         </div>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Size</span>
+        <VariantLabel tabs>Size</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="List size groups">
           {SIZE_TABS.map((tab) => (
             <button
@@ -437,7 +438,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
               className={`ds-line-tab${activeSizeTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveSizeTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -509,7 +510,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           The whole row is a single hover target — background shifts uniformly regardless of
           size.
@@ -562,7 +563,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Every measurement below comes from a token — no hardcoded values.
         </p>
@@ -651,7 +652,7 @@ export default function ListDoc({ onNavigate }: ListDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">
           Components that commonly appear alongside List.
         </p>

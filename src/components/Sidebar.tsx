@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { CATEGORIES, COMPONENTS } from '../data/components';
+import { CATEGORIES, COMPONENTS, categoryLabel, componentName } from '../data/components';
+import { useLocale } from '../locale';
+import { useStrings } from '../i18n/strings';
 import {
   ActionPanelIcon,
   AnchorIcon,
@@ -98,6 +100,8 @@ interface SidebarProps {
 const COLLAPSE_QUERY = '(max-width: 1024px)';
 
 export default function Sidebar({ activeComponentId, onSelectComponent }: SidebarProps) {
+  const locale = useLocale();
+  const strings = useStrings().sidebar;
   const [query, setQuery] = useState('');
   const [collapsed, setCollapsed] = useState(() => window.matchMedia(COLLAPSE_QUERY).matches);
   const [focusPending, setFocusPending] = useState(false);
@@ -174,7 +178,12 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
 
   const showClear = searchFocused && query.length > 0;
 
-  const filtered = COMPONENTS.filter((c) => c.name.toLowerCase().includes(query.trim().toLowerCase()));
+  // Match either language regardless of the active locale, so a merchant browsing in 中 can
+  // still find "Button" and an English reader can paste 按鈕.
+  const needle = query.trim().toLowerCase();
+  const filtered = COMPONENTS.filter(
+    (c) => c.name.toLowerCase().includes(needle) || c.nameZh.includes(needle),
+  );
 
   // Group the (already-filtered) list under each CATEGORIES entry, in that order,
   // preserving each component's relative position within its group. A category with
@@ -199,7 +208,7 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
             type="button"
             className="ds-sidebar__toggle"
             onClick={() => setCollapsed((c) => !c)}
-            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            aria-label={collapsed ? strings.expand : strings.collapse}
             aria-pressed={collapsed}
           >
             <span className="icon" aria-hidden="true">
@@ -212,7 +221,7 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
           <button
             type="button"
             className="ds-sidebar__search-icon-btn"
-            aria-label="Search components"
+            aria-label={strings.searchComponents}
             onClick={handleSearchIconClick}
           >
             <span className="icon ds-sidebar__search-icon" aria-hidden="true">
@@ -222,12 +231,12 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
           <input
             type="text"
             className="ds-sidebar__search-input"
-            placeholder="Search component name"
+            placeholder={strings.searchPlaceholder}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setSearchFocused(true)}
             onBlur={() => setSearchFocused(false)}
-            aria-label="Search component name"
+            aria-label={strings.searchPlaceholder}
             tabIndex={collapsed ? -1 : undefined}
             ref={searchInputRef}
           />
@@ -237,7 +246,7 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
               className="ds-sidebar__search-clear"
               onMouseDown={preventBlur}
               onClick={handleClearSearch}
-              aria-label="Clear search"
+              aria-label={strings.clearSearch}
             >
               <span className="icon icon--sm icon--filled" aria-hidden="true">
                 cancel
@@ -249,10 +258,10 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
 
       <div className="ds-sidebar__scroll-wrap">
         <div className="ds-sidebar__scroll" onScroll={handleScroll} ref={scrollRef}>
-          <nav aria-label="Components">
+          <nav aria-label={strings.navLabel}>
             {groups.map((group) => (
               <div className="ds-sidebar__group" key={group.category.id}>
-                <p className="ds-sidebar__section-title">{group.category.label}</p>
+                <p className="ds-sidebar__section-title">{categoryLabel(group.category, locale)}</p>
                 <ul className="ds-sidebar__list" role="list">
                   {group.items.map((component) => (
                     <li key={component.id}>
@@ -261,10 +270,11 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
                           activeComponentId === component.id ? ' ds-sidebar__item--active' : ''
                         }`}
                         onClick={() => onSelectComponent(component.id)}
-                        title={component.name}
+                        title={componentName(component, locale)}
+                        data-component-id={component.id}
                       >
                         {renderItemIcon(component)}
-                        <span className="ds-sidebar__item-label">{component.name}</span>
+                        <span className="ds-sidebar__item-label">{componentName(component, locale)}</span>
                       </button>
                     </li>
                   ))}
@@ -273,7 +283,7 @@ export default function Sidebar({ activeComponentId, onSelectComponent }: Sideba
             ))}
             {groups.length === 0 && (
               <ul className="ds-sidebar__list" role="list">
-                <li className="ds-sidebar__empty">No components found</li>
+                <li className="ds-sidebar__empty">{strings.noResults}</li>
               </ul>
             )}
           </nav>

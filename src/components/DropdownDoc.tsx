@@ -3,6 +3,7 @@ import type { UIEvent } from 'react';
 import Dropdown, { DropdownOption, ExpanderOption } from './Dropdown';
 import Button from './Button';
 import { SelectIcon, ChipIcon } from './icons';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 
 function syncScrollbarThumb(scrollEl: HTMLDivElement, thumb: HTMLDivElement | null) {
@@ -131,7 +132,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Dropdown</h1>
+        <DocTitle>Dropdown</DocTitle>
         <p className="ds-doc__lede">
           A Dropdown presents a list of options in a floating panel. Use Single-select when only
           one option can be chosen at a time, and Multi-select — with checkboxes and a Reset /
@@ -152,7 +153,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           The default Dropdown is a Single-select panel: one option is selected at a time, and
           picking a new option closes the panel immediately — there is no footer.
@@ -164,7 +165,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           A dropdown panel is a floating surface holding a scrollable list of options, plus an
           optional footer for Multi-select confirmation.
@@ -248,13 +249,13 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Style controls selection behavior: Single-select highlights one option and needs no
           confirmation; Multi-select shows a checkbox per option and requires Apply to confirm.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Style</span>
+        <VariantLabel tabs>Style</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Dropdown variant groups">
           {VARIANT_TABS.map((tab) => (
             <button
@@ -265,7 +266,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
               className={`ds-line-tab${activeVariantTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveVariantTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -551,7 +552,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
 
         <div className="ds-variant-groups">
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Width</span>
+            <VariantLabel>Width</VariantLabel>
             <div className="ds-variant-row">
               <div className="ds-variant-row__cell">
                 <Dropdown style="single" options={SAMPLE_OPTIONS.slice(0, 3)} showFooter={false} width="sm" />
@@ -565,7 +566,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
           </div>
 
           <div className="ds-variant-group">
-            <span className="ds-variant-group__label">Example</span>
+            <VariantLabel>Example</VariantLabel>
 
             <div className="ds-variant-row">
               <div className="ds-variant-row__cell">
@@ -656,7 +657,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           Every option row defines default, hover, selected, and disabled states. Hover is
           statically forced below for documentation purposes.
@@ -671,7 +672,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
               className={`ds-line-tab${activeStateTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveStateTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -892,7 +893,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Option rows stay a fixed height across styles; only horizontal padding changes to make
           room for the Multi-select checkbox.
@@ -972,7 +973,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Dropdown.</p>
         <div className="ds-related-grid">
           <button

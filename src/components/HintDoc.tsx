@@ -9,6 +9,7 @@ import Pagination from './Pagination';
 import List from './List';
 import { ProductIcon, PromotionIcon } from './assetIcons';
 import { DropdownIcon, TableIcon, SearchbarIcon } from './icons';
+import { DocTitle, SectionTitle, SectionSubtitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './Table.css';
 import './ModalDoc.css';
@@ -79,7 +80,7 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Hint</h1>
+        <DocTitle>Hint</DocTitle>
         <p className="ds-doc__lede">
           A Hint is a small tooltip-style bubble that surfaces extra information or guidance
           without disrupting the interface. It appears after roughly 0.3s of hovering or
@@ -101,7 +102,7 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Hint is passive, read-only content — it never carries its own interactivity. It rides
           along with the element that triggers it (a Select option, a truncated label, a form
@@ -114,7 +115,7 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           Just two parts — a shadowed container that carries the surface, and the text it holds.
         </p>
@@ -150,14 +151,14 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Size controls only the max-width the label can wrap within — pick it by host
           component, not by content length: Md (240px) inside a Dropdown, Lg (600px) inside a
           Modal.
         </p>
 
-        <span className="ds-variant-group__label ds-variant-tabs-label">Size</span>
+        <VariantLabel tabs>Size</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Hint size groups">
           {SIZE_TABS.map((tab) => (
             <button
@@ -168,7 +169,7 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
               className={`ds-line-tab${activeSizeTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveSizeTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -191,7 +192,7 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
         </div>
 
         <div id="example" className="ds-section__subsection">
-          <h3 className="ds-section__subtitle">Example</h3>
+          <SectionSubtitle>Example</SectionSubtitle>
           <p className="ds-section__desc">
             Hint rides along with whatever component truncates its own content — a Table
             cell's overflowing text (Md), or a Search bar result's overflowing keyword line
@@ -208,7 +209,7 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
                 className={`ds-line-tab${activeExampleTab === tab ? ' ds-line-tab--active' : ''}`}
                 onClick={() => setActiveExampleTab(tab)}
               >
-                {tab}
+                <TabLabel>{tab}</TabLabel>
               </button>
             ))}
           </div>
@@ -375,7 +376,7 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Padding, radius, and type are fixed across both sizes — only max-width changes.
         </p>
@@ -436,7 +437,7 @@ export default function HintDoc({ onNavigate }: HintDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">
           Components that commonly appear alongside Hint.
         </p>

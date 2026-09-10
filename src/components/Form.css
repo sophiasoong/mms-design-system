@@ -186,6 +186,45 @@
   color: var(--brand-secondary-600); /* brand/secondary/600 */
 }
 
+/* Opt-in hover/focus anchor for FormField's `infoTooltip` prop — same position:relative
+   host + hidden-until-hover bubble as .ds-form__info-anchor above (and Table.css's
+   .ds-datatable__header-info-anchor), pinned to the label's info glyph so it stays put
+   regardless of the label's length. Renders above the label: the field's own control sits
+   directly below, so "top" is the only side that never covers the input.
+
+   Unlike those two (centered bubbles), this uses the Tooltip's top-right variant: a field
+   label sits at the left edge of its column, so a bubble centered on the glyph runs off the
+   form's left edge (observed on Tooltip doc's Form header tab). top-right lands the arrow
+   at the wrapper's left (Tooltip.css: arrow-wrapper padding-inline xl, then the 16px arrow),
+   so the wrapper's left edge is shifted back by padding-xl + half the arrow to keep the
+   arrow's tip centered on the glyph. */
+.ds-form-field__info-anchor {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ds-form-field__info-tooltip {
+  position: absolute;
+  bottom: calc(100% + var(--space-component-gap-xs)); /* space/component/gap/xs, above the label */
+  left: 50%;
+  /* space/component/padding/xl (Tooltip's arrow-wrapper inset) + 8px = half the arrow SVG's
+     hardcoded 16px width (Tooltip.tsx geometry, not a design value — no token applies). */
+  transform: translateX(calc(-1 * (var(--space-component-padding-xl) + 8px)));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) ease;
+  z-index: 10; /* same tier as .ds-form__info-tooltip — see its note on raw z-index */
+  white-space: normal;
+}
+
+.ds-form-field__info-anchor:hover .ds-form-field__info-tooltip,
+.ds-form-field__info-anchor:focus-visible .ds-form-field__info-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
 .ds-form-field__value {
   font-size: var(--typography-sm-font-size); /* typography/sm/font-size */
   line-height: var(--typography-sm-line-height); /* typography/sm/line-height */

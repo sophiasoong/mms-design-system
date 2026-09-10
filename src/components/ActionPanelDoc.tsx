@@ -12,6 +12,7 @@ import IconButton from './IconButton';
 import { Step, type StepItemData } from './Step';
 import { HeaderIcon, ButtonIcon, RadioIcon, SelectIcon, BadgeIcon } from './icons';
 import { useBrandMode } from '../brandMode';
+import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
 import './ActionPanelDoc.css';
 
@@ -119,7 +120,7 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
     <div className="ds-doc">
       <header className="ds-doc__header">
         <span className="ds-doc__eyebrow">Component</span>
-        <h1 className="ds-doc__title">Action panel</h1>
+        <DocTitle>Action panel</DocTitle>
         <p className="ds-doc__lede">
           An Action panel is a small, self-contained surface for a focused set of controls —
           filters, quick settings, or read-only details — attached beside the content it acts on.
@@ -139,7 +140,7 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="overview" className="ds-section">
-        <h2 className="ds-section__title">Overview</h2>
+        <SectionTitle>Overview</SectionTitle>
         <p className="ds-section__desc">
           Use an Action panel beside a list or table to hold the controls that filter or act on
           it — Main and Main2 are two generic content slots, divided by a rule only when both
@@ -166,7 +167,7 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="anatomy" className="ds-section">
-        <h2 className="ds-section__title">Anatomy</h2>
+        <SectionTitle>Anatomy</SectionTitle>
         <p className="ds-section__desc">
           A header titles the panel; Main and Main2 hold arbitrary content composed from other
           components, not markup the panel owns itself.
@@ -237,12 +238,12 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="variants" className="ds-section">
-        <h2 className="ds-section__title">Variants</h2>
+        <SectionTitle>Variants</SectionTitle>
         <p className="ds-section__desc">
           Main and Main2 are interchangeable — either slot can hold read-only fields, form
           controls, buttons, or both at once.
         </p>
-        <span className="ds-variant-group__label ds-variant-tabs-label">Example</span>
+        <VariantLabel tabs>Example</VariantLabel>
         <div className="ds-line-tabs" role="tablist" aria-label="Action panel variant groups">
           {VARIANT_TABS.map((tab) => (
             <button
@@ -253,7 +254,7 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
               className={`ds-line-tab${activeVariantTab === tab ? ' ds-line-tab--active' : ''}`}
               onClick={() => setActiveVariantTab(tab)}
             >
-              {tab}
+              <TabLabel>{tab}</TabLabel>
             </button>
           ))}
         </div>
@@ -346,7 +347,7 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="states" className="ds-section">
-        <h2 className="ds-section__title">States</h2>
+        <SectionTitle>States</SectionTitle>
         <p className="ds-section__desc">
           The interactive parts the panel itself owns are the header's info icon button and,
           when collapsible, the footer's expand/collapse chevron — Main and Main2 content
@@ -429,7 +430,7 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="layout-spacing" className="ds-section">
-        <h2 className="ds-section__title">Layout &amp; Spacing</h2>
+        <SectionTitle>Layout &amp; Spacing</SectionTitle>
         <p className="ds-section__desc">
           Main and Main2 share the same padding and corner radius; only their internal gap
           differs to match Figma.
@@ -540,7 +541,7 @@ export default function ActionPanelDoc({ onNavigate }: ActionPanelDocProps) {
 
       {/* ---------------------------------------------------------------- */}
       <section id="related-component" className="ds-section">
-        <h2 className="ds-section__title">Related Components</h2>
+        <SectionTitle>Related Components</SectionTitle>
         <p className="ds-section__desc">Components that commonly appear alongside Action panel.</p>
         <div className="ds-related-grid">
           <button
