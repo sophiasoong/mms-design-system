@@ -1,10 +1,25 @@
 import { useState } from 'react';
 import Button from './Button';
 import IconButton from './IconButton';
+import Banner from './Banner';
+import ActionPanel from './ActionPanel';
+import {
+  Table,
+  TableHeader,
+  TableHeaderCell,
+  TableSelectHeaderCell,
+  TableRow,
+  TableCell,
+  TableSelectCell,
+} from './Table';
+import { Searchbar } from './Searchbar';
+import { FilterChip } from './Chip';
+import Pagination from './Pagination';
 import { IconButtonIcon, FooterIcon, DropdownIcon, TableIcon } from './icons';
 import { useBrandMode, brandLogoSrc } from '../brandMode';
 import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
+import './Table.css';
 
 const FIGMA_URL =
   'https://www.figma.com/design/RU2sCgGMuU0PXUhKwYcpfr/MMS-Web-AI-Design-System?node-id=1-318';
@@ -17,6 +32,139 @@ type StateTab = (typeof STATE_TABS)[number];
 
 const EXAMPLE_TABS = ['Solid', 'Outline', 'Ghost'] as const;
 type ExampleTab = (typeof EXAMPLE_TABS)[number];
+
+/* The Outline and Ghost tabs' Table instance mirrors TableDoc's Example (same columns and SKU
+   rows) with a Banner above it, as on BannerDoc's Brand page; the data is duplicated here per
+   the doc-scoped convention rather than exported from TableDoc. */
+interface ExampleTableRow {
+  sku: string;
+  brand: string;
+  name: string;
+  category: string;
+  originalPrice: string;
+  sellingPrice: string;
+  merchant: string;
+  discount: string;
+}
+
+const EXAMPLE_TABLE_ROWS: ExampleTableRow[] = [
+  { sku: 'SKU-100234', brand: 'Nestlé', name: 'Nescafé Gold Blend 200g', category: 'Beverages', originalPrice: '$144', sellingPrice: '$138', merchant: 'Merchant A', discount: '8%' },
+  { sku: 'SKU-100235', brand: 'Unilever', name: 'Dove Body Wash 500ml', category: 'Personal Care', originalPrice: '$89', sellingPrice: '$79', merchant: 'Merchant A', discount: '12%' },
+  { sku: 'SKU-100236', brand: 'P&G', name: 'Pampers Diapers Size 3', category: 'Baby Care', originalPrice: '$210', sellingPrice: '$195', merchant: 'Merchant B', discount: '5%' },
+  { sku: 'SKU-100237', brand: 'Nestlé', name: 'KitKat 4 Finger 41.5g', category: 'Snacks', originalPrice: '$18', sellingPrice: '$16', merchant: 'Merchant B', discount: '15%' },
+  { sku: 'SKU-100238', brand: 'Colgate', name: 'Colgate Total Toothpaste 150g', category: 'Oral Care', originalPrice: '$32', sellingPrice: '$28', merchant: 'Merchant A', discount: '10%' },
+  { sku: 'SKU-100239', brand: 'Kellogg’s', name: 'Corn Flakes Original 500g', category: 'Breakfast & Cereal', originalPrice: '$45', sellingPrice: '$40', merchant: 'Merchant C', discount: '11%' },
+  { sku: 'SKU-100240', brand: 'Johnson & Johnson', name: 'Baby Shampoo No More Tears 300ml', category: 'Health & Wellness', originalPrice: '$56', sellingPrice: '$52', merchant: 'Merchant B', discount: '7%' },
+  { sku: 'SKU-100241', brand: 'Coca-Cola', name: 'Coca-Cola Classic 1.5L', category: 'Soft Drinks', originalPrice: '$28', sellingPrice: '$25', merchant: 'Merchant C', discount: '11%' },
+  { sku: 'SKU-100242', brand: 'L’Oréal', name: 'Elvive Shampoo 400ml', category: 'Beauty & Care', originalPrice: '$68', sellingPrice: '$59', merchant: 'Merchant A', discount: '13%' },
+  { sku: 'SKU-100243', brand: 'Nestlé', name: 'Milo Chocolate Malt Drink 400g', category: 'Dairy & Nutrition', originalPrice: '$52', sellingPrice: '$47', merchant: 'Merchant B', discount: '10%' },
+];
+
+/* Shared by the Outline and Ghost tabs; `highlight` picks which appearance the hover treatment
+   rings (everything else dims) — see the .ds-example-mock--highlight-* rules in ButtonDoc.css.
+   Outline: Refresh / Export. Ghost: Banner's Submit MCS Form, Reset, and each row's Edit / Delete. */
+function ExampleTablePage({ highlight }: { highlight: 'outline' | 'ghost' }) {
+  return (
+    <div className={`ds-example-mock ds-example-mock--table-page ds-example-mock--highlight-${highlight}`}>
+      <Banner
+        state="info"
+        layout="single-line"
+        description="After creating a new brand, please remember to submit the Zendesk webform so our team can verify the brand details."
+        buttonLabel="Submit MCS Form"
+        showClose={false}
+      />
+      <div className="ds-table-example">
+        <div className="ds-table-toolbar">
+          <div className="ds-table-toolbar__search-wrap">
+            <Searchbar size="md" placeholder="Search" scopeLabel="SKU ID" />
+          </div>
+          <div className="ds-table-toolbar__filters">
+            <div className="ds-table-filter">
+              <FilterChip label="Category" />
+            </div>
+            <div className="ds-table-filter">
+              <FilterChip label="Status" />
+            </div>
+          </div>
+          <div className="ds-table-toolbar__actions">
+            <Button variant="primary" appearance="ghost" size="md">
+              Reset
+            </Button>
+          </div>
+        </div>
+
+        <div className="ds-table-results">
+          <span className="ds-table-results__count">1–10 of 10 results</span>
+          <div className="ds-table-results__actions">
+            <span className="ds-table-results__updated">Last Updated 2026-04-28 09:15</span>
+            <Button variant="primary" appearance="outline" size="md">
+              Refresh
+            </Button>
+            <Button variant="primary" appearance="outline" size="md">
+              Export
+            </Button>
+          </div>
+        </div>
+
+        <div className="ds-table-example__scroll">
+          <div className="ds-table-example__frame">
+            <Table size="md">
+              <TableHeader>
+                <TableSelectHeaderCell checked={false} />
+                <TableHeaderCell width={88}>Image</TableHeaderCell>
+                <TableHeaderCell width={140} info>SKU ID</TableHeaderCell>
+                <TableHeaderCell width={140} info>Brand</TableHeaderCell>
+                <TableHeaderCell width={320}>SKU Name</TableHeaderCell>
+                <TableHeaderCell width={140}>Category</TableHeaderCell>
+                <TableHeaderCell width={100} align="right">Original Price</TableHeaderCell>
+                <TableHeaderCell width={100} align="right">Selling Price</TableHeaderCell>
+                <TableHeaderCell width={110}>Merchant</TableHeaderCell>
+                <TableHeaderCell width={90} align="right">Discount</TableHeaderCell>
+                <TableHeaderCell align="center" className="ds-table-example__action-cell">
+                  Action
+                </TableHeaderCell>
+              </TableHeader>
+              {EXAMPLE_TABLE_ROWS.map((row) => (
+                <TableRow key={row.sku}>
+                  <TableSelectCell checked={false} />
+                  <TableCell>
+                    <span className="ds-datatable__cell-thumbnail">
+                      <span className="icon icon--sm" aria-hidden="true">
+                        image
+                      </span>
+                    </span>
+                  </TableCell>
+                  <TableCell>{row.sku}</TableCell>
+                  <TableCell>{row.brand}</TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.category}</TableCell>
+                  <TableCell align="right">{row.originalPrice}</TableCell>
+                  <TableCell align="right">{row.sellingPrice}</TableCell>
+                  <TableCell>{row.merchant}</TableCell>
+                  <TableCell align="right">{row.discount}</TableCell>
+                  <TableCell align="center" className="ds-table-example__action-cell">
+                    <div className="ds-table-example__action-buttons">
+                      <Button variant="primary" appearance="ghost" size="sm">
+                        Edit
+                      </Button>
+                      <Button variant="danger" appearance="ghost" size="sm">
+                        Delete
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </Table>
+          </div>
+        </div>
+
+        <div className="ds-table-example__pagination">
+          <Pagination currentPage={1} totalPages={10} />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 interface ButtonDocProps {
   onNavigate?: (componentId: string) => void;
@@ -432,6 +580,30 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
                       </div>
                     </div>
                   </div>
+
+                  <div className="ds-example-mock-item">
+                    <span className="ds-example-mock__name">Action panel</span>
+                    {/* Same composition as ActionPanelDoc's "Buttons only" variant; the
+                        --highlight-outline rules ring Reject / Escalate on hover and dim the
+                        header and the solid Approve. */}
+                    <div className="ds-example-mock ds-example-mock--action-panel ds-example-mock--highlight-outline">
+                      <ActionPanel
+                        title="Review"
+                        main={
+                          <>
+                            <Button>Approve</Button>
+                            <Button appearance="outline">Reject</Button>
+                            <Button appearance="outline">Escalate</Button>
+                          </>
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <div className="ds-example-mock-item">
+                    <span className="ds-example-mock__name">Table</span>
+                    <ExampleTablePage highlight="outline" />
+                  </div>
                 </div>
               ) : (
                 <div className="ds-example-mocks">
@@ -466,7 +638,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
                   </div>
 
                   <div className="ds-example-mock-item">
-                    <span className="ds-example-mock__name">Modal footer</span>
+                    <span className="ds-example-mock__name">Footer</span>
                     <div className="ds-example-mock ds-example-mock--modal-footer">
                       <Button
                         variant="primary"
@@ -479,7 +651,7 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
                       </Button>
                       <div className="ds-example-mock__group">
                         <Button variant="primary" appearance="outline" size="md" className="ds-example-mock__dim">
-                          Confirm
+                          Cancel
                         </Button>
                         <Button variant="primary" appearance="solid" size="md" className="ds-example-mock__dim">
                           Confirm
@@ -489,33 +661,8 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
                   </div>
 
                   <div className="ds-example-mock-item">
-                    <span className="ds-example-mock__name">Banner</span>
-                    <div className="ds-example-mock ds-example-mock--banner">
-                      <span className="icon ds-example-mock__banner-icon ds-example-mock__dim" aria-hidden="true">
-                        info
-                      </span>
-                      <p className="ds-example-mock__banner-text ds-example-mock__dim">
-                        After creating a new brand, please remember to submit the Zendesk webform so our team can
-                        verify the brand details.
-                      </p>
-                      <Button variant="primary" appearance="ghost" size="sm" className="ds-example-mock__focus">
-                        Submit MCS Form
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className="ds-example-mock-item">
                     <span className="ds-example-mock__name">Table</span>
-                    <div className="ds-example-mock ds-example-mock--table">
-                      <div className="ds-example-mock__table-header ds-example-mock__dim">Action</div>
-                      {[0, 1, 2].map((i) => (
-                        <div className="ds-example-mock__table-row" key={i}>
-                          <Button variant="primary" appearance="ghost" size="sm" className="ds-example-mock__focus">
-                            Edit
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
+                    <ExampleTablePage highlight="ghost" />
                   </div>
                 </div>
               )}
