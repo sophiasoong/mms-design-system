@@ -336,7 +336,7 @@
 .ds-anatomy__legend strong {
   color: var(--text-heading-primary-neutral);
 }
-.ds-anatomy__legend span {
+.ds-anatomy__legend span:not(.ds-anatomy__legend-num) {
   color: var(--text-body-secondary-neutral);
 }
 
