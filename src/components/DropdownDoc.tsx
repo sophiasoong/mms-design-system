@@ -5,6 +5,7 @@ import Button from './Button';
 import { SelectIcon, ChipIcon } from './icons';
 import { DocTitle, SectionTitle, VariantLabel, TabLabel } from './DocHeading';
 import './ButtonDoc.css';
+import './DropdownDoc.css';
 
 function syncScrollbarThumb(scrollEl: HTMLDivElement, thumb: HTMLDivElement | null) {
   if (!thumb) return;
@@ -568,7 +569,7 @@ export default function DropdownDoc({ onNavigate }: DropdownDocProps) {
           <div className="ds-variant-group">
             <VariantLabel>Example</VariantLabel>
 
-            <div className="ds-variant-row">
+            <div className="ds-variant-row ds-example-dropdown-set">
               <div className="ds-variant-row__cell">
                 <div className="ds-combo-figure">
                   <button type="button" className="ds-filter-chip">

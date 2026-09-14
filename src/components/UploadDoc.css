@@ -78,7 +78,7 @@
    opacity composites a dimmed ancestor's whole subtree — a nested Upload can't "undo" its
    ancestor's opacity by setting its own back to 1. */
 .ds-upload-doc__example-form .ds-form-list-item:hover .ds-upload-image-item {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 .ds-upload-doc__example-form .ds-form-list-item__header,
@@ -105,7 +105,7 @@
    list — same opacity-compositing reason as the Image grid rules, since dimming it would
    dim the nested Dropzone too. */
 .ds-upload-doc__example-modal:hover .ds-upload-dropzone {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 .ds-upload-doc__example-modal .ds-header,

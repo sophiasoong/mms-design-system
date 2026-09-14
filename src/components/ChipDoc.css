@@ -41,7 +41,7 @@
 }
 
 .ds-example-chip-tabs:hover .ds-example-chip-tabs__chips .ds-chip {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 /* ---- Table filter-chips tab — Filter chip is the highlight target; the search bar and
@@ -69,7 +69,7 @@
 }
 
 .ds-example-chip-table:hover .ds-table-toolbar__filters .ds-chip {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 /* The default .ds-example-mock__name color reads at near-zero contrast on the Filter chip
@@ -77,6 +77,17 @@
    .ds-variant-row--scrim .ds-variant-row__cell-label. */
 .ds-preview--scrim .ds-example-mock__name {
   color: var(--brand-neutral-0);
+}
+
+/* ---- Input chip tab: Textarea — every Input chip rings on hover. The Textarea's own
+   border/field is the chips' ancestor, so nothing dims here (opacity would compound onto
+   the chips); the empty inline chip field is the only sibling and has nothing to dim. */
+.ds-example-chip-textarea .ds-chip {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-chip-textarea:hover .ds-chip {
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 /* ---- Example > Action chip ----
@@ -109,6 +120,54 @@
    tab's size rows above) and elsewhere keeps its default bordered card look. */
 .ds-chip-doc__action-example .ds-variant-row {
   border-color: transparent;
+}
+
+/* Select mock hover: the Input chips inside both triggers ring; the chevron beside them is
+   the only sibling branch without a chip, so it dims. The Select's own border is the chips'
+   ancestor and stays put (opacity would compound onto the chips). */
+.ds-example-chip-select .ds-chip {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-chip-select:hover .ds-chip {
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
+}
+
+/* The inline trigger's chip row clips its overflow (that is how it truncates to a "+N" badge)
+   and its chips sit flush against the row's edges, so the ring above would be cut off on
+   every side. Padding the row by the ring width and pulling it back out with a matching
+   negative margin gives the ring room to draw without moving the chips or changing the
+   row's outer box (so the overflow measurement stays exact). */
+.ds-example-chip-select__inline-row {
+  padding: var(--border-md); /* border/md — one ring width of room */
+  margin: calc(-1 * var(--border-md)); /* border/md — cancels the padding in layout */
+}
+
+.ds-example-chip-select .ds-select__chevron {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-chip-select:hover .ds-select__chevron {
+  opacity: var(--opacity-40); /* opacity/40 */
+}
+
+/* Search bar mock hover: the Action chips (the suggestion row, or the one promoted into the
+   Searchbar as its filter chip) ring; the Searchbar dims only while it holds no chip, since
+   dimming it with a chip inside would compound onto that chip. */
+.ds-chip-doc__searchbar-example .ds-chip {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-chip-doc__searchbar-example:hover .ds-chip {
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
+}
+
+.ds-chip-doc__searchbar-example .ds-searchbar {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-chip-doc__searchbar-example:hover .ds-searchbar:not(:has(.ds-chip)) {
+  opacity: var(--opacity-40); /* opacity/40 */
 }
 
 /* The Search bar mock (Searchbar + its Product/Promotion Action chip suggestions) sits in

@@ -53,6 +53,15 @@
   color: var(--brand-primary-600);
 }
 
+/* ---- States table: Preview column ----
+   400px, so both Footer styles render at a realistic width beside their swatch. No token is
+   exactly 400px; this derives it from Modal's sm width (component/width/modal/sm, 432px)
+   minus its horizontal padding (2 × space/component/padding/lg, 16px) — the same derivation
+   ButtonDoc.css's .ds-example-mock-frame uses for the Upload and Footer instances. */
+.ds-footer-doc__preview-cell {
+  width: calc(var(--component-width-modal-sm) - 2 * var(--space-component-padding-lg));
+}
+
 /* ---- Variants > Example: hover-dim/highlight ----
    Each tab renders one full composition (Modal's own footer, a page-level Form footer, or
    a Dropdown panel's own footer), so hovering spotlights Footer's role inside a real
@@ -64,7 +73,7 @@
 }
 
 .ds-footer-doc__example:hover .ds-footer {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 /* Modal tab — dim the modal's Header and body, leaving its Footer lit. */

@@ -23,7 +23,7 @@
 }
 
 .ds-example-badge-table:hover .ds-datatable__cell:has(.ds-badge) .ds-badge {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 .ds-example-badge-action-panel .ds-action-panel__header,
@@ -44,5 +44,5 @@
 }
 
 .ds-example-badge-action-panel:hover .ds-action-panel__field:has(.ds-badge) .ds-badge {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }

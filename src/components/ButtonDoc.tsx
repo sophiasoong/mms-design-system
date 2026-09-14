@@ -550,33 +550,35 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
                 <div className="ds-example-mocks">
                   <div className="ds-example-mock-item">
                     <span className="ds-example-mock__name">Upload</span>
-                    <div className="ds-example-mock ds-example-mock--upload">
-                      <Button
-                        variant="primary"
-                        appearance="outline"
-                        size="md"
-                        leadingIcon="upload"
-                        className="ds-example-mock__focus"
-                      >
-                        Upload
-                      </Button>
-                      <div className="ds-example-mock__file-list">
-                        {[0, 1, 2, 3].map((i) => (
-                          <div className="ds-example-mock__file-row" key={i}>
-                            <span className="icon ds-example-mock__file-icon ds-example-mock__dim" aria-hidden="true">
-                              attach_file
-                            </span>
-                            <span className="ds-example-mock__file-name ds-example-mock__dim">WWWWWWW.xls</span>
-                            <IconButton
-                              icon="delete"
-                              label={`Delete file ${i + 1}`}
-                              variant="neutral"
-                              appearance="ghost"
-                              size="sm"
-                              className="ds-example-mock__dim"
-                            />
-                          </div>
-                        ))}
+                    <div className="ds-example-mock-frame">
+                      <div className="ds-example-mock ds-example-mock--upload">
+                        <Button
+                          variant="primary"
+                          appearance="outline"
+                          size="md"
+                          leadingIcon="upload"
+                          className="ds-example-mock__focus"
+                        >
+                          Upload
+                        </Button>
+                        <div className="ds-example-mock__file-list">
+                          {[0, 1, 2, 3].map((i) => (
+                            <div className="ds-example-mock__file-row" key={i}>
+                              <span className="icon ds-example-mock__file-icon ds-example-mock__dim" aria-hidden="true">
+                                attach_file
+                              </span>
+                              <span className="ds-example-mock__file-name ds-example-mock__dim">WWWWWWW.xls</span>
+                              <IconButton
+                                icon="delete"
+                                label={`Delete file ${i + 1}`}
+                                variant="neutral"
+                                appearance="ghost"
+                                size="sm"
+                                className="ds-example-mock__dim"
+                              />
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -639,23 +641,25 @@ export default function ButtonDoc({ onNavigate }: ButtonDocProps) {
 
                   <div className="ds-example-mock-item">
                     <span className="ds-example-mock__name">Footer</span>
-                    <div className="ds-example-mock ds-example-mock--modal-footer">
-                      <Button
-                        variant="primary"
-                        appearance="ghost"
-                        size="md"
-                        leadingIcon="arrow_back"
-                        className="ds-example-mock__focus"
-                      >
-                        Back
-                      </Button>
-                      <div className="ds-example-mock__group">
-                        <Button variant="primary" appearance="outline" size="md" className="ds-example-mock__dim">
-                          Cancel
+                    <div className="ds-example-mock-frame">
+                      <div className="ds-example-mock ds-example-mock--modal-footer">
+                        <Button
+                          variant="primary"
+                          appearance="ghost"
+                          size="md"
+                          leadingIcon="arrow_back"
+                          className="ds-example-mock__focus"
+                        >
+                          Back
                         </Button>
-                        <Button variant="primary" appearance="solid" size="md" className="ds-example-mock__dim">
-                          Confirm
-                        </Button>
+                        <div className="ds-example-mock__group">
+                          <Button variant="primary" appearance="outline" size="md" className="ds-example-mock__dim">
+                            Cancel
+                          </Button>
+                          <Button variant="primary" appearance="solid" size="md" className="ds-example-mock__dim">
+                            Confirm
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>

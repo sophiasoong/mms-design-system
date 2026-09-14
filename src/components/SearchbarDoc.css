@@ -29,7 +29,7 @@
 }
 
 .ds-searchbar-example:hover .ds-searchbar-example__focus {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 /* ---- Global search ----
@@ -84,7 +84,7 @@
 }
 
 .ds-searchbar-example--global:hover .ds-app-topbar__search {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 /* Once the results panel opens, its own embedded Searchbar becomes the one active field on

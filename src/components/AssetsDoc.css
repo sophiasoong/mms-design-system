@@ -142,7 +142,7 @@
 }
 
 .ds-assets__dropdown-demo:hover .ds-image__illustration {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100);
 }
 
 /* Image tab's Table-demo item — same convention, scoped off the shared .ds-table-example/
@@ -165,7 +165,7 @@
 }
 
 .ds-assets__image-example__item .ds-table-example:hover .ds-table-empty .ds-image__illustration {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100);
 }
 
 /* Example subsection's Thumbnail tab — the Search-dropdown demo and the duplicated Message
@@ -211,7 +211,7 @@
 }
 
 .ds-assets__thumbnail-demo:hover .ds-list__thumb {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100);
 }
 
 /* Same panel treatment as List's own Search Results instance (xl radius, no shadow) —
@@ -306,7 +306,7 @@
 }
 
 .ds-assets__message-demo:hover .ds-message__thumb {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100);
 }
 
 .ds-assets__message-demo .ds-message__body,
@@ -369,7 +369,7 @@
 }
 
 .ds-assets__table-image-demo:hover .ds-thumbnail--table {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100);
 }
 
 /* Example subsection's Thumbnail tab — Table upload instance (Figma 995:34284): Upload's
@@ -404,7 +404,7 @@
 }
 
 .ds-assets__table-upload-demo:hover .ds-upload-image-item {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100);
 }
 
 /* Example subsection's Thumbnail tab — Form upload image instance (Figma 1858:99005,
@@ -442,7 +442,7 @@
 }
 
 .ds-assets__form-upload-demo:hover .ds-upload-image-item {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100);
 }
 
 /* Figma's plain full-width "Header" divider row (bold label + info glyph) that separates

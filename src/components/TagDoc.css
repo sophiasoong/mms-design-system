@@ -31,7 +31,7 @@
 }
 
 .ds-tag-example-message:hover .ds-message__tag {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary — Tag already has its own radius/sm to follow */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 — Tag already has its own radius/sm to follow */
 }
 
 /* Notification Panel layout — duplicated from MessageDoc.css's own
@@ -94,7 +94,7 @@
 }
 
 .ds-tag-example-searchbar:hover .ds-list__tag {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary — Tag already has its own radius/sm to follow */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 — Tag already has its own radius/sm to follow */
 }
 
 /* Global Search layout — duplicated from ListDoc.css's own

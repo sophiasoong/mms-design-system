@@ -532,7 +532,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
           <tbody>
             <tr>
               <td>Modal</td>
-              <td style={{ width: 240 }}>
+              <td className="ds-header-doc__preview-cell">
                 <Header style="modal" title="Title" />
               </td>
               <td>
@@ -544,7 +544,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
             </tr>
             <tr>
               <td>Form</td>
-              <td style={{ width: 240 }}>
+              <td className="ds-header-doc__preview-cell">
                 <Header style="form" title="Title" />
               </td>
               <td>
@@ -556,7 +556,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
             </tr>
             <tr>
               <td>Sub-form</td>
-              <td style={{ width: 240 }}>
+              <td className="ds-header-doc__preview-cell">
                 <Header style="sub-form" title="Title" />
               </td>
               <td>
@@ -568,7 +568,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
             </tr>
             <tr>
               <td>Section</td>
-              <td style={{ width: 240 }}>
+              <td className="ds-header-doc__preview-cell">
                 <Header style="section" title="Title" />
               </td>
               <td>
@@ -580,7 +580,7 @@ export default function HeaderDoc({ onNavigate }: HeaderDocProps) {
             </tr>
             <tr>
               <td>Form-list</td>
-              <td style={{ width: 240 }}>
+              <td className="ds-header-doc__preview-cell">
                 <Header style="form-list" title="Title" showTag={false} showCaption={false} />
               </td>
               <td>

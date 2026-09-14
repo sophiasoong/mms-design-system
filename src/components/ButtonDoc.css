@@ -487,10 +487,12 @@
   color: var(--text-caption-primary-light);
 }
 
+/* Dark backdrop, same treatment as .ds-preview--scrim: the mocks are light cards, so a white
+   figure would make them merge into the container. */
 .ds-example-figure {
   padding: var(--space-layout-section-padding-sm);
-  background: var(--brand-neutral-0);
-  border: var(--border-sm) solid var(--global-divider-neutral-light);
+  background: var(--global-overlay-dark); /* global/overlay/dark */
+  border: var(--border-sm) solid transparent;
   border-radius: var(--radius-lg);
 }
 
@@ -521,8 +523,17 @@
 .ds-example-mock__name {
   order: 1; /* visually below the instance div that precedes it in markup, not above */
   font-size: var(--typography-sm-font-size);
-  color: var(--text-caption-primary-light);
+  color: var(--brand-neutral-0); /* brand/neutral/0 — the caption sits on the dark figure */
   text-align: center;
+}
+
+/* Fixed-width container for mocks that fill their container (Upload, Footer): the width of
+   the content area inside a small modal — component/width/modal/sm minus the modal body's
+   space/component/padding/lg on each side (432 − 2×16 = 400px). Centers under its caption. */
+.ds-example-mock-frame {
+  align-self: center;
+  width: calc(var(--component-width-modal-sm) - 2 * var(--space-component-padding-lg));
+  max-width: 100%;
 }
 
 .ds-example-mock {
@@ -591,7 +602,7 @@
 }
 
 .ds-example-mock:hover .ds-example-mock__focus {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100);
 }
 
 .ds-example-mock__search {
@@ -712,10 +723,7 @@
 .ds-example-mock--upload {
   flex-direction: column;
   align-items: flex-start;
-  align-self: center; /* fixed-width, so it centers under its caption like the other narrow mocks */
-  /* flagged: no 400px width token exists (nearest are component/width/banner/md 412px and
-     component/width/dialog/md 416px); 400px is the requested literal until a token lands. */
-  width: 400px;
+  width: 100%; /* fills the example column like the real Upload does in a form; no width token needed */
 }
 
 .ds-example-mock__file-list {
@@ -745,14 +753,16 @@
 }
 
 /* Action panel is fixed-width (component/width/action-panel/md), so like the Ghost tab's
-   narrow mocks it centers itself under its caption instead of stretching across the column. */
+   narrow mocks it centers itself under its caption instead of stretching across the column.
+   No mock padding: the panel is its own card, so it sits flush in the mock frame. */
 .ds-example-mock--action-panel {
   align-self: center;
+  padding: 0;
 }
 
 /* ---- Example: Ghost tab (Dropdown footer, Footer, Table) ----
-   Every mock is fixed-width and centers itself in the .ds-example-mock-item column so it
-   sits on the same axis as its centered caption. */
+   The Dropdown footer is fixed-width and centers itself in the .ds-example-mock-item column
+   so it sits on the same axis as its centered caption; the Footer and Table fill the column. */
 .ds-example-mock--dropdown-footer {
   flex-direction: column;
   align-items: stretch;
@@ -810,17 +820,14 @@
 
 .ds-example-mock--modal-footer {
   justify-content: space-between;
-  align-self: center;
-  /* 412px — no footer width token exists; borrowing component/width/banner/md (the Banner's
-     own md width) so the footer mock matches the width a Banner would take beside it. */
-  width: var(--component-width-banner-md);
+  width: 100%; /* a page/modal footer spans its container, so no width token is needed */
   background: var(--brand-neutral-0);
   padding: var(--space-component-padding-lg);
 }
 
 /* Table instance — a page canvas (same frame as BannerDoc.css's .ds-banner-example__page)
    holding the real Banner above TableDoc's full table example. Full width, so it keeps the
-   column's default stretch rather than the align-self:center of the narrow mocks above. */
+   column's default stretch. */
 .ds-example-mock--table-page {
   flex-direction: column;
   align-items: stretch;
@@ -844,28 +851,25 @@
    that child matches (its parent has none), so the opacity never compounds. The :is() lists
    the mock itself alongside its :has() descendants so a direct child with no highlighted
    button (the Banner on the Outline tab) dims too. :has() is precedented in BadgeDoc.css /
-   Upload.css.
-   Pagination's page-size trigger is an outline Button too, but it is a select-style control
-   rather than an action, so the outline highlight leaves it out (it dims with the rest of
-   the pagination row). */
-:is(.ds-example-mock--highlight-outline, .ds-example-mock--highlight-outline :has(.ds-button--outline:not(.ds-pagination .ds-button))) > :not(:has(.ds-button--outline:not(.ds-pagination .ds-button))):not(.ds-button--outline:not(.ds-pagination .ds-button)),
+   Upload.css. Pagination's page-size trigger is an outline Button, so it rings too. */
+:is(.ds-example-mock--highlight-outline, .ds-example-mock--highlight-outline :has(.ds-button--outline)) > :not(:has(.ds-button--outline)):not(.ds-button--outline),
 :is(.ds-example-mock--highlight-ghost, .ds-example-mock--highlight-ghost :has(.ds-button--ghost)) > :not(:has(.ds-button--ghost)):not(.ds-button--ghost) {
   transition: opacity var(--duration-fast) ease;
 }
 
-:is(.ds-example-mock--highlight-outline:hover, .ds-example-mock--highlight-outline:hover :has(.ds-button--outline:not(.ds-pagination .ds-button))) > :not(:has(.ds-button--outline:not(.ds-pagination .ds-button))):not(.ds-button--outline:not(.ds-pagination .ds-button)),
+:is(.ds-example-mock--highlight-outline:hover, .ds-example-mock--highlight-outline:hover :has(.ds-button--outline)) > :not(:has(.ds-button--outline)):not(.ds-button--outline),
 :is(.ds-example-mock--highlight-ghost:hover, .ds-example-mock--highlight-ghost:hover :has(.ds-button--ghost)) > :not(:has(.ds-button--ghost)):not(.ds-button--ghost) {
   opacity: var(--opacity-40); /* opacity/40 — same dim as .ds-example-mock__dim */
 }
 
-.ds-example-mock--highlight-outline .ds-button--outline:not(.ds-pagination .ds-button),
+.ds-example-mock--highlight-outline .ds-button--outline,
 .ds-example-mock--highlight-ghost .ds-button--ghost {
   transition: box-shadow var(--duration-fast) ease;
 }
 
-.ds-example-mock--highlight-outline:hover .ds-button--outline:not(.ds-pagination .ds-button),
+.ds-example-mock--highlight-outline:hover .ds-button--outline,
 .ds-example-mock--highlight-ghost:hover .ds-button--ghost {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* same ring as .ds-example-mock__focus */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* same ring as .ds-example-mock__focus */
 }
 
 /* ---- States table ---- */

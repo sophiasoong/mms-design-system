@@ -82,6 +82,15 @@
   color: var(--brand-primary-600);
 }
 
+/* ---- States table: Preview column ----
+   400px, so every Header style renders at a realistic width beside its swatch. No token is
+   exactly 400px; this derives it from Modal's sm width (component/width/modal/sm, 432px)
+   minus its horizontal padding (2 × space/component/padding/lg, 16px) — the same derivation
+   ButtonDoc.css's .ds-example-mock-frame uses for the Upload and Footer instances. */
+.ds-header-doc__preview-cell {
+  width: calc(var(--component-width-modal-sm) - 2 * var(--space-component-padding-lg));
+}
+
 /* ---- Variants > Example: hover-dim/highlight ----
    Each tab renders one full composition (duplicated verbatim from that component's own
    doc page — Action Panel's "Info only", Modal's "Upload", Form's "General Information"),
@@ -102,7 +111,7 @@
 
 .ds-header-doc__example:hover .ds-action-panel__header,
 .ds-header-doc__example:hover .ds-form__header {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 .ds-header-doc__example .ds-header--modal {
@@ -110,7 +119,7 @@
 }
 
 .ds-header-doc__example:hover .ds-header--modal {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 .ds-header-doc__example .ds-action-panel__main,

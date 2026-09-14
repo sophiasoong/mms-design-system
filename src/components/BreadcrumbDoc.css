@@ -61,5 +61,5 @@
 }
 
 .ds-breadcrumb-example:hover .ds-breadcrumb-example__focus {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary);
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100);
 }

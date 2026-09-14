@@ -1,0 +1,26 @@
+/* ---- Variants > Example: Filter-chip / Select dropdown set ----
+   Both instances are built from real, already-styled components (Filter chip trigger,
+   Select trigger, Dropdown) — nothing here redraws chrome. On hover, the Dropdown panels
+   ring and the triggers above them dim, so the page's own component reads as the subject.
+   The ring is layered in front of Dropdown.css's own panel elevation so the panel keeps its
+   shadow while highlighted. */
+
+.ds-example-dropdown-set .ds-dropdown {
+  transition: box-shadow var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-dropdown-set:hover .ds-dropdown {
+  box-shadow:
+    0 0 0 var(--border-md) var(--brand-primary-100), /* border/md + brand/primary/100 */
+    0 2px 8px 0 var(--interactive-dropdown-panel-shadow-default); /* interactive/dropdown/panel/shadow/default — Dropdown.css's own elevation */
+}
+
+.ds-example-dropdown-set .ds-filter-chip,
+.ds-example-dropdown-set .ds-select-trigger {
+  transition: opacity var(--duration-fast) ease; /* duration/fast */
+}
+
+.ds-example-dropdown-set:hover .ds-filter-chip,
+.ds-example-dropdown-set:hover .ds-select-trigger {
+  opacity: var(--opacity-40); /* opacity/40 */
+}

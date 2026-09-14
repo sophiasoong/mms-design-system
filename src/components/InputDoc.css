@@ -34,7 +34,7 @@
 
 .ds-example-input-demo--label:hover .ds-example-input-demo__label-field,
 .ds-example-input-demo--number:hover .ds-example-input-demo__number-field {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 /* The Table's Price column is right-aligned (see its plain-text rows), so the editable

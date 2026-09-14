@@ -472,7 +472,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
                 <div className="ds-example-mocks">
                   <div className="ds-example-mock-item">
                     <span className="ds-example-mock__name">Textarea</span>
-                    <div style={{ width: 320 }}>
+                    <div className="ds-example-chip-textarea" style={{ width: 320 }}>
                       <Textarea
                         chips={textareaChips}
                         onRemoveChip={removeTextareaChip}
@@ -487,7 +487,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
                 <div className="ds-example-mocks ds-chip-doc__action-example">
                   <div className="ds-example-mock-item">
                     <span className="ds-example-mock__name">Select</span>
-                    <div className="ds-variant-row" style={{ alignItems: 'flex-start' }}>
+                    <div className="ds-variant-row ds-example-chip-select" style={{ alignItems: 'flex-start' }}>
                       <div className="ds-variant-row__cell">
                         <div className="ds-combo-figure" style={{ width: 320 }}>
                           <div
@@ -499,7 +499,7 @@ export default function ChipDoc({ onNavigate }: ChipDocProps) {
                               {visibleSelectInlineChips.length > 0 ? (
                                 <div
                                   ref={selectInlineRowRef}
-                                  className="ds-select__chips"
+                                  className="ds-select__chips ds-example-chip-select__inline-row"
                                   style={{
                                     flex: '1 1 0%',
                                     minWidth: 0,

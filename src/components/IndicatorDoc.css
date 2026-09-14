@@ -65,5 +65,5 @@
   .ds-upload-image-item__progress-track,
   .ds-progress-ring
 ) {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary — same focus-ring token as ListDoc.css's .ds-list-example__focus */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 — same focus-ring token as ListDoc.css's .ds-list-example__focus */
 }

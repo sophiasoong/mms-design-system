@@ -1,11 +1,11 @@
-/* Same white card shell as UploadDoc's own .ds-upload-doc__card (Card.css shell tokens) —
-   kept as its own class here since this page's CSS should stay scoped to Icon Button, not
-   reach into Upload's doc-only stylesheet. */
+/* Same white card shell as UploadDoc's own .ds-upload-doc__card (Card.css shell tokens),
+   minus its padding — the Modal body already pads the upload section. Kept as its own class
+   here since this page's CSS should stay scoped to Icon Button, not reach into Upload's
+   doc-only stylesheet. */
 .ds-icon-button-doc__card {
   display: flex;
   flex-direction: column;
   gap: var(--space-layout-section-gap-sm); /* space/layout/section/gap/sm */
-  padding: var(--space-component-padding-lg); /* space/component/padding/lg */
   background: var(--surface-card-surface-default); /* surface/card/surface/default */
   border-radius: var(--radius-md); /* radius/md */
 }
@@ -52,7 +52,7 @@
 
 .ds-example-upload-modal:hover .ds-header--modal .ds-icon-button,
 .ds-example-upload-modal:hover .ds-list__actions .ds-icon-button {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary, same ring as IconButton's own focus state */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100, same ring as IconButton's own focus state */
 }
 
 /* Form List: on hover, dim everything except the form header's info/expander buttons and each
@@ -73,7 +73,7 @@
 
 .ds-example-form-list:hover .ds-form__header .ds-icon-button,
 .ds-example-form-list:hover .ds-header--form-list .ds-icon-button {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary, follows each button's own shape radius */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100, follows each button's own shape radius */
 }
 
 .ds-example-form-list .ds-header--form-list .ds-header__drag {
@@ -82,7 +82,7 @@
 }
 
 .ds-example-form-list:hover .ds-header--form-list .ds-header__drag {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 /* Table: on hover, dim every header/body cell except the Action column and dim every
@@ -106,7 +106,7 @@
 
 .ds-example-table:hover .ds-example-table__action-cell .ds-icon-button,
 .ds-example-table:hover .ds-pagination__nav {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary, follows each button's own shape radius */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100, follows each button's own shape radius */
 }
 
 .ds-example-table__pagination {
@@ -141,5 +141,5 @@
 
 .ds-example-lightbox:hover .ds-lightbox__header .ds-icon-button,
 .ds-example-lightbox:hover .ds-lightbox__nav .ds-icon-button {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }

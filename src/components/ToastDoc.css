@@ -50,7 +50,7 @@
 }
 
 .ds-toast-example:hover .ds-toast-example__focus {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 .ds-toast-example__ref {

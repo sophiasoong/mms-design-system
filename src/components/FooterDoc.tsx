@@ -557,7 +557,7 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
           <tbody>
             <tr>
               <td>Divider</td>
-              <td style={{ width: 280 }}>
+              <td className="ds-footer-doc__preview-cell">
                 <Footer
                   size="sm"
                   style="divider"
@@ -579,7 +579,7 @@ export default function FooterDoc({ onNavigate }: FooterDocProps) {
             </tr>
             <tr>
               <td>Shadow</td>
-              <td style={{ width: 280 }}>
+              <td className="ds-footer-doc__preview-cell">
                 <Footer size="lg" style="shadow" secondaryLabel="Cancel" />
               </td>
               <td>

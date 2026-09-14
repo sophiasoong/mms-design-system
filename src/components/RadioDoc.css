@@ -117,5 +117,5 @@
 
 .ds-example-radio-form--label:hover .ds-example-radio-form__field--send-mode,
 .ds-example-radio-form--card:hover .ds-example-radio-form__field--recipients {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }

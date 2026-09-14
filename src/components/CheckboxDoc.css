@@ -106,7 +106,7 @@
 }
 
 .ds-example-checkbox-table:hover .ds-datatable__select-cell {
-  box-shadow: inset 0 0 0 2px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: inset 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 /* ---- Variants > Example: Checkbox field / Checkbox card — Send Date width ----
@@ -148,5 +148,5 @@
 
 .ds-example-checkbox-form--field:hover .ds-example-checkbox-form__field--platform,
 .ds-example-checkbox-form--card:hover .ds-example-checkbox-form__field--shipping {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }

@@ -76,7 +76,7 @@
 }
 
 .ds-example-datepicker-table:hover .ds-table-toolbar__filters .ds-date-picker--chip .ds-date-picker__trigger {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 .ds-preview--scrim .ds-example-mock__name {
@@ -118,7 +118,7 @@
 }
 
 .ds-example-datepicker-form:hover .ds-example-datepicker-form__field--send-date {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary */
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 */
 }
 
 /* ---- Variants > Example: Date-picker field — Shipping Method cards ----

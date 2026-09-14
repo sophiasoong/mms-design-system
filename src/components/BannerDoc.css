@@ -263,6 +263,6 @@
 }
 
 .ds-banner-example:hover .ds-banner-example__focus {
-  box-shadow: 0 0 0 3px var(--interactive-shadow-primary); /* interactive/shadow/primary —
+  box-shadow: 0 0 0 var(--border-md) var(--brand-primary-100); /* border/md + brand/primary/100 —
     same focus-ring token as IndicatorDoc.css's/ListDoc.css's own hover-focus rings. */
 }
